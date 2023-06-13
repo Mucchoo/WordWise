@@ -11,6 +11,10 @@
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63652A38147900718C90 /* Preview Assets.xcassets */; };
+		2ABC636D2A38167800718C90 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* SettingView.swift */; };
+		2ABC63712A3816EC00718C90 /* FormRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* FormRowView.swift */; };
+		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
+		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,10 @@
 		2ABC63612A38147900718C90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2ABC63632A38147900718C90 /* Flashcard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flashcard.entitlements; sourceTree = "<group>"; };
 		2ABC63652A38147900718C90 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		2ABC636C2A38167800718C90 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		2ABC63702A3816EC00718C90 /* FormRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRowView.swift; sourceTree = "<group>"; };
+		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
+		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,10 @@
 			children = (
 				2ABC635D2A38147900718C90 /* FlashcardApp.swift */,
 				2ABC635F2A38147900718C90 /* ContentView.swift */,
+				2ABC636C2A38167800718C90 /* SettingView.swift */,
+				2ABC63702A3816EC00718C90 /* FormRowView.swift */,
+				2ABC637C2A38194300718C90 /* AddView.swift */,
+				2ABC637E2A381B2700718C90 /* StudyView.swift */,
 				2ABC63612A38147900718C90 /* Assets.xcassets */,
 				2ABC63632A38147900718C90 /* Flashcard.entitlements */,
 				2ABC63642A38147900718C90 /* Preview Content */,
@@ -139,8 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
+				2ABC636D2A38167800718C90 /* SettingView.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
+				2ABC637D2A38194300718C90 /* AddView.swift in Sources */,
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
+				2ABC63712A3816EC00718C90 /* FormRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
