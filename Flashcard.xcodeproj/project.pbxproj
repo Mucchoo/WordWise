@@ -15,12 +15,14 @@
 		2A3C1DF42A390C40001B6E0E /* ChangeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF32A390C40001B6E0E /* ChangeInfoView.swift */; };
 		2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */; };
 		2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF72A390E0B001B6E0E /* ResetPasswordView.swift */; };
+		2A3C1E012A392517001B6E0E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E002A392517001B6E0E /* Word.swift */; };
+		2A3C1E062A392BBA001B6E0E /* WordListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */; };
 		2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635D2A38147900718C90 /* FlashcardApp.swift */; };
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63652A38147900718C90 /* Preview Assets.xcassets */; };
 		2ABC636D2A38167800718C90 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* SettingView.swift */; };
-		2ABC63712A3816EC00718C90 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* ListRowView.swift */; };
+		2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* SettingListRowView.swift */; };
 		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +36,8 @@
 		2A3C1DF32A390C40001B6E0E /* ChangeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeInfoView.swift; sourceTree = "<group>"; };
 		2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleNavigationView.swift; sourceTree = "<group>"; };
 		2A3C1DF72A390E0B001B6E0E /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		2A3C1E002A392517001B6E0E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListRowView.swift; sourceTree = "<group>"; };
 		2ABC635A2A38147900718C90 /* Flashcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABC635D2A38147900718C90 /* FlashcardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardApp.swift; sourceTree = "<group>"; };
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -41,7 +45,7 @@
 		2ABC63632A38147900718C90 /* Flashcard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flashcard.entitlements; sourceTree = "<group>"; };
 		2ABC63652A38147900718C90 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2ABC636C2A38167800718C90 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		2ABC63702A3816EC00718C90 /* ListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
+		2ABC63702A3816EC00718C90 /* SettingListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingListRowView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,10 +114,19 @@
 			children = (
 				2A3C1DF12A390B39001B6E0E /* ButtonView.swift */,
 				2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */,
-				2ABC63702A3816EC00718C90 /* ListRowView.swift */,
+				2ABC63702A3816EC00718C90 /* SettingListRowView.swift */,
+				2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */,
 				2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		2A3C1DFF2A3924FC001B6E0E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2A3C1E002A392517001B6E0E /* Word.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2ABC63512A38147900718C90 = {
@@ -136,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC635D2A38147900718C90 /* FlashcardApp.swift */,
+				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
 				2ABC63612A38147900718C90 /* Assets.xcassets */,
@@ -225,6 +239,7 @@
 			files = (
 				2A3C1DF42A390C40001B6E0E /* ChangeInfoView.swift in Sources */,
 				2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */,
+				2A3C1E012A392517001B6E0E /* Word.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */,
 				2ABC636D2A38167800718C90 /* SettingView.swift in Sources */,
@@ -233,8 +248,9 @@
 				2A3C1DEE2A390AD1001B6E0E /* ReauthentcateView.swift in Sources */,
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
+				2A3C1E062A392BBA001B6E0E /* WordListRowView.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
-				2ABC63712A3816EC00718C90 /* ListRowView.swift in Sources */,
+				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */,
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 			);

@@ -26,13 +26,13 @@ struct SettingView: View {
                     Button {
                         viewModel.shareApp()
                     } label: {
-                        ListRowView(icon: "square.and.arrow.up", firstText: "Share App")
+                        SettingListRowView(icon: "square.and.arrow.up", firstText: "Share App")
                     }
                     
                     Button {
                         isShowingMail = true
                     } label: {
-                        ListRowView(icon: "envelope", firstText: "Feedback")
+                        SettingListRowView(icon: "envelope", firstText: "Feedback")
                     }
                     .sheet(isPresented: $isShowingMail) {
                         MailView(data: $mailData) { result in }
@@ -41,7 +41,7 @@ struct SettingView: View {
                     Button {
                         isShowingReauthenticate = true
                     } label: {
-                        ListRowView(icon: "person", firstText: "Change Account Info")
+                        SettingListRowView(icon: "person", firstText: "Change Account Info")
                     }
                     .sheet(isPresented: $isShowingReauthenticate) {
                         ReauthenticateView()
@@ -50,7 +50,7 @@ struct SettingView: View {
                     Button(action: {
                         isShowingAlert = true
                     }) {
-                        ListRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
+                        SettingListRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
                     }
                     .alert(isPresented: $isShowingAlert) {
                         return Alert(title: Text("Are you sure?"), message: Text(""), primaryButton: .cancel(), secondaryButton: .destructive(Text("Log out"), action: {

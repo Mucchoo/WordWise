@@ -8,111 +8,104 @@
 import SwiftUI
 
 struct StudyView: View {
-    @State private var learnedWords = 30
-    @State private var learningWords = 20
-    @State private var newWords = 50
-    @State private var totalWords = 100
-    let words: [String] = [
-        "ability", "absence", "academy", "accuracy", "achievement",
-        "acknowledgment", "activity", "addition", "administration", "admission",
-        "advantage", "advice", "agreement", "alternative", "analysis",
-        "announcement", "application", "appointment", "appreciation", "approach",
-        "assessment", "assistance", "assumption", "attention", "attitude",
-        "authority", "awareness", "behaviour", "benefit", "capacity",
-        "challenge", "character", "circumstance", "collection", "combination",
-        "communication", "community", "comparison", "competition", "complaint",
-        "complexity", "compromise", "concentration", "concept", "conclusion",
-        "condition", "confidence", "confirmation", "conflict", "connection",
-        "consideration", "consistency", "content", "contribution", "conversation",
-        "cooperation", "courage", "creation", "criticism", "decision",
-        "definition", "department", "description", "determination", "development",
-        "difference", "difficulty", "direction", "discussion", "distinction",
-        "distribution", "education", "efficiency", "emergency", "emotion",
-        "emphasis", "employment", "enjoyment", "environment", "equipment",
-        "evaluation", "examination", "expectation", "experience", "explanation",
-        "expression", "extension", "formation", "foundation", "function",
-        "generation", "government", "guidance", "happiness", "identification",
-        "imagination", "impression", "improvement", "independence", "information"
-    ]
+    @State private var learnedWords = Mock.words.filter { $0.status == .learned }.count
+    @State private var learningWords = Mock.words.filter { $0.status == .learning }.count
+    @State private var newWords = Mock.words.filter { $0.status == .new }.count
+    @State private var totalWords = Mock.words.count
     
     var body: some View {
         NavigationView {
-            VStack {
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(.systemGray6))
-                    .frame(height: 120)
-                    .overlay(
-                        HStack {
-                            Spacer().frame(width: 10)
-                            VStack(spacing: 4) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.blue)
-                                    .fontWeight(.black)
-                                Text("\(learnedWords)")
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                                Text("Learned")
-                                    .font(.footnote)
-                                    .foregroundColor(.black)
+            ScrollView {
+                VStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color(.systemGray6))
+                        .frame(height: 120)
+                        .overlay(
+                            HStack {
+                                Spacer().frame(width: 10)
+                                VStack(spacing: 4) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.blue)
+                                        .fontWeight(.black)
+                                    Text("\(learnedWords)")
+                                        .font(.title)
+                                        .foregroundColor(.black)
+                                    Text("Learned")
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
+                                }
+                                .frame(maxWidth: .infinity)
+                                
+                                Divider().background(Color.gray)
+                                    .frame(height: 80)
+                                
+                                VStack(spacing: 4) {
+                                    Image(systemName: "pencil.circle.fill")
+                                        .foregroundColor(.red)
+                                        .fontWeight(.black)
+                                    Text("\(learningWords)")
+                                        .font(.title)
+                                        .foregroundColor(.black)
+                                    Text("Learning")
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
+                                }
+                                .frame(maxWidth: .infinity)
+                                
+                                Divider().background(Color.gray)
+                                    .frame(height: 80)
+                                
+                                VStack(spacing: 4) {
+                                    Image(systemName: "star.circle.fill")
+                                        .foregroundColor(.yellow)
+                                        .fontWeight(.black)
+                                    Text("\(newWords)")
+                                        .font(.title)
+                                        .foregroundColor(.black)
+                                    Text("New")
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
+                                }
+                                .frame(maxWidth: .infinity)
+                                Spacer().frame(width: 10)
                             }
-                            .frame(maxWidth: .infinity)
-                            
-                            Divider().background(Color.gray)
-                                .frame(height: 80)
-                            
-                            VStack(spacing: 4) {
-                                Image(systemName: "pencil.circle.fill")
-                                    .foregroundColor(.red)
-                                    .fontWeight(.black)
-                                Text("\(learningWords)")
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                                Text("Learning")
-                                    .font(.footnote)
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: .infinity)
-                            
-                            Divider().background(Color.gray)
-                                .frame(height: 80)
-                            
-                            VStack(spacing: 4) {
-                                Image(systemName: "star.circle.fill")
-                                    .foregroundColor(.yellow)
-                                    .fontWeight(.black)
-                                Text("\(newWords)")
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                                Text("New")
-                                    .font(.footnote)
-                                    .foregroundColor(.black)
-                            }
-                            .frame(maxWidth: .infinity)
-                            Spacer().frame(width: 10)
-                        }
-                            .foregroundColor(.white)
-                    )
-                    .padding()
-
-                
-                Button(action: {
-                    // Action to start studying
-                }) {
-                    Text("Start Studying")
-                        .fontWeight(.bold)
+                                .foregroundColor(.white)
+                        )
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding()
-                
-                Divider()
+                    
+                    
+                    Button(action: {
+                        // Action to start studying
+                    }) {
+                        Text("Start Studying")
+                            .fontWeight(.bold)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
                     .padding()
-                
-                Spacer()
+                    
+                    Divider()
+                        .padding()
+                    
+                    HStack {
+                        Spacer().frame(width: 20)
+                        Text("\(totalWords) Words")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Spacer()
+                    }
+                    
+                    VStack(spacing: 8) {
+                        ForEach(Mock.words) { word in
+                            WordListRowView(word: word)
+                        }
+                    }
+                    
+                    Spacer()
+                }
             }
             .navigationBarTitle("Study", displayMode: .large)
         }

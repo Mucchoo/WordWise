@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ListRowView: View {
+struct SettingListRowView: View {
     var icon: String
     var firstText: String
     var showDevider = true
@@ -31,7 +31,7 @@ struct ListRowView: View {
 
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ListRowView(icon: "square.and.arrow.up", firstText: "Share App")
+        SettingListRowView(icon: "square.and.arrow.up", firstText: "Share App")
             .previewLayout(.fixed(width: 375, height: 60))
             .padding()
     }
