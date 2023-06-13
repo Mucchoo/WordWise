@@ -21,7 +21,7 @@ struct StudyView: View {
                 VStack {
                     Text("\(learnedWords)")
                         .font(.headline)
-                    Text("Learned Words")
+                    Text("Learned Cards")
                         .font(.subheadline)
                 }
                 .frame(maxWidth: .infinity)
@@ -29,7 +29,7 @@ struct StudyView: View {
                 VStack {
                     Text("\(totalWords - learnedWords)")
                         .font(.headline)
-                    Text("Unlearned Words")
+                    Text("Unlearned Cards")
                         .font(.subheadline)
                 }
                 .frame(maxWidth: .infinity)

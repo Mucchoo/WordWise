@@ -20,9 +20,17 @@ struct FormRowView: View {
                 Image(systemName: icon)
                     .foregroundColor(Color.white)
             }
-            .frame(width: 36, height: 36, alignment: .center)
+            .frame(width: 40, height: 40, alignment: .center)
             Text(firstText)
             Spacer()
         }.opacity(isHidden ? 0.5 : 1)
+    }
+}
+
+struct FormRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        FormRowView(icon: "square.and.arrow.up", firstText: "Share App", isHidden: false)
+            .previewLayout(.fixed(width: 375, height: 60))
+            .padding()
     }
 }
