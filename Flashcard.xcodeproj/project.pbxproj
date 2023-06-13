@@ -20,7 +20,7 @@
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63652A38147900718C90 /* Preview Assets.xcassets */; };
 		2ABC636D2A38167800718C90 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* SettingView.swift */; };
-		2ABC63712A3816EC00718C90 /* FormRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* FormRowView.swift */; };
+		2ABC63712A3816EC00718C90 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* ListRowView.swift */; };
 		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 /* End PBXBuildFile section */
@@ -41,7 +41,7 @@
 		2ABC63632A38147900718C90 /* Flashcard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flashcard.entitlements; sourceTree = "<group>"; };
 		2ABC63652A38147900718C90 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2ABC636C2A38167800718C90 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
-		2ABC63702A3816EC00718C90 /* FormRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormRowView.swift; sourceTree = "<group>"; };
+		2ABC63702A3816EC00718C90 /* ListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,7 +110,7 @@
 			children = (
 				2A3C1DF12A390B39001B6E0E /* ButtonView.swift */,
 				2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */,
-				2ABC63702A3816EC00718C90 /* FormRowView.swift */,
+				2ABC63702A3816EC00718C90 /* ListRowView.swift */,
 				2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */,
 			);
 			path = Components;
@@ -234,7 +234,7 @@
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
-				2ABC63712A3816EC00718C90 /* FormRowView.swift in Sources */,
+				2ABC63712A3816EC00718C90 /* ListRowView.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */,
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 			);

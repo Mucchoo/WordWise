@@ -21,18 +21,18 @@ struct SettingView: View {
         NavigationView {
             VStack {
                 Spacer().frame(height: 20)
-                Section() {
-                    
+                
+                VStack(spacing: 8) {
                     Button {
                         viewModel.shareApp()
                     } label: {
-                        FormRowView(icon: "square.and.arrow.up", firstText: "Share App")
+                        ListRowView(icon: "square.and.arrow.up", firstText: "Share App")
                     }
                     
                     Button {
                         isShowingMail = true
                     } label: {
-                        FormRowView(icon: "envelope", firstText: "Feedback")
+                        ListRowView(icon: "envelope", firstText: "Feedback")
                     }
                     .sheet(isPresented: $isShowingMail) {
                         MailView(data: $mailData) { result in }
@@ -41,7 +41,7 @@ struct SettingView: View {
                     Button {
                         isShowingReauthenticate = true
                     } label: {
-                        FormRowView(icon: "person", firstText: "Change Account Info")
+                        ListRowView(icon: "person", firstText: "Change Account Info")
                     }
                     .sheet(isPresented: $isShowingReauthenticate) {
                         ReauthenticateView()
@@ -50,7 +50,7 @@ struct SettingView: View {
                     Button(action: {
                         isShowingAlert = true
                     }) {
-                        FormRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
+                        ListRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
                     }
                     .alert(isPresented: $isShowingAlert) {
                         return Alert(title: Text("Are you sure?"), message: Text(""), primaryButton: .cancel(), secondaryButton: .destructive(Text("Log out"), action: {
@@ -58,6 +58,7 @@ struct SettingView: View {
                         }))
                     }
                 }
+                
                 Spacer()
             }
             .navigationBarTitle("Account Settings", displayMode: .large)
