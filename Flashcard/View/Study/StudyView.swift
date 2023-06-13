@@ -45,7 +45,10 @@ struct StudyView: View {
                     .overlay(
                         HStack {
                             Spacer().frame(width: 10)
-                            VStack {
+                            VStack(spacing: 4) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.blue)
+                                    .fontWeight(.black)
                                 Text("\(learnedWords)")
                                     .font(.title)
                                     .foregroundColor(.black)
@@ -58,7 +61,10 @@ struct StudyView: View {
                             Divider().background(Color.gray)
                                 .frame(height: 80)
                             
-                            VStack {
+                            VStack(spacing: 4) {
+                                Image(systemName: "pencil.circle.fill")
+                                    .foregroundColor(.red)
+                                    .fontWeight(.black)
                                 Text("\(learningWords)")
                                     .font(.title)
                                     .foregroundColor(.black)
@@ -71,7 +77,10 @@ struct StudyView: View {
                             Divider().background(Color.gray)
                                 .frame(height: 80)
                             
-                            VStack {
+                            VStack(spacing: 4) {
+                                Image(systemName: "star.circle.fill")
+                                    .foregroundColor(.yellow)
+                                    .fontWeight(.black)
                                 Text("\(newWords)")
                                     .font(.title)
                                     .foregroundColor(.black)
