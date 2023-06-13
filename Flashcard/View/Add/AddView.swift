@@ -31,10 +31,6 @@ struct AddCardView: View {
                 }
                 .padding()
                 .disabled(cardText.split(separator: "\n").count == 0)
-                
-                List(flashcards, id: \.self) { card in
-                    Text(card)
-                }
             }
             .padding()
             .navigationBarTitle("Add Flashcards", displayMode: .large)
