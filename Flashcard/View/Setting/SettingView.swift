@@ -20,46 +20,45 @@ struct SettingView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Form {
-                    Section() {
-                        
-                        Button {
-                            viewModel.shareApp()
-                        } label: {
-                            FormRowView(icon: "square.and.arrow.up", firstText: "Share App", isHidden: false)
-                        }
-                        
-                        Button {
-                            isShowingMail = true
-                        } label: {
-                            FormRowView(icon: "envelope", firstText: "Feedback", isHidden: false)
-                        }
-                        .sheet(isPresented: $isShowingMail) {
-                            MailView(data: $mailData) { result in }
-                        }
-                        
-                        Button {
-                            isShowingReauthenticate = true
-                        } label: {
-                            FormRowView(icon: "person", firstText: "Change Account Info", isHidden: false)
-                        }
-                        .sheet(isPresented: $isShowingReauthenticate) {
-                            ReauthenticateView()
-                        }
-                        
-                        Button(action: {
-                            isShowingAlert = true
-                        }) {
-                            FormRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", isHidden: false)
-                        }
-                        .alert(isPresented: $isShowingAlert) {
-                            return Alert(title: Text("Are you sure?"), message: Text(""), primaryButton: .cancel(), secondaryButton: .destructive(Text("Log out"), action: {
-                                dismiss()
-                            }))
-                        }
+                Spacer().frame(height: 20)
+                Section() {
+                    
+                    Button {
+                        viewModel.shareApp()
+                    } label: {
+                        FormRowView(icon: "square.and.arrow.up", firstText: "Share App")
+                    }
+                    
+                    Button {
+                        isShowingMail = true
+                    } label: {
+                        FormRowView(icon: "envelope", firstText: "Feedback")
+                    }
+                    .sheet(isPresented: $isShowingMail) {
+                        MailView(data: $mailData) { result in }
+                    }
+                    
+                    Button {
+                        isShowingReauthenticate = true
+                    } label: {
+                        FormRowView(icon: "person", firstText: "Change Account Info")
+                    }
+                    .sheet(isPresented: $isShowingReauthenticate) {
+                        ReauthenticateView()
+                    }
+                    
+                    Button(action: {
+                        isShowingAlert = true
+                    }) {
+                        FormRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
+                    }
+                    .alert(isPresented: $isShowingAlert) {
+                        return Alert(title: Text("Are you sure?"), message: Text(""), primaryButton: .cancel(), secondaryButton: .destructive(Text("Log out"), action: {
+                            dismiss()
+                        }))
                     }
                 }
-                .listStyle(GroupedListStyle())
+                Spacer()
             }
             .navigationBarTitle("Account Settings", displayMode: .large)
             .background(Color.white.edgesIgnoringSafeArea(.all))
