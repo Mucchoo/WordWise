@@ -9,178 +9,199 @@ import SwiftUI
 
 struct CardView: View {
     @State private var learnedWords = Mock.words.filter { $0.status == .learned }.count
-    @State private var learningWords = Mock.words.filter { $0.status == .learning }.count
-    @State private var newWords = Mock.words.filter { $0.status == .new }.count
     @State private var totalWords = Mock.words.count
-    @State private var progress: Float = 0.0
     @State private var isVStackVisible = true
 
     var body: some View {
         VStack {
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.5))
-                    .frame(height: 20)
-                
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.blue)
-                    .frame(width: CGFloat(learnedWords) / CGFloat(totalWords) * UIScreen.main.bounds.width, height: 20)
-                
-                HStack {
-                    Text("\(learnedWords)")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                    Spacer()
-                    Text("\(totalWords - learnedWords)")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                }
-                .padding([.leading, .trailing])
-            }
+            ProgressView(learnedWords: $learnedWords, totalWords: totalWords)
             
-            if isVStackVisible {
-                VStack { // this is the block to animate
-                    Spacer().frame(height: 20)
-                    Text("stick together")
-                        .font(.headline)
-                    Text("stik ta'gedar")
-                    Spacer().frame(height: 20)
-                    
-                    
-                    VStack {
-                        Divider()
-                        
-                        VStack {
-                            HStack {
-                                Text("Meaning 1")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Text("to continue to support each other")
-                                    .font(.subheadline)
-                                Spacer()
-                            }
-                            
-                            Spacer().frame(height: 10)
-                            
-                            HStack {
-                                Text("Sample Sentence")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Text("we must stick together and work as a team")
-                                    .font(.subheadline)
-                                Spacer()
-                            }
-                        }
-                        
-                        Divider()
-                        
-                        VStack {
-                            HStack {
-                                Text("Meaning 2")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Text("to continue to support each other")
-                                    .font(.subheadline)
-                                Spacer()
-                            }
-                            
-                            Spacer().frame(height: 10)
-                            
-                            HStack {
-                                Text("Sample Sentence")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                Spacer()
-                            }
-                            
-                            HStack {
-                                Text("we must stick together and work as a team")
-                                    .font(.subheadline)
-                                Spacer()
-                            }
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Synonym")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text("seal, agree, collaborate, comply with, conspire, contribute, coordinate, further, help, participate, unite, uphold, accompany, marry, tie, attach, catch, fix, glue, hold")
-                                .font(.subheadline)
-                            Spacer()
-                        }
-                    }
-                }
-                .opacity(isVStackVisible ? 1 : 0) // Set initial opacity based on visibility
-                .animation(.easeInOut(duration: 0.3)) // Apply animation with 0.3 seconds duration
-            }
-            
-            Spacer()
-            
-            HStack {
-                Button(action: {
-                    withAnimation {
-                        isVStackVisible = false // Fade out the VStack
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        withAnimation {
-                            isVStackVisible = true // Fade in the VStack after 0.3 seconds
-                        }
-                    }
-                    
-                    // Handle Easy button action
-                }) {
-                    Text("Easy")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+            ScrollView {
+                if isVStackVisible {
+                    DefinitionView(isVStackVisible: $isVStackVisible)
                 }
                 
-                Button(action: {
-                    withAnimation {
-                        isVStackVisible = false // Fade out the VStack
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        withAnimation {
-                            isVStackVisible = true // Fade in the VStack after 0.3 seconds
-                        }
-                    }
-                    
-                    // Handle Hard button action
-                }) {
-                    Text("Hard")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
+                Spacer()
             }
+            
+            ControlButtons(isVStackVisible: $isVStackVisible)
         }
         .padding([.leading, .trailing])
     }
 }
+
+struct ProgressView: View {
+    @Binding var learnedWords: Int
+    let totalWords: Int
+    
+    var body: some View {
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.gray.opacity(0.5))
+                .frame(height: 20)
+            
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.blue)
+                .frame(width: CGFloat(learnedWords) / CGFloat(totalWords) * UIScreen.main.bounds.width, height: 20)
+            
+            HStack {
+                Text("\(learnedWords)")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                Spacer()
+                Text("\(totalWords - learnedWords)")
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }
+            .padding([.leading, .trailing])
+        }
+    }
+}
+
+struct DefinitionView: View {
+    @Binding var isVStackVisible: Bool
+    
+    var body: some View {
+        VStack {
+            Spacer().frame(height: 20)
+            WordDefinitionView(word: "stick together", pronunciation: "stik ta'gedar")
+            Spacer().frame(height: 20)
+            
+            DefinitionDetailView(title: "Meaning 1: noun", description: "to continue to support each other", sample: "we must stick together and work as a team")
+            
+            Divider()
+            
+            DefinitionDetailView(title: "Meaning 2: exclamation", description: "to continue to support each other", sample: "we must stick together and work as a team")
+            
+            Divider()
+            
+            DefinitionDetailView(title: "Meaning 3: verb", description: "to continue to support each other", sample: "we must stick together and work as a team")
+            
+            Divider()
+            
+            SynonymView(synonyms: "seal, agree, collaborate, comply with, conspire, contribute, coordinate, further, help, participate, unite, uphold, accompany, marry, tie, attach, catch, fix, glue, hold")
+        }
+        .opacity(isVStackVisible ? 1 : 0)
+        .animation(.easeInOut(duration: 0.3))
+    }
+}
+
+struct WordDefinitionView: View {
+    let word: String
+    let pronunciation: String
+    
+    var body: some View {
+        VStack {
+            Text(word)
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+            Text(pronunciation)
+                .foregroundColor(.primary)
+        }
+    }
+}
+
+struct DefinitionDetailView: View {
+    let title: String
+    let description: String
+    let sample: String
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            
+            HStack {
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            
+            Spacer().frame(height: 10)
+            
+            HStack {
+                Text("Example")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            
+            HStack {
+                Text(sample)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+        }
+    }
+}
+
+struct SynonymView: View {
+    let synonyms: String
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("Synonym")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            
+            HStack {
+                Text(synonyms)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+        }
+    }
+}
+
+struct ControlButtons: View {
+    @Binding var isVStackVisible: Bool
+    
+    var body: some View {
+        HStack {
+            ToggleButton(title: "Easy", color: .blue, isVStackVisible: $isVStackVisible)
+            
+            ToggleButton(title: "Hard", color: .red, isVStackVisible: $isVStackVisible)
+        }
+    }
+}
+
+struct ToggleButton: View {
+    let title: String
+    let color: Color
+    @Binding var isVStackVisible: Bool
+    
+    var body: some View {
+        Button(action: {
+            isVStackVisible = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                isVStackVisible = true
+            }
+        }) {
+            Text(title)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(color)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+    }
+}
+
 
 
 struct CardView_Previews: PreviewProvider {
