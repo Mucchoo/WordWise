@@ -23,90 +23,25 @@ struct StudyView: View {
                         .frame(height: 120)
                         .overlay(
                             HStack {
-                                Spacer().frame(width: 10)
-                                VStack(spacing: 4) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.blue)
-                                        .fontWeight(.black)
-                                    Text("\(learnedWords)")
-                                        .font(.title)
-                                        .foregroundColor(.black)
-                                    Text("Learned")
-                                        .font(.footnote)
-                                        .foregroundColor(.black)
-                                }
-                                .frame(maxWidth: .infinity)
+                                InfoCard(systemName: "checkmark.circle.fill", count: learnedWords, title: "Learned", color: .blue)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                VStack(spacing: 4) {
-                                    Image(systemName: "pencil.circle.fill")
-                                        .foregroundColor(.red)
-                                        .fontWeight(.black)
-                                    Text("\(learningWords)")
-                                        .font(.title)
-                                        .foregroundColor(.black)
-                                    Text("Learning")
-                                        .font(.footnote)
-                                        .foregroundColor(.black)
-                                }
-                                .frame(maxWidth: .infinity)
+                                InfoCard(systemName: "pencil.circle.fill", count: learningWords, title: "Learning", color: .red)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                VStack(spacing: 4) {
-                                    Image(systemName: "star.circle.fill")
-                                        .foregroundColor(.yellow)
-                                        .fontWeight(.black)
-                                    Text("\(newWords)")
-                                        .font(.title)
-                                        .foregroundColor(.black)
-                                    Text("New")
-                                        .font(.footnote)
-                                        .foregroundColor(.black)
-                                }
-                                .frame(maxWidth: .infinity)
-                                Spacer().frame(width: 10)
+                                InfoCard(systemName: "star.circle.fill", count: newWords, title: "New", color: .yellow)
                             }
-                                .foregroundColor(.white)
+                            .foregroundColor(.white)
                         )
                         .padding()
                     
+                    StartStudyingButton(showingCardView: $showingCardView)
                     
-                    Button(action: {
-                        showingCardView = true
-                    }) {
-                        Text("Start Studying")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding()
-                    .fullScreenCover(isPresented: $showingCardView) {
-                        CardView(showingCardView: $showingCardView)
-                    }
-                    
-                    Divider()
-                        .padding()
-                    
-                    HStack {
-                        Spacer().frame(width: 20)
-                        Text("\(totalWords) Words")
-                            .font(.title)
-                            .fontWeight(.bold)
-                        Spacer()
-                    }
-                    
-                    VStack(spacing: 8) {
-                        ForEach(Mock.words) { word in
-                            WordListRowView(word: word)
-                        }
-                    }
+                    WordsSection(totalWords: totalWords)
                     
                     Spacer()
                 }
@@ -115,6 +50,76 @@ struct StudyView: View {
         }
     }
 }
+
+struct InfoCard: View {
+    var systemName: String
+    var count: Int
+    var title: String
+    var color: Color
+    
+    var body: some View {
+        Spacer().frame(width: 10)
+        VStack(spacing: 4) {
+            Image(systemName: systemName)
+                .foregroundColor(color)
+                .fontWeight(.black)
+            Text("\(count)")
+                .font(.title)
+                .foregroundColor(.black)
+            Text(title)
+                .font(.footnote)
+                .foregroundColor(.black)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+
+struct StartStudyingButton: View {
+    @Binding var showingCardView: Bool
+    
+    var body: some View {
+        Button(action: {
+            showingCardView = true
+        }) {
+            Text("Start Studying")
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .padding()
+        .fullScreenCover(isPresented: $showingCardView) {
+            CardView(showingCardView: $showingCardView)
+        }
+    }
+}
+
+struct WordsSection: View {
+    var totalWords: Int
+    
+    var body: some View {
+        Divider()
+            .padding()
+        
+        HStack {
+            Spacer().frame(width: 20)
+            Text("\(totalWords) Words")
+                .font(.title)
+                .fontWeight(.bold)
+            Spacer()
+        }
+        
+        VStack(spacing: 8) {
+            ForEach(Mock.words) { word in
+                WordListRowView(word: word)
+            }
+        }
+    }
+}
+
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {
