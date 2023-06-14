@@ -8,16 +8,42 @@
 import SwiftUI
 
 struct AddCardView: View {
-    @State private var cardText = ""
     @State private var flashcards = [String]()
+    @State private var isEditing = false
+    private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
+    @State private var cardText: String
+
+    init() {
+        _cardText = State(initialValue: initialPlaceholder)
+    }
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                TextEditor(text: $cardText)
-                    .padding()
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-                    .padding()
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $cardText)
+                        .opacity(isEditing ? 1 : 0)
+                        .onTapGesture {
+                            if cardText == initialPlaceholder {
+                                cardText = ""
+                            }
+                            withAnimation(.easeIn, { self.isEditing = true })
+                        }
+                    if !isEditing {
+                        Text(initialPlaceholder)
+                            .foregroundColor(.gray)
+                            .padding(.all, 8)
+                            .onTapGesture {
+                                withAnimation(.easeIn, { self.isEditing = true })
+                                if cardText == initialPlaceholder {
+                                    cardText = ""
+                                }
+                            }
+                    }
+                }
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                .padding()
                 
                 Button(action: {
                     addCard()
@@ -33,7 +59,7 @@ struct AddCardView: View {
                 .disabled(cardText.split(separator: "\n").count == 0)
             }
             .padding()
-            .navigationBarTitle("Add Flashcards", displayMode: .large)
+            .navigationBarTitle("Add Cards", displayMode: .large)
         }
     }
     
