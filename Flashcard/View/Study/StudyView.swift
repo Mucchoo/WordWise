@@ -12,6 +12,7 @@ struct StudyView: View {
     @State private var learningWords = Mock.words.filter { $0.status == .learning }.count
     @State private var newWords = Mock.words.filter { $0.status == .new }.count
     @State private var totalWords = Mock.words.count
+    @State private var showingCardView = false
     
     var body: some View {
         NavigationView {
@@ -75,7 +76,7 @@ struct StudyView: View {
                     
                     
                     Button(action: {
-                        // Action to start studying
+                        showingCardView = true
                     }) {
                         Text("Start Studying")
                             .fontWeight(.bold)
@@ -86,6 +87,9 @@ struct StudyView: View {
                             .cornerRadius(10)
                     }
                     .padding()
+                    .fullScreenCover(isPresented: $showingCardView) {
+                        CardView(showingCardView: $showingCardView)
+                    }
                     
                     Divider()
                         .padding()

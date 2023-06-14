@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct CardView: View {
+    @Binding var showingCardView: Bool
     @State private var learnedWords = Mock.words.filter { $0.status == .learned }.count
     @State private var totalWords = Mock.words.count
     @State private var isVStackVisible = true
 
     var body: some View {
         VStack {
+            DragBar()
             ProgressView(learnedWords: $learnedWords, totalWords: totalWords)
             
             ScrollView {
@@ -27,6 +29,39 @@ struct CardView: View {
             ControlButtons(isVStackVisible: $isVStackVisible)
         }
         .padding([.leading, .trailing])
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white.ignoresSafeArea())
+    }
+}
+
+struct DismissableSheet: View {
+    @Binding var showingSheet: Bool
+
+    var body: some View {
+        VStack {
+            DragBar()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white.ignoresSafeArea())
+    }
+}
+
+struct DragBar: View {
+    @Environment(\.dismiss) var dismiss
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 5)
+            .fill(Color(.systemGray4))
+            .frame(width: 60, height: 8)
+            .padding()
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        if value.translation.height > 50 {
+                            dismiss()
+                        }
+                    }
+            )
     }
 }
 
@@ -202,10 +237,10 @@ struct ToggleButton: View {
     }
 }
 
-
-
 struct CardView_Previews: PreviewProvider {
+    @State static var showingCardView = true
+
     static var previews: some View {
-        CardView()
+        CardView(showingCardView: $showingCardView)
     }
 }

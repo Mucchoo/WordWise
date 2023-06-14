@@ -33,7 +33,7 @@ struct ContentView: View {
                     .tag(2)
             }
 //        } else {
-//            StudyView()
+            //SignUpView
 //        }
     }
 }
