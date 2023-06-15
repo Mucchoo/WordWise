@@ -11,7 +11,7 @@ struct CardView: View {
     @Binding var showingCardView: Bool
     @State private var learnedCards = Mock.cards.filter { $0.status == .learned }.count
     @State private var totalCards = Mock.cards.count
-    @State private var isVStackVisible = true
+    @State private var isVStackVisible = false
 
     var body: some View {
         VStack {
@@ -19,10 +19,22 @@ struct CardView: View {
             ProgressView(learnedCards: $learnedCards, totalCards: totalCards)
             
             ScrollView {
-                if isVStackVisible {
-                    DefinitionView(isVStackVisible: $isVStackVisible)
-                }
+                Spacer().frame(height: 20)
+                WordDefinitionView(word: "stick together", pronunciation: "stik ta'gedar")
+                Spacer().frame(height: 20)
                 
+                ZStack {
+                    DefinitionView(isVStackVisible: $isVStackVisible)
+                        .opacity(isVStackVisible ? 1 : 0)
+                        .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+
+                    Rectangle()
+                        .fill(Color.white)
+                        .opacity(isVStackVisible ? 0 : 1)
+                        .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+                        .zIndex(1)
+                }
+
                 Spacer()
             }
             
@@ -31,6 +43,9 @@ struct CardView: View {
         .padding([.leading, .trailing])
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white.ignoresSafeArea())
+        .onTapGesture {
+            isVStackVisible = true
+        }
     }
 }
 
@@ -98,10 +113,6 @@ struct DefinitionView: View {
     
     var body: some View {
         VStack {
-            Spacer().frame(height: 20)
-            WordDefinitionView(word: "stick together", pronunciation: "stik ta'gedar")
-            Spacer().frame(height: 20)
-            
             DefinitionDetailView(title: "Meaning 1: noun", description: "to continue to support each other", sample: "we must stick together and work as a team")
             
             Divider()
