@@ -15,8 +15,8 @@
 		2A3C1DF42A390C40001B6E0E /* ChangeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF32A390C40001B6E0E /* ChangeInfoView.swift */; };
 		2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */; };
 		2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF72A390E0B001B6E0E /* ResetPasswordView.swift */; };
-		2A3C1E012A392517001B6E0E /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E002A392517001B6E0E /* Word.swift */; };
-		2A3C1E062A392BBA001B6E0E /* WordListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */; };
+		2A3C1E012A392517001B6E0E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E002A392517001B6E0E /* Card.swift */; };
+		2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A3C1E0A2A394695001B6E0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E092A394695001B6E0E /* ProgressBar.swift */; };
 		2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635D2A38147900718C90 /* FlashcardApp.swift */; };
@@ -38,8 +38,8 @@
 		2A3C1DF32A390C40001B6E0E /* ChangeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeInfoView.swift; sourceTree = "<group>"; };
 		2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleNavigationView.swift; sourceTree = "<group>"; };
 		2A3C1DF72A390E0B001B6E0E /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
-		2A3C1E002A392517001B6E0E /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListRowView.swift; sourceTree = "<group>"; };
+		2A3C1E002A392517001B6E0E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CordListRowView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A3C1E092A394695001B6E0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		2ABC635A2A38147900718C90 /* Flashcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +120,7 @@
 				2A3C1DF12A390B39001B6E0E /* ButtonView.swift */,
 				2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */,
 				2ABC63702A3816EC00718C90 /* SettingListRowView.swift */,
-				2A3C1E052A392BBA001B6E0E /* WordListRowView.swift */,
+				2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */,
 				2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */,
 				2A3C1E092A394695001B6E0E /* ProgressBar.swift */,
 			);
@@ -130,7 +130,7 @@
 		2A3C1DFF2A3924FC001B6E0E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2A3C1E002A392517001B6E0E /* Word.swift */,
+				2A3C1E002A392517001B6E0E /* Card.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 			files = (
 				2A3C1DF42A390C40001B6E0E /* ChangeInfoView.swift in Sources */,
 				2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */,
-				2A3C1E012A392517001B6E0E /* Word.swift in Sources */,
+				2A3C1E012A392517001B6E0E /* Card.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A3C1E0A2A394695001B6E0E /* ProgressBar.swift in Sources */,
 				2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */,
@@ -255,7 +255,7 @@
 				2A3C1DEE2A390AD1001B6E0E /* ReauthentcateView.swift in Sources */,
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
-				2A3C1E062A392BBA001B6E0E /* WordListRowView.swift in Sources */,
+				2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
 				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */,

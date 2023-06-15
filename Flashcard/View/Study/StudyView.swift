@@ -204,7 +204,7 @@ struct CardsSection: View {
         
         VStack(spacing: 8) {
             ForEach(Mock.cards) { word in
-                WordListRowView(word: word)
+                CardListRowView(card: word)
             }
         }
     }

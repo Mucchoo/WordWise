@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Cord: Identifiable {
+struct Card: Identifiable {
     let id = UUID()
     let text: String
     let status: CardStatus
@@ -38,17 +38,17 @@ struct Mock {
         "diversity", "education", "efficiency", "electronic", "emergency", "employment"
     ]
     
-    static let cards: [Cord] = {
-        var cards: [Cord] = []
+    static let cards: [Card] = {
+        var cards: [Card] = []
 
         for i in 0..<20 {
-            cards.append(Cord(text: englishWards[i], status: .learned))
+            cards.append(Card(text: englishWards[i], status: .learned))
         }
         for i in 20..<50 {
-            cards.append(Cord(text: englishWards[i], status: .learning))
+            cards.append(Card(text: englishWards[i], status: .learning))
         }
         for i in 50..<100 {
-            cards.append(Cord(text: englishWards[i], status: .new))
+            cards.append(Card(text: englishWards[i], status: .new))
         }
 
         return cards

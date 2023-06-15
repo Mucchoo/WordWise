@@ -1,5 +1,5 @@
 //
-//  WordListRowView.swift
+//  CardListRowView.swift
 //  Flashcard
 //
 //  Created by Musa Yazuju on 6/14/23.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct WordListRowView: View {
-    var word: Word
+struct CardListRowView: View {
+    var card: Card
     
     var body: some View {
         HStack{
@@ -16,7 +16,7 @@ struct WordListRowView: View {
             ZStack{
                 
                 
-                switch word.status {
+                switch card.status {
                 case .learned:
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
@@ -46,7 +46,7 @@ struct WordListRowView: View {
                 }
             }
             .frame(width: 20, height: 20, alignment: .center)
-            Text(word.text)
+            Text(card.text)
                 .foregroundColor(.black)
             Spacer()
         }
@@ -55,6 +55,6 @@ struct WordListRowView: View {
 
 struct WordListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        WordListRowView(word: Word(text: "text", status: .new))
+        CardListRowView(card: Card(text: "text", status: .new))
     }
 }
