@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct StudyView: View {
-    @State private var learnedWords = Mock.words.filter { $0.status == .learned }.count
-    @State private var learningWords = Mock.words.filter { $0.status == .learning }.count
-    @State private var newWords = Mock.words.filter { $0.status == .new }.count
-    @State private var totalWords = Mock.words.count
+    @State private var learnedCards = Mock.cards.filter { $0.status == .learned }.count
+    @State private var learningCards = Mock.cards.filter { $0.status == .learning }.count
+    @State private var newCards = Mock.cards.filter { $0.status == .new }.count
+    @State private var totalCards = Mock.cards.count
     @State private var showingCardView = false
     
     var body: some View {
@@ -23,25 +23,26 @@ struct StudyView: View {
                         .frame(height: 120)
                         .overlay(
                             HStack {
-                                InfoCard(systemName: "checkmark.circle.fill", count: learnedWords, title: "Learned", color: .blue)
+                                InfoCard(systemName: "checkmark.circle.fill", count: learnedCards, title: "Learned", color: .blue)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                InfoCard(systemName: "pencil.circle.fill", count: learningWords, title: "Learning", color: .red)
+                                InfoCard(systemName: "pencil.circle.fill", count: learningCards, title: "Learning", color: .red)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                InfoCard(systemName: "star.circle.fill", count: newWords, title: "New", color: .yellow)
+                                InfoCard(systemName: "star.circle.fill", count: newCards, title: "New", color: .yellow)
                             }
                             .foregroundColor(.white)
                         )
                         .padding()
                     
+                    FilterSection()
                     StartStudyingButton(showingCardView: $showingCardView)
                     
-                    WordsSection(totalWords: totalWords)
+                    CardsSection(totalCards: totalCards)
                     
                     Spacer()
                 }
@@ -74,6 +75,95 @@ struct InfoCard: View {
     }
 }
 
+struct FilterSection: View {
+    @State private var learnedButton = false
+    @State private var learningButton = false
+    @State private var newButton = false
+
+    var body: some View {
+        Divider()
+            .padding()
+        
+        HStack {
+            Spacer().frame(width: 20)
+            Text("Filter")
+                .font(.title)
+                .fontWeight(.bold)
+            Spacer()
+        }
+        
+        HStack {
+            FilterButton(text: "Learned", isOn: $learnedButton)
+            FilterButton(text: "Learning", isOn: $learningButton)
+            FilterButton(text: "New", isOn: $newButton)
+        }
+        .padding([.leading, .trailing, .bottom])
+
+        HStack {
+            Text("Maximum Cards to Study")
+                .fontWeight(.bold)
+            Spacer()
+            NumberPicker(labelText: "Cards")
+        }
+        .padding([.leading, .trailing])
+        HStack {
+            Text("Failed Times More than")
+                .fontWeight(.bold)
+            Spacer()
+            NumberPicker(labelText: "Times")
+        }
+        .padding([.leading, .trailing])
+    }
+}
+
+struct FilterButton: View {
+    var text: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Button(action: {
+            withAnimation {
+                isOn.toggle()
+            }
+        }) {
+            Text(text)
+                .fontWeight(.bold)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .foregroundColor(isOn ? .white : .blue)
+        }
+        .background(RoundedRectangle(cornerRadius: 10).fill(isOn ? Color.blue : Color.clear))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 2))
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+struct NumberPicker: View {
+    @State var number: Int = 0
+    var labelText: String
+    let numbers = [5,  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
+    
+    var body: some View {
+        Picker(
+            selection: $number,
+            label:
+                HStack {
+                    Text("Picker")
+                        .fontWeight(.bold)
+                }
+            ,
+            content: {
+                ForEach(numbers, id: \.self) { i in
+                    Text("\(i) \(labelText)").tag(i)
+                }
+            }
+        )
+        .labelsHidden()
+        .cornerRadius(15)
+        .pickerStyle(MenuPickerStyle())
+    }
+}
+
 
 struct StartStudyingButton: View {
     @Binding var showingCardView: Bool
@@ -82,7 +172,7 @@ struct StartStudyingButton: View {
         Button(action: {
             showingCardView = true
         }) {
-            Text("Start Studying")
+            Text("Start Studying 100 Cards")
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -97,8 +187,8 @@ struct StartStudyingButton: View {
     }
 }
 
-struct WordsSection: View {
-    var totalWords: Int
+struct CardsSection: View {
+    var totalCards: Int
     
     var body: some View {
         Divider()
@@ -106,14 +196,14 @@ struct WordsSection: View {
         
         HStack {
             Spacer().frame(width: 20)
-            Text("\(totalWords) Words")
+            Text("\(totalCards) Cards")
                 .font(.title)
                 .fontWeight(.bold)
             Spacer()
         }
         
         VStack(spacing: 8) {
-            ForEach(Mock.words) { word in
+            ForEach(Mock.cards) { word in
                 WordListRowView(word: word)
             }
         }

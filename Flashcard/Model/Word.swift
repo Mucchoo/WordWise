@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct Word: Identifiable {
+struct Cord: Identifiable {
     let id = UUID()
     let text: String
-    let status: WordStatus
+    let status: CardStatus
 }
 
-enum WordStatus {
+enum CardStatus {
     case learned, learning, new
 }
 
 struct Mock {
-    static let englishWords: [String] = [
+    static let englishWards: [String] = [
         "ability", "absence", "academy", "accident", "accuracy", "achieve",
         "acquire", "activity", "actually", "addition", "address", "adequate",
         "adoption", "advanced", "adventure", "advisory", "advocate", "aerospace",
@@ -38,20 +38,20 @@ struct Mock {
         "diversity", "education", "efficiency", "electronic", "emergency", "employment"
     ]
     
-    static let words: [Word] = {
-        var words: [Word] = []
+    static let cards: [Cord] = {
+        var cards: [Cord] = []
 
         for i in 0..<20 {
-            words.append(Word(text: englishWords[i], status: .learned))
+            cards.append(Cord(text: englishWards[i], status: .learned))
         }
         for i in 20..<50 {
-            words.append(Word(text: englishWords[i], status: .learning))
+            cards.append(Cord(text: englishWards[i], status: .learning))
         }
         for i in 50..<100 {
-            words.append(Word(text: englishWords[i], status: .new))
+            cards.append(Cord(text: englishWards[i], status: .new))
         }
 
-        return words
+        return cards
     }()
 }
 

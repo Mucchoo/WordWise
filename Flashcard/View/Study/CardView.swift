@@ -9,14 +9,14 @@ import SwiftUI
 
 struct CardView: View {
     @Binding var showingCardView: Bool
-    @State private var learnedWords = Mock.words.filter { $0.status == .learned }.count
-    @State private var totalWords = Mock.words.count
+    @State private var learnedCards = Mock.cards.filter { $0.status == .learned }.count
+    @State private var totalCards = Mock.cards.count
     @State private var isVStackVisible = true
 
     var body: some View {
         VStack {
             DragBar()
-            ProgressView(learnedWords: $learnedWords, totalWords: totalWords)
+            ProgressView(learnedCards: $learnedCards, totalCards: totalCards)
             
             ScrollView {
                 if isVStackVisible {
@@ -66,8 +66,8 @@ struct DragBar: View {
 }
 
 struct ProgressView: View {
-    @Binding var learnedWords: Int
-    let totalWords: Int
+    @Binding var learnedCards: Int
+    let totalCards: Int
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -77,14 +77,14 @@ struct ProgressView: View {
             
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.blue)
-                .frame(width: CGFloat(learnedWords) / CGFloat(totalWords) * UIScreen.main.bounds.width, height: 20)
+                .frame(width: CGFloat(learnedCards) / CGFloat(totalCards) * UIScreen.main.bounds.width, height: 20)
             
             HStack {
-                Text("\(learnedWords)")
+                Text("\(learnedCards)")
                     .font(.headline)
                     .foregroundColor(.white)
                 Spacer()
-                Text("\(totalWords - learnedWords)")
+                Text("\(totalCards - learnedCards)")
                     .font(.headline)
                     .foregroundColor(.white)
             }

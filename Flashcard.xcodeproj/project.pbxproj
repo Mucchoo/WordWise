@@ -68,6 +68,7 @@
 		2A3C1DF92A390ECB001B6E0E /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				2A3C1DFE2A390F44001B6E0E /* Components */,
 				2ABC636C2A38167800718C90 /* SettingView.swift */,
 				2A3C1DF32A390C40001B6E0E /* ChangeInfoView.swift */,
 				2A3C1DED2A390AD1001B6E0E /* ReauthentcateView.swift */,
@@ -84,7 +85,6 @@
 				2A3C1DFC2A390F16001B6E0E /* Study */,
 				2A3C1DFB2A390F0D001B6E0E /* Add */,
 				2A3C1DF92A390ECB001B6E0E /* Setting */,
-				2A3C1DFE2A390F44001B6E0E /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
