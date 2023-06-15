@@ -10,7 +10,7 @@ import SwiftUI
 struct AddCardView: View {
     @State private var flashcards = [String]()
     @State private var isEditing = false
-    private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
+    private let initialPlaceholder = "Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @State private var cardText: String
 
     init() {
