@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @Environment(\.managedObjectContext) var mock
+    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     
     @Binding var showingCardView: Bool

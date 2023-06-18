@@ -20,6 +20,14 @@
 		2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A3C1E0A2A394695001B6E0E /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E092A394695001B6E0E /* ProgressBar.swift */; };
+		2A894FC32A3FBF3D00163F92 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */; };
+		2A894FC42A3FBF3D00163F92 /* Card+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBC2A3FBF3D00163F92 /* Card+CoreDataProperties.swift */; };
+		2A894FC52A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBD2A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift */; };
+		2A894FC62A3FBF3D00163F92 /* Phonetic+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBE2A3FBF3D00163F92 /* Phonetic+CoreDataProperties.swift */; };
+		2A894FC72A3FBF3D00163F92 /* Meaning+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBF2A3FBF3D00163F92 /* Meaning+CoreDataClass.swift */; };
+		2A894FC82A3FBF3D00163F92 /* Meaning+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FC02A3FBF3D00163F92 /* Meaning+CoreDataProperties.swift */; };
+		2A894FCD2A3FC3D300163F92 /* Definition+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FCB2A3FC3D300163F92 /* Definition+CoreDataClass.swift */; };
+		2A894FCE2A3FC3D300163F92 /* Definition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FCC2A3FC3D300163F92 /* Definition+CoreDataProperties.swift */; };
 		2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635D2A38147900718C90 /* FlashcardApp.swift */; };
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
@@ -44,6 +52,14 @@
 		2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CordListRowView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A3C1E092A394695001B6E0E /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FBC2A3FBF3D00163F92 /* Card+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FBD2A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Phonetic+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FBE2A3FBF3D00163F92 /* Phonetic+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Phonetic+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FBF2A3FBF3D00163F92 /* Meaning+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FC02A3FBF3D00163F92 /* Meaning+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FCB2A3FC3D300163F92 /* Definition+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		2A894FCC2A3FC3D300163F92 /* Definition+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		2ABC635A2A38147900718C90 /* Flashcard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashcard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABC635D2A38147900718C90 /* FlashcardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardApp.swift; sourceTree = "<group>"; };
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,9 +149,24 @@
 			isa = PBXGroup;
 			children = (
 				2A1787C32A3F005500773FD6 /* DataController.swift */,
-				2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2A894F8A2A3FB60700163F92 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */,
+				2A894FBC2A3FBF3D00163F92 /* Card+CoreDataProperties.swift */,
+				2A894FBD2A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift */,
+				2A894FBE2A3FBF3D00163F92 /* Phonetic+CoreDataProperties.swift */,
+				2A894FBF2A3FBF3D00163F92 /* Meaning+CoreDataClass.swift */,
+				2A894FC02A3FBF3D00163F92 /* Meaning+CoreDataProperties.swift */,
+				2A894FCB2A3FC3D300163F92 /* Definition+CoreDataClass.swift */,
+				2A894FCC2A3FC3D300163F92 /* Definition+CoreDataProperties.swift */,
+				2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		2ABC63512A38147900718C90 = {
@@ -158,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC635D2A38147900718C90 /* FlashcardApp.swift */,
+				2A894F8A2A3FB60700163F92 /* CoreData */,
 				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
@@ -246,13 +278,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A894FC82A3FBF3D00163F92 /* Meaning+CoreDataProperties.swift in Sources */,
 				2A3C1DF42A390C40001B6E0E /* ChangeInfoView.swift in Sources */,
+				2A894FC32A3FBF3D00163F92 /* Card+CoreDataClass.swift in Sources */,
 				2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A3C1E0A2A394695001B6E0E /* ProgressBar.swift in Sources */,
 				2A1787C42A3F005500773FD6 /* DataController.swift in Sources */,
 				2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */,
 				2ABC636D2A38167800718C90 /* SettingView.swift in Sources */,
+				2A894FCE2A3FC3D300163F92 /* Definition+CoreDataProperties.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddView.swift in Sources */,
 				2A3C1DEE2A390AD1001B6E0E /* ReauthentcateView.swift in Sources */,
@@ -260,11 +295,16 @@
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
 				2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
+				2A894FC42A3FBF3D00163F92 /* Card+CoreDataProperties.swift in Sources */,
 				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,
+				2A894FC72A3FBF3D00163F92 /* Meaning+CoreDataClass.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */,
+				2A894FC62A3FBF3D00163F92 /* Phonetic+CoreDataProperties.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
+				2A894FCD2A3FC3D300163F92 /* Definition+CoreDataClass.swift in Sources */,
+				2A894FC52A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

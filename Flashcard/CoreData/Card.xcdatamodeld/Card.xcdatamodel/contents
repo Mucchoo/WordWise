@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Card" representedClassName="Card" syncable="YES">
+        <attribute name="failedTimes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" attributeType="String"/>
+        <relationship name="meanings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="card" inverseEntity="Meaning"/>
+        <relationship name="phonetics" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Phonetic" inverseName="card" inverseEntity="Phonetic"/>
+    </entity>
+    <entity name="Definition" representedClassName="Definition" syncable="YES">
+        <attribute name="antonyms" optional="YES" attributeType="String"/>
+        <attribute name="definition" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="synonyms" optional="YES" attributeType="String"/>
+        <relationship name="meaning" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="definitions" inverseEntity="Meaning"/>
+    </entity>
+    <entity name="Meaning" representedClassName="Meaning" syncable="YES">
+        <attribute name="id" attributeType="String"/>
+        <attribute name="partOfSpeech" attributeType="String"/>
+        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="meanings" inverseEntity="Card"/>
+        <relationship name="definitions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Definition" inverseName="meaning" inverseEntity="Definition"/>
+    </entity>
+    <entity name="Phonetic" representedClassName="Phonetic" syncable="YES">
+        <attribute name="audio" optional="YES" attributeType="String"/>
+        <attribute name="text" attributeType="String"/>
+        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="phonetics" inverseEntity="Card"/>
+    </entity>
+</model>

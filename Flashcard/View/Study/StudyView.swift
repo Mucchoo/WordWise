@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StudyView: View {
-    @Environment(\.managedObjectContext) var mock
+    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @State private var showingCardView = false
     
@@ -193,7 +193,7 @@ struct StartStudyingButton: View {
 }
 
 struct CardsSection: View {
-    @Environment(\.managedObjectContext) var mock
+    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     var totalCards: Int
     

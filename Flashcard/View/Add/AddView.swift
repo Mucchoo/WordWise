@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddCardView: View {
-    @Environment(\.managedObjectContext) var mock
+    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     
     @State private var flashcards = [String]()
@@ -18,11 +18,11 @@ struct AddCardView: View {
     @State private var progress: Float = 0.0
     private let initialPlaceholder = "Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
-
+    
     init() {
         _cardText = State(initialValue: initialPlaceholder)
     }
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -63,7 +63,7 @@ struct AddCardView: View {
                 }
                 .padding()
                 .disabled(cardText.split(separator: "\n").count == 0)
-
+                
                 if isLoading {
                     LoadingView(progress: $progress)
                 }
@@ -84,14 +84,38 @@ struct AddCardView: View {
                         self.progress += 1.0 / Float(totalWords)
                         if self.progress >= 1.0 {
                             self.isLoading = false
-                            print(self.fetcher.wordDefinition)
-                            let card = Card(context: mock)
-                            card.id = UUID()
-                            card.text = String(word)
-                            card.status = 2
-                            
-                            try? mock.save()
                         }
+                        
+                        let card = Card(context: viewContext)
+                        card.id = UUID()
+                        card.text = String(word)
+                        card.status = 2
+                        card.failedTimes = 0
+                        
+                        self.fetcher.wordDefinition?.meanings?.forEach { meaning in
+                            let newMeaning = Meaning(context: viewContext)
+                            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+                            
+                            meaning.definitions?.forEach { definition in
+                                let newDefinition = Definition(context: viewContext)
+                                newDefinition.definition = definition.example
+                                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                                
+                                newMeaning.addToDefinitions(newDefinition)
+                            }
+                            
+                            card.addToMeanings(newMeaning)
+                        }
+                        
+                        self.fetcher.wordDefinition?.phonetics?.forEach { phonetic in
+                            let newPhonetic = Phonetic(context: viewContext)
+                            newPhonetic.audio = phonetic.audio
+                            newPhonetic.text = phonetic.text
+                            card.addToPhonetics(newPhonetic)
+                        }
+                        
+                        try? viewContext.save()
                     }
                 }
             }

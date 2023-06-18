@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) var mock
+    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     var body: some View {
         TabView {
