@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardListRowView: View {
-    var card: Card
+    var card: StructCard
     
     var body: some View {
         HStack{
@@ -55,6 +55,6 @@ struct CardListRowView: View {
 
 struct WordListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CardListRowView(card: Card(text: "text", status: .new))
+        CardListRowView(card: StructCard(text: "text", status: .new))
     }
 }
