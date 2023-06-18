@@ -16,7 +16,7 @@ struct CardListRowView: View {
             Spacer().frame(width: 20)
             ZStack{
                 switch card.status {
-                case 2:  // Learned
+                case 0:  // Learned
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
                         .foregroundColor(.blue)
@@ -34,7 +34,7 @@ struct CardListRowView: View {
                         .font(.system(size: 10))
                         .fontWeight(.black)
                         .frame(width: 14, height: 14)
-                case 0: // New
+                case 2: // New
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
                         .foregroundColor(.yellow)

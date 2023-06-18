@@ -88,7 +88,7 @@ struct AddCardView: View {
                             let card = Card(context: mock)
                             card.id = UUID()
                             card.text = String(word)
-                            card.status = Int16.random(in: 0..<2)
+                            card.status = 2
                             
                             try? mock.save()
                         }
