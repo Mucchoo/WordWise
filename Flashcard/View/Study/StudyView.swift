@@ -38,7 +38,7 @@ struct StudyView: View {
                         .padding()
                     
                     FilterSection()
-                    StartStudyingButton(showingCardView: $showingCardView)
+                    StartStudyingButton(showingCardView: $showingCardView, cards: cards)
                     
                     CardsSection(totalCards: cards.count)
                     
@@ -105,7 +105,7 @@ struct FilterSection: View {
         }
         .padding([.leading, .trailing])
         HStack {
-            Text("Failed Times More than")
+            Text("Failed Times more than")
                 .fontWeight(.bold)
             Spacer()
             NumberPicker(labelText: "Times")
@@ -162,15 +162,22 @@ struct NumberPicker: View {
     }
 }
 
-
 struct StartStudyingButton: View {
     @Binding var showingCardView: Bool
-    
+    @State var cards: FetchedResults<Card>
+    let maximumCardsToStudy = 10
+    let failedTimesMoreThan = 3
+
+    var cardsToStudy: [Card] {
+        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
+        return Array(failedCards.prefix(maximumCardsToStudy))
+    }
+
     var body: some View {
         Button(action: {
             showingCardView = true
         }) {
-            Text("Start Studying 100 Cards")
+            Text("Start Studying \(cardsToStudy.count) Cards")
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
