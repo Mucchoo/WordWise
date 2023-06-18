@@ -30,14 +30,14 @@ struct AddCardView: View {
                             if cardText == initialPlaceholder {
                                 cardText = ""
                             }
-                            withAnimation(.easeIn, { self.isEditing = true })
+                            self.isEditing = true
                         }
                     if !isEditing {
                         Text(initialPlaceholder)
                             .foregroundColor(.gray)
                             .padding(.all, 8)
                             .onTapGesture {
-                                withAnimation(.easeIn, { self.isEditing = true })
+                                self.isEditing = true
                                 if cardText == initialPlaceholder {
                                     cardText = ""
                                 }
