@@ -8,10 +8,8 @@
 import SwiftUI
 
 struct StudyView: View {
-    @State private var learnedCards = Mock.cards.filter { $0.status == .learned }.count
-    @State private var learningCards = Mock.cards.filter { $0.status == .learning }.count
-    @State private var newCards = Mock.cards.filter { $0.status == .new }.count
-    @State private var totalCards = Mock.cards.count
+    @Environment(\.managedObjectContext) var mock
+    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @State private var showingCardView = false
     
     var body: some View {
@@ -23,17 +21,17 @@ struct StudyView: View {
                         .frame(height: 120)
                         .overlay(
                             HStack {
-                                InfoCard(systemName: "checkmark.circle.fill", count: learnedCards, title: "Learned", color: .blue)
+                                InfoCard(systemName: "checkmark.circle.fill", count: cards.filter { $0.status == 0 }.count, title: "Learned", color: .blue)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                InfoCard(systemName: "pencil.circle.fill", count: learningCards, title: "Learning", color: .red)
+                                InfoCard(systemName: "pencil.circle.fill", count: cards.filter { $0.status == 1 }.count, title: "Learning", color: .red)
                                 
                                 Divider().background(Color.gray)
                                     .frame(height: 80)
                                 
-                                InfoCard(systemName: "star.circle.fill", count: newCards, title: "New", color: .yellow)
+                                InfoCard(systemName: "star.circle.fill", count: cards.filter { $0.status == 2 }.count, title: "New", color: .yellow)
                             }
                             .foregroundColor(.white)
                         )
@@ -42,7 +40,7 @@ struct StudyView: View {
                     FilterSection()
                     StartStudyingButton(showingCardView: $showingCardView)
                     
-                    CardsSection(totalCards: totalCards)
+                    CardsSection(totalCards: cards.count)
                     
                     Spacer()
                 }
