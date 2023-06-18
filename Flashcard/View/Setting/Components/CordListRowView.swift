@@ -5,19 +5,18 @@
 //  Created by Musa Yazuju on 6/14/23.
 //
 
+import CoreData
 import SwiftUI
 
 struct CardListRowView: View {
-    var card: StructCard
+    var card: Card
     
     var body: some View {
         HStack{
             Spacer().frame(width: 20)
             ZStack{
-                
-                
                 switch card.status {
-                case .learned:
+                case 2:  // Learned
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
                         .foregroundColor(.blue)
@@ -26,7 +25,7 @@ struct CardListRowView: View {
                         .font(.system(size: 10))
                         .fontWeight(.black)
                         .frame(width: 14, height: 14)
-                case .learning:
+                case 1: // Learning
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
                         .foregroundColor(.red)
@@ -35,7 +34,7 @@ struct CardListRowView: View {
                         .font(.system(size: 10))
                         .fontWeight(.black)
                         .frame(width: 14, height: 14)
-                case .new:
+                case 0: // New
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill()
                         .foregroundColor(.yellow)
@@ -43,10 +42,12 @@ struct CardListRowView: View {
                         .foregroundColor(Color.white)
                         .font(.system(size: 10))
                         .fontWeight(.black)
+                default:
+                    EmptyView()
                 }
             }
             .frame(width: 20, height: 20, alignment: .center)
-            Text(card.text)
+            Text(card.text ?? "Unknown")
                 .foregroundColor(.black)
             Spacer()
         }
@@ -55,6 +56,9 @@ struct CardListRowView: View {
 
 struct WordListRowView_Previews: PreviewProvider {
     static var previews: some View {
-        CardListRowView(card: StructCard(text: "text", status: .new))
+        let card = Card(context: NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType))
+        card.text = "Apple"
+        card.status = 0
+        return CardListRowView(card: card)
     }
 }

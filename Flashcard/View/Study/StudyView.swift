@@ -186,6 +186,8 @@ struct StartStudyingButton: View {
 }
 
 struct CardsSection: View {
+    @Environment(\.managedObjectContext) var mock
+    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     var totalCards: Int
     
     var body: some View {
@@ -201,8 +203,8 @@ struct CardsSection: View {
         }
         
         VStack(spacing: 8) {
-            ForEach(Mock.cards) { word in
-                CardListRowView(card: word)
+            ForEach(cards) { card in
+                CardListRowView(card: card)
             }
         }
     }
