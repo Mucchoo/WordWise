@@ -8,15 +8,29 @@
 import SwiftUI
 
 struct CardView: View {
+    @Environment(\.managedObjectContext) var mock
+    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    
     @Binding var showingCardView: Bool
-    @State private var learnedCards = Mock.cards.filter { $0.status == .learned }.count
-    @State private var totalCards = Mock.cards.count
     @State private var isVStackVisible = false
+    
+    var learnedCards: Int {
+        cards.filter { $0.status == 0 }.count
+    }
+    
+    var totalCards: Int {
+        cards.count
+    }
+    
+    init(showingCardView: Binding<Bool>) {
+        self._showingCardView = showingCardView
+    }
 
+    
     var body: some View {
         VStack {
             DragBar()
-            ProgressView(learnedCards: $learnedCards, totalCards: totalCards)
+            ProgressView(learnedCards: learnedCards, totalCards: totalCards)
             
             ScrollView {
                 Spacer().frame(height: 20)
@@ -81,7 +95,7 @@ struct DragBar: View {
 }
 
 struct ProgressView: View {
-    @Binding var learnedCards: Int
+    @State var learnedCards: Int
     let totalCards: Int
     
     var body: some View {

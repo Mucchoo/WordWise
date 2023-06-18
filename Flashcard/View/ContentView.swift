@@ -11,23 +11,6 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var mock
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     var body: some View {
-//        VStack {
-//            List(cards)  { card in
-//                Text(card.text ?? "Unknown")
-//            }
-//
-//            Button("add") {
-//                let texts = ["Apple", "Pinapple", "strobberry", "blueberry"]
-//                let chosenText = texts.randomElement()!
-//
-//                let card = Card(context: mock)
-//                card.id = UUID()
-//                card.text = chosenText
-//                card.status = 0
-//
-//                try? mock.save()
-//            }
-//        }
         TabView {
             StudyView()
                 .tabItem {

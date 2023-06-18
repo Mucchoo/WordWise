@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AddCardView: View {
+    @Environment(\.managedObjectContext) var mock
+    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    
     @State private var flashcards = [String]()
     @State private var isEditing = false
     @State private var cardText: String
@@ -82,6 +85,12 @@ struct AddCardView: View {
                         if self.progress >= 1.0 {
                             self.isLoading = false
                             print(self.fetcher.wordDefinition)
+                            let card = Card(context: mock)
+                            card.id = UUID()
+                            card.text = String(word)
+                            card.status = Int16.random(in: 0..<2)
+                            
+                            try? mock.save()
                         }
                     }
                 }
