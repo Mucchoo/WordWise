@@ -13,6 +13,7 @@ struct CardView: View {
     
     @Binding var showingCardView: Bool
     @State private var isVStackVisible = false
+    @State private var isWordVisible = true
     
     var learnedCards: Int {
         cards.filter { $0.status == 0 }.count
@@ -25,7 +26,6 @@ struct CardView: View {
     init(showingCardView: Binding<Bool>) {
         self._showingCardView = showingCardView
     }
-
     
     var body: some View {
         VStack {
@@ -35,13 +35,12 @@ struct CardView: View {
             ScrollView {
                 Spacer().frame(height: 20)
                 WordDefinitionView(word: "stick together", pronunciation: "stik ta'gedar")
+                    .opacity(isWordVisible ? 1 : 0)
+                    .animation(.easeIn(duration: 0.3), value: isWordVisible)
                 Spacer().frame(height: 20)
                 
                 ZStack {
-                    DefinitionView(isVStackVisible: $isVStackVisible)
-                        .opacity(isVStackVisible ? 1 : 0)
-                        .animation(.easeIn(duration: 0.3), value: isVStackVisible)
-
+                    DefinitionView()
                     Rectangle()
                         .fill(Color.white)
                         .opacity(isVStackVisible ? 0 : 1)
@@ -52,7 +51,7 @@ struct CardView: View {
                 Spacer()
             }
             
-            ControlButtons(isVStackVisible: $isVStackVisible)
+            ControlButtons(isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
         }
         .padding([.leading, .trailing])
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -123,26 +122,16 @@ struct ProgressView: View {
 }
 
 struct DefinitionView: View {
-    @Binding var isVStackVisible: Bool
-    
     var body: some View {
         VStack {
             DefinitionDetailView(title: "Meaning 1: noun", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            
             Divider()
-            
             DefinitionDetailView(title: "Meaning 2: exclamation", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            
             Divider()
-            
             DefinitionDetailView(title: "Meaning 3: verb", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            
             Divider()
-            
             SynonymView(synonyms: "seal, agree, collaborate, comply with, conspire, contribute, coordinate, further, help, participate, unite, uphold, accompany, marry, tie, attach, catch, fix, glue, hold")
         }
-        .opacity(isVStackVisible ? 1 : 0)
-        .animation(.easeInOut(duration: 0.3))
     }
 }
 
@@ -229,12 +218,12 @@ struct SynonymView: View {
 
 struct ControlButtons: View {
     @Binding var isVStackVisible: Bool
+    @Binding var isWordVisible: Bool
     
     var body: some View {
         HStack {
-            ToggleButton(title: "Easy", color: .blue, isVStackVisible: $isVStackVisible)
-            
-            ToggleButton(title: "Hard", color: .red, isVStackVisible: $isVStackVisible)
+            ToggleButton(title: "Easy", color: .blue, isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
+            ToggleButton(title: "Hard", color: .red, isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
         }
     }
 }
@@ -243,13 +232,15 @@ struct ToggleButton: View {
     let title: String
     let color: Color
     @Binding var isVStackVisible: Bool
+    @Binding var isWordVisible: Bool
     
     var body: some View {
         Button(action: {
             isVStackVisible = false
+            isWordVisible = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                isVStackVisible = true
+                isWordVisible = true
             }
         }) {
             Text(title)
