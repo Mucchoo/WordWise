@@ -11,9 +11,14 @@ struct StudyView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @State private var showingCardView = false
+    @State private var learnedButton = true
+    @State private var learningButton = true
+    @State private var newButton = true
     
     let maximumCardsToStudy = 10
     let failedTimesMoreThan = 0
+    let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
+    let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     
     var cardsToStudy: [Card] {
 //        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
@@ -46,7 +51,40 @@ struct StudyView: View {
                         )
                         .padding()
                     
-                    FilterSection()
+                    VStack {
+                        Divider()
+                            .padding()
+                        
+                        HStack {
+                            Spacer().frame(width: 20)
+                            Text("Filter")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            FilterButton(text: "Learned", isOn: $learnedButton)
+                            FilterButton(text: "Learning", isOn: $learningButton)
+                            FilterButton(text: "New", isOn: $newButton)
+                        }
+                        .padding([.leading, .trailing, .bottom])
+                        
+                        HStack {
+                            Text("Maximum Cards to Study")
+                                .fontWeight(.bold)
+                            Spacer()
+                            NumberPicker(labelText: "cards", options: maximumCardOptions)
+                        }
+                        .padding([.leading, .trailing])
+                        HStack {
+                            Text("Failed Times more than")
+                                .fontWeight(.bold)
+                            Spacer()
+                            NumberPicker(labelText: "or more times", options: failedTimeOptions)
+                        }
+                        .padding([.leading, .trailing])
+                    }
                     
                     Button(action: {
                         showingCardView = true
@@ -111,49 +149,6 @@ struct InfoCard: View {
                 .foregroundColor(.black)
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-struct FilterSection: View {
-    @State private var learnedButton = false
-    @State private var learningButton = false
-    @State private var newButton = false
-    let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
-    let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-
-    var body: some View {
-        Divider()
-            .padding()
-        
-        HStack {
-            Spacer().frame(width: 20)
-            Text("Filter")
-                .font(.title)
-                .fontWeight(.bold)
-            Spacer()
-        }
-        
-        HStack {
-            FilterButton(text: "Learned", isOn: $learnedButton)
-            FilterButton(text: "Learning", isOn: $learningButton)
-            FilterButton(text: "New", isOn: $newButton)
-        }
-        .padding([.leading, .trailing, .bottom])
-
-        HStack {
-            Text("Maximum Cards to Study")
-                .fontWeight(.bold)
-            Spacer()
-            NumberPicker(labelText: "cards", options: maximumCardOptions)
-        }
-        .padding([.leading, .trailing])
-        HStack {
-            Text("Failed Times more than")
-                .fontWeight(.bold)
-            Spacer()
-            NumberPicker(labelText: "or more times", options: failedTimeOptions)
-        }
-        .padding([.leading, .trailing])
     }
 }
 
