@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
-		2A1787C42A3F005500773FD6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C32A3F005500773FD6 /* DataController.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
 		2A3C1DEE2A390AD1001B6E0E /* ReauthentcateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DED2A390AD1001B6E0E /* ReauthentcateView.swift */; };
@@ -38,11 +37,11 @@
 		2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* SettingListRowView.swift */; };
 		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
+		2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
-		2A1787C32A3F005500773FD6 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1DED2A390AD1001B6E0E /* ReauthentcateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReauthentcateView.swift; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		2ABC63702A3816EC00718C90 /* SettingListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingListRowView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
+		2ABD50272A40F461000459BC /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +153,6 @@
 		2A3C1DFF2A3924FC001B6E0E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2A1787C32A3F005500773FD6 /* DataController.swift */,
 				2A86890A2A400CB5001DBDFD /* LearningCard.swift */,
 			);
 			path = Model;
@@ -162,6 +161,7 @@
 		2A894F8A2A3FB60700163F92 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				2ABD50272A40F461000459BC /* PersistenceController.swift */,
 				2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */,
 				2A894FBC2A3FBF3D00163F92 /* Card+CoreDataProperties.swift */,
 				2A894FBD2A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift */,
@@ -292,7 +292,7 @@
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A894FD02A3FD6A100163F92 /* LoadingView.swift in Sources */,
 				2A3C1E0A2A394695001B6E0E /* ProgressBar.swift in Sources */,
-				2A1787C42A3F005500773FD6 /* DataController.swift in Sources */,
+				2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */,
 				2A3C1DF82A390E0B001B6E0E /* ResetPasswordView.swift in Sources */,
 				2ABC636D2A38167800718C90 /* SettingView.swift in Sources */,
 				2A894FCE2A3FC3D300163F92 /* Definition+CoreDataProperties.swift in Sources */,

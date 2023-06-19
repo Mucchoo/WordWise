@@ -97,7 +97,7 @@ struct AddCardView: View {
                     card.addToPhonetics(newPhonetic)
                 }
                 
-                try? viewContext.save()
+                PersistenceController.shared.saveContext()
             }
         }
         
