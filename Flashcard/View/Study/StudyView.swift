@@ -77,6 +77,8 @@ struct FilterSection: View {
     @State private var learnedButton = false
     @State private var learningButton = false
     @State private var newButton = false
+    let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
+    let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 
     var body: some View {
         Divider()
@@ -101,14 +103,14 @@ struct FilterSection: View {
             Text("Maximum Cards to Study")
                 .fontWeight(.bold)
             Spacer()
-            NumberPicker(labelText: "Cards")
+            NumberPicker(labelText: "cards", options: maximumCardOptions)
         }
         .padding([.leading, .trailing])
         HStack {
             Text("Failed Times more than")
                 .fontWeight(.bold)
             Spacer()
-            NumberPicker(labelText: "Times")
+            NumberPicker(labelText: "or more times", options: failedTimeOptions)
         }
         .padding([.leading, .trailing])
     }
@@ -139,7 +141,7 @@ struct FilterButton: View {
 struct NumberPicker: View {
     @State var number: Int = 0
     var labelText: String
-    let numbers = [5,  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
+    var options: [Int]
     
     var body: some View {
         Picker(
@@ -151,7 +153,7 @@ struct NumberPicker: View {
                 }
             ,
             content: {
-                ForEach(numbers, id: \.self) { i in
+                ForEach(options, id: \.self) { i in
                     Text("\(i) \(labelText)").tag(i)
                 }
             }
