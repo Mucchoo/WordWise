@@ -100,7 +100,6 @@ struct CardView: View {
             }
         }
         .padding([.leading, .trailing])
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.white.ignoresSafeArea())
         .onTapGesture {
             isVStackVisible = true
