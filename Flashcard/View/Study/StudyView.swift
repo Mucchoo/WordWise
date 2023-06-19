@@ -12,6 +12,15 @@ struct StudyView: View {
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @State private var showingCardView = false
     
+    let maximumCardsToStudy = 10
+    let failedTimesMoreThan = 0
+    
+    var cardsToStudy: [Card] {
+//        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
+//        return Array(failedCards.prefix(maximumCardsToStudy))
+        return Array(cards)
+    }
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -38,8 +47,23 @@ struct StudyView: View {
                         .padding()
                     
                     FilterSection()
-                    StartStudyingButton(showingCardView: $showingCardView, cards: cards)
                     
+                    Button(action: {
+                        showingCardView = true
+                    }) {
+                        Text("Start Studying \(cardsToStudy.count) Cards")
+                            .fontWeight(.bold)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                    .fullScreenCover(isPresented: $showingCardView) {
+                        CardView(showingCardView: $showingCardView, cardsToLearn: cards)
+                    }
+
                     CardsSection(totalCards: cards.count)
                     
                     Spacer()
@@ -161,36 +185,6 @@ struct NumberPicker: View {
         .labelsHidden()
         .cornerRadius(15)
         .pickerStyle(MenuPickerStyle())
-    }
-}
-
-struct StartStudyingButton: View {
-    @Binding var showingCardView: Bool
-    @State var cards: FetchedResults<Card>
-    let maximumCardsToStudy = 10
-    let failedTimesMoreThan = 3
-
-    var cardsToStudy: [Card] {
-        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
-        return Array(failedCards.prefix(maximumCardsToStudy))
-    }
-
-    var body: some View {
-        Button(action: {
-            showingCardView = true
-        }) {
-            Text("Start Studying \(cardsToStudy.count) Cards")
-                .fontWeight(.bold)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-        }
-        .padding()
-        .fullScreenCover(isPresented: $showingCardView) {
-            CardView(showingCardView: $showingCardView, cardsToLearn: Array(cards))
-        }
     }
 }
 

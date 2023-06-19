@@ -155,7 +155,11 @@ class WordFetcher: ObservableObject {
     @Published var wordDefinition: WordDefinition?
 
     func fetch(word: String, completion: ((Bool) -> Void)? = nil) {
-        let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)")!
+        guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
+            print("No data for: \(word)")
+            return
+        }
+        
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data {
                 if let decodedResponse = try? JSONDecoder().decode([WordDefinition].self, from: data) {

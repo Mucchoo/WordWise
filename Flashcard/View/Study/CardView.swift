@@ -15,10 +15,18 @@ struct CardView: View {
     @State private var isVStackVisible = false
     @State private var isWordVisible = true
     @State private var learningCards: [LearningCard]
+    @State private var index = 0
     
-    init(showingCardView: Binding<Bool>, cardsToLearn: [Card]) {
+    init(showingCardView: Binding<Bool>, cardsToLearn: FetchedResults<Card>?) {
         self._showingCardView = showingCardView
-        self._learningCards = State(initialValue: cardsToLearn.map { LearningCard(card: $0) })
+        
+        var cards = [Card]()
+        if let unwrappedCards = cardsToLearn {
+            cards = Array(unwrappedCards)
+        }
+        
+        self._learningCards = State(initialValue: cards.map { LearningCard(card: $0) })
+        print("cardsToLearn: \(cardsToLearn), learningCards: \(learningCards)")
     }
     
     var body: some View {
@@ -45,7 +53,51 @@ struct CardView: View {
                 Spacer()
             }
             
-            ControlButtons(isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
+            HStack {
+                Button(action: {
+                    isVStackVisible = false
+                    isWordVisible = false
+                    
+                    print("index: \(index) cards: \(learningCards)")
+                    learningCards[index].isLearning = false
+                    index += 1
+                    
+                    if index == learningCards.count {
+                        // show complete view
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isWordVisible = true
+                    }
+                }) {
+                    Text("Easy")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                
+                Button(action: {
+                    isVStackVisible = false
+                    isWordVisible = false
+                    
+                    print("index: \(index) cards: \(learningCards)")
+                    let card = learningCards.remove(at: index)
+                    learningCards.append(card)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isWordVisible = true
+                    }
+                }) {
+                    Text("Hard")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
         }
         .padding([.leading, .trailing])
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -209,47 +261,10 @@ struct SynonymView: View {
     }
 }
 
-struct ControlButtons: View {
-    @Binding var isVStackVisible: Bool
-    @Binding var isWordVisible: Bool
-    
-    var body: some View {
-        HStack {
-            ToggleButton(title: "Easy", color: .blue, isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
-            ToggleButton(title: "Hard", color: .red, isVStackVisible: $isVStackVisible, isWordVisible: $isWordVisible)
-        }
-    }
-}
-
-struct ToggleButton: View {
-    let title: String
-    let color: Color
-    @Binding var isVStackVisible: Bool
-    @Binding var isWordVisible: Bool
-    
-    var body: some View {
-        Button(action: {
-            isVStackVisible = false
-            isWordVisible = false
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                isWordVisible = true
-            }
-        }) {
-            Text(title)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(color)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-        }
-    }
-}
-
 struct CardView_Previews: PreviewProvider {
     @State static var showingCardView = true
 
     static var previews: some View {
-        CardView(showingCardView: $showingCardView, cardsToLearn: [])
+        CardView(showingCardView: $showingCardView, cardsToLearn: nil)
     }
 }
