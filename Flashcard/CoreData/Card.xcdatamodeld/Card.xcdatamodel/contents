@@ -11,12 +11,10 @@
     <entity name="Definition" representedClassName="Definition" syncable="YES">
         <attribute name="antonyms" optional="YES" attributeType="String"/>
         <attribute name="definition" attributeType="String"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="synonyms" optional="YES" attributeType="String"/>
         <relationship name="meaning" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="definitions" inverseEntity="Meaning"/>
     </entity>
     <entity name="Meaning" representedClassName="Meaning" syncable="YES">
-        <attribute name="id" attributeType="String"/>
         <attribute name="partOfSpeech" attributeType="String"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="meanings" inverseEntity="Card"/>
         <relationship name="definitions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Definition" inverseName="meaning" inverseEntity="Definition"/>

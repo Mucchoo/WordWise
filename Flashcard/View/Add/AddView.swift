@@ -79,6 +79,7 @@ struct AddCardView: View {
                     newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                     
                     meaning.definitions?.forEach { definition in
+                        guard let example = definition.example else { return }
                         let newDefinition = Definition(context: viewContext)
                         newDefinition.definition = definition.example
                         newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
@@ -95,6 +96,12 @@ struct AddCardView: View {
                     newPhonetic.audio = phonetic.audio
                     newPhonetic.text = phonetic.text
                     card.addToPhonetics(newPhonetic)
+                }
+                
+                do {
+                    try card.validateForInsert()
+                } catch {
+                    print("Validation error: \(error), \(error as NSError).userInfo")
                 }
                 
                 PersistenceController.shared.saveContext()

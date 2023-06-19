@@ -2,7 +2,7 @@
 //  Definition+CoreDataProperties.swift
 //  Flashcard
 //
-//  Created by Musa Yazuju on 6/19/23.
+//  Created by Musa Yazuju on 6/20/23.
 //
 //
 
@@ -16,10 +16,9 @@ extension Definition {
         return NSFetchRequest<Definition>(entityName: "Definition")
     }
 
-    @NSManaged public var id: UUID?
+    @NSManaged public var antonyms: String?
     @NSManaged public var definition: String?
     @NSManaged public var synonyms: String?
-    @NSManaged public var antonyms: String?
     @NSManaged public var meaning: NSSet?
 
 }

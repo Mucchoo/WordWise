@@ -48,7 +48,7 @@ struct PersistenceController {
             do {
                 try context.save()
             } catch {
-                fatalError("Error: \(error.localizedDescription)")
+                print("Failed to save context: \(error), \(error as NSError).userInfo")
             }
         }
     }

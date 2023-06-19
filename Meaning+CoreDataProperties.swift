@@ -2,7 +2,7 @@
 //  Meaning+CoreDataProperties.swift
 //  Flashcard
 //
-//  Created by Musa Yazuju on 6/19/23.
+//  Created by Musa Yazuju on 6/20/23.
 //
 //
 
@@ -16,10 +16,9 @@ extension Meaning {
         return NSFetchRequest<Meaning>(entityName: "Meaning")
     }
 
-    @NSManaged public var id: String?
     @NSManaged public var partOfSpeech: String?
-    @NSManaged public var definitions: NSSet?
     @NSManaged public var card: Card?
+    @NSManaged public var definitions: NSSet?
 
 }
 
