@@ -64,7 +64,24 @@ struct StudyView: View {
                         CardView(showingCardView: $showingCardView, cardsToLearn: cards)
                     }
 
-                    CardsSection(totalCards: cards.count)
+                    VStack {
+                        Divider()
+                            .padding()
+                        
+                        HStack {
+                            Spacer().frame(width: 20)
+                            Text("\(cards.count) Cards")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                        }
+                        
+                        VStack {
+                            ForEach(cards) { card in
+                                CardListRowView(card: card)
+                            }
+                        }
+                    }
                     
                     Spacer()
                 }
@@ -188,34 +205,9 @@ struct NumberPicker: View {
     }
 }
 
-struct CardsSection: View {
-    @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    var totalCards: Int
-    
-    var body: some View {
-        Divider()
-            .padding()
-        
-        HStack {
-            Spacer().frame(width: 20)
-            Text("\(totalCards) Cards")
-                .font(.title)
-                .fontWeight(.bold)
-            Spacer()
-        }
-        
-        VStack(spacing: 8) {
-            ForEach(cards) { card in
-                CardListRowView(card: card)
-            }
-        }
-    }
-}
-
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyView()
+        StudyView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
