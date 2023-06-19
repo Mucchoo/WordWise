@@ -189,7 +189,7 @@ struct StartStudyingButton: View {
         }
         .padding()
         .fullScreenCover(isPresented: $showingCardView) {
-            CardView(showingCardView: $showingCardView)
+            CardView(showingCardView: $showingCardView, cardsToLearn: Array(cards))
         }
     }
 }

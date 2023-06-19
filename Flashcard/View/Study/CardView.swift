@@ -14,23 +14,17 @@ struct CardView: View {
     @Binding var showingCardView: Bool
     @State private var isVStackVisible = false
     @State private var isWordVisible = true
+    @State private var learningCards: [LearningCard]
     
-    var learnedCards: Int {
-        cards.filter { $0.status == 0 }.count
-    }
-    
-    var totalCards: Int {
-        cards.count
-    }
-    
-    init(showingCardView: Binding<Bool>) {
+    init(showingCardView: Binding<Bool>, cardsToLearn: [Card]) {
         self._showingCardView = showingCardView
+        self._learningCards = State(initialValue: cardsToLearn.map { LearningCard(card: $0) })
     }
     
     var body: some View {
         VStack {
             DragBar()
-            ProgressView(learnedCards: learnedCards, totalCards: totalCards)
+            ProgressView(learningCards: learningCards)
             
             ScrollView {
                 Spacer().frame(height: 20)
@@ -94,8 +88,7 @@ struct DragBar: View {
 }
 
 struct ProgressView: View {
-    @State var learnedCards: Int
-    let totalCards: Int
+    @State var learningCards: [LearningCard]
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -105,14 +98,14 @@ struct ProgressView: View {
             
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.blue)
-                .frame(width: CGFloat(learnedCards) / CGFloat(totalCards) * UIScreen.main.bounds.width, height: 20)
+                .frame(width: CGFloat(learningCards.filter { $0.isLearning }.count) / CGFloat(learningCards.count) * UIScreen.main.bounds.width, height: 20)
             
             HStack {
-                Text("\(learnedCards)")
+                Text("\(learningCards.filter { $0.isLearning }.count)")
                     .font(.headline)
                     .foregroundColor(.white)
                 Spacer()
-                Text("\(totalCards - learnedCards)")
+                Text("\(learningCards.count - learningCards.filter { $0.isLearning }.count)")
                     .font(.headline)
                     .foregroundColor(.white)
             }
@@ -257,6 +250,6 @@ struct CardView_Previews: PreviewProvider {
     @State static var showingCardView = true
 
     static var previews: some View {
-        CardView(showingCardView: $showingCardView)
+        CardView(showingCardView: $showingCardView, cardsToLearn: [])
     }
 }
