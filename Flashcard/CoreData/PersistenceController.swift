@@ -20,10 +20,12 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
-        let newCard = Card(context: viewContext)
-        newCard.status = 2
-        newCard.failedTimes = 0
-        newCard.text = "Test"
+        for i in 0..<100 {
+            let newCard = Card(context: viewContext)
+            newCard.status = Int16(i % 3)
+            newCard.failedTimes = 0
+            newCard.text = "Test\(i)"
+        }
         
         shared.saveContext()
         return result
