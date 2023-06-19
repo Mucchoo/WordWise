@@ -13,38 +13,24 @@ struct AddCardView: View {
     
     @State private var flashcards = [String]()
     @State private var isEditing = false
-    @State private var cardText: String
+    @State private var cardText = ""
     @State private var isLoading = false
     @State private var progress: Float = 0.0
     private let initialPlaceholder = "Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
     
-    init() {
-        _cardText = State(initialValue: initialPlaceholder)
-    }
-    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
                 ZStack(alignment: .topLeading) {
-                    TextEditor(text: $cardText)
-                        .opacity(isEditing ? 1 : 0)
-                        .onTapGesture {
-                            if cardText == initialPlaceholder {
-                                cardText = ""
-                            }
-                            self.isEditing = true
-                        }
-                    if !isEditing {
-                        Text(initialPlaceholder)
-                            .foregroundColor(.gray)
-                            .padding(.all, 8)
-                            .onTapGesture {
-                                self.isEditing = true
-                                if cardText == initialPlaceholder {
-                                    cardText = ""
-                                }
-                            }
+                    TextEditor(text: Binding(
+                        get: { self.isEditing ? self.cardText : self.initialPlaceholder },
+                        set: { self.cardText = $0 }
+                    ))
+                    .background(Color.white)
+                    .foregroundColor(isEditing ? .primary : .secondary)
+                    .onTapGesture {
+                        self.isEditing = true
                     }
                 }
                 .padding()
@@ -62,11 +48,7 @@ struct AddCardView: View {
                         .cornerRadius(10)
                 }
                 .padding()
-                .disabled(cardText.split(separator: "\n").count == 0)
-                
-                if isLoading {
-                    LoadingView(progress: $progress)
-                }
+                .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
             }
             .padding()
             .navigationBarTitle("Add Cards", displayMode: .large)
@@ -74,93 +56,52 @@ struct AddCardView: View {
     }
     
     func addCard() {
-        if cardText != "" {
-            let words = cardText.split(separator: "\n")
-            let totalWords = words.count
-            for word in words {
-                self.isLoading = true
-                self.fetcher.fetch(word: String(word)) { success in
-                    if success {
-                        self.progress += 1.0 / Float(totalWords)
-                        if self.progress >= 1.0 {
-                            self.isLoading = false
-                        }
-                        
-                        let card = Card(context: viewContext)
-                        card.id = UUID()
-                        card.text = String(word)
-                        card.status = 2
-                        card.failedTimes = 0
-                        
-                        self.fetcher.wordDefinition?.meanings?.forEach { meaning in
-                            let newMeaning = Meaning(context: viewContext)
-                            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
-                            
-                            meaning.definitions?.forEach { definition in
-                                let newDefinition = Definition(context: viewContext)
-                                newDefinition.definition = definition.example
-                                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
-                                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
-                                
-                                newMeaning.addToDefinitions(newDefinition)
-                            }
-                            
-                            card.addToMeanings(newMeaning)
-                        }
-                        
-                        self.fetcher.wordDefinition?.phonetics?.forEach { phonetic in
-                            let newPhonetic = Phonetic(context: viewContext)
-                            newPhonetic.audio = phonetic.audio
-                            newPhonetic.text = phonetic.text
-                            card.addToPhonetics(newPhonetic)
-                        }
-                        
-                        try? viewContext.save()
-                    }
+        guard cardText != "" else { return }
+        let words = cardText.split(separator: "\n")
+        let totalWords = words.count
+        for word in words {
+            self.isLoading = true
+            self.fetcher.fetch(word: String(word)) { success in
+                guard success else { return }
+                self.progress += 1.0 / Float(totalWords)
+                if self.progress >= 1.0 {
+                    self.isLoading = false
                 }
-            }
-        }
-    }
-}
-
-struct LoadingView: View {
-    @Binding var progress: Float
-
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.4)
-                .edgesIgnoringSafeArea(.all)
-
-            VStack(spacing: 20) {
-                Text("Loading...")
-                    .font(.title)
-                    .foregroundColor(.white)
-
-                APIProgressView(progress: $progress)
-            }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(10)
-        }
-    }
-}
-
-struct APIProgressView: View {
-    @Binding var progress: Float
-
-    var body: some View {
-        GeometryReader { geometry in
-            Path { path in
-                let width = Float(geometry.size.width)
-                let height = Float(geometry.size.height)
                 
-                path.addLines([
-                    .init(x: 0, y: Double(height)),
-                    .init(x: Double(width * progress), y: Double(height))
-                ])
+                let card = Card(context: viewContext)
+                card.id = UUID()
+                card.text = String(word)
+                card.status = 2
+                card.failedTimes = 0
+                
+                self.fetcher.wordDefinition?.meanings?.forEach { meaning in
+                    let newMeaning = Meaning(context: viewContext)
+                    newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+                    
+                    meaning.definitions?.forEach { definition in
+                        let newDefinition = Definition(context: viewContext)
+                        newDefinition.definition = definition.example
+                        newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                        newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                        
+                        newMeaning.addToDefinitions(newDefinition)
+                    }
+                    
+                    card.addToMeanings(newMeaning)
+                }
+                
+                self.fetcher.wordDefinition?.phonetics?.forEach { phonetic in
+                    let newPhonetic = Phonetic(context: viewContext)
+                    newPhonetic.audio = phonetic.audio
+                    newPhonetic.text = phonetic.text
+                    card.addToPhonetics(newPhonetic)
+                }
+                
+                try? viewContext.save()
             }
-            .fill(Color.blue, style: FillStyle(eoFill: true, antialiased: true))
         }
+        
+        cardText = ""
     }
 }
 
