@@ -18,6 +18,7 @@ struct CardView: View {
     @State private var learningCards: [LearningCard]
     @State private var index = 0
     @State private var isFinished = false
+    @State private var isButtonEnabled = true
     
     init(showingCardView: Binding<Bool>, cardsToLearn: FetchedResults<Card>?) {
         self._showingCardView = showingCardView
@@ -61,7 +62,7 @@ struct CardView: View {
                 .cornerRadius(5)
                 .frame(height: 10)
                 
-                if isFinished {
+                ZStack {
                     GeometryReader { geometry in
                         VStack {
                             Text("Finished!")
@@ -83,9 +84,9 @@ struct CardView: View {
                         .frame(width: geometry.size.width, height: geometry.size.height)
                         .scaleEffect(isFinished ? 1 : 0.1)
                         .opacity(isFinished ? 1 : 0)
-                        .animation(.interpolatingSpring(stiffness: 50, damping: 5))
+                        .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
                     }
-                } else {
+                    
                     ScrollView {
                         Spacer().frame(height: 20)
                         
@@ -111,60 +112,77 @@ struct CardView: View {
                         }
                         
                         Spacer()
-                    }
-                    
+                    }.opacity(isFinished ? 0 : 1)
                 }
                 
-                HStack {
+                ZStack {
                     Button(action: {
-                        isVStackVisible = false
-                        isWordVisible = false
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            withAnimation(.none) {
-                                let card = learningCards.remove(at: index)
-                                learningCards.append(card)
-                            }
-                            
-                            isWordVisible = true
-                        }
+                        showingCardView = false
                     }) {
-                        Text("Hard")
+                        Text("Go to Top Page")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(isFinished ? .green : .red)
+                            .background(.green)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                    }
+                    }.opacity(isFinished ? 1 : 0)
                     
-                    Button(action: {
-                        withAnimation {
-                            isFinished = true
+                    HStack {
+                        Button(action: {
+                            guard isButtonEnabled else { return }
+
+                            isButtonEnabled = false
+                            isVStackVisible = false
+                            isWordVisible = false
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                withAnimation(.none) {
+                                    let card = learningCards.remove(at: index)
+                                    learningCards.append(card)
+                                }
+                                
+                                isButtonEnabled = true
+                                isWordVisible = true
+                            }
+                        }) {
+                            Text("Hard")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
-//                        isVStackVisible = false
-//                        isWordVisible = false
-//
-//                        learningCards[index].isLearning = false
-//
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                            withAnimation(.none) {
-//                                if index + 1 == learningCards.count {
-//                                    isFinished = true
-//                                } else {
-//                                    index += 1
-//                                }
-//                            }
-//
-//                            isWordVisible = true
-//                        }
-                    }) {
-                        Text("Easy")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(isFinished ? .green : .blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
+                        
+                        Button(action: {
+                            guard isButtonEnabled else { return }
+                            
+                            isButtonEnabled = false
+                            isVStackVisible = false
+                            isWordVisible = false
+                            learningCards[index].isLearning = false
+
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                withAnimation(.none) {
+                                    if index + 1 == learningCards.count {
+                                        isFinished = true
+                                    } else {
+                                        index += 1
+                                    }
+                                }
+
+                                isButtonEnabled = true
+                                isWordVisible = true
+                            }
+                        }) {
+                            Text("Easy")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }.opacity(isFinished ? 0 : 1)
+
                 }
             }
         }
