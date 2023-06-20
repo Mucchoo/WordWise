@@ -61,31 +61,58 @@ struct CardView: View {
                 .cornerRadius(5)
                 .frame(height: 10)
                 
-                ScrollView {
-                    Spacer().frame(height: 20)
-                    
-                    VStack {
-                        Text(learningCards[index].card.text ?? "Unknown")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(.primary)
-                        Text(learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
-                            .foregroundColor(.primary)
+                if isFinished {
+                    GeometryReader { geometry in
+                        VStack {
+                            Text("Finished!")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .foregroundColor(.green)
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .fontWeight(.bold)
+                                .foregroundColor(.green)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 120, height: 120)
+                            Text("You've learned \(learningCards.count) cards")
+                                .font(.callout)
+                                .fontWeight(.bold)
+                                .foregroundColor(.green)
+                                .padding(.top)
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .scaleEffect(isFinished ? 1 : 0.1)
+                        .opacity(isFinished ? 1 : 0)
+                        .animation(.interpolatingSpring(stiffness: 50, damping: 5))
                     }
-                    .opacity(isWordVisible ? 1 : 0)
-                    .animation(.easeIn(duration: 0.3), value: isWordVisible)
-                    Spacer().frame(height: 20)
-                    
-                    ZStack {
-                        DefinitionView()
-                        Rectangle()
-                            .fill(Color.white)
-                            .opacity(isVStackVisible ? 0 : 1)
-                            .animation(.easeIn(duration: 0.3), value: isVStackVisible)
-                            .zIndex(1)
+                } else {
+                    ScrollView {
+                        Spacer().frame(height: 20)
+                        
+                        VStack {
+                            Text(learningCards[index].card.text ?? "Unknown")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(.primary)
+                            Text(learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                                .foregroundColor(.primary)
+                        }
+                        .opacity(isWordVisible ? 1 : 0)
+                        .animation(.easeIn(duration: 0.3), value: isWordVisible)
+                        Spacer().frame(height: 20)
+                        
+                        ZStack {
+                            DefinitionView()
+                            Rectangle()
+                                .fill(Color.white)
+                                .opacity(isVStackVisible ? 0 : 1)
+                                .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+                                .zIndex(1)
+                        }
+                        
+                        Spacer()
                     }
                     
-                    Spacer()
                 }
                 
                 HStack {
@@ -111,22 +138,25 @@ struct CardView: View {
                     }
                     
                     Button(action: {
-                        isVStackVisible = false
-                        isWordVisible = false
-                        
-                        learningCards[index].isLearning = false
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            withAnimation(.none) {
-                                if index + 1 == learningCards.count {
-                                    isFinished = true
-                                } else {
-                                    index += 1
-                                }
-                            }
-                            
-                            isWordVisible = true
+                        withAnimation {
+                            isFinished = true
                         }
+//                        isVStackVisible = false
+//                        isWordVisible = false
+//
+//                        learningCards[index].isLearning = false
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                            withAnimation(.none) {
+//                                if index + 1 == learningCards.count {
+//                                    isFinished = true
+//                                } else {
+//                                    index += 1
+//                                }
+//                            }
+//
+//                            isWordVisible = true
+//                        }
                     }) {
                         Text("Easy")
                             .padding()
