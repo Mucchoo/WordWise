@@ -28,7 +28,6 @@ struct CardView: View {
         }
         
         self._learningCards = State(initialValue: cards.map { LearningCard(card: $0) })
-        print("cardsToLearn: \(String(describing: cardsToLearn)), learningCards: \(learningCards)")
     }
     
     var body: some View {
@@ -66,11 +65,11 @@ struct CardView: View {
                     Spacer().frame(height: 20)
                     
                     VStack {
-                        Text(cards[index].text ?? "Unknown")
+                        Text(learningCards[index].card.text ?? "Unknown")
                             .font(.title3)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
-                        Text(cards[index].phoneticsArray.first?.text ?? "Unknown")
+                        Text(learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
                             .foregroundColor(.primary)
                     }
                     .opacity(isWordVisible ? 1 : 0)
@@ -94,23 +93,19 @@ struct CardView: View {
                         isVStackVisible = false
                         isWordVisible = false
                         
-                        print("index: \(index) cards: \(learningCards)")
-                        learningCards[index].isLearning = false
-                        
-                        if index + 1 == learningCards.count {
-                            isFinished = true
-                        } else {
-                            index += 1
-                        }
-                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            withAnimation(.none) {
+                                let card = learningCards.remove(at: index)
+                                learningCards.append(card)
+                            }
+                            
                             isWordVisible = true
                         }
                     }) {
-                        Text("Easy")
+                        Text("Hard")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(isFinished ? .green : .blue)
+                            .background(isFinished ? .green : .red)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -119,18 +114,24 @@ struct CardView: View {
                         isVStackVisible = false
                         isWordVisible = false
                         
-                        print("index: \(index) cards: \(learningCards)")
-                        let card = learningCards.remove(at: index)
-                        learningCards.append(card)
+                        learningCards[index].isLearning = false
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            withAnimation(.none) {
+                                if index + 1 == learningCards.count {
+                                    isFinished = true
+                                } else {
+                                    index += 1
+                                }
+                            }
+                            
                             isWordVisible = true
                         }
                     }) {
-                        Text("Hard")
+                        Text("Easy")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(isFinished ? .green : .red)
+                            .background(isFinished ? .green : .blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
