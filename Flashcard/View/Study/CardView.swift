@@ -17,6 +17,7 @@ struct CardView: View {
     @State private var isWordVisible = true
     @State private var learningCards: [LearningCard]
     @State private var index = 0
+    @State private var isFinished = false
     
     init(showingCardView: Binding<Bool>, cardsToLearn: FetchedResults<Card>?) {
         self._showingCardView = showingCardView
@@ -27,7 +28,7 @@ struct CardView: View {
         }
         
         self._learningCards = State(initialValue: cards.map { LearningCard(card: $0) })
-        print("cardsToLearn: \(cardsToLearn), learningCards: \(learningCards)")
+        print("cardsToLearn: \(String(describing: cardsToLearn)), learningCards: \(learningCards)")
     }
     
     var body: some View {
@@ -46,26 +47,20 @@ struct CardView: View {
                             }
                     )
                 
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray.opacity(0.5))
-                        .frame(height: 20)
-                    
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.blue)
-                        .frame(width: CGFloat(learningCards.filter { $0.isLearning }.count) / CGFloat(learningCards.count) * geometry.size.width, height: 20)
-                    
-                    HStack {
-                        Text("\(learningCards.filter { $0.isLearning }.count)")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        Spacer()
-                        Text("\(learningCards.count - learningCards.filter { $0.isLearning }.count)")
-                            .font(.headline)
-                            .foregroundColor(.white)
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
+                            .opacity(0.2)
+                            .foregroundColor(Color(UIColor.tintColor))
+
+                        Rectangle()
+                            .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
+                            .foregroundColor(isFinished ? .green : Color(UIColor.tintColor))
+                            .animation(.spring())
                     }
-                    .padding([.leading, .trailing])
                 }
+                .cornerRadius(5)
+                .frame(height: 10)
                 
                 ScrollView {
                     Spacer().frame(height: 20)
@@ -101,10 +96,11 @@ struct CardView: View {
                         
                         print("index: \(index) cards: \(learningCards)")
                         learningCards[index].isLearning = false
-                        index += 1
                         
-                        if index == learningCards.count {
-                            // show complete view
+                        if index + 1 == learningCards.count {
+                            isFinished = true
+                        } else {
+                            index += 1
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -114,7 +110,7 @@ struct CardView: View {
                         Text("Easy")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(.blue)
+                            .background(isFinished ? .green : .blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -134,7 +130,7 @@ struct CardView: View {
                         Text("Hard")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(.red)
+                            .background(isFinished ? .green : .red)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
