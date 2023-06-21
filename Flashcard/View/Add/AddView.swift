@@ -18,41 +18,46 @@ struct AddCardView: View {
     @State private var progress: Float = 0.0
     @State private var selection = 0
 
-    private let initialPlaceholder = "Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
+    private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
     
     var body: some View {
         NavigationView {
+            
             VStack {
-                Picker("Options", selection: $selection) {
-                    Text("Automatic").tag(0)
-                    Text("Manual").tag(1)
-                }
-                .pickerStyle(SegmentedPickerStyle())
                 
-                if selection == 0 {
-                    ZStack(alignment: .topLeading) {
-                        TextEditor(text: Binding(
-                            get: { self.isEditing ? self.cardText : self.initialPlaceholder },
-                            set: { self.cardText = $0 }
-                        ))
-                        .background(Color.white)
-                        .foregroundColor(isEditing ? .primary : .secondary)
-                        .onTapGesture {
-                            self.isEditing = true
-                        }
+                Section {
+                    Picker("Options", selection: $selection) {
+                        Text("Automatic").tag(0)
+                        Text("Manual").tag(1)
                     }
+                    .pickerStyle(SegmentedPickerStyle())
                     .padding()
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-                    .padding(.vertical)
-                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-                    .animation(.default)
-                } else {
-                    Rectangle()
-                        .background(Color.red)
-                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
-                        .animation(.default)
                 }
+                
+                    if selection == 0 {
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: Binding(
+                                get: { self.isEditing ? self.cardText : self.initialPlaceholder },
+                                set: { self.cardText = $0 }
+                            ))
+                            .foregroundColor(isEditing ? .primary : .secondary)
+                            .onTapGesture {
+                                self.isEditing = true
+                            }
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
+                        .animation(.default)
+                        .padding()
+                    } else {
+                        Rectangle()
+                            .background(Color.red)
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+                            .animation(.default)
+                    }
                 
                 Button(action: {
                     addCard()
@@ -65,9 +70,10 @@ struct AddCardView: View {
                         .cornerRadius(10)
                 }
                 .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
-            }
-            .padding()
-            .navigationBarTitle("Add Cards", displayMode: .large)
+                .padding()
+                .navigationBarTitle("Add Cards", displayMode: .large)
+
+            }.background(Color(UIColor.systemGroupedBackground)) // Use systemGroupedBackground color
         }
     }
     

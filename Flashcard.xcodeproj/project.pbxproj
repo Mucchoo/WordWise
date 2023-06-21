@@ -38,6 +38,7 @@
 		2ABD502D2A40FE61000459BC /* Meaning+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50292A40FE61000459BC /* Meaning+CoreDataClass.swift */; };
 		2ABD502E2A40FE61000459BC /* Meaning+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD502A2A40FE61000459BC /* Meaning+CoreDataProperties.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
+		2AE687162A43516E009BDD0C /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687152A43516E009BDD0C /* FormView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		2ABD50292A40FE61000459BC /* Meaning+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		2ABD502A2A40FE61000459BC /* Meaning+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
+		2AE687152A43516E009BDD0C /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				2ABC637C2A38194300718C90 /* AddView.swift */,
 				2A894FCF2A3FD6A100163F92 /* LoadingView.swift */,
+				2AE687152A43516E009BDD0C /* FormView.swift */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddView.swift in Sources */,
+				2AE687162A43516E009BDD0C /* FormView.swift in Sources */,
 				2A3C1DEE2A390AD1001B6E0E /* ReauthentcateView.swift in Sources */,
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
