@@ -17,6 +17,8 @@ struct AddCardView: View {
     @State private var isLoading = false
     @State private var progress: Float = 0.0
     @State private var pickerSelected = 1
+    @State private var showingAlert = false
+    @State private var textFieldInput = ""
 
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines. Both words and phrases are available.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
@@ -31,22 +33,37 @@ struct AddCardView: View {
                         .foregroundColor(.secondary)
                     Spacer()
                 }
+                .padding(.top)
                 .padding(.horizontal, 30)
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.white)
-                    
-                    HStack {
-                        Picker("Options", selection: $pickerSelected) {
-                            Text("Option 1").tag(1)
-                            Text("Option 2").tag(2)
+                HStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                        
+                        HStack {
+                            Picker("Options", selection: $pickerSelected) {
+                                Text("Option 1").tag(1)
+                                Text("Option 2").tag(2)
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            Spacer()
                         }
-                        .pickerStyle(MenuPickerStyle())
-                        Spacer()
                     }
+                    .frame(height: 44)
+                                        
+                    Button(action: {
+                        self.showingAlert = true
+                    }) {
+                        Text("Add Category")
+                            .padding(.vertical, 12)
+                            .padding(.horizontal)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.leading, 10)
                 }
-                .frame(height: 44)
                 .padding(.horizontal)
                 .padding(.bottom, 20)
                 
@@ -91,6 +108,17 @@ struct AddCardView: View {
 
             }.background(Color(UIColor.systemGroupedBackground)) // Use systemGroupedBackground color
         }
+        .alert("Add Category", isPresented: $showingAlert) {
+            TextField("category name", text: $textFieldInput)
+            Button("Add", role: .none, action: addCategory)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Please enter the new category name.")
+        }
+    }
+    
+    func addCategory() {
+        
     }
     
     func addCard() {
