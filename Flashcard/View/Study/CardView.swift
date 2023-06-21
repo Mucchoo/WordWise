@@ -63,7 +63,7 @@ struct CardView: View {
                 .cornerRadius(5)
                 .frame(height: 10)
                 
-                ZStack {
+                ZStack(alignment: .center) {
                     GeometryReader { geometry in
                         VStack {
                             Text("Finished!")
@@ -85,6 +85,7 @@ struct CardView: View {
                         .scaleEffect(isFinished ? 1 : 0.1)
                         .opacity(isFinished ? 1 : 0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
+                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                     }
                     
                     ScrollView {
