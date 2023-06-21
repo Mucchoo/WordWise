@@ -9,7 +9,7 @@ import CoreData
 import SwiftUI
 
 struct CardListRowView: View {
-    var card: Card
+    @ObservedObject var card: Card
     
     var body: some View {
         HStack{
