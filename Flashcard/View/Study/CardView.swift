@@ -49,7 +49,8 @@ struct CardView: View {
                 
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
-                        Rectangle().frame(width: geometry.size.width , height: geometry.size.height)
+                        Rectangle()
+                            .frame(width: geometry.size.width , height: geometry.size.height)
                             .opacity(0.2)
                             .foregroundColor(Color(UIColor.tintColor))
 
@@ -81,7 +82,6 @@ struct CardView: View {
                                 .foregroundColor(.green)
                                 .padding(.top)
                         }
-                        .frame(width: geometry.size.width, height: geometry.size.height)
                         .scaleEffect(isFinished ? 1 : 0.1)
                         .opacity(isFinished ? 1 : 0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
@@ -107,8 +107,9 @@ struct CardView: View {
                                 ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
                                     if idx != 0 {
                                         Divider()
+                                        Spacer().frame(height: 20)
                                     }
-                                    DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx])
+                                    DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
                                 }
                             }
                             
@@ -204,75 +205,61 @@ struct CardView: View {
 
 struct DefinitionDetailView: View {
     let meaning: Meaning
+    let index: Int
     
     var body: some View {
-        VStack {
-            HStack {
+        VStack(alignment: .leading) {
+            HStack(alignment: .center) {
+                Text("Meaning \(index + 1)")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                
                 Text(meaning.partOfSpeech ?? "Unknown")
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.bottom, 4)
+                    .padding(.top, 4)
+                    .background(Color.black)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 Spacer()
             }
             
-            ForEach(meaning.definitionsArray) { definition in
-                HStack {
-                    Text(definition.definition ?? "Unknown")
+            ForEach(meaning.definitionsArray.indices, id: \.self) { index in
+                if index != 0 {
+                    Spacer().frame(height: 24)
+                }
+                
+                let definition = meaning.definitionsArray[index]
+                
+                VStack(alignment: .leading) {
+                    Text("\(index + 1). \(definition.definition ?? "Unknown")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
-                    Spacer()
-                }
-                
-                Spacer().frame(height: 10)
-                
-                if let example = definition.example, !example.isEmpty {
-                    HStack {
-                        Text("Example")
+                                        
+                    if let example = definition.example, !example.isEmpty {
+                        Spacer().frame(height: 8)
+                        Text("Example: " + example)
                             .font(.subheadline)
-                            .fontWeight(.semibold)
                             .foregroundColor(.primary)
-                        Spacer()
                     }
                     
-                    HStack {
-                        Text(example)
+                    if let synonyms = definition.synonyms, !synonyms.isEmpty {
+                        Spacer().frame(height: 8)
+                        Text("Synonyms: " + synonyms)
                             .font(.subheadline)
                             .foregroundColor(.primary)
-                        Spacer()
+                    }
+                    
+                    if let antonyms = definition.antonyms, !antonyms.isEmpty {
+                        Spacer().frame(height: 8)
+                        Text("Antonyms: " + antonyms)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
                     }
                 }
-                
-                if let synonyms = definition.synonyms, !synonyms.isEmpty {
-                    RelatedWordsView(title: "Synonyms", text: synonyms)
-                }
-                
-                if let antonyms = definition.antonyms, !antonyms.isEmpty {
-                    RelatedWordsView(title: "Antonyms", text: antonyms)
-                }
-            }
-        }
-    }
-}
-
-struct RelatedWordsView: View {
-    let title: String
-    let text: String
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text(title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-            
-            HStack {
-                Text(text)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                Spacer()
             }
         }
     }
