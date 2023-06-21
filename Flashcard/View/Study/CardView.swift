@@ -153,6 +153,10 @@ struct CardView: View {
                                 
                                 isButtonEnabled = true
                                 isWordVisible = true
+                                
+                                learningCards[index].card.failedTimes += 1
+                                learningCards[index].card.status = 1
+                                PersistenceController.shared.saveContext()
                             }
                         }) {
                             Text("Hard")
@@ -169,7 +173,10 @@ struct CardView: View {
                             isButtonEnabled = false
                             isVStackVisible = false
                             isWordVisible = false
+                            
                             learningCards[index].isLearning = false
+                            learningCards[index].card.status = 0
+                            PersistenceController.shared.saveContext()
 
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 withAnimation(.none) {
