@@ -16,26 +16,43 @@ struct AddCardView: View {
     @State private var cardText = ""
     @State private var isLoading = false
     @State private var progress: Float = 0.0
+    @State private var selection = 0
+
     private let initialPlaceholder = "Multiple cards can be added by adding new lines. Both words and phrases are available.\n\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: Binding(
-                        get: { self.isEditing ? self.cardText : self.initialPlaceholder },
-                        set: { self.cardText = $0 }
-                    ))
-                    .background(Color.white)
-                    .foregroundColor(isEditing ? .primary : .secondary)
-                    .onTapGesture {
-                        self.isEditing = true
-                    }
+            VStack {
+                Picker("Options", selection: $selection) {
+                    Text("Automatic").tag(0)
+                    Text("Manual").tag(1)
                 }
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-                .padding()
+                .pickerStyle(SegmentedPickerStyle())
+                
+                if selection == 0 {
+                    ZStack(alignment: .topLeading) {
+                        TextEditor(text: Binding(
+                            get: { self.isEditing ? self.cardText : self.initialPlaceholder },
+                            set: { self.cardText = $0 }
+                        ))
+                        .background(Color.white)
+                        .foregroundColor(isEditing ? .primary : .secondary)
+                        .onTapGesture {
+                            self.isEditing = true
+                        }
+                    }
+                    .padding()
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                    .padding(.vertical)
+                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
+                    .animation(.default)
+                } else {
+                    Rectangle()
+                        .background(Color.red)
+                        .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+                        .animation(.default)
+                }
                 
                 Button(action: {
                     addCard()
@@ -47,7 +64,6 @@ struct AddCardView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
-                .padding()
                 .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
             }
             .padding()
