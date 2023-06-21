@@ -16,6 +16,7 @@ struct AddCardView: View {
     @State private var cardText = ""
     @State private var isLoading = false
     @State private var progress: Float = 0.0
+    @State private var pickerSelected = 1
 
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines. Both words and phrases are available.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
     @ObservedObject var fetcher = WordFetcher()
@@ -24,6 +25,39 @@ struct AddCardView: View {
         NavigationView {
             
             VStack {
+                HStack {
+                    Text("CATEGORY")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal, 30)
+                
+                ZStack {
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.white)
+                    
+                    HStack {
+                        Picker("Options", selection: $pickerSelected) {
+                            Text("Option 1").tag(1)
+                            Text("Option 2").tag(2)
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        Spacer()
+                    }
+                }
+                .frame(height: 44)
+                .padding(.horizontal)
+                .padding(.bottom, 20)
+                
+                HStack {
+                    Text("WORDS / PHRASES")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+                .padding(.horizontal, 30)
+                
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: Binding(
                         get: { self.isEditing ? self.cardText : self.initialPlaceholder },
@@ -39,7 +73,7 @@ struct AddCardView: View {
                 .cornerRadius(10)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .animation(.default)
-                .padding()
+                .padding([.horizontal, .bottom])
                 
                 Button(action: {
                     addCard()
@@ -52,7 +86,7 @@ struct AddCardView: View {
                         .cornerRadius(10)
                 }
                 .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
-                .padding()
+                .padding([.horizontal, .bottom])
                 .navigationBarTitle("Add Cards", displayMode: .large)
 
             }.background(Color(UIColor.systemGroupedBackground)) // Use systemGroupedBackground color
