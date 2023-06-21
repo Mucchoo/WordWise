@@ -34,7 +34,14 @@ extension Card {
             $0.unwrappedText < $1.unwrappedText
         }
     }
-
+    
+    public var meaningsArray: [Meaning] {
+        let meaningSet = meanings as? Set<Meaning> ?? []
+        
+        return meaningSet.sorted {
+            $0.id < $1.id
+        }
+    }
 }
 
 // MARK: Generated accessors for meanings

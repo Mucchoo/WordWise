@@ -23,7 +23,6 @@ extension Phonetic {
     public var unwrappedText: String {
         text ?? "Unknown Text"
     }
-
 }
 
 extension Phonetic : Identifiable {

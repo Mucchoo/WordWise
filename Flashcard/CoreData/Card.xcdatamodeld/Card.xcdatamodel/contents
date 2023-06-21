@@ -10,7 +10,8 @@
     </entity>
     <entity name="Definition" representedClassName="Definition" syncable="YES">
         <attribute name="antonyms" optional="YES" attributeType="String"/>
-        <attribute name="definition" attributeType="String"/>
+        <attribute name="definition" optional="YES" attributeType="String"/>
+        <attribute name="example" optional="YES" attributeType="String"/>
         <attribute name="synonyms" optional="YES" attributeType="String"/>
         <relationship name="meaning" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="definitions" inverseEntity="Meaning"/>
     </entity>

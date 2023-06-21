@@ -103,7 +103,15 @@ struct CardView: View {
                         Spacer().frame(height: 20)
                         
                         ZStack {
-                            DefinitionView()
+                            VStack {
+                                ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
+                                    if idx != 0 {
+                                        Divider()
+                                    }
+                                    DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx])
+                                }
+                            }
+                            
                             Rectangle()
                                 .fill(Color.white)
                                 .opacity(isVStackVisible ? 0 : 1)
@@ -194,24 +202,61 @@ struct CardView: View {
     }
 }
 
-struct DefinitionView: View {
+struct DefinitionDetailView: View {
+    let meaning: Meaning
+    
     var body: some View {
         VStack {
-            DefinitionDetailView(title: "Meaning 1: noun", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            Divider()
-            DefinitionDetailView(title: "Meaning 2: exclamation", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            Divider()
-            DefinitionDetailView(title: "Meaning 3: verb", description: "to continue to support each other", sample: "we must stick together and work as a team")
-            Divider()
-            SynonymView(synonyms: "seal, agree, collaborate, comply with, conspire, contribute, coordinate, further, help, participate, unite, uphold, accompany, marry, tie, attach, catch, fix, glue, hold")
+            HStack {
+                Text(meaning.partOfSpeech ?? "Unknown")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                Spacer()
+            }
+            
+            ForEach(meaning.definitionsArray) { definition in
+                HStack {
+                    Text(definition.definition ?? "Unknown")
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                    Spacer()
+                }
+                
+                Spacer().frame(height: 10)
+                
+                if let example = definition.example, !example.isEmpty {
+                    HStack {
+                        Text("Example")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.primary)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text(example)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                        Spacer()
+                    }
+                }
+                
+                if let synonyms = definition.synonyms, !synonyms.isEmpty {
+                    RelatedWordsView(title: "Synonyms", text: synonyms)
+                }
+                
+                if let antonyms = definition.antonyms, !antonyms.isEmpty {
+                    RelatedWordsView(title: "Antonyms", text: antonyms)
+                }
+            }
         }
     }
 }
 
-struct DefinitionDetailView: View {
+struct RelatedWordsView: View {
     let title: String
-    let description: String
-    let sample: String
+    let text: String
     
     var body: some View {
         VStack {
@@ -224,47 +269,7 @@ struct DefinitionDetailView: View {
             }
             
             HStack {
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-            
-            Spacer().frame(height: 10)
-            
-            HStack {
-                Text("Example")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-            
-            HStack {
-                Text(sample)
-                    .font(.subheadline)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-        }
-    }
-}
-
-struct SynonymView: View {
-    let synonyms: String
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Synonym")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                Spacer()
-            }
-            
-            HStack {
-                Text(synonyms)
+                Text(text)
                     .font(.subheadline)
                     .foregroundColor(.primary)
                 Spacer()

@@ -68,6 +68,7 @@ struct AddCardView: View {
                     self.isLoading = false
                 }
                 
+                
                 let card = Card(context: viewContext)
                 card.id = UUID()
                 card.text = String(word)
@@ -79,9 +80,9 @@ struct AddCardView: View {
                     newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                     
                     meaning.definitions?.forEach { definition in
-                        guard let example = definition.example else { return }
                         let newDefinition = Definition(context: viewContext)
-                        newDefinition.definition = definition.example
+                        newDefinition.definition = definition.definition
+                        newDefinition.example = definition.example
                         newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
                         newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
                         
@@ -118,48 +119,8 @@ struct AddCardView_Previews: PreviewProvider {
     }
 }
 
-struct WordDefinition: Codable, Identifiable {
-    let id = UUID()
-    let word: String
-    let phonetic: String?
-    let phonetics: [Phonetic]?
-    let origin: String?
-    let meanings: [Meaning]?
-
-    private enum CodingKeys: String, CodingKey {
-        case word, phonetic, phonetics, origin, meanings
-    }
-
-    struct Phonetic: Codable {
-        let text: String?
-        let audio: String?
-    }
-
-    struct Meaning: Codable, Identifiable {
-        let id = UUID()
-        let partOfSpeech: String?
-        let definitions: [Definition]?
-
-        private enum CodingKeys: String, CodingKey {
-            case partOfSpeech, definitions
-        }
-
-        struct Definition: Codable, Identifiable {
-            let id = UUID()
-            let definition: String?
-            let example: String?
-            let synonyms: [String]?
-            let antonyms: [String]?
-
-            private enum CodingKeys: String, CodingKey {
-                case definition, example, synonyms, antonyms
-            }
-        }
-    }
-}
-
 class WordFetcher: ObservableObject {
-    @Published var wordDefinition: WordDefinition?
+    @Published var wordDefinition: CardResponse?
 
     func fetch(word: String, completion: ((Bool) -> Void)? = nil) {
         guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
@@ -169,7 +130,7 @@ class WordFetcher: ObservableObject {
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let data = data {
-                if let decodedResponse = try? JSONDecoder().decode([WordDefinition].self, from: data) {
+                if let decodedResponse = try? JSONDecoder().decode([CardResponse].self, from: data) {
                     DispatchQueue.main.async {
                         self.wordDefinition = decodedResponse.first
                         completion?(true)

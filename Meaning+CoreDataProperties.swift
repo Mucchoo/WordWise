@@ -20,6 +20,13 @@ extension Meaning {
     @NSManaged public var card: Card?
     @NSManaged public var definitions: NSSet?
 
+    public var definitionsArray: [Definition] {
+        let definitionSet = definitions as? Set<Definition> ?? []
+        
+        return definitionSet.sorted {
+            $0.id < $1.id
+        }
+    }
 }
 
 // MARK: Generated accessors for definitions
