@@ -5,22 +5,24 @@
 //  Created by Musa Yazuju on 6/13/23.
 //
 
+import CoreData
 import SwiftUI
 
 struct AddCardView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<CardCategory>
+
     @State private var flashcards = [String]()
     @State private var isEditing = false
     @State private var cardText = ""
     @State private var isLoading = false
     @State private var progress: Float = 0.0
-    @State private var pickerSelected = 1
+    @State private var pickerSelected = ""
     @State private var showingAlert = false
     @State private var textFieldInput = ""
 
-    private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines. Both words and phrases are available.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach\nplum\nRome was not built in a day\nAll that glitters is not gold\nEvery cloud has a silver lining"
+    private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     @ObservedObject var fetcher = WordFetcher()
     
     var body: some View {
@@ -43,8 +45,10 @@ struct AddCardView: View {
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
-                                Text("Option 1").tag(1)
-                                Text("Option 2").tag(2)
+                                ForEach(categories) { category in
+                                    let name = category.name ?? ""
+                                    Text(name).tag(name)
+                                }
                             }
                             .pickerStyle(MenuPickerStyle())
                             Spacer()
@@ -68,7 +72,7 @@ struct AddCardView: View {
                 .padding(.bottom, 20)
                 
                 HStack {
-                    Text("WORDS / PHRASES")
+                    Text("WORDS")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     Spacer()
@@ -106,7 +110,7 @@ struct AddCardView: View {
                 .padding([.horizontal, .bottom])
                 .navigationBarTitle("Add Cards", displayMode: .large)
 
-            }.background(Color(UIColor.systemGroupedBackground)) // Use systemGroupedBackground color
+            }.background(Color(UIColor.systemGroupedBackground))
         }
         .alert("Add Category", isPresented: $showingAlert) {
             TextField("category name", text: $textFieldInput)
@@ -115,10 +119,33 @@ struct AddCardView: View {
         } message: {
             Text("Please enter the new category name.")
         }
+        .onAppear {
+            if categories.isEmpty {
+                addDefaultCategory()
+            }
+        }
+    }
+    
+    private func addDefaultCategory() {
+        let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
+
+        do {
+            let categories = try viewContext.fetch(fetchRequest)
+            if categories.isEmpty {
+                let newCategory = CardCategory(context: viewContext)
+                newCategory.name = "Category 1"
+                try viewContext.save()
+            }
+        } catch let error {
+            print("Failed to fetch categories: \(error)")
+        }
     }
     
     func addCategory() {
-        
+        let category = CardCategory(context: viewContext)
+        category.name = textFieldInput
+        PersistenceController.shared.saveContext()
     }
     
     func addCard() {
@@ -182,6 +209,7 @@ struct AddCardView: View {
 struct AddCardView_Previews: PreviewProvider {
     static var previews: some View {
         AddCardView()
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
 

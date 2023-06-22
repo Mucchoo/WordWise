@@ -20,6 +20,7 @@ extension Card {
     @NSManaged public var id: UUID?
     @NSManaged public var status: Int16
     @NSManaged public var text: String?
+    @NSManaged public var category: String?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
     
