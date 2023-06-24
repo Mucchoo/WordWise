@@ -10,10 +10,13 @@ import SwiftUI
 struct StudyView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    @FetchRequest(sortDescriptors: []) var cardCategories: FetchedResults<CardCategory>
     @State private var showingCardView = false
     @State private var learnedButton = true
     @State private var learningButton = true
     @State private var newButton = true
+    @State private var showingCategorySheet = false
+    @State private var selectedCategories = [CardCategory]()
     
     let maximumCardsToStudy = 10
     let failedTimesMoreThan = 0
@@ -21,9 +24,8 @@ struct StudyView: View {
     let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     
     var cardsToStudy: [Card] {
-//        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
-//        return Array(failedCards.prefix(maximumCardsToStudy))
-        return Array(cards)
+        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
+        return Array(failedCards.prefix(maximumCardsToStudy))
     }
     
     var body: some View {
@@ -37,12 +39,12 @@ struct StudyView: View {
                             HStack {
                                 InfoCard(systemName: "checkmark.circle.fill", count: cards.filter { $0.status == 0 }.count, title: "Learned", color: .blue)
                                 
-                                Divider().background(Color.gray)
+                                Divider().background(.gray)
                                     .frame(height: 80)
                                 
                                 InfoCard(systemName: "pencil.circle.fill", count: cards.filter { $0.status == 1 }.count, title: "Learning", color: .red)
                                 
-                                Divider().background(Color.gray)
+                                Divider().background(.gray)
                                     .frame(height: 80)
                                 
                                 InfoCard(systemName: "star.circle.fill", count: cards.filter { $0.status == 2 }.count, title: "New", color: .yellow)
@@ -70,6 +72,43 @@ struct StudyView: View {
                         }
                         .padding([.leading, .trailing, .bottom])
                         
+                        Button {
+                            showingCategorySheet.toggle()
+                        } label: {
+                            Text(selectedCategories.map { $0.name ?? "" }.joined(separator: ", "))
+                                .fontWeight(.bold)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding([.leading, .trailing])
+                        .sheet(isPresented: $showingCategorySheet) {
+                            List(cardCategories, id: \.self) { category in
+                                HStack {
+                                    Text(category.name ?? "Unknown")
+                                    Spacer()
+                                    if selectedCategories.contains(category) {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.blue)
+                                    }
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    if selectedCategories.contains(category) {
+                                        guard selectedCategories.count != 1 else { return }
+                                        selectedCategories.removeAll { $0.id == category.id }
+                                    } else {
+                                        selectedCategories.insert(category, at: 0)
+                                    }
+                                }
+                            }
+                            .environment(\.editMode, .constant(EditMode.active))
+                            .presentationDetents([.medium, .large])
+                        }
+                        
                         HStack {
                             Text("Maximum Cards to Study")
                                 .fontWeight(.bold)
@@ -77,6 +116,7 @@ struct StudyView: View {
                             NumberPicker(labelText: "cards", options: maximumCardOptions)
                         }
                         .padding([.leading, .trailing])
+                        
                         HStack {
                             Text("Failed Times more than")
                                 .fontWeight(.bold)
@@ -93,7 +133,7 @@ struct StudyView: View {
                             .fontWeight(.bold)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.blue)
+                            .background(.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -168,8 +208,8 @@ struct FilterButton: View {
                 .frame(maxWidth: .infinity)
                 .foregroundColor(isOn ? .white : .blue)
         }
-        .background(RoundedRectangle(cornerRadius: 10).fill(isOn ? Color.blue : Color.clear))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 2))
+        .background(RoundedRectangle(cornerRadius: 10).fill(isOn ? .blue : .clear))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.blue, lineWidth: 2))
         .buttonStyle(PlainButtonStyle())
     }
 }
