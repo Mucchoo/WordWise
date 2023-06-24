@@ -38,15 +38,6 @@ struct SettingView: View {
                         MailView(data: $mailData) { result in }
                     }
                     
-                    Button {
-                        isShowingReauthenticate = true
-                    } label: {
-                        SettingListRowView(icon: "person", firstText: "Change Account Info")
-                    }
-                    .sheet(isPresented: $isShowingReauthenticate) {
-                        ReauthenticateView()
-                    }
-                    
                     Button(action: {
                         isShowingAlert = true
                     }) {
