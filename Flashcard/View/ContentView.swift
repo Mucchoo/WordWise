@@ -26,12 +26,18 @@ struct ContentView: View {
                 }
                 .tag(1)
             
+            CardListView()
+                .tabItem {
+                    Image(systemName: "rectangle.stack.fill")
+                    Text("Cards")
+                }
+            
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text("Setting")
                 }
-                .tag(2)
+                .tag(3)
         }
     }
 }
