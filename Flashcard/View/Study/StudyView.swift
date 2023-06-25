@@ -16,16 +16,30 @@ struct StudyView: View {
     @State private var learningButton = true
     @State private var newButton = true
     @State private var showingCategorySheet = false
-    @State private var selectedCategories = [CardCategory]()
+    @State private var selectedCategories: [String] = []
+    @State private var maximumCardsToStudy = 10
+    @State private var failedTimesMoreThan = 0
+    @State private var isFirstAppearance = true
+    @State private var filterStatus: [Int16]  = [0, 1, 2]
+    @State private var cardsToStudy: [Card] = []
     
-    let maximumCardsToStudy = 10
-    let failedTimesMoreThan = 0
     let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
     let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     
-    var cardsToStudy: [Card] {
-        let failedCards = cards.filter { $0.failedTimes > failedTimesMoreThan }
-        return Array(failedCards.prefix(maximumCardsToStudy))
+    private func updateCardsToStudy() {
+        let filteredCards = cards.filter { card in
+            let statusFilter = filterStatus.contains { $0 == card.status }
+            let failedTimesFilter = card.failedTimes >= failedTimesMoreThan
+            let categoryFilter = selectedCategories.contains { $0 == card.category }
+            
+            print("\(card.text) failedTimesFilter: \(failedTimesFilter) failedTimes: \(card.failedTimes)")
+            print("categoryFilter: \(categoryFilter) category: \(card.category ?? "nil")")
+            print("statusFilter: \(statusFilter) status: \(card.status)")
+            return statusFilter && failedTimesFilter && categoryFilter
+            
+        }
+        print("filteredCards: \(filteredCards.count) maximumCards: \(maximumCardsToStudy) after prefix: \(Array(filteredCards.prefix(maximumCardsToStudy)).count)")
+        cardsToStudy = Array(filteredCards.prefix(maximumCardsToStudy))
     }
     
     var body: some View {
@@ -66,16 +80,16 @@ struct StudyView: View {
                         }
                         
                         HStack {
-                            FilterButton(text: "Learned", isOn: $learnedButton)
-                            FilterButton(text: "Learning", isOn: $learningButton)
-                            FilterButton(text: "New", isOn: $newButton)
+                            StatusFilterButton(status: 0, text: "Learned", filterStatus: $filterStatus)
+                            StatusFilterButton(status: 1, text: "Learning", filterStatus: $filterStatus)
+                            StatusFilterButton(status: 2, text: "New", filterStatus: $filterStatus)
                         }
                         .padding([.leading, .trailing, .bottom])
                         
                         Button {
                             showingCategorySheet.toggle()
                         } label: {
-                            Text(selectedCategories.map { $0.name ?? "" }.joined(separator: ", "))
+                            Text(selectedCategories.map { $0 }.joined(separator: ", "))
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
@@ -89,7 +103,7 @@ struct StudyView: View {
                                 HStack {
                                     Text(category.name ?? "Unknown")
                                     Spacer()
-                                    if selectedCategories.contains(category) {
+                                    if selectedCategories.contains(category.name ?? "") {
                                         Image(systemName: "checkmark.circle.fill")
                                             .fontWeight(.bold)
                                             .foregroundColor(.blue)
@@ -97,11 +111,12 @@ struct StudyView: View {
                                 }
                                 .contentShape(Rectangle())
                                 .onTapGesture {
-                                    if selectedCategories.contains(category) {
+                                    guard let categoryName = category.name else { return }
+                                    if selectedCategories.contains(categoryName) {
                                         guard selectedCategories.count != 1 else { return }
-                                        selectedCategories.removeAll { $0.id == category.id }
+                                        selectedCategories.removeAll { $0 == category.name }
                                     } else {
-                                        selectedCategories.insert(category, at: 0)
+                                        selectedCategories.append(categoryName)
                                     }
                                 }
                             }
@@ -113,7 +128,7 @@ struct StudyView: View {
                             Text("Maximum Cards to Study")
                                 .fontWeight(.bold)
                             Spacer()
-                            NumberPicker(labelText: "cards", options: maximumCardOptions)
+                            NumberPicker(value: $maximumCardsToStudy, labelText: "cards", options: maximumCardOptions)
                         }
                         .padding([.leading, .trailing])
                         
@@ -121,25 +136,27 @@ struct StudyView: View {
                             Text("Failed Times more than")
                                 .fontWeight(.bold)
                             Spacer()
-                            NumberPicker(labelText: "or more times", options: failedTimeOptions)
+                            NumberPicker(value: $failedTimesMoreThan, labelText: "or more times", options: failedTimeOptions)
                         }
                         .padding([.leading, .trailing])
                     }
                     
                     Button(action: {
+                        guard cardsToStudy.count > 0 else { return }
                         showingCardView = true
                     }) {
-                        Text("Start Studying \(cardsToStudy.count) Cards")
+                        Text(cardsToStudy.count > 0 ? "Start Studying \(cardsToStudy.count) Cards" : "No Cards Available")
                             .fontWeight(.bold)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(.blue)
+                            .background(cardsToStudy.count > 0 ? .blue : .gray)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+                    .disabled(cardsToStudy.count == 0)
                     .padding()
                     .fullScreenCover(isPresented: $showingCardView) {
-                        CardView(showingCardView: $showingCardView, cardsToLearn: cards)
+                        CardView(showingCardView: $showingCardView, cardsToStudy: cardsToStudy)
                     }
 
                     VStack {
@@ -165,6 +182,29 @@ struct StudyView: View {
                 }
             }
             .navigationBarTitle("Study", displayMode: .large)
+        }
+        .onAppear {
+            cards.forEach { card in
+                guard card.category == nil else { return }
+                card.category = cardCategories.first?.name
+                PersistenceController.shared.saveContext()
+            }
+            
+            guard isFirstAppearance else { return }
+            selectedCategories = cardCategories.map { $0.name ?? "" }
+            isFirstAppearance = false
+        }
+        .onChange(of: failedTimesMoreThan) { _ in
+            updateCardsToStudy()
+        }
+        .onChange(of: selectedCategories) { _ in
+            updateCardsToStudy()
+        }
+        .onChange(of: maximumCardsToStudy) { _ in
+            updateCardsToStudy()
+        }
+        .onChange(of: filterStatus) { _ in
+            updateCardsToStudy()
         }
     }
 }
@@ -192,14 +232,21 @@ struct InfoCard: View {
     }
 }
 
-struct FilterButton: View {
+struct StatusFilterButton: View {
+    var status: Int16
     var text: String
-    @Binding var isOn: Bool
+    @Binding var filterStatus: [Int16]
+    @State var isOn = true
 
     var body: some View {
         Button(action: {
-            withAnimation {
-                isOn.toggle()
+            isOn.toggle()
+            print("\(text) isOn :\(isOn)")
+            
+            if isOn {
+                filterStatus.append(status)
+            } else {
+                filterStatus.removeAll(where: { $0 == status })
             }
         }) {
             Text(text)
@@ -215,13 +262,13 @@ struct FilterButton: View {
 }
 
 struct NumberPicker: View {
-    @State var number: Int = 0
+    @Binding var value: Int
     var labelText: String
     var options: [Int]
     
     var body: some View {
         Picker(
-            selection: $number,
+            selection: $value,
             label:
                 HStack {
                     Text("Picker")
@@ -239,7 +286,6 @@ struct NumberPicker: View {
         .pickerStyle(MenuPickerStyle())
     }
 }
-
 
 struct StudyView_Previews: PreviewProvider {
     static var previews: some View {

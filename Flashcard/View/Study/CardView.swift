@@ -20,15 +20,9 @@ struct CardView: View {
     @State private var isFinished = false
     @State private var isButtonEnabled = true
     
-    init(showingCardView: Binding<Bool>, cardsToLearn: FetchedResults<Card>?) {
+    init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
         self._showingCardView = showingCardView
-        
-        var cards = [Card]()
-        if let unwrappedCards = cardsToLearn {
-            cards = Array(unwrappedCards)
-        }
-        
-        self._learningCards = State(initialValue: cards.map { LearningCard(card: $0) })
+        self._learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
     }
     
     var body: some View {
@@ -277,7 +271,7 @@ struct CardView_Previews: PreviewProvider {
     @State static var showingCardView = true
 
     static var previews: some View {
-        CardView(showingCardView: $showingCardView, cardsToLearn: nil)
+        CardView(showingCardView: $showingCardView, cardsToStudy: [])
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
