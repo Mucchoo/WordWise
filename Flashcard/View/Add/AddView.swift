@@ -41,7 +41,7 @@ struct AddCardView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white)
+                            .fill(.white)
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
@@ -62,7 +62,7 @@ struct AddCardView: View {
                         Text("Add Category")
                             .padding(.vertical, 12)
                             .padding(.horizontal)
-                            .background(Color.blue)
+                            .background(.blue)
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -81,16 +81,19 @@ struct AddCardView: View {
                 
                 ZStack(alignment: .topLeading) {
                     TextEditor(text: Binding(
-                        get: { self.isEditing ? self.cardText : self.initialPlaceholder },
-                        set: { self.cardText = $0 }
+                        get: { isEditing ? cardText : initialPlaceholder },
+                        set: { cardText = $0 }
                     ))
                     .foregroundColor(isEditing ? .primary : .secondary)
                     .onTapGesture {
-                        self.isEditing = true
+                        isEditing = true
+                    }
+                    .onChange(of: cardText) { newValue in
+                        cardText = newValue.lowercased()
                     }
                 }
                 .padding()
-                .background(Color.white)
+                .background(.white)
                 .cornerRadius(10)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .animation(.default)
@@ -102,7 +105,7 @@ struct AddCardView: View {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
