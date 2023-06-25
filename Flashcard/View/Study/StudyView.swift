@@ -206,6 +206,9 @@ struct StudyView: View {
         .onChange(of: filterStatus) { _ in
             updateCardsToStudy()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)) { _ in
+            updateCardsToStudy()
+        }
     }
 }
 
