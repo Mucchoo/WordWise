@@ -38,7 +38,7 @@ struct PersistenceController {
         }
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                fatalError("Unresolved error \(error.localizedDescription), \(error.userInfo)")
             }
         }
     }
@@ -50,8 +50,24 @@ struct PersistenceController {
             do {
                 try context.save()
             } catch {
-                print("Failed to save context: \(error), \(error as NSError).userInfo")
+                print("Failed to save context: \(error.localizedDescription), \(error as NSError).userInfo")
             }
+        }
+    }
+    
+    func addDefaultCategory() {
+        let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
+
+        do {
+            let categories = try viewContext.fetch(fetchRequest)
+            if categories.isEmpty {
+                let newCategory = CardCategory(context: viewContext)
+                newCategory.name = "Category 1"
+                PersistenceController.shared.saveContext()
+            }
+        } catch let error {
+            print("Failed to fetch categories: \(error.localizedDescription)")
         }
     }
 }

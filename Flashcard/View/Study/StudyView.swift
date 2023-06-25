@@ -31,14 +31,8 @@ struct StudyView: View {
             let statusFilter = filterStatus.contains { $0 == card.status }
             let failedTimesFilter = card.failedTimes >= failedTimesMoreThan
             let categoryFilter = selectedCategories.contains { $0 == card.category }
-            
-            print("\(card.text) failedTimesFilter: \(failedTimesFilter) failedTimes: \(card.failedTimes)")
-            print("categoryFilter: \(categoryFilter) category: \(card.category ?? "nil")")
-            print("statusFilter: \(statusFilter) status: \(card.status)")
             return statusFilter && failedTimesFilter && categoryFilter
-            
         }
-        print("filteredCards: \(filteredCards.count) maximumCards: \(maximumCardsToStudy) after prefix: \(Array(filteredCards.prefix(maximumCardsToStudy)).count)")
         cardsToStudy = Array(filteredCards.prefix(maximumCardsToStudy))
     }
     

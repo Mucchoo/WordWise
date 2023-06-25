@@ -26,6 +26,7 @@
     </entity>
     <entity name="Phonetic" representedClassName="Phonetic" syncable="YES">
         <attribute name="audio" optional="YES" attributeType="String"/>
+        <attribute name="downloadedAudioUrlString" optional="YES" attributeType="String"/>
         <attribute name="text" attributeType="String"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="phonetics" inverseEntity="Card"/>
     </entity>

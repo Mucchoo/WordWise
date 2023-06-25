@@ -210,7 +210,6 @@ struct AddCardView: View {
                     newPhonetic.audio = phonetic.audio
                     newPhonetic.text = phonetic.text
                     card.addToPhonetics(newPhonetic)
-                    downloadAudio(phonetic: newPhonetic)
                 }
                 
                 do {
@@ -231,28 +230,6 @@ struct AddCardView: View {
         }
         
         cardText = ""
-    }
-    
-    private func downloadAudio(phonetic: Phonetic) {
-        guard let urlString = phonetic.audio,
-              let encodedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: encodedUrlString) else { return }
-        
-        let downloadTask = URLSession.shared.downloadTask(with: URLRequest(url: url)) { url, response, error in
-            guard error == nil, let fileURL = url else { return }
-            
-            do {
-                let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
-                try FileManager.default.moveItem(at: fileURL, to: savedURL)
-                phonetic.downloadedAudioUrlString = savedURL.absoluteString
-                PersistenceController.shared.saveContext()
-            } catch {
-                print("failed downloading audio: \(error.localizedDescription)")
-            }
-        }
-        
-        downloadTask.resume()
     }
 }
 

@@ -2,7 +2,7 @@
 //  Phonetic+CoreDataProperties.swift
 //  Flashcard
 //
-//  Created by Musa Yazuju on 6/19/23.
+//  Created by Musa Yazuju on 6/25/23.
 //
 //
 
@@ -16,8 +16,9 @@ extension Phonetic {
         return NSFetchRequest<Phonetic>(entityName: "Phonetic")
     }
 
-    @NSManaged public var text: String?
     @NSManaged public var audio: String?
+    @NSManaged public var text: String?
+    @NSManaged public var downloadedAudioUrlString: String?
     @NSManaged public var card: Card?
     
     public var unwrappedText: String {
