@@ -53,7 +53,6 @@ struct SettingView: View {
                 Spacer()
             }
             .navigationBarTitle("Account Settings", displayMode: .large)
-            .background(Color.white.edgesIgnoringSafeArea(.all))
         }
     }
 }

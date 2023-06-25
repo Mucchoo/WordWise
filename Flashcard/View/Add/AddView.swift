@@ -44,7 +44,7 @@ struct AddCardView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(.white)
+                            .fill(Color(UIColor.secondarySystemBackground))
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
@@ -82,22 +82,22 @@ struct AddCardView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: Binding(
-                        get: { isEditing ? cardText : initialPlaceholder },
-                        set: { cardText = $0 }
-                    ))
-                    .focused($isFocused)
-                    .foregroundColor(isEditing ? .primary : .secondary)
-                    .onTapGesture {
-                        isEditing = true
-                    }
-                    .onChange(of: cardText) { newValue in
-                        cardText = newValue.lowercased()
-                    }
+                TextEditor(text: Binding(
+                    get: { isEditing ? cardText : initialPlaceholder },
+                    set: { cardText = $0 }
+                ))
+                .scrollContentBackground(.hidden)
+                .background(Color(UIColor.secondarySystemBackground))
+                .focused($isFocused)
+                .foregroundColor(isEditing ? .primary : .secondary)
+                .onTapGesture {
+                    isEditing = true
+                }
+                .onChange(of: cardText) { newValue in
+                    cardText = newValue.lowercased()
                 }
                 .padding()
-                .background(.white)
+                .background(Color(UIColor.secondarySystemBackground))
                 .cornerRadius(10)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .animation(.default)

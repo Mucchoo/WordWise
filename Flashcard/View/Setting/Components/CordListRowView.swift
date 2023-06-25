@@ -48,7 +48,7 @@ struct CardListRowView: View {
             }
             .frame(width: 20, height: 20, alignment: .center)
             Text(card.text ?? "Unknown")
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor(.primary)))
             Spacer()
         }
     }

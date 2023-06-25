@@ -117,7 +117,7 @@ struct CardView: View {
                             }
                             
                             Rectangle()
-                                .fill(Color.white)
+                                .fill(Color(UIColor.systemBackground))
                                 .opacity(isVStackVisible ? 0 : 1)
                                 .animation(.easeIn(duration: 0.3), value: isVStackVisible)
                                 .zIndex(1)
@@ -215,7 +215,7 @@ struct CardView: View {
             }
         }
         .padding([.leading, .trailing])
-        .background(Color.white.ignoresSafeArea(.all, edges: .top))
+        .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
         .onTapGesture {
             isVStackVisible = true
         }
@@ -311,11 +311,11 @@ struct DefinitionDetailView: View {
                 Text(meaning.partOfSpeech ?? "Unknown")
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(UIColor.systemBackground))
                     .padding(.horizontal, 10)
                     .padding(.bottom, 4)
                     .padding(.top, 4)
-                    .background(Color.black)
+                    .background(.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 Spacer()
             }

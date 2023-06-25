@@ -224,10 +224,10 @@ struct InfoCard: View {
                 .fontWeight(.black)
             Text("\(count)")
                 .font(.title)
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor(.primary)))
             Text(title)
                 .font(.footnote)
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor(.primary)))
         }
         .frame(maxWidth: .infinity)
     }

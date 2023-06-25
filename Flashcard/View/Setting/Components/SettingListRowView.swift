@@ -23,7 +23,7 @@ struct SettingListRowView: View {
             }
             .frame(width: 40, height: 40, alignment: .center)
             Text(firstText)
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor(.primary)))
             Spacer()
         }
     }
