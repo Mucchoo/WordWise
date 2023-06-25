@@ -21,7 +21,9 @@ struct AddCardView: View {
     @State private var pickerSelected = ""
     @State private var showingAlert = false
     @State private var textFieldInput = ""
-
+    @State private var showingFetchFailedAlert = false
+    @State private var fetchFailedWords: [String] = []
+    
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     @ObservedObject var fetcher = WordFetcher()
     
@@ -115,6 +117,7 @@ struct AddCardView: View {
 
             }.background(Color(UIColor.systemGroupedBackground))
         }
+        
         .alert("Add Category", isPresented: $showingAlert) {
             TextField("category name", text: $textFieldInput)
             Button("Add", role: .none, action: addCategory)
@@ -122,10 +125,16 @@ struct AddCardView: View {
         } message: {
             Text("Please enter the new category name.")
         }
+        
+        .alert("Failed to add cards", isPresented: $showingFetchFailedAlert) {
+            Button("OK", role: .none) {}
+        } message: {
+            Text("Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))")
+        }
+        
         .onAppear {
-            if categories.isEmpty {
-                addDefaultCategory()
-            }
+            guard categories.isEmpty else { return }
+            addDefaultCategory()
         }
     }
     
@@ -155,10 +164,20 @@ struct AddCardView: View {
         guard cardText != "" else { return }
         let words = cardText.split(separator: "\n")
         let totalWords = words.count
+        let group = DispatchGroup()
+        fetchFailedWords = []
+        
         for word in words {
             self.isLoading = true
+            group.enter()
             self.fetcher.fetch(word: String(word)) { success in
-                guard success else { return }
+                guard success else {
+                    print("failed fetching \(word)")
+                    fetchFailedWords.append(String(word))
+                    group.leave()
+                    return
+                }
+                
                 self.progress += 1.0 / Float(totalWords)
                 if self.progress >= 1.0 {
                     self.isLoading = false
@@ -202,7 +221,14 @@ struct AddCardView: View {
                 }
                 
                 PersistenceController.shared.saveContext()
+                group.leave()
             }
+        }
+        
+        group.notify(queue: .main) {
+            print("showingFetchFailedAlert: \(fetchFailedWords.count > 0)")
+            showingFetchFailedAlert = fetchFailedWords.count > 0
+
         }
         
         cardText = ""
