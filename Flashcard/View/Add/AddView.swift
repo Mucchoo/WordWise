@@ -12,7 +12,8 @@ struct AddCardView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @FetchRequest(sortDescriptors: []) var categories: FetchedResults<CardCategory>
-
+    @FocusState var isFocused: Bool
+    
     @State private var flashcards = [String]()
     @State private var isEditing = false
     @State private var cardText = ""
@@ -59,7 +60,7 @@ struct AddCardView: View {
                     .frame(height: 44)
                                         
                     Button(action: {
-                        self.showingAlert = true
+                        showingAlert = true
                     }) {
                         Text("Add Category")
                             .padding(.vertical, 12)
@@ -86,6 +87,7 @@ struct AddCardView: View {
                         get: { isEditing ? cardText : initialPlaceholder },
                         set: { cardText = $0 }
                     ))
+                    .focused($isFocused)
                     .foregroundColor(isEditing ? .primary : .secondary)
                     .onTapGesture {
                         isEditing = true
@@ -103,6 +105,7 @@ struct AddCardView: View {
                 
                 Button(action: {
                     addCard()
+                    isFocused = false
                 }) {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
@@ -113,9 +116,13 @@ struct AddCardView: View {
                 }
                 .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
                 .padding([.horizontal, .bottom])
-                .navigationBarTitle("Add Cards", displayMode: .large)
 
-            }.background(Color(UIColor.systemGroupedBackground))
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .onTapGesture {
+                isFocused = false
+            }
+            .navigationBarTitle("Add Cards", displayMode: .large)
         }
         
         .alert("Add Category", isPresented: $showingAlert) {
@@ -133,34 +140,25 @@ struct AddCardView: View {
         }
         
         .onAppear {
-            guard categories.isEmpty else { return }
-            addDefaultCategory()
+            PersistenceController.shared.addDefaultCategory()
         }
+        
+        .overlay(
+            Color.clear
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    isFocused = false
+                }
+        )
     }
     
-    private func addDefaultCategory() {
-        let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
-
-        do {
-            let categories = try viewContext.fetch(fetchRequest)
-            if categories.isEmpty {
-                let newCategory = CardCategory(context: viewContext)
-                newCategory.name = "Category 1"
-                try viewContext.save()
-            }
-        } catch let error {
-            print("Failed to fetch categories: \(error)")
-        }
-    }
-    
-    func addCategory() {
+    private func addCategory() {
         let category = CardCategory(context: viewContext)
         category.name = textFieldInput
         PersistenceController.shared.saveContext()
     }
     
-    func addCard() {
+    private func addCard() {
         guard cardText != "" else { return }
         let words = cardText.split(separator: "\n")
         let totalWords = words.count
@@ -212,12 +210,13 @@ struct AddCardView: View {
                     newPhonetic.audio = phonetic.audio
                     newPhonetic.text = phonetic.text
                     card.addToPhonetics(newPhonetic)
+                    downloadAudio(phonetic: newPhonetic)
                 }
                 
                 do {
                     try card.validateForInsert()
                 } catch {
-                    print("Validation error: \(error), \(error as NSError).userInfo")
+                    print("Validation error: \(error.localizedDescription), \(error as NSError).userInfo")
                 }
                 
                 PersistenceController.shared.saveContext()
@@ -232,6 +231,28 @@ struct AddCardView: View {
         }
         
         cardText = ""
+    }
+    
+    private func downloadAudio(phonetic: Phonetic) {
+        guard let urlString = phonetic.audio,
+              let encodedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: encodedUrlString) else { return }
+        
+        let downloadTask = URLSession.shared.downloadTask(with: URLRequest(url: url)) { url, response, error in
+            guard error == nil, let fileURL = url else { return }
+            
+            do {
+                let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
+                try FileManager.default.moveItem(at: fileURL, to: savedURL)
+                phonetic.downloadedAudioUrlString = savedURL.absoluteString
+                PersistenceController.shared.saveContext()
+            } catch {
+                print("failed downloading audio: \(error.localizedDescription)")
+            }
+        }
+        
+        downloadTask.resume()
     }
 }
 
@@ -251,7 +272,7 @@ class WordFetcher: ObservableObject {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let decodedResponse = try? JSONDecoder().decode([CardResponse].self, from: data) {
                     DispatchQueue.main.async {
