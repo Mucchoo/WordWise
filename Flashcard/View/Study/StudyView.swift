@@ -43,106 +43,84 @@ struct StudyView: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(Color(.systemGray6))
-                            .frame(height: 120)
-                            .overlay(
-                                HStack {
-                                    InfoCard(systemName: "checkmark.circle.fill", count: cards.filter { $0.status == 0 }.count, title: "Learned", color: .blue)
-                                    
-                                    Divider().background(.gray)
-                                        .frame(height: 80)
-                                    
-                                    InfoCard(systemName: "pencil.circle.fill", count: cards.filter { $0.status == 1 }.count, title: "Learning", color: .red)
-                                    
-                                    Divider().background(.gray)
-                                        .frame(height: 80)
-                                    
-                                    InfoCard(systemName: "star.circle.fill", count: cards.filter { $0.status == 2 }.count, title: "New", color: .yellow)
-                                }
-                                .foregroundColor(.white)
-                            )
-                            .padding()
+                        HStack(spacing: 0) {
+                            StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", color: .blue, filterStatus: $filterStatus, cards: cards)
+                            StatusButton(systemName: "pencil.circle.fill", status: 1, title: "Learning", color: .red, filterStatus: $filterStatus, cards: cards)
+                            StatusButton(systemName: "star.circle.fill", status: 2, title: "New", color: .yellow, filterStatus: $filterStatus, cards: cards)
+                        }
+                        .cornerRadius(20)
+                        .clipped()
+                        .padding()
                         
                         VStack {
-                            Divider()
-                                .padding()
-                            
                             HStack {
-                                Spacer().frame(width: 20)
-                                Text("Filter")
-                                    .font(.title)
-                                    .fontWeight(.bold)
+                                Text("Category")
                                 Spacer()
-                            }
-                            
-                            HStack {
-                                StatusFilterButton(status: 0, text: "Learned", filterStatus: $filterStatus)
-                                StatusFilterButton(status: 1, text: "Learning", filterStatus: $filterStatus)
-                                StatusFilterButton(status: 2, text: "New", filterStatus: $filterStatus)
-                            }
-                            .padding([.leading, .trailing, .bottom])
-                            
-                            Button {
-                                showingCategorySheet.toggle()
-                            } label: {
-                                Text(selectedCategories.map { $0 }.joined(separator: ", "))
-                                    .fontWeight(.bold)
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .background(.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .padding([.leading, .trailing])
-                            .sheet(isPresented: $showingCategorySheet) {
-                                List(cardCategories, id: \.self) { category in
-                                    HStack {
-                                        Text(category.name ?? "Unknown")
-                                        Spacer()
-                                        if selectedCategories.contains(category.name ?? "") {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        guard let categoryName = category.name else { return }
-                                        if selectedCategories.contains(categoryName) {
-                                            guard selectedCategories.count != 1 else { return }
-                                            selectedCategories.removeAll { $0 == category.name }
-                                        } else {
-                                            selectedCategories.append(categoryName)
-                                        }
-                                    }
+                                
+                                Button {
+                                    showingCategorySheet.toggle()
+                                } label: {
+                                    Text(selectedCategories.map { $0 }.joined(separator: ", "))
                                 }
-                                .environment(\.editMode, .constant(EditMode.active))
-                                .presentationDetents([.medium, .large])
+                                .padding([.leading, .trailing])
+                                .sheet(isPresented: $showingCategorySheet) {
+                                    List(cardCategories, id: \.self) { category in
+                                        HStack {
+                                            Text(category.name ?? "Unknown")
+                                            Spacer()
+                                            if selectedCategories.contains(category.name ?? "") {
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .fontWeight(.bold)
+                                                    .foregroundColor(.blue)
+                                            }
+                                        }
+                                        .contentShape(Rectangle())
+                                        .onTapGesture {
+                                            guard let categoryName = category.name else { return }
+                                            if selectedCategories.contains(categoryName) {
+                                                guard selectedCategories.count != 1 else { return }
+                                                selectedCategories.removeAll { $0 == category.name }
+                                            } else {
+                                                selectedCategories.append(categoryName)
+                                            }
+                                        }
+                                    }
+                                    .environment(\.editMode, .constant(EditMode.active))
+                                    .presentationDetents([.medium, .large])
+                                }
+                                
                             }
+                            .frame(height: 30)
+                            
+                            Divider()
                             
                             HStack {
-                                Text("Maximum Cards to Study")
-                                    .fontWeight(.bold)
+                                Text("Maximum Cards")
                                 Spacer()
                                 NumberPicker(value: $maximumCardsToStudy, labelText: "cards", options: maximumCardOptions)
                             }
-                            .padding([.leading, .trailing])
+                            .frame(height: 30)
                             
+                            Divider()
+
                             HStack {
-                                Text("Failed Times more than")
-                                    .fontWeight(.bold)
+                                Text("Failed Times")
                                 Spacer()
                                 NumberPicker(value: $failedTimesMoreThan, labelText: "or more times", options: failedTimeOptions)
                             }
-                            .padding([.leading, .trailing])
+                            .frame(height: 30)
                         }
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(10)
+                        .clipped()
+                        .padding()
                         
                         Button(action: {
                             guard cardsToStudy.count > 0 else { return }
                             showingCardView = true
                         }) {
-                            Text(cardsToStudy.count > 0 ? "Start Studying \(cardsToStudy.count) Cards" : "No Cards Available")
+                            Text(cardsToStudy.count > 0 ? "Study \(cardsToStudy.count) Cards" : "No Cards Available")
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
@@ -158,6 +136,7 @@ struct StudyView: View {
                     }
                 }
                 .navigationBarTitle("Study", displayMode: .large)
+                .background(Color(UIColor.systemGroupedBackground))
             }
             .onAppear {
                 cards.forEach { card in
@@ -193,55 +172,42 @@ struct StudyView: View {
     }
 }
 
-struct InfoCard: View {
+struct StatusButton: View {
     var systemName: String
-    var count: Int
+    var status: Int
     var title: String
     var color: Color
-    
-    var body: some View {
-        Spacer().frame(width: 10)
-        VStack(spacing: 4) {
-            Image(systemName: systemName)
-                .foregroundColor(color)
-                .fontWeight(.black)
-            Text("\(count)")
-                .font(.title)
-                .foregroundColor(Color(UIColor(.primary)))
-            Text(title)
-                .font(.footnote)
-                .foregroundColor(Color(UIColor(.primary)))
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-struct StatusFilterButton: View {
-    var status: Int16
-    var text: String
     @Binding var filterStatus: [Int16]
-    @State var isOn = true
+    @State private var isOn = true
+    var cards: FetchedResults<Card>
 
     var body: some View {
         Button(action: {
             isOn.toggle()
-            print("\(text) isOn :\(isOn)")
             
             if isOn {
-                filterStatus.append(status)
+                filterStatus.append(Int16(status))
             } else {
                 filterStatus.removeAll(where: { $0 == status })
             }
         }) {
-            Text(text)
-                .fontWeight(.bold)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .foregroundColor(isOn ? .white : .blue)
+            VStack(spacing: 4) {
+                Image(systemName: systemName)
+                    .foregroundColor(isOn ? .white : color)
+                    .fontWeight(.black)
+                Text("\(cards.filter { $0.status == status }.count)")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(isOn ? .white : .primary)
+                Text(title)
+                    .font(.footnote)
+                    .fontWeight(.bold)
+                    .foregroundColor(isOn ? .white : .primary)
+            }
+            .frame(height: 120)
+            .frame(maxWidth: .infinity)
+            .background(isOn ? color : .white)
         }
-        .background(RoundedRectangle(cornerRadius: 10).fill(isOn ? .blue : .clear))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke(.blue, lineWidth: 2))
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
