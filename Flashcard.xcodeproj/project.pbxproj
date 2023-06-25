@@ -13,7 +13,6 @@
 		2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */; };
 		2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF12A390B39001B6E0E /* ButtonView.swift */; };
 		2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */; };
-		2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86890A2A400CB5001DBDFD /* LearningCard.swift */; };
 		2A894FC32A3FBF3D00163F92 /* Card+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */; };
@@ -45,7 +44,6 @@
 		2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		2A3C1DF12A390B39001B6E0E /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleNavigationView.swift; sourceTree = "<group>"; };
-		2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CordListRowView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A86890A2A400CB5001DBDFD /* LearningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCard.swift; sourceTree = "<group>"; };
 		2A894FBB2A3FBF3D00163F92 /* Card+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -136,7 +134,6 @@
 				2A3C1DF12A390B39001B6E0E /* ButtonView.swift */,
 				2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */,
 				2ABC63702A3816EC00718C90 /* SettingListRowView.swift */,
-				2A3C1E052A392BBA001B6E0E /* CordListRowView.swift */,
 				2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */,
 				2A3C1DEB2A390A2D001B6E0E /* MailView.swift */,
 			);
@@ -291,7 +288,6 @@
 				2AE687162A43516E009BDD0C /* FormView.swift in Sources */,
 				2ABC635E2A38147900718C90 /* FlashcardApp.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
-				2A3C1E062A392BBA001B6E0E /* CordListRowView.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
 				2A894FC42A3FBF3D00163F92 /* Card+CoreDataProperties.swift in Sources */,
 				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,

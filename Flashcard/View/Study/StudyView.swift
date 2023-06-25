@@ -174,27 +174,6 @@ struct StudyView: View {
                         .fullScreenCover(isPresented: $showingCardView) {
                             CardView(showingCardView: $showingCardView, cardsToStudy: cardsToStudy)
                         }
-
-                        VStack {
-                            Divider()
-                                .padding()
-                            
-                            HStack {
-                                Spacer().frame(width: 20)
-                                Text("\(cards.count) Cards")
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                Spacer()
-                            }
-                            
-                            VStack {
-                                ForEach(cards) { card in
-                                    CardListRowView(card: card)
-                                }
-                            }
-                        }
-                        
-                        Spacer()
                     }
                 }
                 .navigationBarTitle("Study", displayMode: .large)
