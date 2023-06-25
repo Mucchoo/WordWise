@@ -94,7 +94,7 @@ struct CardView: View {
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .foregroundColor(.primary)
-                            Text(learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                            Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
                                 .foregroundColor(.primary)
                         }
                         .opacity(isWordVisible ? 1 : 0)
@@ -102,6 +102,7 @@ struct CardView: View {
                         .onTapGesture {
                             playAudio(card: learningCards[index].card)
                         }
+                        
                         Spacer().frame(height: 20)
                         
                         ZStack {
@@ -220,8 +221,15 @@ struct CardView: View {
         }
         .onAppear {
             learningCards.forEach { card in
-                guard let phonetic = card.card.phoneticsArray.first else { return }
-                downloadAudio(phonetic: phonetic)
+                card.card.phoneticsArray.forEach { item in
+                    print("phonetic: \(item)")
+                }
+                
+                if let phoneticUS = card.card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false }) {
+                    downloadAudio(phonetic: phoneticUS)
+                } else if let phoneticUK = card.card.phoneticsArray.first {
+                    downloadAudio(phonetic: phoneticUK)
+                }
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
