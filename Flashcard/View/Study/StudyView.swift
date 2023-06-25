@@ -208,6 +208,10 @@ struct StudyView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)) { _ in
             updateCardsToStudy()
+            
+            if selectedCategories.isEmpty {
+                selectedCategories = Array(cardCategories).map { $0.name ?? "" }
+            }
         }
     }
 }
