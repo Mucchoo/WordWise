@@ -23,6 +23,7 @@ struct CardListView: View {
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
     @State private var fetchFailedWords: [String] = []
+    @State private var navigateToCardDetail: Bool = false
     
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     @ObservedObject var fetcher = WordFetcher()
@@ -32,37 +33,59 @@ struct CardListView: View {
             if cards.isEmpty {
                 NoCardView()
             } else {
-                List {
-                    Section("filter") {
-                        Picker("Category", selection: $pickerSelected) {
-                            ForEach(categories) { category in
-                                let name = category.name ?? ""
-                                Text(name).tag(name)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                    }
-                    
-                    Section("cards") {
-                        ForEach(cards) { card in
-                            NavigationLink(destination: CardDetailView()) {
-                                HStack{
-                                    Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "pencil.circle.fill" : "star.circle.fill")
-                                        .foregroundColor(card.status == 0 ? .blue : card.status == 1 ? .red : .yellow)
-                                        .font(.system(size: 16))
-                                        .fontWeight(.black)
-                                        .frame(width: 20, height: 20, alignment: .center)
-                                    
-                                    Text(card.text ?? "Unknown")
-                                        .foregroundColor(Color(UIColor(.primary)))
-                                    Spacer()
+                VStack {
+                    List {
+                        Section(header: Text("category")) {
+                            Picker("Category", selection: $pickerSelected) {
+                                ForEach(categories) { category in
+                                    let name = category.name ?? ""
+                                    Text(name).tag(name)
                                 }
                             }
+                            .pickerStyle(MenuPickerStyle())
                         }
+                        
+                        Section(header: Text("Cards")) {
+                            ForEach(cards) { card in
+                                Button(action: {
+                                    self.navigateToCardDetail = true
+                                }) {
+                                    HStack{
+                                        Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "pencil.circle.fill" : "star.circle.fill")
+                                            .foregroundColor(card.status == 0 ? .blue : card.status == 1 ? .red : .yellow)
+                                            .font(.system(size: 16))
+                                            .fontWeight(.black)
+                                            .frame(width: 20, height: 20, alignment: .center)
+                                        
+                                        Text(card.text ?? "Unknown")
+                                            .foregroundColor(Color(UIColor(.primary)))
+                                        Spacer()
+                                    }
+                                }
+                            }
+                            .onDelete(perform: deleteCards)
+                        }
+                    }
+                    .listStyle(InsetGroupedListStyle())
+                    NavigationLink(destination: CardDetailView(), isActive: $navigateToCardDetail) {
+                        EmptyView()
                     }
                 }
                 .navigationBarTitle("Cards", displayMode: .large)
             }
+        }
+    }
+    
+    private func deleteCards(at offsets: IndexSet) {
+        for index in offsets {
+            let card = cards[index]
+            viewContext.delete(card)
+        }
+
+        do {
+            try viewContext.save()
+        } catch {
+            print("Failed deleteCards: \(error)")
         }
     }
 }
