@@ -44,7 +44,7 @@ struct AddCardView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(UIColor.secondarySystemBackground))
+                            .fill(Color(UIColor.secondarySystemGroupedBackground))
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
@@ -87,7 +87,7 @@ struct AddCardView: View {
                     set: { cardText = $0 }
                 ))
                 .scrollContentBackground(.hidden)
-                .background(Color(UIColor.secondarySystemBackground))
+                .background(Color(UIColor.secondarySystemGroupedBackground))
                 .focused($isFocused)
                 .foregroundColor(isEditing ? .primary : .secondary)
                 .onTapGesture {
@@ -97,7 +97,7 @@ struct AddCardView: View {
                     cardText = newValue.lowercased()
                 }
                 .padding()
-                .background(Color(UIColor.secondarySystemBackground))
+                .background(Color(UIColor.secondarySystemGroupedBackground))
                 .cornerRadius(10)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .animation(.default)
