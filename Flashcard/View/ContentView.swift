@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    
     var body: some View {
         TabView {
             StudyView()
@@ -38,6 +40,11 @@ struct ContentView: View {
                     Text("Setting")
                 }
                 .tag(3)
+        }
+        .onAppear {
+            cards.forEach { card in
+                AudioManager.shared.downloadAudio(card: card)
+            }
         }
     }
 }

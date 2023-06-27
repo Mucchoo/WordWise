@@ -19,14 +19,10 @@ struct CardView: View {
     @State private var index = 0
     @State private var isFinished = false
     @State private var isButtonEnabled = true
-    @State private var audioPlayer: AVAudioPlayer?
     
     init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
         self._showingCardView = showingCardView
         self._learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
-        
-        try? AVAudioSession.sharedInstance().setCategory(.playback, options: .allowBluetooth)
-        try? AVAudioSession.sharedInstance().setActive(true)
     }
     
     var body: some View {
@@ -100,7 +96,7 @@ struct CardView: View {
                         .opacity(isWordVisible ? 1 : 0)
                         .animation(.easeIn(duration: 0.3), value: isWordVisible)
                         .onTapGesture {
-                            playAudio(card: learningCards[index].card)
+                            AudioManager.shared.playAudio(card: learningCards[index].card)
                         }
                         
                         Spacer().frame(height: 20)
@@ -162,7 +158,7 @@ struct CardView: View {
                                 PersistenceController.shared.saveContext()
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    playAudio(card: card)
+                                    AudioManager.shared.playAudio(card: card)
                                 }
                             }
                         }) {
@@ -198,7 +194,7 @@ struct CardView: View {
                                 isWordVisible = true
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    playAudio(card: learningCards[index].card)
+                                    AudioManager.shared.playAudio(card: learningCards[index].card)
                                 }
                             }
                         }) {
@@ -221,78 +217,15 @@ struct CardView: View {
         }
         .onAppear {
             learningCards.forEach { card in
-                card.card.phoneticsArray.forEach { item in
-                    print("phonetic: \(item)")
-                }
-                
-                if let phoneticUS = card.card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false }) {
-                    downloadAudio(phonetic: phoneticUS)
-                } else if let phoneticUK = card.card.phoneticsArray.first {
-                    downloadAudio(phonetic: phoneticUK)
-                }
+                AudioManager.shared.downloadAudio(card: card.card)
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                print("play first Audio")
-                playAudio(card: learningCards[0].card)
-            }
-        }
-    }
-    
-    private func playAudio(card: Card) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            guard let urlString = card.phoneticsArray.first?.downloadedAudioUrlString,
-                  let url = URL(string: urlString) else {
-                print("playAudio blocked")
-                playAudio(card: card)
-                return
+                AudioManager.shared.playAudio(card: learningCards[0].card)
             }
             
-            print("playAudio: \(card.text ?? "nil") url: \(urlString)")
-            
-            do {
-                let audioSession = AVAudioSession.sharedInstance()
-                if audioSession.category != .playback {
-                    try audioSession.setCategory(.playback, options: .allowBluetooth)
-                    try audioSession.setActive(true)
-                }
-                
-                audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.isMeteringEnabled = true
-                audioPlayer?.prepareToPlay()
-                audioPlayer?.volume = 1.0
-                audioPlayer?.play()
-            } catch {
-                print("playAudio failed: \(error.localizedDescription)")
-                playAudio(card: card)
-            }
+            AudioManager.shared.setCategoryToPlayback()
         }
-    }
-    
-    private func downloadAudio(phonetic: Phonetic) {
-        guard let urlString = phonetic.audio,
-              let encodedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: encodedUrlString) else { return }
-        
-        let downloadTask = URLSession.shared.downloadTask(with: URLRequest(url: url)) { url, response, error in
-            guard error == nil, let fileURL = url else { return }
-            
-            do {
-                let documentsURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                let savedURL = documentsURL.appendingPathComponent(fileURL.lastPathComponent)
-                try FileManager.default.moveItem(at: fileURL, to: savedURL)
-                
-                DispatchQueue.main.async {
-                    print("downloaded \(phonetic.unwrappedText): \(savedURL.absoluteString)")
-                    phonetic.downloadedAudioUrlString = savedURL.absoluteString
-                    PersistenceController.shared.saveContext()
-                }
-            } catch {
-                print("failed downloading audio: \(error.localizedDescription)")
-            }
-        }
-        
-        downloadTask.resume()
     }
 }
 

@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import AVFoundation
 
 struct AddCardView: View {
     @Environment(\.managedObjectContext) var viewContext
@@ -227,6 +228,9 @@ struct AddCardView: View {
             print("showingFetchFailedAlert: \(fetchFailedWords.count > 0)")
             showingFetchFailedAlert = fetchFailedWords.count > 0
 
+            cards.forEach { card in
+                AudioManager.shared.downloadAudio(card: card)
+            }
         }
         
         cardText = ""

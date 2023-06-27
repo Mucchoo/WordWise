@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
+		2A2E82522A4AA12B00B9167B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2E82512A4AA12B00B9167B /* AudioManager.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
 		2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
+		2A2E82512A4AA12B00B9167B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
@@ -85,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A2E82502A4AA10300B9167B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				2A2E82512A4AA12B00B9167B /* AudioManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		2A3C1DF92A390ECB001B6E0E /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +214,7 @@
 				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
+				2A2E82502A4AA10300B9167B /* Manager */,
 				2ABC63612A38147900718C90 /* Assets.xcassets */,
 				2ABC63632A38147900718C90 /* Flashcard.entitlements */,
 				2ABC63642A38147900718C90 /* Preview Content */,
@@ -316,6 +327,7 @@
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
+				2A2E82522A4AA12B00B9167B /* AudioManager.swift in Sources */,
 				2A894FC52A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

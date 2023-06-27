@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct ActivityViewController: UIViewControllerRepresentable {
     var shareItems: [Any]
     
