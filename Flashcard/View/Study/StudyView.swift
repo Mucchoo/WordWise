@@ -17,8 +17,8 @@ struct StudyView: View {
     @State private var newButton = true
     @State private var showingCategorySheet = false
     @State private var selectedCategories: [String] = []
-    @State private var maximumCardsToStudy = 10
-    @State private var failedTimesMoreThan = 0
+    @State private var maximumCards = 10
+    @State private var failedTimes = 0
     @State private var isFirstAppearance = true
     @State private var filterStatus: [Int16]  = [0, 1, 2]
     @State private var cardsToStudy: [Card] = []
@@ -29,11 +29,11 @@ struct StudyView: View {
     private func updateCardsToStudy() {
         let filteredCards = cards.filter { card in
             let statusFilter = filterStatus.contains { $0 == card.status }
-            let failedTimesFilter = card.failedTimes >= failedTimesMoreThan
+            let failedTimesFilter = card.failedTimes >= failedTimes
             let categoryFilter = selectedCategories.contains { $0 == card.category }
             return statusFilter && failedTimesFilter && categoryFilter
         }
-        cardsToStudy = Array(filteredCards.prefix(maximumCardsToStudy))
+        cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }
     
     var body: some View {
@@ -97,7 +97,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Maximum Cards")
                                 Spacer()
-                                NumberPicker(value: $maximumCardsToStudy, labelText: "cards", options: maximumCardOptions)
+                                NumberPicker(value: $maximumCards, labelText: "cards", options: maximumCardOptions)
                             }
                             .frame(height: 30)
                             
@@ -106,7 +106,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Failed Times")
                                 Spacer()
-                                NumberPicker(value: $failedTimesMoreThan, labelText: "or more times", options: failedTimeOptions)
+                                NumberPicker(value: $failedTimes, labelText: "or more times", options: failedTimeOptions)
                             }
                             .frame(height: 30)
                         }
@@ -149,13 +149,13 @@ struct StudyView: View {
                 selectedCategories = cardCategories.map { $0.name ?? "" }
                 isFirstAppearance = false
             }
-            .onChange(of: failedTimesMoreThan) { _ in
+            .onChange(of: failedTimes) { _ in
                 updateCardsToStudy()
             }
             .onChange(of: selectedCategories) { _ in
                 updateCardsToStudy()
             }
-            .onChange(of: maximumCardsToStudy) { _ in
+            .onChange(of: maximumCards) { _ in
                 updateCardsToStudy()
             }
             .onChange(of: filterStatus) { _ in
