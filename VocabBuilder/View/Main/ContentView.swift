@@ -57,10 +57,12 @@ struct CustomTabBar: View {
             TabBarButton(image: "gearshape", selectedTab: $selectedTab, tabPoints: $tabPoints)
         }
         .padding()
-        .background(Color.blue.clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
+        .background(
+            LinearGradient(gradient: Gradient(colors: [Color("PurpleColor"), Color("OrangeColor")]), startPoint: .leading, endPoint: .trailing)
+                .clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
         .overlay(
             Circle()
-                .fill(.blue)
+                .fill(Color("PurpleColor"))
                 .frame(width: 10, height: 10)
                 .offset(x: getCurvePoint() - 20)
             , alignment: .bottomLeading)
@@ -109,7 +111,7 @@ struct TabBarButton: View {
                 } label: {
                     Image(systemName: "\(image)\(selectedTab == image ? ".fill" : "")")
                         .font(.system(size: 25, weight: .semibold))
-                        .foregroundColor(.red)
+                        .foregroundColor(.white)
                         .offset(y: selectedTab == image ? -10 : 0)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
