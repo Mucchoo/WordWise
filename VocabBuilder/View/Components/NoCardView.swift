@@ -50,14 +50,14 @@ struct NoCardView: View {
                             context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
                             context.addFilter(.blur(radius: 30))
                             context.drawLayer { ctx in
-                                for index in 1...15 {
+                                for index in 1...30 {
                                     if let resolvedView = context.resolveSymbol(id: index) {
                                         ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
                                     }
                                 }
                             }
                         } symbols: {
-                            ForEach(1...15, id: \.self) { index in
+                            ForEach(1...30, id: \.self) { index in
                                 let offset = CGSize(width: .random(in: -300...300), height: .random(in: -500...500))
                                 ClubbedRoundedRectangle(offset: offset, initialAnimation: $initialAnimation.wrappedValue, width: 100, height: 200, corner: 50)
                                     .tag(index)
