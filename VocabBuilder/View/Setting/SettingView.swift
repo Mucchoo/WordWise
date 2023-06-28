@@ -42,17 +42,6 @@ struct SettingView: View {
                     }
                     
                     Button(action: {
-                        isShowingAlert = true
-                    }) {
-                        SettingListRowView(icon: "rectangle.portrait.and.arrow.right", firstText: "Log out", showDevider: false)
-                    }
-                    .alert(isPresented: $isShowingAlert) {
-                        return Alert(title: Text("Are you sure?"), message: Text(""), primaryButton: .cancel(), secondaryButton: .destructive(Text("Log out"), action: {
-                            dismiss()
-                        }))
-                    }
-                    
-                    Button(action: {
                         showingResetAlert = true
                     }) {
                         Text("Reset Leaning Data")
