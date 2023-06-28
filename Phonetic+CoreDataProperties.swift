@@ -1,6 +1,6 @@
 //
 //  Phonetic+CoreDataProperties.swift
-//  Flashcard
+//  VocabBuilder
 //
 //  Created by Musa Yazuju on 6/25/23.
 //
