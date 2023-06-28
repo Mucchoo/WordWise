@@ -14,9 +14,6 @@
 		2A2E82522A4AA12B00B9167B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2E82512A4AA12B00B9167B /* AudioManager.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
-		2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */; };
-		2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF12A390B39001B6E0E /* ButtonView.swift */; };
-		2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
 		2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E4402A4851FE005B897C /* NoCardView.swift */; };
@@ -51,9 +48,6 @@
 		2A2E82512A4AA12B00B9167B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
-		2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
-		2A3C1DF12A390B39001B6E0E /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
-		2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleNavigationView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		2A71E4402A4851FE005B897C /* NoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardView.swift; sourceTree = "<group>"; };
@@ -161,10 +155,7 @@
 		2A3C1DFE2A390F44001B6E0E /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				2A3C1DF12A390B39001B6E0E /* ButtonView.swift */,
-				2A3C1DEF2A390AF2001B6E0E /* TextFieldView.swift */,
 				2ABC63702A3816EC00718C90 /* SettingListRowView.swift */,
-				2A3C1DF52A390C62001B6E0E /* SimpleNavigationView.swift */,
 				2A71E4402A4851FE005B897C /* NoCardView.swift */,
 			);
 			path = Components;
@@ -315,7 +306,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A894FC32A3FBF3D00163F92 /* Card+CoreDataClass.swift in Sources */,
-				2A3C1DF62A390C62001B6E0E /* SimpleNavigationView.swift in Sources */,
 				2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A894FD02A3FD6A100163F92 /* LoadingView.swift in Sources */,
@@ -327,9 +317,7 @@
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddView.swift in Sources */,
 				2AE687162A43516E009BDD0C /* FormView.swift in Sources */,
-				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
 				2A01FA152A4C8CDA00C7C1CE /* TabCurve.swift in Sources */,
-				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
 				2A894FC42A3FBF3D00163F92 /* Card+CoreDataProperties.swift in Sources */,
 				2A01FA132A4C8B2300C7C1CE /* CustomTabBar.swift in Sources */,
 				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,

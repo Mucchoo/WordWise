@@ -38,7 +38,7 @@ struct CardListView: View {
     var body: some View {
         NavigationView {
             if cards.isEmpty {
-                NoCardView()
+                NoCardView(image: "BoyRight")
             } else {
                 VStack {
                     List {
