@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2A01FA112A4C84F400C7C1CE /* VocabBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA102A4C84F400C7C1CE /* VocabBuilderApp.swift */; };
+		2A01FA132A4C8B2300C7C1CE /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA122A4C8B2300C7C1CE /* CustomTabBar.swift */; };
+		2A01FA152A4C8CDA00C7C1CE /* TabCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */; };
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
 		2A2E82522A4AA12B00B9167B /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2E82512A4AA12B00B9167B /* AudioManager.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
@@ -43,6 +45,8 @@
 /* Begin PBXFileReference section */
 		2A01FA0F2A4C84E900C7C1CE /* VocabBuilder.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = VocabBuilder.entitlements; sourceTree = "<group>"; };
 		2A01FA102A4C84F400C7C1CE /* VocabBuilderApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VocabBuilderApp.swift; sourceTree = "<group>"; };
+		2A01FA122A4C8B2300C7C1CE /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCurve.swift; sourceTree = "<group>"; };
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
 		2A2E82512A4AA12B00B9167B /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				2ABC635F2A38147900718C90 /* ContentView.swift */,
+				2A01FA122A4C8B2300C7C1CE /* CustomTabBar.swift */,
+				2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */,
 				2A3C1DFC2A390F16001B6E0E /* Study */,
 				2A3C1DFB2A390F0D001B6E0E /* Add */,
 				2A71E43D2A484FFA005B897C /* CardList */,
@@ -314,8 +320,10 @@
 				2ABC637D2A38194300718C90 /* AddView.swift in Sources */,
 				2AE687162A43516E009BDD0C /* FormView.swift in Sources */,
 				2A3C1DF22A390B39001B6E0E /* ButtonView.swift in Sources */,
+				2A01FA152A4C8CDA00C7C1CE /* TabCurve.swift in Sources */,
 				2A3C1DF02A390AF2001B6E0E /* TextFieldView.swift in Sources */,
 				2A894FC42A3FBF3D00163F92 /* Card+CoreDataProperties.swift in Sources */,
+				2A01FA132A4C8B2300C7C1CE /* CustomTabBar.swift in Sources */,
 				2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */,
 				2A71E43F2A48500E005B897C /* CardListView.swift in Sources */,
 				2ABD502E2A40FE61000459BC /* Meaning+CoreDataProperties.swift in Sources */,
