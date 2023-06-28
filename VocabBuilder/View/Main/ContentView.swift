@@ -1,45 +1,83 @@
 //
-//  CustomTabBar.swift
+//  ContentView.swift
 //  VocabBuilder
 //
-//  Created by Musa Yazuju on 6/28/23.
+//  Created by Musa Yazuju on 6/13/23.
 //
 
 import SwiftUI
+import AVFoundation
+
+struct ContentView: View {
+    @Environment(\.managedObjectContext) var viewContext
+    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    @State var selectedTab = "house"
+
+    var body: some View {
+        ZStack {
+            TabView(selection: $selectedTab) {
+                StudyView()
+                    .tag("book.closed")
+                
+                AddCardView()
+                    .tag("plus.square")
+                
+                CardListView()
+                    .tag("rectangle.stack")
+                
+                SettingView()
+                    .tag("gearshape")
+            }
+            .onAppear {
+                cards.forEach { card in
+                    AudioManager.shared.downloadAudio(card: card)
+                }
+            }
+            .ignoresSafeArea()
+            
+            VStack {
+                Spacer()
+                CustomTabBar(selectedTab: $selectedTab)
+                Spacer().frame(height: 20)
+            }
+            .edgesIgnoringSafeArea(.bottom)
+        }
+    }
+}
 
 struct CustomTabBar: View {
     @Binding var selectedTab: String
     @State var tabPoints: [CGFloat] = []
-    
+
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: "house", selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "bookmark", selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "message", selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "person", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "book.closed", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "plus.square", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "rectangle.stack", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "gearshape", selectedTab: $selectedTab, tabPoints: $tabPoints)
         }
         .padding()
-        .background(Color.white.clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
+        .background(Color.blue.clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
         .overlay(
             Circle()
-                .fill(.white)
+                .fill(.blue)
                 .frame(width: 10, height: 10)
                 .offset(x: getCurvePoint() - 20)
             , alignment: .bottomLeading)
         .cornerRadius(30)
         .padding(.horizontal)
     }
-    
+
     func getCurvePoint() -> CGFloat {
         if tabPoints.isEmpty {
             return 10
         } else {
             switch selectedTab {
-            case "house":
+            case "book.closed":
                 return tabPoints[0]
-            case "bookmark":
+            case "plus.square":
                 return tabPoints[1]
-            case "message":
+            case "rectangle.stack":
                 return tabPoints[2]
             default:
                 return tabPoints[3]
@@ -52,18 +90,17 @@ struct TabBarButton: View {
     var image: String
     @Binding var selectedTab: String
     @Binding var tabPoints: [CGFloat]
-    
+
     var body: some View {
         GeometryReader { reader -> AnyView in
-            
             let midX = reader.frame(in: .global).midX
-            
+
             DispatchQueue.main.async {
                 if tabPoints.count <= 4 {
                     tabPoints.append(midX)
                 }
             }
-            
+
             return AnyView(
                 Button {
                     withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5)) {
@@ -78,25 +115,13 @@ struct TabBarButton: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             )
         }
-        .frame(height: 50)
+        .frame(height: 40)
     }
 }
 
-struct Home: View {
-    @State var selectedTab = "house"
-    
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(.blue)
-                .ignoresSafeArea()
-            
-            CustomTabBar(selectedTab: $selectedTab)
-        }
-    }
-}
 
-struct Home_Previews: PreviewProvider {
+struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        ContentView()
     }
 }

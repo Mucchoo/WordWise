@@ -91,6 +91,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A01FA162A4C943700C7C1CE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2ABC635F2A38147900718C90 /* ContentView.swift */,
+				2A01FA122A4C8B2300C7C1CE /* CustomTabBar.swift */,
+				2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		2A2E82502A4AA10300B9167B /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,9 +121,7 @@
 		2A3C1DFA2A390EF3001B6E0E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2ABC635F2A38147900718C90 /* ContentView.swift */,
-				2A01FA122A4C8B2300C7C1CE /* CustomTabBar.swift */,
-				2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */,
+				2A01FA162A4C943700C7C1CE /* Main */,
 				2A3C1DFC2A390F16001B6E0E /* Study */,
 				2A3C1DFB2A390F0D001B6E0E /* Add */,
 				2A71E43D2A484FFA005B897C /* CardList */,
