@@ -25,8 +25,8 @@ struct ContentView: View {
                 CardListView()
                     .tag("rectangle.stack")
                 
-                SettingView()
-                    .tag("gearshape")
+                AccountView()
+                    .tag("person")
             }
             .onAppear {
                 cards.forEach { card in

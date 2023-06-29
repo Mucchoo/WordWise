@@ -17,7 +17,7 @@ struct SettingListRowView: View {
             Spacer().frame(width: 20)
             ZStack{
                 RoundedRectangle(cornerRadius: 6, style: .continuous)
-                    .fill()
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("pink"), Color("purple")]), startPoint: .top, endPoint: .bottom))
                 Image(systemName: icon)
                     .foregroundColor(Color.white)
             }

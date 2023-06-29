@@ -16,7 +16,7 @@ struct CustomTabBar: View {
             TabBarButton(image: "book.closed", selectedTab: $selectedTab, tabPoints: $tabPoints)
             TabBarButton(image: "plus.square", selectedTab: $selectedTab, tabPoints: $tabPoints)
             TabBarButton(image: "rectangle.stack", selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "gearshape", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "person", selectedTab: $selectedTab, tabPoints: $tabPoints)
         }
         .padding()
         .background(

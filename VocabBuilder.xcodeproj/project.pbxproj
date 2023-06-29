@@ -28,7 +28,7 @@
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63652A38147900718C90 /* Preview Assets.xcassets */; };
-		2ABC636D2A38167800718C90 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* SettingView.swift */; };
+		2ABC636D2A38167800718C90 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* AccountView.swift */; };
 		2ABC63712A3816EC00718C90 /* SettingListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC63702A3816EC00718C90 /* SettingListRowView.swift */; };
 		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
@@ -63,7 +63,7 @@
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2ABC63612A38147900718C90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2ABC63652A38147900718C90 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		2ABC636C2A38167800718C90 /* SettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		2ABC636C2A38167800718C90 /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		2ABC63702A3816EC00718C90 /* SettingListRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingListRowView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
@@ -106,7 +106,7 @@
 		2A3C1DF92A390ECB001B6E0E /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				2ABC636C2A38167800718C90 /* SettingView.swift */,
+				2ABC636C2A38167800718C90 /* AccountView.swift */,
 				2A3C1DEB2A390A2D001B6E0E /* MailView.swift */,
 			);
 			path = Setting;
@@ -311,7 +311,7 @@
 				2A894FD02A3FD6A100163F92 /* LoadingView.swift in Sources */,
 				2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */,
 				2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */,
-				2ABC636D2A38167800718C90 /* SettingView.swift in Sources */,
+				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
 				2A01FA112A4C84F400C7C1CE /* VocabBuilderApp.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,

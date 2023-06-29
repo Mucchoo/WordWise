@@ -1,5 +1,5 @@
 //
-//  SettingView.swift
+//  AccountView.swift
 //  MuscleRecord
 //
 //  Created by Musa Yazuju on 2022/03/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingView: View {
+struct AccountView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @ObservedObject private var viewModel = ViewModel()
@@ -26,6 +26,29 @@ struct SettingView: View {
                 Spacer().frame(height: 20)
                 
                 VStack(spacing: 8) {
+                    ZStack {
+                        LinearGradient(gradient: Gradient(colors: [Color("orange"), Color("purple")]), startPoint: .top, endPoint: .bottom)
+                            .cornerRadius(10)
+                            .clipped()
+
+                        HStack {
+                            Spacer().frame(width: 15)
+                            Image(systemName: "person.circle")
+                                .font(.system(size: 50))
+                                .foregroundColor(.white)
+                            HStack {
+                                Text("yazujumusa") + Text("@icloud.com")
+                            }
+                            .foregroundColor(.white)
+                            .font(.body)
+                            .fontWeight(.bold)
+                            
+                            Spacer()
+                        }
+                    }
+                    .frame(height: 70)
+                    .padding(.horizontal)
+                    
                     Button {
                         viewModel.shareApp()
                     } label: {
@@ -63,7 +86,7 @@ struct SettingView: View {
                 
                 Spacer()
             }
-            .navigationBarTitle("Account Settings", displayMode: .large)
+            .navigationBarTitle("Account", displayMode: .large)
         }
     }
     
@@ -76,8 +99,8 @@ struct SettingView: View {
     }
 }
 
-struct SettingView_Previews: PreviewProvider {
+struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView()
+        AccountView()
     }
 }
