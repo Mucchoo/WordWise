@@ -82,16 +82,3 @@ struct TabBarButton: View {
         .frame(height: 40)
     }
 }
-
-struct Home: View {
-    @State var selectedTab = "house"
-    
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            Color(.blue)
-                .ignoresSafeArea()
-            
-            CustomTabBar(selectedTab: $selectedTab)
-        }
-    }
-}
