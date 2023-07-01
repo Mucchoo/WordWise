@@ -25,27 +25,23 @@ struct AddCardView: View {
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
     @State private var fetchFailedWords: [String] = []
-    
-    private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
+    @State private var initialAnimation = false
+
+    private let initialPlaceholder = "Write whatever wards you want to add. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     @ObservedObject var fetcher = WordFetcher()
     
     var body: some View {
         NavigationView {
-            
             VStack {
-                HStack {
-                    Text("CATEGORY")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                }
-                .padding(.top)
-                .padding(.horizontal, 30)
-                
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(UIColor.secondarySystemGroupedBackground))
+                            .fill(Color.white.opacity(0.5))
+                            .overlay(
+                                TransparentBlurView(removeAllLayers: true)
+                                .blur(radius: 9, opaque: true)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            )
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
@@ -74,21 +70,12 @@ struct AddCardView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 20)
-                
-                HStack {
-                    Text("WORDS")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                }
-                .padding(.horizontal, 30)
-                
+
                 TextEditor(text: Binding(
                     get: { isEditing ? cardText : initialPlaceholder },
                     set: { cardText = $0 }
                 ))
                 .scrollContentBackground(.hidden)
-                .background(Color(UIColor.secondarySystemGroupedBackground))
                 .focused($isFocused)
                 .foregroundColor(isEditing ? .primary : .secondary)
                 .onTapGesture {
@@ -98,7 +85,11 @@ struct AddCardView: View {
                     cardText = newValue.lowercased()
                 }
                 .padding()
-                .background(Color(UIColor.secondarySystemGroupedBackground))
+                .background {
+                    TransparentBlurView(removeAllLayers: true)
+                        .blur(radius: 9, opaque: true)
+                        .background(.white.opacity(0.5))
+                }
                 .cornerRadius(10)
                 .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
                 .animation(.default)
@@ -120,11 +111,22 @@ struct AddCardView: View {
 
             }
             .padding(.bottom)
-            .background(Color(UIColor.systemGroupedBackground))
             .onTapGesture {
                 isFocused = false
             }
+            .background {
+                ZStack {
+                    Color(UIColor.systemGroupedBackground)
+                        .edgesIgnoringSafeArea(.all)
+                    ClubbedView(initialAnimation: $initialAnimation)
+                        .edgesIgnoringSafeArea(.all)
+                }
+            }
             .navigationBarTitle("Add Cards", displayMode: .large)
+        }
+        .onAppear {
+            initialAnimation = true
+            PersistenceController.shared.addDefaultCategory()
         }
         
         .alert("Add Category", isPresented: $showingAlert) {
@@ -141,10 +143,6 @@ struct AddCardView: View {
             Text("Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))")
         }
         
-        .onAppear {
-            PersistenceController.shared.addDefaultCategory()
-        }
-        
         .overlay(
             Color.clear
                 .contentShape(Rectangle())
@@ -152,6 +150,45 @@ struct AddCardView: View {
                     isFocused = false
                 }
         )
+    }
+    
+    @ViewBuilder
+    func ClubbedView(initialAnimation: Binding<Bool>) -> some View {
+        Rectangle()
+            .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
+            .mask {
+                TimelineView(.animation(minimumInterval: 20, paused: false)) { _ in
+                    ZStack {
+                        Canvas { context, size in
+                            context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
+                            context.addFilter(.blur(radius: 30))
+                            context.drawLayer { ctx in
+                                for index in 1...30 {
+                                    if let resolvedView = context.resolveSymbol(id: index) {
+                                        ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
+                                    }
+                                }
+                            }
+                        } symbols: {
+                            ForEach(1...30, id: \.self) { index in
+                                let offset = CGSize(width: .random(in: -300...300), height: .random(in: -500...500))
+                                ClubbedRoundedRectangle(offset: offset, initialAnimation: $initialAnimation.wrappedValue, width: 100, height: 100, corner: 50)
+                                    .tag(index)
+                            }
+                        }
+                    }
+                }
+            }
+        .contentShape(Rectangle())
+    }
+    
+    @ViewBuilder
+    func ClubbedRoundedRectangle(offset: CGSize, initialAnimation: Bool, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: corner, style: .continuous)
+            .fill(.white)
+            .frame(width: width, height: height)
+            .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
+            .animation(.easeInOut(duration: 20), value: offset)
     }
     
     private func addCategory() {
