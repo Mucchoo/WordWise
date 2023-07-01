@@ -111,7 +111,8 @@ struct StudyView: View {
                             }
                             .frame(height: 30)
                         }
-                        .padding()
+                        .padding(.horizontal)
+                        .padding(.vertical, 10)
                         .background {
                             TransparentBlurView(removeAllLayers: true)
                                 .blur(radius: 9, opaque: true)
