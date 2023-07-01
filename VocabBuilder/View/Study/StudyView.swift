@@ -237,8 +237,8 @@ struct NumberPicker: View {
     }
 }
 
-struct StudyView_Previews: PreviewProvider {
-    static var previews: some View {
-        StudyView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct StudyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        StudyView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}
