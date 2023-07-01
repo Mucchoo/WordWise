@@ -22,7 +22,7 @@ struct AddCardView: View {
     @State private var showingAlert = false
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
-    @State private var initialAnimation = false
+    @Binding var initialAnimation: Bool
     @State private var fetchFailedWords: [String] = []
 
     private let initialPlaceholder = "Write whatever wards you want to add. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
@@ -129,7 +129,6 @@ struct AddCardView: View {
             .navigationBarTitle("Add Cards", displayMode: .large)
         }
         .onAppear {
-            initialAnimation = true
             PersistenceController.shared.addDefaultCategory()
         }
         
@@ -200,7 +199,7 @@ struct AddCardView: View {
 
 struct AddCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCardView()
+        AddCardView(initialAnimation: .constant(true))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

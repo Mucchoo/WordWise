@@ -17,7 +17,7 @@ struct AccountView: View {
     @State var isShowingTutorial = false
     @State var isShowingMail = false
     @State var showingResetAlert = false
-    @State private var initialAnimation = false
+    @Binding var initialAnimation: Bool
     @State private var mailData = Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line! Thank you!")
     
     var body: some View {
@@ -128,9 +128,6 @@ struct AccountView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
             }
-            .onAppear {
-                initialAnimation = true
-            }
             .navigationBarTitle("Account", displayMode: .large)
         }
     }
@@ -177,6 +174,6 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView()
+        AccountView(initialAnimation: .constant(true))
     }
 }

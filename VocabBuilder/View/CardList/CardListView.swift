@@ -29,7 +29,7 @@ struct CardListView: View {
     @State private var selectedStatus: Int16 = 0
     @State private var selectedCategory = ""
     @State private var selectedFailedTimes = 0
-    @State private var initialAnimation = false
+    @Binding var initialAnimation: Bool
 
     let failedTimeOptions = CardManager.shared.failedTimeOptions
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
@@ -163,9 +163,6 @@ struct CardListView: View {
                 .navigationBarTitle("Cards", displayMode: .large)
             }
         }
-        .onAppear {
-            initialAnimation = true
-        }
     }
     
     @ViewBuilder
@@ -210,6 +207,6 @@ struct CardListView: View {
 
 struct CardListView_Previews: PreviewProvider {
     static var previews: some View {
-        CardListView()
+        CardListView(initialAnimation: .constant(true))
     }
 }

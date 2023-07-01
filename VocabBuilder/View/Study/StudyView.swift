@@ -22,7 +22,7 @@ struct StudyView: View {
     @State private var isFirstAppearance = true
     @State private var filterStatus: [Int16]  = [0, 1, 2]
     @State private var cardsToStudy: [Card] = []
-    @State private var initialAnimation = false
+    @Binding var initialAnimation: Bool
     
     private func updateCardsToStudy() {
         let filteredCards = cards.filter { card in
@@ -149,8 +149,6 @@ struct StudyView: View {
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .onAppear {
-                initialAnimation = true
-                
                 cards.forEach { card in
                     guard card.category == nil else { return }
                     card.category = cardCategories.first?.name

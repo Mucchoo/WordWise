@@ -12,26 +12,31 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @State var selectedTab = "book.closed"
+    @State var initialAnimation = false
 
     var body: some View {
         ZStack {
             TabView(selection: $selectedTab) {
-                StudyView()
+                StudyView(initialAnimation: $initialAnimation)
                     .tag("book.closed")
                 
-                AddCardView()
+                AddCardView(initialAnimation: $initialAnimation)
                     .tag("plus.square")
                 
-                CardListView()
+                CardListView(initialAnimation: $initialAnimation)
                     .tag("rectangle.stack")
                 
-                AccountView()
+                AccountView(initialAnimation: $initialAnimation)
                     .tag("person")
             }
             .onAppear {
+                initialAnimation = true
                 cards.forEach { card in
                     AudioManager.shared.downloadAudio(card: card)
                 }
+            }
+            .onChange(of: selectedTab) { _ in
+                initialAnimation = true
             }
             .ignoresSafeArea()
             
@@ -44,7 +49,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
