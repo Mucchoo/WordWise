@@ -12,7 +12,7 @@ struct ChartBarView: View {
     @State var status: Int
     var name: String
     var image: String
-    var color: Color
+    var colors: [Color]
     
     @State private var progress: CGFloat = 0
     @State private var counter: Int = 0
@@ -20,20 +20,28 @@ struct ChartBarView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 15)
-                    .foregroundColor(color)
-                    .frame(width: 55 + progress * (geometry.size.width - 55), height: 30)
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(
+                        LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
+
+                    )
+                    .frame(width: 60 + progress * (geometry.size.width - 60), height: 30)
                     .animation(.easeInOut(duration: 1))
                 HStack(spacing: 2) {
                     Image(systemName: image)
-                        .font(.system(size: 26))
+                        .font(.system(size: 14))
+                        .fontWeight(.black)
                         .foregroundColor(.white)
-                    Text("\(counter)")
+                        .frame(width: 14)
+                        .padding(.leading, 10)
+                    Spacer()
+                    Text("\(counter)   ")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                    Spacer()
                 }
+                .frame(width: 55 + progress * (geometry.size.width - 55), height: 30)
+                .animation(.easeInOut(duration: 1))
             }
             .onAppear {
                 let cardCount = cards.count
@@ -55,6 +63,6 @@ struct ChartBarView: View {
 
 struct ChartBarView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartBarView(status: 0, name: "Learned", image: "checkmark.circle.fill", color: .blue)
+        ChartBarView(status: 0, name: "Learned", image: "checkmark", colors: [.black, .blue])
     }
 }

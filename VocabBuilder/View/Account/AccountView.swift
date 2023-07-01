@@ -36,13 +36,14 @@ struct AccountView: View {
                             .background(.white.opacity(0.5))
                     }
                     .cornerRadius(10)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
                     
                     VStack {
                         VStack(spacing: 8) {
-                            ChartBarView(status: 0, name: "Learned", image: "checkmark.circle.fill", color: .blue)
-                            ChartBarView(status: 1, name: "Learning", image: "pencil.circle.fill", color: .red)
-                            ChartBarView(status: 2, name: "New", image: "star.circle.fill", color: .yellow)
+                            ChartBarView(status: 0, name: "Learned", image: "checkmark", colors: [.black, Color("Navy")])
+                            ChartBarView(status: 1, name: "Learning", image: "flame.fill", colors: [Color("Navy"), Color("Blue")])
+                            ChartBarView(status: 2, name: "New", image: "star.fill", colors: [Color("Blue"), Color("Teal")])
                         }
                     }
                     .padding()
@@ -52,7 +53,8 @@ struct AccountView: View {
                             .background(.white.opacity(0.5))
                     }
                     .cornerRadius(10)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
                     
                     VStack {
                         Button {
@@ -87,7 +89,8 @@ struct AccountView: View {
                             .background(.white.opacity(0.5))
                     }
                     .cornerRadius(10)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
 
                     HStack {
                         Button(action: {
@@ -113,7 +116,8 @@ struct AccountView: View {
                             .background(.white.opacity(0.5))
                     }
                     .cornerRadius(10)
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
                 }
             }
             .background {

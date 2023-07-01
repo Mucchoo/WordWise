@@ -28,12 +28,12 @@ struct StatusButton: View {
         }) {
             VStack(spacing: 4) {
                 Image(systemName: systemName)
-                    .foregroundColor(isOn ? .white : colors.first ?? .white)
+                    .foregroundColor(isOn ? .white : .black)
                     .fontWeight(.black)
                 Text(title)
                     .font(.footnote)
                     .fontWeight(.bold)
-                    .foregroundColor(isOn ? .white : .primary)
+                    .foregroundColor(isOn ? .white : .black)
             }
             .frame(height: 60)
             .frame(maxWidth: .infinity)

@@ -43,7 +43,7 @@ struct StudyView: View {
                     VStack {
                         HStack(spacing: 0) {
                             StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, Color("Navy")], filterStatus: $filterStatus)
-                            StatusButton(systemName: "pencil.circle.fill", status: 1, title: "Learning", colors: [Color("Navy"), Color("Blue")], filterStatus: $filterStatus)
+                            StatusButton(systemName: "flame.circle.fill", status: 1, title: "Learning", colors: [Color("Navy"), Color("Blue")], filterStatus: $filterStatus)
                             StatusButton(systemName: "star.circle.fill", status: 2, title: "New", colors: [Color("Blue"), Color("Teal")], filterStatus: $filterStatus)
                         }
                         .cornerRadius(20)
