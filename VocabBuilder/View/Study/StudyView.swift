@@ -24,9 +24,6 @@ struct StudyView: View {
     @State private var cardsToStudy: [Card] = []
     @State private var initialAnimation = false
     
-    let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
-    let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
-    
     private func updateCardsToStudy() {
         let filteredCards = cards.filter { card in
             let statusFilter = filterStatus.contains { $0 == card.status }
@@ -45,9 +42,9 @@ struct StudyView: View {
                 ScrollView {
                     VStack {
                         HStack(spacing: 0) {
-                            StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", color: .blue, filterStatus: $filterStatus, cards: cards)
-                            StatusButton(systemName: "pencil.circle.fill", status: 1, title: "Learning", color: .red, filterStatus: $filterStatus, cards: cards)
-                            StatusButton(systemName: "star.circle.fill", status: 2, title: "New", color: .yellow, filterStatus: $filterStatus, cards: cards)
+                            StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, Color("Navy")], filterStatus: $filterStatus)
+                            StatusButton(systemName: "pencil.circle.fill", status: 1, title: "Learning", colors: [Color("Navy"), Color("Blue")], filterStatus: $filterStatus)
+                            StatusButton(systemName: "star.circle.fill", status: 2, title: "New", colors: [Color("Blue"), Color("Teal")], filterStatus: $filterStatus)
                         }
                         .cornerRadius(20)
                         .clipped()
@@ -98,7 +95,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Maximum Cards")
                                 Spacer()
-                                NumberPicker(value: $maximumCards, labelText: "cards", options: maximumCardOptions)
+                                NumberPicker(value: $maximumCards, labelText: "cards", options: CardManager.shared.maximumCardOptions)
                             }
                             .frame(height: 30)
                             
@@ -107,7 +104,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Failed Times")
                                 Spacer()
-                                NumberPicker(value: $failedTimes, labelText: "or more times", options: failedTimeOptions)
+                                NumberPicker(value: $failedTimes, labelText: "or more times", options: CardManager.shared.failedTimeOptions)
                             }
                             .frame(height: 30)
                         }
@@ -223,66 +220,5 @@ struct StudyView: View {
             .frame(width: width, height: height)
             .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
             .animation(.easeInOut(duration: 20), value: offset)
-    }
-}
-
-struct StatusButton: View {
-    var systemName: String
-    var status: Int
-    var title: String
-    var color: Color
-    @Binding var filterStatus: [Int16]
-    @State private var isOn = true
-    var cards: FetchedResults<Card>
-
-    var body: some View {
-        Button(action: {
-            isOn.toggle()
-            
-            if isOn {
-                filterStatus.append(Int16(status))
-            } else {
-                filterStatus.removeAll(where: { $0 == status })
-            }
-        }) {
-            VStack(spacing: 4) {
-                Image(systemName: systemName)
-                    .foregroundColor(isOn ? .white : color)
-                    .fontWeight(.black)
-                Text(title)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-                    .foregroundColor(isOn ? .white : .primary)
-            }
-            .frame(height: 60)
-            .frame(maxWidth: .infinity)
-            .background(isOn ? color : .white)
-        }
-    }
-}
-
-struct NumberPicker: View {
-    @Binding var value: Int
-    var labelText: String
-    var options: [Int]
-    
-    var body: some View {
-        Picker(
-            selection: $value,
-            label:
-                HStack {
-                    Text("Picker")
-                        .fontWeight(.bold)
-                }
-            ,
-            content: {
-                ForEach(options, id: \.self) { i in
-                    Text("\(i) \(labelText)").tag(i)
-                }
-            }
-        )
-        .labelsHidden()
-        .cornerRadius(15)
-        .pickerStyle(MenuPickerStyle())
     }
 }
