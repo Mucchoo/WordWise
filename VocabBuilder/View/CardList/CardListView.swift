@@ -26,12 +26,12 @@ struct CardListView: View {
     @State private var navigateToCardDetail: Bool = false
     @State private var failedTimes = 0
     @State private var selectedCardId: UUID?
-    @State private var statusArray: [CardStatus]  = [CardStatus(text: "learned", value: 0), CardStatus(text: "learning", value: 1), CardStatus(text: "new", value: 2)]
     @State private var selectedStatus: Int16 = 0
     @State private var selectedCategory = ""
     @State private var selectedFailedTimes = 0
+    @State private var initialAnimation = false
 
-    let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    let failedTimeOptions = CardManager.shared.failedTimeOptions
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     @ObservedObject var fetcher = WordFetcher()
     
@@ -96,7 +96,7 @@ struct CardListView: View {
                                         .pickerStyle(MenuPickerStyle())
                                         
                                         Picker("Status", selection: $selectedStatus) {
-                                            ForEach(statusArray, id: \.self) { status in
+                                            ForEach(CardManager.shared.statusArray, id: \.self) { status in
                                                 Text("\(status.text)").tag(status.value)
                                             }
                                         }
@@ -112,11 +112,11 @@ struct CardListView: View {
                                 }
                                 .onChange(of: navigateToCardDetail) { newValue in
                                     if !newValue, let selectedCardId = selectedCardId {
-                                        updateCard(id: selectedCardId, text: cardText, category: selectedCategory, status: selectedStatus, failedTimesIndex: Int(selectedFailedTimes))
+                                        CardManager.shared.updateCard(id: selectedCardId, text: cardText, category: selectedCategory, status: selectedStatus, failedTimesIndex: Int(selectedFailedTimes))
                                     }
                                 }
                             }
-                            .onDelete(perform: deleteCard)
+                            .onDelete(perform: CardManager.shared.deleteCard)
                         }
                     }
                     .listStyle(InsetGroupedListStyle())
@@ -125,34 +125,10 @@ struct CardListView: View {
             }
         }
     }
-    
-    private func updateCard(id: UUID, text: String, category: String, status: Int16, failedTimesIndex: Int) {
-        print("updateCard id: \(id) text: \(text) category: \(category) status: \(status) failedTimesIndex: \(failedTimesIndex)")
-        if let card = cards.first(where: { $0.id == id }) {
-            card.text = text
-            card.category = category
-            card.status = status
-            card.failedTimes = Int64(failedTimeOptions[failedTimesIndex])
-            PersistenceController.shared.saveContext()
-        }
-    }
-    
-    private func deleteCard(at offsets: IndexSet) {
-        for index in offsets {
-            let card = cards[index]
-            viewContext.delete(card)
-        }
-        PersistenceController.shared.saveContext()
-    }
 }
 
 struct CardListView_Previews: PreviewProvider {
     static var previews: some View {
         CardListView()
     }
-}
-
-struct CardStatus: Hashable {
-    let text: String
-    let value: Int16
 }

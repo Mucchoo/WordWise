@@ -285,9 +285,3 @@ struct NumberPicker: View {
         .pickerStyle(MenuPickerStyle())
     }
 }
-
-//struct StudyView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StudyView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//    }
-//}
