@@ -66,7 +66,7 @@ struct AddCardView: View {
                         Text("Add Category")
                             .padding(.vertical, 12)
                             .padding(.horizontal)
-                            .background(.blue)
+                            .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -111,7 +111,7 @@ struct AddCardView: View {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(.blue)
+                        .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
@@ -119,6 +119,7 @@ struct AddCardView: View {
                 .padding([.horizontal, .bottom])
 
             }
+            .padding(.bottom)
             .background(Color(UIColor.systemGroupedBackground))
             .onTapGesture {
                 isFocused = false

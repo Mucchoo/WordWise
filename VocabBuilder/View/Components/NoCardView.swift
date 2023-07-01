@@ -42,7 +42,7 @@ struct NoCardView: View {
     @ViewBuilder
     func ClubbedView(initialAnimation: Binding<Bool>) -> some View {
         Rectangle()
-            .fill(.linearGradient(colors: [Color("purple"), Color("orange")], startPoint: .top, endPoint: .bottom))
+            .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
             .mask {
                 TimelineView(.animation(minimumInterval: 5, paused: false)) { _ in
                     ZStack {

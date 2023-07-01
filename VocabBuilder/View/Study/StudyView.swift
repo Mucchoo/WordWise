@@ -124,7 +124,7 @@ struct StudyView: View {
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(cardsToStudy.count > 0 ? .blue : .gray)
+                                .background(cardsToStudy.count > 0 ? LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
