@@ -22,6 +22,7 @@ struct StudyView: View {
     @State private var isFirstAppearance = true
     @State private var filterStatus: [Int16]  = [0, 1, 2]
     @State private var cardsToStudy: [Card] = []
+    @State private var initialAnimation = false
     
     let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
     let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
@@ -111,7 +112,11 @@ struct StudyView: View {
                             .frame(height: 30)
                         }
                         .padding()
-                        .background(.white)
+                        .background {
+                            TransparentBlurView(removeAllLayers: true)
+                                .blur(radius: 9, opaque: true)
+                                .background(.white.opacity(0.5))
+                        }
                         .cornerRadius(10)
                         .clipped()
                         .padding()
@@ -135,10 +140,19 @@ struct StudyView: View {
                         }
                     }
                 }
+                .background {
+                    ZStack {
+                        Color(UIColor.systemGroupedBackground)
+                            .edgesIgnoringSafeArea(.all)
+                        ClubbedView(initialAnimation: $initialAnimation)
+                            .edgesIgnoringSafeArea(.all)
+                    }
+                }
                 .navigationBarTitle("Study", displayMode: .large)
-                .background(Color(UIColor.systemGroupedBackground))
             }
             .onAppear {
+                initialAnimation = true
+                
                 cards.forEach { card in
                     guard card.category == nil else { return }
                     card.category = cardCategories.first?.name
@@ -170,6 +184,45 @@ struct StudyView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    func ClubbedView(initialAnimation: Binding<Bool>) -> some View {
+        Rectangle()
+            .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
+            .mask {
+                TimelineView(.animation(minimumInterval: 20, paused: false)) { _ in
+                    ZStack {
+                        Canvas { context, size in
+                            context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
+                            context.addFilter(.blur(radius: 30))
+                            context.drawLayer { ctx in
+                                for index in 1...30 {
+                                    if let resolvedView = context.resolveSymbol(id: index) {
+                                        ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
+                                    }
+                                }
+                            }
+                        } symbols: {
+                            ForEach(1...30, id: \.self) { index in
+                                let offset = CGSize(width: .random(in: -300...300), height: .random(in: -500...500))
+                                ClubbedRoundedRectangle(offset: offset, initialAnimation: $initialAnimation.wrappedValue, width: 100, height: 100, corner: 50)
+                                    .tag(index)
+                            }
+                        }
+                    }
+                }
+            }
+        .contentShape(Rectangle())
+    }
+    
+    @ViewBuilder
+    func ClubbedRoundedRectangle(offset: CGSize, initialAnimation: Bool, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: corner, style: .continuous)
+            .fill(.white)
+            .frame(width: width, height: height)
+            .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
+            .animation(.easeInOut(duration: 20), value: offset)
+    }
 }
 
 struct StatusButton: View {
@@ -195,16 +248,12 @@ struct StatusButton: View {
                 Image(systemName: systemName)
                     .foregroundColor(isOn ? .white : color)
                     .fontWeight(.black)
-                Text("\(cards.filter { $0.status == status }.count)")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(isOn ? .white : .primary)
                 Text(title)
                     .font(.footnote)
                     .fontWeight(.bold)
                     .foregroundColor(isOn ? .white : .primary)
             }
-            .frame(height: 120)
+            .frame(height: 60)
             .frame(maxWidth: .infinity)
             .background(isOn ? color : .white)
         }

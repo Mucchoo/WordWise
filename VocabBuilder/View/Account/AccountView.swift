@@ -144,7 +144,7 @@ struct AccountView: View {
         Rectangle()
             .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
             .mask {
-                TimelineView(.animation(minimumInterval: 5, paused: false)) { _ in
+                TimelineView(.animation(minimumInterval: 20, paused: false)) { _ in
                     ZStack {
                         Canvas { context, size in
                             context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
@@ -175,7 +175,7 @@ struct AccountView: View {
             .fill(.white)
             .frame(width: width, height: height)
             .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
-            .animation(.easeInOut(duration: 5), value: offset)
+            .animation(.easeInOut(duration: 20), value: offset)
     }
 }
 
