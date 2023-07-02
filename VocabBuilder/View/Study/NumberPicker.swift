@@ -35,6 +35,6 @@ struct NumberPicker: View {
 
 struct NumberPicker_Previews: PreviewProvider {
     static var previews: some View {
-        NumberPicker(value: .constant(0), labelText: "cards", options: CardManager.shared.maximumCardOptions)
+        NumberPicker(value: .constant(0), labelText: "cards", options: Global.maximumCardOptions)
     }
 }

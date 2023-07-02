@@ -25,10 +25,14 @@ class CardManager {
     }
 
     func loadCards() {
+        print("loadCards")
         let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
 
         do {
-            cards = try viewContext.fetch(fetchRequest)
+            let fetchedCards = try viewContext.fetch(fetchRequest)
+            DispatchQueue.main.async {
+                self.cards = fetchedCards
+            }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -40,7 +44,7 @@ class CardManager {
             card.text = text
             card.category = category
             card.status = status
-            card.failedTimes = Int64(failedTimeOptions[failedTimesIndex])
+            card.failedTimes = Int64(Global.failedTimeOptions[failedTimesIndex])
             PersistenceController.shared.saveContext()
         }
     }
@@ -62,7 +66,6 @@ class CardManager {
     func addCard(text: String, completion: (([String]) -> (Void))? = nil) {
         guard text != "" else { return }
         let words = text.split(separator: "\n")
-        let totalWords = words.count
         let group = DispatchGroup()
         var fetchFailedWords: [String] = []
         
@@ -159,9 +162,4 @@ class WordFetcher: ObservableObject {
         }
         task.resume()
     }
-}
-
-struct CardStatus: Hashable {
-    let text: String
-    let value: Int16
 }
