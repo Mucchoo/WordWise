@@ -14,7 +14,7 @@ struct BackgroundView: View {
         ZStack {
             Color(UIColor.systemGroupedBackground)
                 .edgesIgnoringSafeArea(.all)
-            ClubbedView(initialAnimation: $initialAnimation)
+            ClubbedView()
                 .edgesIgnoringSafeArea(.all)
         }
     }

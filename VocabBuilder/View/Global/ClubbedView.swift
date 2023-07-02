@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ClubbedView: View {
-    @Binding var initialAnimation: Bool
     var isNoCardView = false
+    @State private var animate = false
     
     var body: some View {
         Rectangle()
@@ -29,7 +29,7 @@ struct ClubbedView: View {
                             }
                         } symbols: {
                             ForEach(1...30, id: \.self) { index in
-                                ClubbedRoundedRectangle(offset: .randomOffset(), initialAnimation: initialAnimation, width: 100, height: 100, corner: 50)
+                                ClubbedRoundedRectangle(offset: .randomOffset(), width: 100, height: 100, corner: 50)
                                     .tag(index)
                             }
                         }
@@ -48,7 +48,7 @@ struct ClubbedView: View {
                             } symbols: {
                                 ForEach(1...5, id: \.self) { index in
                                     let offset = CGSize(width: .random(in: -50...50), height: .random(in: -50...50))
-                                    ClubbedRoundedRectangle(offset: offset, initialAnimation: $initialAnimation.wrappedValue, width: 350, height: 350, corner: 175)
+                                    ClubbedRoundedRectangle(offset: offset, width: 350, height: 350, corner: 175)
                                         .tag(index)
                                 }
                             }
@@ -57,26 +57,24 @@ struct ClubbedView: View {
                 }
             }
             .contentShape(Rectangle())
+        
+            .onAppear {
+                DispatchQueue.main.async {
+                    self.animate = true
+                }
+            }
     }
     
     @ViewBuilder
-    func ClubbedRoundedRectangle(offset: CGSize, initialAnimation: Bool, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
+    func ClubbedRoundedRectangle(offset: CGSize, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: corner, style: .continuous)
             .fill(.white)
             .frame(width: width, height: height)
-            .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
-            .animation(.easeInOut(duration: 20), value: offset)
+            .offset(x: animate ? offset.width : offset.width, y: animate ? offset.height : offset.height)
+            .animation(.easeInOut(duration: 20), value: animate)
     }
 }
 
-@ViewBuilder
-func ClubbedRoundedRectangle(offset: CGSize, initialAnimation: Bool, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
-    RoundedRectangle(cornerRadius: corner, style: .continuous)
-        .fill(.white)
-        .frame(width: width, height: height)
-        .offset(x: initialAnimation ? offset.width : 0, y: initialAnimation ? offset.height : 0)
-        .animation(.easeInOut(duration: 5), value: offset)
-}
 extension CGSize {
     static func randomOffset() -> CGSize {
         return CGSize(width: .random(in: -300...300), height: .random(in: -500...500))
@@ -85,6 +83,6 @@ extension CGSize {
 
 struct ClubbedView_Previews: PreviewProvider {
     static var previews: some View {
-        ClubbedView(initialAnimation: .constant(true))
+        ClubbedView()
     }
 }

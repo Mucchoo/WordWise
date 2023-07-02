@@ -15,7 +15,7 @@ struct NoCardView: View {
         VStack {
             Spacer()
             ZStack {
-                ClubbedView(initialAnimation: $initialAnimation, isNoCardView: true)
+                ClubbedView(isNoCardView: true)
                 VStack {
                     Image(image)
                         .resizable()
