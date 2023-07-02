@@ -116,6 +116,8 @@ struct AddCardView: View {
             TextField("category name", text: $textFieldInput)
             Button("Add", role: .none) {
                 DataViewModel.shared.addCategory(name: textFieldInput)
+                pickerSelected = textFieldInput
+                textFieldInput = ""
             }
             Button("Cancel", role: .cancel) {}
         } message: {

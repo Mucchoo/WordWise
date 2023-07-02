@@ -52,29 +52,7 @@ struct StudyView: View {
                                 }
                                 .padding([.leading, .trailing])
                                 .sheet(isPresented: $showingCategorySheet) {
-                                    List(dataViewModel.categories, id: \.self) { category in
-                                        HStack {
-                                            Text(category.name ?? "Unknown")
-                                            Spacer()
-                                            if selectedCategories.contains(category.name ?? "") {
-                                                Image(systemName: "checkmark.circle.fill")
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(.blue)
-                                            }
-                                        }
-                                        .contentShape(Rectangle())
-                                        .onTapGesture {
-                                            guard let categoryName = category.name else { return }
-                                            if selectedCategories.contains(categoryName) {
-                                                guard selectedCategories.count != 1 else { return }
-                                                selectedCategories.removeAll { $0 == category.name }
-                                            } else {
-                                                selectedCategories.append(categoryName)
-                                            }
-                                        }
-                                    }
-                                    .environment(\.editMode, .constant(EditMode.active))
-                                    .presentationDetents([.medium, .large])
+                                    CategoryList(categories: $selectedCategories)
                                 }
                                 
                             }

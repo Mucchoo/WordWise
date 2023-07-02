@@ -61,6 +61,33 @@ class DataViewModel: ObservableObject {
         let category = CardCategory(context: viewContext)
         category.name = name
         PersistenceController.shared.saveContext()
+        
+        DispatchQueue.main.async {
+            self.categories.append(category)
+        }
+    }
+    
+    func renameCategory(before: String, after: String) {
+        guard let category = categories.first(where: { $0.name == before }) else { return }
+        
+        DispatchQueue.main.async { [self] in
+            cards.filter({ $0.category == category.name }).forEach { card in
+                card.category = after
+            }
+            
+            category.name = after
+            PersistenceController.shared.saveContext()
+        }
+    }
+    
+    func deleteCategory(name: String) {
+        guard let category = categories.first(where: { $0.name == name }) else { return }
+        viewContext.delete(category)
+        PersistenceController.shared.saveContext()
+        
+        DispatchQueue.main.async {
+            self.categories.removeAll(where: { $0.name == category.name })
+        }
     }
     
     func addCard(text: String, completion: (([String]) -> (Void))? = nil) {

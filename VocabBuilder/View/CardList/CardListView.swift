@@ -72,29 +72,7 @@ struct CardListView: View {
                                     }
                                     .padding([.leading, .trailing])
                                     .sheet(isPresented: $showingCategorySheet) {
-                                        List(dataViewModel.categories, id: \.self) { category in
-                                            HStack {
-                                                Text(category.name ?? "Unknown")
-                                                Spacer()
-                                                if filterCategories.contains(category.name ?? "") {
-                                                    Image(systemName: "checkmark.circle.fill")
-                                                        .fontWeight(.bold)
-                                                        .foregroundColor(.blue)
-                                                }
-                                            }
-                                            .contentShape(Rectangle())
-                                            .onTapGesture {
-                                                guard let categoryName = category.name else { return }
-                                                if filterCategories.contains(categoryName) {
-                                                    guard filterCategories.count != 1 else { return }
-                                                    filterCategories.removeAll { $0 == category.name }
-                                                } else {
-                                                    filterCategories.append(categoryName)
-                                                }
-                                            }
-                                        }
-                                        .environment(\.editMode, .constant(EditMode.active))
-                                        .presentationDetents([.medium, .large])
+                                        CategoryList(categories: $filterCategories)
                                     }
                                 }
                                 
