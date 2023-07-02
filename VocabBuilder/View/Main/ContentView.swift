@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var viewContext

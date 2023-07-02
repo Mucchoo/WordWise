@@ -7,7 +7,6 @@
 
 import CoreData
 import SwiftUI
-import AVFoundation
 
 struct AddCardView: View {
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 struct CardView: View {
     @Environment(\.dismiss) var dismiss
