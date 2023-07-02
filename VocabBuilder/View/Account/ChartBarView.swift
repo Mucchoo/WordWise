@@ -15,7 +15,6 @@ struct ChartBarView: View {
     var colors: [Color]
     
     @State private var progress: CGFloat = 0
-    @State private var counter: Int = 0
     
     var body: some View {
         GeometryReader { geometry in
@@ -35,7 +34,7 @@ struct ChartBarView: View {
                         .frame(width: 14)
                         .padding(.leading, 10)
                     Spacer()
-                    Text("\(counter)   ")
+                    Text("\(dataViewModel.cards.filter { $0.status == status }.count)   ")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -44,17 +43,7 @@ struct ChartBarView: View {
                 .animation(.easeInOut(duration: 1))
             }
             .onAppear {
-                let cardCount = dataViewModel.cards.count
-                let filteredCount = dataViewModel.cards.filter { $0.status == status }.count
-                
-                progress = CGFloat(filteredCount) / CGFloat(cardCount)
-                withAnimation(.easeInOut(duration: 2)) {
-                    for i in 0...filteredCount {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) / 20.0) {
-                            counter = i
-                        }
-                    }
-                }
+                progress = dataViewModel.cards.count > 0 ? CGFloat(dataViewModel.cards.filter { $0.status == status }.count) / CGFloat(dataViewModel.cards.count) : 0
             }
         }
         .frame(height: 30)
