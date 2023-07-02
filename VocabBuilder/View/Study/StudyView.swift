@@ -108,16 +108,7 @@ struct StudyView: View {
                             }
                             .frame(height: 30)
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical, 10)
-                        .background {
-                            TransparentBlurView(removeAllLayers: true)
-                                .blur(radius: 9, opaque: true)
-                                .background(.white.opacity(0.5))
-                        }
-                        .cornerRadius(10)
-                        .clipped()
-                        .padding()
+                        .modifier(BlurBackground())
                         
                         Button(action: {
                             guard cardsToStudy.count > 0 else { return }

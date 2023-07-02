@@ -64,16 +64,7 @@ struct CardListView: View {
                                     NumberPicker(value: $failedTimes, labelText: "or more times", options: failedTimeOptions)
                                 }
                             }
-                            .padding(.horizontal)
-                            .padding(.vertical, 10)
-                            .background {
-                                TransparentBlurView(removeAllLayers: true)
-                                    .blur(radius: 9, opaque: true)
-                                    .background(.white.opacity(0.5))
-                            }
-                            .cornerRadius(10)
-                            .clipped()
-                            .padding()
+                            .modifier(BlurBackground())
                             
                             VStack {
                                 ForEach(cards.indices) { index in
@@ -140,15 +131,7 @@ struct CardListView: View {
                                 }
                                 .onDelete(perform: CardManager.shared.deleteCard)
                             }
-                            .padding()
-                            .background {
-                                TransparentBlurView(removeAllLayers: true)
-                                    .blur(radius: 9, opaque: true)
-                                    .background(.white.opacity(0.5))
-                            }
-                            .cornerRadius(10)
-                            .clipped()
-                            .padding()
+                            .modifier(BlurBackground())
                         }
                     }
                 }

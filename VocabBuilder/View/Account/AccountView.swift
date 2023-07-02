@@ -29,15 +29,7 @@ struct AccountView: View {
                             .foregroundColor(.primary)
                         Spacer()
                     }
-                    .padding()
-                    .background {
-                        TransparentBlurView(removeAllLayers: true)
-                            .blur(radius: 9, opaque: true)
-                            .background(.white.opacity(0.5))
-                    }
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .modifier(BlurBackground())
                     
                     VStack {
                         VStack(spacing: 8) {
@@ -46,15 +38,7 @@ struct AccountView: View {
                             ChartBarView(status: 2, name: "New", image: "star.fill", colors: [Color("Blue"), Color("Teal")])
                         }
                     }
-                    .padding()
-                    .background {
-                        TransparentBlurView(removeAllLayers: true)
-                            .blur(radius: 9, opaque: true)
-                            .background(.white.opacity(0.5))
-                    }
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .modifier(BlurBackground())
                     
                     VStack {
                         Button {
@@ -65,7 +49,6 @@ struct AccountView: View {
                                 Spacer()
                             }
                         }
-                        .padding([.horizontal, .top])
 
                         Divider()
                             .padding(.horizontal)
@@ -78,19 +61,11 @@ struct AccountView: View {
                                 Spacer()
                             }
                         }
-                        .padding([.horizontal, .bottom])
                         .sheet(isPresented: $isShowingMail) {
                             MailView(data: $mailData) { result in }
                         }
                     }
-                    .background {
-                        TransparentBlurView(removeAllLayers: true)
-                            .blur(radius: 9, opaque: true)
-                            .background(.white.opacity(0.5))
-                    }
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .modifier(BlurBackground())
 
                     HStack {
                         Button(action: {
@@ -109,15 +84,7 @@ struct AccountView: View {
                         
                         Spacer()
                     }
-                    .padding()
-                    .background {
-                        TransparentBlurView(removeAllLayers: true)
-                            .blur(radius: 9, opaque: true)
-                            .background(.white.opacity(0.5))
-                    }
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .modifier(BlurBackground())
                 }
             }
             .background(BackgroundView(initialAnimation: $initialAnimation))

@@ -19,13 +19,10 @@ struct ContentView: View {
             TabView(selection: $selectedTab) {
                 StudyView(initialAnimation: $initialAnimation)
                     .tag("book.closed")
-                
                 AddCardView(initialAnimation: $initialAnimation)
                     .tag("plus.square")
-                
                 CardListView(initialAnimation: $initialAnimation)
                     .tag("rectangle.stack")
-                
                 AccountView(initialAnimation: $initialAnimation)
                     .tag("person")
             }

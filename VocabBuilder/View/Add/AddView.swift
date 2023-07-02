@@ -80,16 +80,7 @@ struct AddCardView: View {
                 .onChange(of: cardText) { newValue in
                     cardText = newValue.lowercased()
                 }
-                .padding()
-                .background {
-                    TransparentBlurView(removeAllLayers: true)
-                        .blur(radius: 9, opaque: true)
-                        .background(.white.opacity(0.5))
-                }
-                .cornerRadius(10)
-                .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)))
-                .animation(.default)
-                .padding([.horizontal, .bottom])
+                .modifier(BlurBackground())
                 
                 Button(action: {
                     CardManager.shared.addCard(text: cardText) { [self] failedWords in
