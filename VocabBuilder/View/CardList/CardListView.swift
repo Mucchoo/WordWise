@@ -31,10 +31,9 @@ struct CardListView: View {
     @State private var selectedFailedTimes = 0
     @Binding var initialAnimation: Bool
 
-    let failedTimeOptions = CardManager.shared.failedTimeOptions
+    private let statusArray: [CardStatus]  = [.init(text: "learned", value: 0), .init(text: "learning", value: 1), .init(text: "new", value: 2)]
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
-    @ObservedObject var fetcher = WordFetcher()
-    
+        
     var body: some View {
         NavigationView {
             if cards.isEmpty {
@@ -61,7 +60,7 @@ struct CardListView: View {
                                 HStack {
                                     Text("Failed Times")
                                     Spacer()
-                                    NumberPicker(value: $failedTimes, labelText: "or more times", options: failedTimeOptions)
+                                    NumberPicker(value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
                                 }
                             }
                             .modifier(BlurBackground())
@@ -109,7 +108,7 @@ struct CardListView: View {
                                             .pickerStyle(MenuPickerStyle())
                                             
                                             Picker("Status", selection: $selectedStatus) {
-                                                ForEach(CardManager.shared.statusArray, id: \.self) { status in
+                                                ForEach(statusArray, id: \.self) { status in
                                                     Text("\(status.text)").tag(status.value)
                                                 }
                                             }
@@ -118,7 +117,7 @@ struct CardListView: View {
                                             HStack {
                                                 Text("Failed Times")
                                                 Spacer()
-                                                NumberPicker(value: $selectedFailedTimes, labelText: "times", options: failedTimeOptions)
+                                                NumberPicker(value: $selectedFailedTimes, labelText: "times", options: Global.failedTimeOptions)
                                             }
                                         }
                                         .presentationDetents([.medium])

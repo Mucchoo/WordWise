@@ -95,7 +95,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Maximum Cards")
                                 Spacer()
-                                NumberPicker(value: $maximumCards, labelText: "cards", options: CardManager.shared.maximumCardOptions)
+                                NumberPicker(value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
                             }
                             .frame(height: 30)
                             
@@ -104,7 +104,7 @@ struct StudyView: View {
                             HStack {
                                 Text("Failed Times")
                                 Spacer()
-                                NumberPicker(value: $failedTimes, labelText: "or more times", options: CardManager.shared.failedTimeOptions)
+                                NumberPicker(value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
                             }
                             .frame(height: 30)
                         }

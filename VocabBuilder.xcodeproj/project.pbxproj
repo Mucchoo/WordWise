@@ -159,7 +159,6 @@
 			children = (
 				2ABC637E2A381B2700718C90 /* StudyView.swift */,
 				2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */,
-				2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
 				2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */,
 			);
@@ -182,6 +181,7 @@
 				2A71E4402A4851FE005B897C /* NoCardView.swift */,
 				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
+				2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
