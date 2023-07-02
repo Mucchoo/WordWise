@@ -12,8 +12,8 @@ class DataViewModel: ObservableObject {
     static let shared = DataViewModel()
     
     var viewContext: NSManagedObjectContext
-    var cards: [Card] = []
-    var categories: [CardCategory] = []
+    @Published var cards: [Card] = []
+    @Published var categories: [CardCategory] = []
     var fetcher = WordFetcher()
 
     private init() {
@@ -115,6 +115,10 @@ class DataViewModel: ObservableObject {
                     print("Validation error: \(error.localizedDescription), \(error as NSError).userInfo")
                 }
                 
+                DispatchQueue.main.async {
+                    self.cards.append(card)
+                }
+
                 PersistenceController.shared.saveContext()
                 group.leave()
             }
@@ -128,7 +132,7 @@ class DataViewModel: ObservableObject {
             completion?(fetchFailedWords)
         }
     }
-    
+
     func resetLearningData() {
         cards.forEach { card in
             card.failedTimes = 0

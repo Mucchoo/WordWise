@@ -140,16 +140,7 @@ struct StudyView: View {
                 selectedCategories = dataViewModel.categories.map { $0.name ?? "" }
                 isFirstAppearance = false
             }
-            .onChange(of: failedTimes) { _ in
-                updateCardsToStudy()
-            }
-            .onChange(of: selectedCategories) { _ in
-                updateCardsToStudy()
-            }
-            .onChange(of: maximumCards) { _ in
-                updateCardsToStudy()
-            }
-            .onChange(of: filterStatus) { _ in
+            .onReceive(dataViewModel.$cards) { _ in
                 updateCardsToStudy()
             }
         }

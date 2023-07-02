@@ -62,29 +62,29 @@ struct CardListView: View {
                             .modifier(BlurBackground())
                             
                             VStack {
-                                ForEach(dataViewModel.cards.indices) { index in
+                                ForEach(dataViewModel.cards, id: \.id) { card in
                                     VStack {
                                         Button(action: {
-                                            selectedCardId = dataViewModel.cards[index].id
-                                            cardText = dataViewModel.cards[index].text ?? ""
-                                            selectedStatus = dataViewModel.cards[index].status
-                                            selectedCategory = dataViewModel.cards[index].category ?? ""
-                                            selectedFailedTimes = Int(dataViewModel.cards[index].failedTimes)
+                                            selectedCardId = card.id
+                                            cardText = card.text ?? ""
+                                            selectedStatus = card.status
+                                            selectedCategory = card.category ?? ""
+                                            selectedFailedTimes = Int(card.failedTimes)
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
-                                                Image(systemName: dataViewModel.cards[index].status == 0 ? "checkmark.circle.fill" : dataViewModel.cards[index].status == 1 ? "pencil.circle.fill" : "star.circle.fill")
-                                                    .foregroundColor(dataViewModel.cards[index].status == 0 ? .blue : dataViewModel.cards[index].status == 1 ? .red : .yellow)
+                                                Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "pencil.circle.fill" : "star.circle.fill")
+                                                    .foregroundColor(card.status == 0 ? .blue : card.status == 1 ? .red : .yellow)
                                                     .font(.system(size: 16))
                                                     .fontWeight(.black)
                                                     .frame(width: 20, height: 20, alignment: .center)
                                                 
-                                                Text(dataViewModel.cards[index].text ?? "Unknown")
+                                                Text(card.text ?? "Unknown")
                                                     .foregroundColor(Color(UIColor(.primary)))
                                                 Spacer()
                                             }
                                         }
-                                        if index < dataViewModel.cards.count - 1 {
+                                        if card.id != dataViewModel.cards.last?.id {
                                             Divider()
                                         }
                                     }
