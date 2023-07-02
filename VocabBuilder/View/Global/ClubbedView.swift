@@ -11,6 +11,8 @@ struct ClubbedView: View {
     var isNoCardView = false
     @State private var animate = false
     
+    let timer = Timer.publish(every: 20, on: .main, in: .common).autoconnect()
+
     var body: some View {
         Rectangle()
             .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
@@ -57,11 +59,13 @@ struct ClubbedView: View {
                 }
             }
             .contentShape(Rectangle())
-        
             .onAppear {
                 DispatchQueue.main.async {
                     self.animate = true
                 }
+            }
+            .onReceive(timer) { _ in
+                self.animate.toggle()
             }
     }
     
