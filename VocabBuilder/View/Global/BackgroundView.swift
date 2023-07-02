@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct BackgroundView: View {
-    @Binding var initialAnimation: Bool
-    
     var body: some View {
         ZStack {
             Color(UIColor.systemGroupedBackground)
@@ -22,6 +20,6 @@ struct BackgroundView: View {
 
 struct BackgroundView_Previews: PreviewProvider {
     static var previews: some View {
-        BackgroundView(initialAnimation: .constant(true))
+        BackgroundView()
     }
 }

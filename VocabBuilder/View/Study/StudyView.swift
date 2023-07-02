@@ -22,7 +22,6 @@ struct StudyView: View {
     @State private var isFirstAppearance = true
     @State private var filterStatus: [Int16]  = [0, 1, 2]
     @State private var cardsToStudy: [Card] = []
-    @Binding var initialAnimation: Bool
     
     private func updateCardsToStudy() {
         let filteredCards = cards.filter { card in
@@ -36,7 +35,7 @@ struct StudyView: View {
     
     var body: some View {
         if cards.isEmpty {
-            NoCardView(image: "BoyLeft", initialAnimation: $initialAnimation)
+            NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
                 ScrollView {
@@ -129,7 +128,7 @@ struct StudyView: View {
                         }
                     }
                 }
-                .background(BackgroundView(initialAnimation: $initialAnimation))
+                .background(BackgroundView())
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .onAppear {

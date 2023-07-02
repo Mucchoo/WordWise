@@ -29,7 +29,6 @@ struct CardListView: View {
     @State private var selectedStatus: Int16 = 0
     @State private var selectedCategory = ""
     @State private var selectedFailedTimes = 0
-    @Binding var initialAnimation: Bool
 
     private let statusArray: [CardStatus]  = [.init(text: "learned", value: 0), .init(text: "learning", value: 1), .init(text: "new", value: 2)]
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
@@ -37,7 +36,7 @@ struct CardListView: View {
     var body: some View {
         NavigationView {
             if cards.isEmpty {
-                NoCardView(image: "BoyRight", initialAnimation: $initialAnimation)
+                NoCardView(image: "BoyRight")
             } else {
                 VStack {
                     ScrollView {
@@ -134,7 +133,7 @@ struct CardListView: View {
                         }
                     }
                 }
-                .background(BackgroundView(initialAnimation: $initialAnimation))
+                .background(BackgroundView())
                 .navigationBarTitle("Cards", displayMode: .large)
             }
         }
@@ -143,6 +142,6 @@ struct CardListView: View {
 
 struct CardListView_Previews: PreviewProvider {
     static var previews: some View {
-        CardListView(initialAnimation: .constant(true))
+        CardListView()
     }
 }

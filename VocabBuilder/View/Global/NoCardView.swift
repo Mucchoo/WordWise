@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NoCardView: View {
     let image: String
-    @Binding var initialAnimation: Bool
     
     var body: some View {
         VStack {
@@ -31,9 +30,6 @@ struct NoCardView: View {
                         .padding(.top)
                 }
             }
-            .onAppear {
-                initialAnimation = true
-            }
             Spacer()
         }
         .edgesIgnoringSafeArea(.all)
@@ -42,6 +38,6 @@ struct NoCardView: View {
 
 struct NoCardView_Previews: PreviewProvider {
     static var previews: some View {
-        NoCardView(image: "BoyLeft", initialAnimation: .constant(true))
+        NoCardView(image: "BoyLeft")
     }
 }
