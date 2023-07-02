@@ -123,11 +123,11 @@ struct CardListView: View {
                                     }
                                     .onChange(of: navigateToCardDetail) { newValue in
                                         if !newValue, let selectedCardId = selectedCardId {
-                                            CardManager.shared.updateCard(id: selectedCardId, text: cardText, category: selectedCategory, status: selectedStatus, failedTimesIndex: Int(selectedFailedTimes))
+                                            DataViewModel.shared.updateCard(id: selectedCardId, text: cardText, category: selectedCategory, status: selectedStatus, failedTimesIndex: Int(selectedFailedTimes))
                                         }
                                     }
                                 }
-                                .onDelete(perform: CardManager.shared.deleteCard)
+                                .onDelete(perform: DataViewModel.shared.deleteCard)
                             }
                             .modifier(BlurBackground())
                         }

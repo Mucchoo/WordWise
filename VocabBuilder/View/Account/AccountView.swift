@@ -75,7 +75,7 @@ struct AccountView: View {
                                 .cornerRadius(10)
                         }
                         .alert("Are you sure to reset all the learning data?", isPresented: $showingResetAlert) {
-                            Button("Reset", role: .destructive, action: CardManager.shared.resetLearningData)
+                            Button("Reset", role: .destructive, action: DataViewModel.shared.resetLearningData)
                             Button("Cancel", role: .cancel) {}
                         } message: {
                             Text("Failed times and the status of all cards will be reset.")

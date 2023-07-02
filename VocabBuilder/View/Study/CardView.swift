@@ -95,7 +95,7 @@ struct CardView: View {
                         .opacity(isWordVisible ? 1 : 0)
                         .animation(.easeIn(duration: 0.3), value: isWordVisible)
                         .onTapGesture {
-                            AudioManager.shared.playAudio(card: learningCards[index].card)
+                            AudioViewModel.shared.playAudio(card: learningCards[index].card)
                         }
                         
                         Spacer().frame(height: 20)
@@ -157,7 +157,7 @@ struct CardView: View {
                                 PersistenceController.shared.saveContext()
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioManager.shared.playAudio(card: card)
+                                    AudioViewModel.shared.playAudio(card: card)
                                 }
                             }
                         }) {
@@ -193,7 +193,7 @@ struct CardView: View {
                                 isWordVisible = true
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioManager.shared.playAudio(card: learningCards[index].card)
+                                    AudioViewModel.shared.playAudio(card: learningCards[index].card)
                                 }
                             }
                         }) {
@@ -216,14 +216,14 @@ struct CardView: View {
         }
         .onAppear {
             learningCards.forEach { card in
-                AudioManager.shared.downloadAudio(card: card.card)
+                AudioViewModel.shared.downloadAudio(card: card.card)
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                AudioManager.shared.playAudio(card: learningCards[0].card)
+                AudioViewModel.shared.playAudio(card: learningCards[0].card)
             }
             
-            AudioManager.shared.setCategoryToPlayback()
+            AudioViewModel.shared.setCategoryToPlayback()
         }
     }
 }

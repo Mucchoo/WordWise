@@ -81,7 +81,7 @@ struct AddCardView: View {
                 .modifier(BlurBackground())
                 
                 Button(action: {
-                    CardManager.shared.addCard(text: cardText) { [self] failedWords in
+                    DataViewModel.shared.addCard(text: cardText) { [self] failedWords in
                         cardText = ""
                         
                         fetchFailedWords = failedWords
@@ -117,7 +117,7 @@ struct AddCardView: View {
         .alert("Add Category", isPresented: $showingAlert) {
             TextField("category name", text: $textFieldInput)
             Button("Add", role: .none) {
-                CardManager.shared.addCategory(name: textFieldInput)
+                DataViewModel.shared.addCategory(name: textFieldInput)
             }
             Button("Cancel", role: .cancel) {}
         } message: {

@@ -8,8 +8,8 @@
 import Foundation
 import AVFoundation
 
-class AudioManager {
-    static let shared = AudioManager()
+class AudioViewModel {
+    static let shared = AudioViewModel()
     private var audioPlayer: AVAudioPlayer?
     
     func downloadAudio(card: Card) {

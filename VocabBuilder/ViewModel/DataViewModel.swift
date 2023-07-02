@@ -1,5 +1,5 @@
 //
-//  CardManager.swift
+//  DataViewModel.swift
 //  VocabBuilder
 //
 //  Created by Musa Yazuju on 7/2/23.
@@ -8,8 +8,8 @@
 import CoreData
 import SwiftUI
 
-class CardManager {
-    static let shared = CardManager()
+class DataViewModel {
+    static let shared = DataViewModel()
     
     var viewContext: NSManagedObjectContext
     var cards: [Card] = []
@@ -118,7 +118,7 @@ class CardManager {
         
         group.notify(queue: .main) { [self] in
             cards.forEach { card in
-                AudioManager.shared.downloadAudio(card: card)
+                AudioViewModel.shared.downloadAudio(card: card)
             }
             
             completion?(fetchFailedWords)

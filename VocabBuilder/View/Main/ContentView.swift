@@ -26,7 +26,7 @@ struct ContentView: View {
             }
             .onAppear {
                 cards.forEach { card in
-                    AudioManager.shared.downloadAudio(card: card)
+                    AudioViewModel.shared.downloadAudio(card: card)
                 }
             }
             .ignoresSafeArea()
