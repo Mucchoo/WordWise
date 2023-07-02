@@ -65,7 +65,8 @@ class DataViewModel: ObservableObject {
     
     func addCard(text: String, completion: (([String]) -> (Void))? = nil) {
         guard text != "" else { return }
-        let words = text.split(separator: "\n")
+        let lines = text.split(separator: "\n")
+        let words = lines.map { String($0).trimmingCharacters(in: .whitespaces) }
         let group = DispatchGroup()
         var fetchFailedWords: [String] = []
         
