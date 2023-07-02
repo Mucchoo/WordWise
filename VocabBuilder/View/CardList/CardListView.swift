@@ -37,7 +37,7 @@ struct CardListView: View {
     var body: some View {
         NavigationView {
             if cards.isEmpty {
-                NoCardView(image: "BoyRight")
+                NoCardView(image: "BoyRight", initialAnimation: $initialAnimation)
             } else {
                 VStack {
                     ScrollView {

@@ -36,7 +36,7 @@ struct StudyView: View {
     
     var body: some View {
         if cards.isEmpty {
-            NoCardView(image: "BoyLeft")
+            NoCardView(image: "BoyLeft", initialAnimation: $initialAnimation)
         } else {
             NavigationView {
                 ScrollView {
