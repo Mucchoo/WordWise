@@ -9,10 +9,8 @@ import CoreData
 import SwiftUI
 
 struct AddCardView: View {
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<CardCategory>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @FocusState var isFocused: Bool
-    
     @State private var VocabBuilders = [String]()
     @State private var isEditing = false
     @State private var cardText = ""
@@ -39,7 +37,7 @@ struct AddCardView: View {
                         
                         HStack {
                             Picker("Options", selection: $pickerSelected) {
-                                ForEach(categories) { category in
+                                ForEach(dataViewModel.categories) { category in
                                     let name = category.name ?? ""
                                     Text(name).tag(name)
                                 }

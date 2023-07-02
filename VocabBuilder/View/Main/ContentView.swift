@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @State var selectedTab = "book.closed"
 
     var body: some View {
@@ -25,7 +24,7 @@ struct ContentView: View {
                     .tag("person")
             }
             .onAppear {
-                cards.forEach { card in
+                dataViewModel.cards.forEach { card in
                     AudioViewModel.shared.downloadAudio(card: card)
                 }
             }

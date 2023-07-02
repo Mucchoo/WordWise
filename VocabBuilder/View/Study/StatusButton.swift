@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct StatusButton: View {
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     var systemName: String
     var status: Int
     var title: String

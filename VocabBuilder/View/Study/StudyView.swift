@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct StudyView: View {
-    @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    @FetchRequest(sortDescriptors: []) var cardCategories: FetchedResults<CardCategory>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @State private var showingCardView = false
     @State private var learnedButton = true
     @State private var learningButton = true
@@ -24,7 +22,7 @@ struct StudyView: View {
     @State private var cardsToStudy: [Card] = []
     
     private func updateCardsToStudy() {
-        let filteredCards = cards.filter { card in
+        let filteredCards = dataViewModel.cards.filter { card in
             let statusFilter = filterStatus.contains { $0 == card.status }
             let failedTimesFilter = card.failedTimes >= failedTimes
             let categoryFilter = selectedCategories.contains { $0 == card.category }
@@ -34,7 +32,7 @@ struct StudyView: View {
     }
     
     var body: some View {
-        if cards.isEmpty {
+        if dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
@@ -61,7 +59,7 @@ struct StudyView: View {
                                 }
                                 .padding([.leading, .trailing])
                                 .sheet(isPresented: $showingCategorySheet) {
-                                    List(cardCategories, id: \.self) { category in
+                                    List(dataViewModel.categories, id: \.self) { category in
                                         HStack {
                                             Text(category.name ?? "Unknown")
                                             Spacer()
@@ -132,14 +130,14 @@ struct StudyView: View {
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .onAppear {
-                cards.forEach { card in
+                dataViewModel.cards.forEach { card in
                     guard card.category == nil else { return }
-                    card.category = cardCategories.first?.name
+                    card.category = dataViewModel.categories.first?.name
                     PersistenceController.shared.saveContext()
                 }
                 
                 guard isFirstAppearance else { return }
-                selectedCategories = cardCategories.map { $0.name ?? "" }
+                selectedCategories = dataViewModel.categories.map { $0.name ?? "" }
                 isFirstAppearance = false
             }
             .onChange(of: failedTimes) { _ in
@@ -153,13 +151,6 @@ struct StudyView: View {
             }
             .onChange(of: filterStatus) { _ in
                 updateCardsToStudy()
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: viewContext)) { _ in
-                updateCardsToStudy()
-                
-                if selectedCategories.isEmpty {
-                    selectedCategories = Array(cardCategories).map { $0.name ?? "" }
-                }
             }
         }
     }

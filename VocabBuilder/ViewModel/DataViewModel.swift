@@ -8,26 +8,30 @@
 import CoreData
 import SwiftUI
 
-class DataViewModel {
+class DataViewModel: ObservableObject {
     static let shared = DataViewModel()
     
     var viewContext: NSManagedObjectContext
     var cards: [Card] = []
+    var categories: [CardCategory] = []
     var fetcher = WordFetcher()
 
     private init() {
         viewContext = PersistenceController.shared.container.viewContext
-        loadCards()
+        loadData()
     }
 
-    func loadCards() {
-        print("loadCards")
-        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+    func loadData() {
+        print("loadData")
+        let cardFetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+        let categoryFetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
 
         do {
-            let fetchedCards = try viewContext.fetch(fetchRequest)
+            let fetchedCards = try viewContext.fetch(cardFetchRequest)
+            let fetchedCategories = try viewContext.fetch(categoryFetchRequest)
             DispatchQueue.main.async {
                 self.cards = fetchedCards
+                self.categories = fetchedCategories
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")

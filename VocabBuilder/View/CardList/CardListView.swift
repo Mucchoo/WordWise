@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct CardListView: View {
-    @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<CardCategory>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @FocusState var isFocused: Bool
-    
     @State private var VocabBuilders = [String]()
     @State private var isEditing = false
     @State private var cardText = ""
@@ -35,7 +32,7 @@ struct CardListView: View {
         
     var body: some View {
         NavigationView {
-            if cards.isEmpty {
+            if dataViewModel.cards.isEmpty {
                 NoCardView(image: "BoyRight")
             } else {
                 VStack {
@@ -46,7 +43,7 @@ struct CardListView: View {
                                     Text("Category")
                                     Spacer()
                                     Picker("Category", selection: $pickerSelected) {
-                                        ForEach(categories) { category in
+                                        ForEach(dataViewModel.categories) { category in
                                             let name = category.name ?? ""
                                             Text(name).tag(name)
                                         }
@@ -65,29 +62,29 @@ struct CardListView: View {
                             .modifier(BlurBackground())
                             
                             VStack {
-                                ForEach(cards.indices) { index in
+                                ForEach(dataViewModel.cards.indices) { index in
                                     VStack {
                                         Button(action: {
-                                            selectedCardId = cards[index].id
-                                            cardText = cards[index].text ?? ""
-                                            selectedStatus = cards[index].status
-                                            selectedCategory = cards[index].category ?? ""
-                                            selectedFailedTimes = Int(cards[index].failedTimes)
+                                            selectedCardId = dataViewModel.cards[index].id
+                                            cardText = dataViewModel.cards[index].text ?? ""
+                                            selectedStatus = dataViewModel.cards[index].status
+                                            selectedCategory = dataViewModel.cards[index].category ?? ""
+                                            selectedFailedTimes = Int(dataViewModel.cards[index].failedTimes)
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
-                                                Image(systemName: cards[index].status == 0 ? "checkmark.circle.fill" : cards[index].status == 1 ? "pencil.circle.fill" : "star.circle.fill")
-                                                    .foregroundColor(cards[index].status == 0 ? .blue : cards[index].status == 1 ? .red : .yellow)
+                                                Image(systemName: dataViewModel.cards[index].status == 0 ? "checkmark.circle.fill" : dataViewModel.cards[index].status == 1 ? "pencil.circle.fill" : "star.circle.fill")
+                                                    .foregroundColor(dataViewModel.cards[index].status == 0 ? .blue : dataViewModel.cards[index].status == 1 ? .red : .yellow)
                                                     .font(.system(size: 16))
                                                     .fontWeight(.black)
                                                     .frame(width: 20, height: 20, alignment: .center)
                                                 
-                                                Text(cards[index].text ?? "Unknown")
+                                                Text(dataViewModel.cards[index].text ?? "Unknown")
                                                     .foregroundColor(Color(UIColor(.primary)))
                                                 Spacer()
                                             }
                                         }
-                                        if index < cards.count - 1 {
+                                        if index < dataViewModel.cards.count - 1 {
                                             Divider()
                                         }
                                     }
@@ -96,10 +93,10 @@ struct CardListView: View {
                                             HStack {
                                                 Text("Name")
                                                 Spacer()
-                                                Text("\(cards.first { $0.id == selectedCardId }?.text ?? "")")
+                                                Text("\(dataViewModel.cards.first { $0.id == selectedCardId }?.text ?? "")")
                                             }
                                             Picker("Category", selection: $selectedCategory) {
-                                                ForEach(categories) { category in
+                                                ForEach(dataViewModel.categories) { category in
                                                     let name = category.name ?? ""
                                                     Text(name).tag(name)
                                                 }

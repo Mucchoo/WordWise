@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct AccountView: View {
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @ObservedObject private var viewModel = ViewModel()
-    @Environment(\.dismiss) private var dismiss
     @State private var isActive = false
     @State private var isShowingAlert = false
     @State var isShowingReauthenticate = false

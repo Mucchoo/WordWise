@@ -46,6 +46,7 @@
 		2ADC3C2F2A50ADE600AA5903 /* StatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */; };
 		2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
+		2AFBEAC52A5178320049290E /* DefinitionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusButton.swift; sourceTree = "<group>"; };
 		2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPicker.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
+		2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				2ABC637E2A381B2700718C90 /* StudyView.swift */,
 				2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
+				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
 				2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */,
 			);
 			path = Study;
@@ -361,6 +364,7 @@
 				2A2E82522A4AA12B00B9167B /* AudioViewModel.swift in Sources */,
 				2A894FC52A3FBF3D00163F92 /* Phonetic+CoreDataClass.swift in Sources */,
 				2AB7C9642A51243600A703FA /* CardStatus.swift in Sources */,
+				2AFBEAC52A5178320049290E /* DefinitionDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

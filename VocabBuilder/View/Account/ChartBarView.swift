@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChartBarView: View {
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
+    @ObservedObject var dataViewModel = DataViewModel.shared
     @State var status: Int
     var name: String
     var image: String
@@ -44,8 +44,8 @@ struct ChartBarView: View {
                 .animation(.easeInOut(duration: 1))
             }
             .onAppear {
-                let cardCount = cards.count
-                let filteredCount = cards.filter { $0.status == status }.count
+                let cardCount = dataViewModel.cards.count
+                let filteredCount = dataViewModel.cards.filter { $0.status == status }.count
                 
                 progress = CGFloat(filteredCount) / CGFloat(cardCount)
                 withAnimation(.easeInOut(duration: 2)) {
