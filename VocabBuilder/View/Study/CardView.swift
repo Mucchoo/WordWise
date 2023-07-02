@@ -44,12 +44,13 @@ struct CardView: View {
                     ZStack(alignment: .leading) {
                         Rectangle()
                             .frame(width: geometry.size.width , height: geometry.size.height)
-                            .opacity(0.2)
-                            .foregroundColor(Color(UIColor.tintColor))
+                            .foregroundColor(Color("Teal"))
 
                         Rectangle()
+                            .fill(
+                                LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing)
+                            )
                             .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
-                            .foregroundColor(isFinished ? .green : Color(UIColor.tintColor))
                             .animation(.spring())
                     }
                 }
@@ -62,17 +63,17 @@ struct CardView: View {
                             Text("Finished!")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
-                                .foregroundColor(.green)
+                                .foregroundColor(Color("Blue"))
                             Image(systemName: "checkmark.circle")
                                 .resizable()
                                 .fontWeight(.bold)
-                                .foregroundColor(.green)
+                                .foregroundColor(Color("Blue"))
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 120, height: 120)
                             Text("You've learned \(learningCards.count) cards")
                                 .font(.callout)
                                 .fontWeight(.bold)
-                                .foregroundColor(.green)
+                                .foregroundColor(Color("Blue"))
                                 .padding(.top)
                         }
                         .scaleEffect(isFinished ? 1 : 0.1)
@@ -129,7 +130,7 @@ struct CardView: View {
                         Text("Go to Top Page")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(.green)
+                            .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }.opacity(isFinished ? 1 : 0)
@@ -164,7 +165,7 @@ struct CardView: View {
                             Text("Hard")
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(.red)
+                                .background(LinearGradient(colors: [.red, .pink], startPoint: .leading, endPoint: .trailing))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -200,7 +201,7 @@ struct CardView: View {
                             Text("Easy")
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(.blue)
+                                .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
