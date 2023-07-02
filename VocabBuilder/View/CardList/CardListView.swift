@@ -10,9 +10,9 @@ import SwiftUI
 struct CardListView: View {
     @ObservedObject var dataViewModel = DataViewModel.shared
     @FocusState var isFocused: Bool
+    
     @State private var VocabBuilders = [String]()
     @State private var isEditing = false
-    @State private var cardText = ""
     @State private var isLoading = false
     @State private var progress: Float = 0.0
     @State private var pickerSelected = ""
@@ -21,34 +21,81 @@ struct CardListView: View {
     @State private var showingFetchFailedAlert = false
     @State private var fetchFailedWords: [String] = []
     @State private var navigateToCardDetail: Bool = false
-    @State private var failedTimes = 0
-    @State private var selectedCardId: UUID?
-    @State private var selectedStatus: Int16 = 0
-    @State private var selectedCategory = ""
-    @State private var selectedFailedTimes = 0
+    @State private var cardList: [Card] = []
+    @State private var isFirstAppearance = true
+    @State private var showingCategorySheet = false
+    
+    @State private var cardText = ""
+    @State private var cardId: UUID?
+    @State private var cardStatus: Int16 = 0
+    @State private var cardFailedTimes = 0
+    @State private var cardCategory = ""
 
+    @State private var filterFailedTimes = 0
+    @State private var filterCategories: [String] = []
+    @State private var filterStatus: [Int16]  = [0, 1, 2]
+    
     private let statusArray: [CardStatus]  = [.init(text: "learned", value: 0), .init(text: "learning", value: 1), .init(text: "new", value: 2)]
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
-        
+    
+    private func updateCardList() {
+        let filteredCards = dataViewModel.cards.filter { card in
+            let statusFilter = filterStatus.contains { $0 == card.status }
+            let failedTimesFilter = card.failedTimes >= filterFailedTimes
+            let categoryFilter = filterCategories.contains { $0 == card.category }
+            print("card: \(card.text) status: \(statusFilter) failedTimes: \(failedTimesFilter) category: \(categoryFilter)")
+            return statusFilter && failedTimesFilter && categoryFilter
+        }
+        cardList = filteredCards
+    }
+    
     var body: some View {
-        NavigationView {
-            if dataViewModel.cards.isEmpty {
-                NoCardView(image: "BoyRight")
-            } else {
+        if dataViewModel.cards.isEmpty {
+            NoCardView(image: "BoyRight")
+        } else {
+            NavigationView {
                 VStack {
                     ScrollView {
                         VStack {
+                            StatusFilterView(filterStatus: $filterStatus)
+                            
                             VStack(spacing: 4) {
                                 HStack {
                                     Text("Category")
                                     Spacer()
-                                    Picker("Category", selection: $pickerSelected) {
-                                        ForEach(dataViewModel.categories) { category in
-                                            let name = category.name ?? ""
-                                            Text(name).tag(name)
-                                        }
+                                    
+                                    Button {
+                                        showingCategorySheet.toggle()
+                                    } label: {
+                                        Text(filterCategories.map { $0 }.joined(separator: ", "))
+                                            .padding(.vertical, 8)
                                     }
-                                    .pickerStyle(MenuPickerStyle())
+                                    .padding([.leading, .trailing])
+                                    .sheet(isPresented: $showingCategorySheet) {
+                                        List(dataViewModel.categories, id: \.self) { category in
+                                            HStack {
+                                                Text(category.name ?? "Unknown")
+                                                Spacer()
+                                                if filterCategories.contains(category.name ?? "") {
+                                                    Image(systemName: "checkmark.circle.fill")
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(.blue)
+                                                }
+                                            }
+                                            .contentShape(Rectangle())
+                                            .onTapGesture {
+                                                guard let categoryName = category.name else { return }
+                                                if filterCategories.contains(categoryName) {
+                                                    guard filterCategories.count != 1 else { return }
+                                                    filterCategories.removeAll { $0 == category.name }
+                                                } else {
+                                                    filterCategories.append(categoryName)
+                                                }
+                                            }
+                                        }
+                                        .environment(\.editMode, .constant(EditMode.active))
+                                        .presentationDetents([.medium, .large])
+                                    }
                                 }
                                 
                                 Divider()
@@ -56,20 +103,20 @@ struct CardListView: View {
                                 HStack {
                                     Text("Failed Times")
                                     Spacer()
-                                    NumberPicker(value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
+                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: Global.failedTimeOptions)
                                 }
                             }
                             .modifier(BlurBackground())
                             
                             VStack {
-                                ForEach(dataViewModel.cards, id: \.id) { card in
+                                ForEach(cardList, id: \.id) { card in
                                     VStack {
                                         Button(action: {
-                                            selectedCardId = card.id
+                                            cardId = card.id
                                             cardText = card.text ?? ""
-                                            selectedStatus = card.status
-                                            selectedCategory = card.category ?? ""
-                                            selectedFailedTimes = Int(card.failedTimes)
+                                            cardStatus = card.status
+                                            cardCategory = card.category ?? ""
+                                            cardFailedTimes = Int(card.failedTimes)
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
@@ -84,7 +131,7 @@ struct CardListView: View {
                                                 Spacer()
                                             }
                                         }
-                                        if card.id != dataViewModel.cards.last?.id {
+                                        if card.id != cardList.last?.id {
                                             Divider()
                                         }
                                     }
@@ -93,9 +140,9 @@ struct CardListView: View {
                                             HStack {
                                                 Text("Name")
                                                 Spacer()
-                                                Text("\(dataViewModel.cards.first { $0.id == selectedCardId }?.text ?? "")")
+                                                Text("\(cardList.first { $0.id == cardId }?.text ?? "")")
                                             }
-                                            Picker("Category", selection: $selectedCategory) {
+                                            Picker("Category", selection: $cardCategory) {
                                                 ForEach(dataViewModel.categories) { category in
                                                     let name = category.name ?? ""
                                                     Text(name).tag(name)
@@ -103,7 +150,7 @@ struct CardListView: View {
                                             }
                                             .pickerStyle(MenuPickerStyle())
                                             
-                                            Picker("Status", selection: $selectedStatus) {
+                                            Picker("Status", selection: $cardStatus) {
                                                 ForEach(statusArray, id: \.self) { status in
                                                     Text("\(status.text)").tag(status.value)
                                                 }
@@ -113,14 +160,14 @@ struct CardListView: View {
                                             HStack {
                                                 Text("Failed Times")
                                                 Spacer()
-                                                NumberPicker(value: $selectedFailedTimes, labelText: "times", options: Global.failedTimeOptions)
+                                                NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions)
                                             }
                                         }
                                         .presentationDetents([.medium])
                                     }
                                     .onChange(of: navigateToCardDetail) { newValue in
-                                        if !newValue, let selectedCardId = selectedCardId {
-                                            DataViewModel.shared.updateCard(id: selectedCardId, text: cardText, category: selectedCategory, status: selectedStatus, failedTimesIndex: Int(selectedFailedTimes))
+                                        if !newValue, let cardId = cardId {
+                                            DataViewModel.shared.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus, failedTimesIndex: Int(cardFailedTimes))
                                         }
                                     }
                                 }
@@ -130,8 +177,25 @@ struct CardListView: View {
                         }
                     }
                 }
+                .onAppear {
+                    guard isFirstAppearance else { return }
+                    filterCategories = dataViewModel.categories.map { $0.name ?? "" }
+                    isFirstAppearance = false
+                }
                 .background(BackgroundView())
                 .navigationBarTitle("Cards", displayMode: .large)
+                .onReceive(dataViewModel.$cards) { _ in
+                    updateCardList()
+                }
+                .onChange(of: filterFailedTimes) { _ in
+                    updateCardList()
+                }
+                .onChange(of: filterCategories) { _ in
+                    updateCardList()
+                }
+                .onChange(of: filterStatus) { _ in
+                    updateCardList()
+                }
             }
         }
     }
