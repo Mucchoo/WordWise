@@ -10,7 +10,6 @@ import SwiftUI
 import AVFoundation
 
 struct AddCardView: View {
-    @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
     @FetchRequest(sortDescriptors: []) var categories: FetchedResults<CardCategory>
     @FocusState var isFocused: Bool
@@ -101,6 +100,7 @@ struct AddCardView: View {
                             showingFetchFailedAlert = true
                         }
                     }
+                    cardText = ""
                     isFocused = false
                 }) {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")

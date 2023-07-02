@@ -5,19 +5,34 @@
 //  Created by Musa Yazuju on 7/2/23.
 //
 
+import CoreData
 import SwiftUI
 
 class CardManager {
     static let shared = CardManager()
     
-    @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(sortDescriptors: []) var cards: FetchedResults<Card>
-    @ObservedObject var fetcher = WordFetcher()
+    var viewContext: NSManagedObjectContext
+    var cards: [Card] = []
+    var fetcher = WordFetcher()
     
     let maximumCardOptions = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000]
     let failedTimeOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
     let statusArray  = [CardStatus(text: "learned", value: 0), CardStatus(text: "learning", value: 1), CardStatus(text: "new", value: 2)]
 
+    private init() {
+        viewContext = PersistenceController.shared.container.viewContext
+        loadCards()
+    }
+
+    func loadCards() {
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
+
+        do {
+            cards = try viewContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
     
     func updateCard(id: UUID, text: String, category: String, status: Int16, failedTimesIndex: Int) {
         print("updateCard id: \(id) text: \(text) category: \(category) status: \(status) failedTimesIndex: \(failedTimesIndex)")
