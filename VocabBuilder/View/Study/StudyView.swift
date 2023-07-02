@@ -38,14 +38,7 @@ struct StudyView: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        HStack(spacing: 0) {
-                            StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, Color("Navy")], filterStatus: $filterStatus)
-                            StatusButton(systemName: "flame.circle.fill", status: 1, title: "Learning", colors: [Color("Navy"), Color("Blue")], filterStatus: $filterStatus)
-                            StatusButton(systemName: "star.circle.fill", status: 2, title: "New", colors: [Color("Blue"), Color("Teal")], filterStatus: $filterStatus)
-                        }
-                        .cornerRadius(20)
-                        .clipped()
-                        .padding()
+                        StatusFilterView(filterStatus: $filterStatus)
                         
                         VStack {
                             HStack {
@@ -141,6 +134,18 @@ struct StudyView: View {
                 isFirstAppearance = false
             }
             .onReceive(dataViewModel.$cards) { _ in
+                updateCardsToStudy()
+            }
+            .onChange(of: failedTimes) { _ in
+                updateCardsToStudy()
+            }
+            .onChange(of: selectedCategories) { _ in
+                updateCardsToStudy()
+            }
+            .onChange(of: maximumCards) { _ in
+                updateCardsToStudy()
+            }
+            .onChange(of: filterStatus) { _ in
                 updateCardsToStudy()
             }
         }
