@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @ObservedObject var dataViewModel = DataViewModel.shared
 
@@ -44,11 +45,11 @@ struct CardView: View {
                     ZStack(alignment: .leading) {
                         Rectangle()
                             .frame(width: geometry.size.width , height: geometry.size.height)
-                            .foregroundColor(Color("Teal"))
+                            .foregroundColor(Color(colorScheme == .dark ? "Blue" : "Teal"))
 
                         Rectangle()
                             .fill(
-                                LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing)
+                                LinearGradient(colors: colorScheme == .dark ? [Color("Teal"), Color("Mint")] : [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing)
                             )
                             .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
                             .animation(.spring())
@@ -63,17 +64,17 @@ struct CardView: View {
                             Text("Finished!")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("Blue"))
+                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
                             Image(systemName: "checkmark.circle")
                                 .resizable()
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("Blue"))
+                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 120, height: 120)
                             Text("You've learned \(learningCards.count) cards")
                                 .font(.callout)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color("Blue"))
+                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
                                 .padding(.top)
                         }
                         .scaleEffect(isFinished ? 1 : 0.1)
@@ -130,7 +131,7 @@ struct CardView: View {
                         Text("Go to Top Page")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
+                            .background(LinearGradient(colors: colorScheme == .dark ? [Color("Blue"), Color("Teal")] : [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }.opacity(isFinished ? 1 : 0)

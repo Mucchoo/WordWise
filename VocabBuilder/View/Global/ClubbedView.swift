@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ClubbedView: View {
+    @Environment(\.colorScheme) var colorScheme
     var isNoCardView = false
     @State private var animate = false
     
@@ -15,7 +16,7 @@ struct ClubbedView: View {
 
     var body: some View {
         Rectangle()
-            .fill(.linearGradient(colors: [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
+            .fill(.linearGradient(colors: colorScheme == .dark ? [Color("Navy"), Color("Blue")] : [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
             .mask {
                 TimelineView(.animation(minimumInterval: 20, paused: false)) { _ in
                     ZStack {

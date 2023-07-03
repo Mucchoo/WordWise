@@ -28,7 +28,7 @@ struct AddCardView: View {
                 HStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.white.opacity(0.5))
+                            .fill(Color(UIColor.systemGroupedBackground).opacity(0.5))
                             .overlay(
                                 TransparentBlurView(removeAllLayers: true)
                                 .blur(radius: 9, opaque: true)

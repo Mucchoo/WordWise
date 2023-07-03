@@ -98,7 +98,7 @@ struct CardListView: View {
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
-                                                Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "pencil.circle.fill" : "star.circle.fill")
+                                                Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "flame.circle.fill" : "star.circle.fill")
                                                     .foregroundColor(card.status == 0 ? .blue : card.status == 1 ? .red : .yellow)
                                                     .font(.system(size: 16))
                                                     .fontWeight(.black)
