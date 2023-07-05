@@ -23,8 +23,6 @@ struct SettingsRow: View {
                 NumberPicker(value: $value, labelText: labelText, options: options)
             }
             .frame(height: 30)
-
-            Divider()
         }
     }
 }
