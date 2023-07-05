@@ -58,23 +58,8 @@ struct StudyView: View {
                             }
                             .frame(height: 30)
                             
-                            Divider()
-                            
-                            HStack {
-                                Text("Maximum Cards")
-                                Spacer()
-                                NumberPicker(value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
-                            }
-                            .frame(height: 30)
-                            
-                            Divider()
-
-                            HStack {
-                                Text("Failed Times")
-                                Spacer()
-                                NumberPicker(value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
-                            }
-                            .frame(height: 30)
+                            SettingsRow(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
+                            SettingsRow(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
                         }
                         .modifier(BlurBackground())
                         
