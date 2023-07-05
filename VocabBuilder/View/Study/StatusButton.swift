@@ -38,6 +38,10 @@ struct StatusButton: View {
             .frame(maxWidth: .infinity)
             .background(isOn ? LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom) : LinearGradient(colors: [.white], startPoint: .top, endPoint: .bottom))
         }
+        .onAppear {
+            isOn = filterStatus.contains(Int16(status))
+            print("title: \(title) isOn: \(isOn)")
+        }
     }
 }
 
