@@ -11,11 +11,19 @@ import SwiftUI
 class DataViewModel: ObservableObject {
     static let shared = DataViewModel()
     
-    var viewContext: NSManagedObjectContext
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
+    
+    var viewContext: NSManagedObjectContext
     var fetcher = WordFetcher()
-
+    var maxStatusCount: Int {
+        let statuses = [0, 1, 2]
+        let counts = statuses.map { status -> Int in
+            return cards.filter { $0.status == Int16(status) }.count
+        }
+        return counts.max() ?? 0
+    }
+    
     private init() {
         viewContext = PersistenceController.shared.container.viewContext
         loadData()

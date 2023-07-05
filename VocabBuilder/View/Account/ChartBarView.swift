@@ -23,7 +23,6 @@ struct ChartBarView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
                         LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
-
                     )
                     .frame(width: 60 + progress * (geometry.size.width - 60), height: 30)
                     .animation(.easeInOut(duration: 1))
@@ -51,7 +50,7 @@ struct ChartBarView: View {
                 .animation(.easeInOut(duration: 1))
             }
             .onAppear {
-                progress = dataViewModel.cards.count > 0 ? CGFloat(dataViewModel.cards.filter { $0.status == status }.count) / CGFloat(dataViewModel.cards.count) : 0
+                progress = dataViewModel.maxStatusCount > 0 ? CGFloat(dataViewModel.cards.filter { $0.status == status }.count) / CGFloat(dataViewModel.maxStatusCount) : 0
             }
         }
         .frame(height: 30)
