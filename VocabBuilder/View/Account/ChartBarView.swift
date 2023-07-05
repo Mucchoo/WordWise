@@ -16,6 +16,7 @@ struct ChartBarView: View {
     
     @State private var progress: CGFloat = 0
     @State private var isLoaded = false
+    @State private var text = ""
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,15 +35,11 @@ struct ChartBarView: View {
                         .frame(width: 14)
                         .padding(.leading, 10)
                     Spacer()
-                    Text(isLoaded ? "\(dataViewModel.cards.filter { $0.status == status }.count)" : "")
-                        .onAppear() {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                isLoaded = true
-                            }
-                        }
+                    Text(isLoaded ? text : "")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .animation(isLoaded ? .easeInOut(duration: 1) : .none)
                     Spacer()
                         .frame(width: 6)
                 }
@@ -50,7 +47,13 @@ struct ChartBarView: View {
                 .animation(.easeInOut(duration: 1))
             }
             .onAppear {
+                isLoaded = false
+                text = "\(dataViewModel.cards.filter { $0.status == status }.count)"
                 progress = dataViewModel.maxStatusCount > 0 ? CGFloat(dataViewModel.cards.filter { $0.status == status }.count) / CGFloat(dataViewModel.maxStatusCount) : 0
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    isLoaded = true
+                }
             }
         }
         .frame(height: 30)
