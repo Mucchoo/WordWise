@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @State var selectedTab = "book.closed"
 
     var body: some View {

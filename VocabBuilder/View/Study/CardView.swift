@@ -10,8 +10,7 @@ import SwiftUI
 struct CardView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var dataViewModel = DataViewModel.shared
-
+    @EnvironmentObject var dataViewModel: DataViewModel
     @Binding var showingCardView: Bool
     @State private var isVStackVisible = false
     @State private var isWordVisible = true
@@ -21,8 +20,8 @@ struct CardView: View {
     @State private var isButtonEnabled = true
     
     init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
-        self._showingCardView = showingCardView
-        self._learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
+        _showingCardView = showingCardView
+        _learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
     }
     
     var body: some View {

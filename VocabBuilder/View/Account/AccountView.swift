@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @ObservedObject private var viewModel = ViewModel()
     @State private var isActive = false
     @State private var isShowingAlert = false
@@ -74,7 +74,7 @@ struct AccountView: View {
                                 .cornerRadius(10)
                         }
                         .alert("Are you sure to reset all the learning data?", isPresented: $showingResetAlert) {
-                            Button("Reset", role: .destructive, action: DataViewModel.shared.resetLearningData)
+                            Button("Reset", role: .destructive, action: dataViewModel.resetLearningData)
                             Button("Cancel", role: .cancel) {}
                         } message: {
                             Text("Failed times and the status of all cards will be reset.")

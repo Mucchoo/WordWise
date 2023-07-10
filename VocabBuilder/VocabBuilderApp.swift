@@ -11,10 +11,13 @@ import SwiftUI
 struct VocabBuilderApp: App {
     let persistenceController = PersistenceController.shared
 
+    @StateObject private var dataViewModel = DataViewModel(context: PersistenceController.shared.viewContext)
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.viewContext)
+                .environmentObject(dataViewModel)
         }
     }
 }

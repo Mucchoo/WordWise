@@ -7,7 +7,7 @@
 
 import CoreData
 
-struct PersistenceController {
+class PersistenceController {
     let container: NSPersistentContainer
     
     static let shared = PersistenceController()
@@ -26,8 +26,8 @@ struct PersistenceController {
             newCard.failedTimes = 0
             newCard.text = "Test\(i)"
         }
-        
-        shared.saveContext()
+    
+        result.saveContext()
         return result
     }()
     
@@ -39,6 +39,10 @@ struct PersistenceController {
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error.localizedDescription), \(error.userInfo)")
+            }
+            
+            DispatchQueue.main.async {
+                self.addDefaultCategory()
             }
         }
     }
@@ -64,7 +68,7 @@ struct PersistenceController {
             if categories.isEmpty {
                 let newCategory = CardCategory(context: viewContext)
                 newCategory.name = "Category 1"
-                PersistenceController.shared.saveContext()
+                self.saveContext()
             }
         } catch let error {
             print("Failed to fetch categories: \(error.localizedDescription)")

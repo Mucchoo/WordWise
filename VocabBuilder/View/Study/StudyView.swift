@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StudyView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @ObservedObject var filterViewModel = FilterViewModel.shared
     @State private var showingCardView = false
     @AppStorage("learnedButton") private var learnedButton = true

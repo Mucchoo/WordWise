@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CardListView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @FocusState var isFocused: Bool
     
     @State private var VocabBuilders = [String]()
@@ -37,17 +37,6 @@ struct CardListView: View {
     
     private let statusArray: [CardStatus]  = [.init(text: "learned", value: 0), .init(text: "learning", value: 1), .init(text: "new", value: 2)]
     private let initialPlaceholder = "You can add cards using dictionary data. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
-    
-    private func updateCardList() {
-        let filteredCards = dataViewModel.cards.filter { card in
-            let statusFilter = filterStatus.contains { $0 == card.status }
-            let failedTimesFilter = card.failedTimes >= filterFailedTimes
-            let categoryFilter = filterCategories.contains { $0 == card.category }
-            print("card: \(card.text) status: \(statusFilter) failedTimes: \(failedTimesFilter) category: \(categoryFilter)")
-            return statusFilter && failedTimesFilter && categoryFilter
-        }
-        cardList = filteredCards
-    }
     
     var body: some View {
         if dataViewModel.cards.isEmpty {
@@ -145,11 +134,11 @@ struct CardListView: View {
                                     }
                                     .onChange(of: navigateToCardDetail) { newValue in
                                         if !newValue, let cardId = cardId {
-                                            DataViewModel.shared.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus, failedTimesIndex: Int(cardFailedTimes))
+                                            dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus, failedTimesIndex: Int(cardFailedTimes))
                                         }
                                     }
                                 }
-                                .onDelete(perform: DataViewModel.shared.deleteCard)
+                                .onDelete(perform: dataViewModel.deleteCard)
                             }
                             .modifier(BlurBackground())
                         }
@@ -176,6 +165,17 @@ struct CardListView: View {
                 }
             }
         }
+    }
+    
+    private func updateCardList() {
+        let filteredCards = dataViewModel.cards.filter { card in
+            let statusFilter = filterStatus.contains { $0 == card.status }
+            let failedTimesFilter = card.failedTimes >= filterFailedTimes
+            let categoryFilter = filterCategories.contains { $0 == card.category }
+            print("card: \(card.text) status: \(statusFilter) failedTimes: \(failedTimesFilter) category: \(categoryFilter)")
+            return statusFilter && failedTimesFilter && categoryFilter
+        }
+        cardList = filteredCards
     }
 }
 

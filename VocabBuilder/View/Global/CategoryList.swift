@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct CategoryList: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @Binding var categories: [String]
     @State var showingRenameAlert = false
     @State var textFieldInput = ""
     @State var categoryToRename = ""
+    
+    init(categories: Binding<[String]>) {
+        _categories = categories
+    }
 
     var body: some View {
         ScrollView {
@@ -78,7 +82,7 @@ struct CategoryList: View {
                 .alert("Rename Category", isPresented: $showingRenameAlert) {
                     TextField("category name", text: $textFieldInput)
                     Button("Rename", role: .none) {
-                        DataViewModel.shared.renameCategory(before: categoryToRename, after: textFieldInput)
+                        dataViewModel.renameCategory(before: categoryToRename, after: textFieldInput)
                         textFieldInput = ""
                         categoryToRename = ""
                     }

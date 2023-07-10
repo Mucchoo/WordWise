@@ -9,12 +9,10 @@ import CoreData
 import SwiftUI
 
 class DataViewModel: ObservableObject {
-    static let shared = DataViewModel()
-    
+    private var viewContext: NSManagedObjectContext
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     
-    var viewContext: NSManagedObjectContext
     var fetcher = WordFetcher()
     var maxStatusCount: Int {
         let statuses = [0, 1, 2]
@@ -24,8 +22,8 @@ class DataViewModel: ObservableObject {
         return counts.max() ?? 0
     }
     
-    private init() {
-        viewContext = PersistenceController.shared.container.viewContext
+    init(context: NSManagedObjectContext) {
+        self.viewContext = context
         loadData()
     }
 
@@ -186,7 +184,7 @@ class WordFetcher: ObservableObject {
             print("No data for: \(word)")
             return
         }
-        
+         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 if let decodedResponse = try? JSONDecoder().decode([CardResponse].self, from: data) {

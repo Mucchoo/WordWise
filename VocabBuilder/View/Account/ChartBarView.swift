@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChartBarView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @State var status: Int
     var name: String
     var image: String

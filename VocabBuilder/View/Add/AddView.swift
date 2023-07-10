@@ -9,7 +9,7 @@ import CoreData
 import SwiftUI
 
 struct AddCardView: View {
-    @ObservedObject var dataViewModel = DataViewModel.shared
+    @EnvironmentObject var dataViewModel: DataViewModel
     @FocusState var isFocused: Bool
     @State private var VocabBuilders = [String]()
     @State private var isEditing = false
@@ -79,7 +79,7 @@ struct AddCardView: View {
                 .modifier(BlurBackground())
                 
                 Button(action: {
-                    DataViewModel.shared.addCard(text: cardText) { [self] failedWords in
+                    dataViewModel.addCard(text: cardText) { [self] failedWords in
                         cardText = ""
                         
                         fetchFailedWords = failedWords
@@ -115,7 +115,7 @@ struct AddCardView: View {
         .alert("Add Category", isPresented: $showingAlert) {
             TextField("category name", text: $textFieldInput)
             Button("Add", role: .none) {
-                DataViewModel.shared.addCategory(name: textFieldInput)
+                dataViewModel.addCategory(name: textFieldInput)
                 pickerSelected = textFieldInput
                 textFieldInput = ""
             }
