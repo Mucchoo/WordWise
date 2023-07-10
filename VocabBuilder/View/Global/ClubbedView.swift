@@ -16,7 +16,7 @@ struct ClubbedView: View {
 
     var body: some View {
         Rectangle()
-            .fill(.linearGradient(colors: colorScheme == .dark ? [Color("Navy"), Color("Blue")] : [Color("Teal"), Color("Mint")], startPoint: .top, endPoint: .bottom))
+            .fill(.linearGradient(colors: colorScheme == .dark ? [.navy, .ocean] : [.teal, .mint], startPoint: .top, endPoint: .bottom))
             .mask {
                 ZStack {
                     Canvas { context, size in

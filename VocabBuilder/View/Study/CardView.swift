@@ -49,7 +49,7 @@ struct CardView: View {
 
                         Rectangle()
                             .fill(
-                                LinearGradient(colors: colorScheme == .dark ? [Color("Teal"), Color("Mint")] : [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing)
+                                LinearGradient(colors: colorScheme == .dark ? [.teal, .mint] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing)
                             )
                             .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
                             .animation(.spring())
@@ -131,7 +131,7 @@ struct CardView: View {
                         Text("Go to Top Page")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(colors: colorScheme == .dark ? [Color("Blue"), Color("Teal")] : [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
+                            .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .teal] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }.opacity(isFinished ? 1 : 0)
@@ -202,7 +202,7 @@ struct CardView: View {
                             Text("Easy")
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
+                                .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }

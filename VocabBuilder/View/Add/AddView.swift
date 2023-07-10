@@ -54,7 +54,7 @@ struct AddCardView: View {
                         Text("Add Category")
                             .padding(.vertical, 12)
                             .padding(.horizontal)
-                            .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
+                            .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
@@ -93,7 +93,7 @@ struct AddCardView: View {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(LinearGradient(colors: [Color("Navy"), Color("Blue")], startPoint: .leading, endPoint: .trailing))
+                        .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }

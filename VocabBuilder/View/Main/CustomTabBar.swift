@@ -20,11 +20,11 @@ struct CustomTabBar: View {
         }
         .padding()
         .background(
-            LinearGradient(gradient: Gradient(colors: [Color("Navy"), Color("Blue")]), startPoint: .leading, endPoint: .trailing)
+            LinearGradient(gradient: Gradient(colors: [.navy, .ocean]), startPoint: .leading, endPoint: .trailing)
                 .clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
         .overlay(
             Circle()
-                .fill(Color("Navy"))
+                .fill(Color.navy)
                 .frame(width: 10, height: 10)
                 .offset(x: getCurvePoint() - 20)
             , alignment: .bottomLeading)

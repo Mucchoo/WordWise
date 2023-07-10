@@ -99,7 +99,7 @@ struct CardListView: View {
                                         }) {
                                             HStack{
                                                 Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "flame.circle.fill" : "star.circle.fill")
-                                                    .foregroundColor(card.status == 0 ? Color("Navy") : card.status == 1 ? Color("Blue") : Color("Teal"))
+                                                    .foregroundColor(card.status == 0 ? .navy : card.status == 1 ? .ocean : .teal)
                                                     .font(.system(size: 16))
                                                     .fontWeight(.black)
                                                     .frame(width: 20, height: 20, alignment: .center)

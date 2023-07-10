@@ -47,6 +47,6 @@ struct StatusButton: View {
 
 struct StatusButton_Previews: PreviewProvider {
     static var previews: some View {
-        StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, Color("Navy")], filterStatus: .constant([0]))
+        StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, .navy], filterStatus: .constant([0]))
     }
 }
