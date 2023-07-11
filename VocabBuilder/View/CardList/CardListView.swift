@@ -21,7 +21,6 @@ struct CardListView: View {
     @State private var showingFetchFailedAlert = false
     @State private var fetchFailedWords: [String] = []
     @State private var navigateToCardDetail: Bool = false
-    @State private var cardList: [Card] = []
     @State private var isFirstAppearance = true
     @State private var showingCategorySheet = false
     
@@ -76,7 +75,7 @@ struct CardListView: View {
                             .modifier(BlurBackground())
                             
                             VStack {
-                                ForEach(cardList, id: \.id) { card in
+                                ForEach(dataViewModel.cardList, id: \.id) { card in
                                     VStack {
                                         Button(action: {
                                             cardId = card.id
@@ -98,7 +97,7 @@ struct CardListView: View {
                                                 Spacer()
                                             }
                                         }
-                                        if card.id != cardList.last?.id {
+                                        if card.id != dataViewModel.cardList.last?.id {
                                             Divider()
                                         }
                                     }
@@ -107,7 +106,7 @@ struct CardListView: View {
                                             HStack {
                                                 Text("Name")
                                                 Spacer()
-                                                Text("\(cardList.first { $0.id == cardId }?.text ?? "")")
+                                                Text("\(dataViewModel.cardList.first { $0.id == cardId }?.text ?? "")")
                                             }
                                             Picker("Category", selection: $cardCategory) {
                                                 ForEach(dataViewModel.categories) { category in
@@ -175,7 +174,7 @@ struct CardListView: View {
             print("card: \(card.text) status: \(statusFilter) failedTimes: \(failedTimesFilter) category: \(categoryFilter)")
             return statusFilter && failedTimesFilter && categoryFilter
         }
-        cardList = filteredCards
+        dataViewModel.cardList = filteredCards
     }
 }
 
