@@ -30,10 +30,7 @@ class AudioViewModel {
             let savedURL = documentsURL.appendingPathComponent(url.lastPathComponent)
             let relativePath = url.lastPathComponent
 
-            if isPlayable(url: savedURL) {
-                print("File already exists: \(savedURL.absoluteString)")
-                return
-            }
+            guard !isPlayable(url: savedURL) else { return }
             
             let downloadTask = URLSession.shared.downloadTask(with: URLRequest(url: url)) { url, response, error in
                 guard error == nil, let fileURL = url else { return }

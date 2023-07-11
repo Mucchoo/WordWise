@@ -18,18 +18,7 @@ struct StudyView: View {
     @AppStorage("maximumCards") private var maximumCards = 10
     @AppStorage("failedTimes") private var failedTimes = 0
     @State private var isFirstAppearance = true
-    @State private var cardsToStudy: [Card] = []
-    
-    private func updateCardsToStudy() {
-        let filteredCards = dataViewModel.cards.filter { card in
-            let statusFilter = filterViewModel.filterStatus.contains { $0 == card.status }
-            let failedTimesFilter = card.failedTimes >= failedTimes
-            let categoryFilter = filterViewModel.selectedCategories.contains { $0 == card.category }
-            return statusFilter && failedTimesFilter && categoryFilter
-        }
-        cardsToStudy = Array(filteredCards.prefix(maximumCards))
-    }
-    
+        
     var body: some View {
         if dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
@@ -62,21 +51,21 @@ struct StudyView: View {
                         .modifier(BlurBackground())
                         
                         Button(action: {
-                            guard cardsToStudy.count > 0 else { return }
+                            guard dataViewModel.cardsToStudy.count > 0 else { return }
                             showingCardView = true
                         }) {
-                            Text(cardsToStudy.count > 0 ? "Study \(cardsToStudy.count) Cards" : "No Cards Available")
+                            Text(dataViewModel.cardsToStudy.count > 0 ? "Study \(dataViewModel.cardsToStudy.count) Cards" : "No Cards Available")
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(cardsToStudy.count > 0 ? LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
+                                .background(dataViewModel.cardsToStudy.count > 0 ? LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
-                        .disabled(cardsToStudy.count == 0)
+                        .disabled(dataViewModel.cardsToStudy.count == 0)
                         .padding()
                         .fullScreenCover(isPresented: $showingCardView) {
-                            CardView(showingCardView: $showingCardView, cardsToStudy: cardsToStudy)
+                            CardView(showingCardView: $showingCardView, cardsToStudy: dataViewModel.cardsToStudy)
                         }
                     }
                 }
@@ -95,7 +84,9 @@ struct StudyView: View {
                 isFirstAppearance = false
             }
             .onReceive(dataViewModel.$cards) { _ in
-                updateCardsToStudy()
+                DispatchQueue.main.async {
+                    self.updateCardsToStudy()
+                }
             }
             .onChange(of: failedTimes) { _ in
                 updateCardsToStudy()
@@ -110,5 +101,15 @@ struct StudyView: View {
                 updateCardsToStudy()
             }
         }
+    }
+    
+    private func updateCardsToStudy() {
+        let filteredCards = dataViewModel.cards.filter { card in
+            let statusFilter = filterViewModel.filterStatus.contains { $0 == card.status }
+            let failedTimesFilter = card.failedTimes >= failedTimes
+            let categoryFilter = filterViewModel.selectedCategories.contains { $0 == card.category }
+            return statusFilter && failedTimesFilter && categoryFilter
+        }
+        dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }
 }

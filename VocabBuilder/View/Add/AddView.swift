@@ -14,7 +14,7 @@ struct AddCardView: View {
     @State private var VocabBuilders = [String]()
     @State private var isEditing = false
     @State private var cardText = ""
-    @State private var pickerSelected = ""
+    @State private var selectedCategory = ""
     @State private var showingAlert = false
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
@@ -36,7 +36,7 @@ struct AddCardView: View {
                             )
                         
                         HStack {
-                            Picker("Options", selection: $pickerSelected) {
+                            Picker("Options", selection: $selectedCategory) {
                                 ForEach(dataViewModel.categories) { category in
                                     let name = category.name ?? ""
                                     Text(name).tag(name)
@@ -79,7 +79,8 @@ struct AddCardView: View {
                 .modifier(BlurBackground())
                 
                 Button(action: {
-                    dataViewModel.addCard(text: cardText) { [self] failedWords in
+                    print("selectedCategory: \(selectedCategory)")
+                    dataViewModel.addCard(text: cardText, category: selectedCategory) { [self] failedWords in
                         cardText = ""
                         
                         fetchFailedWords = failedWords
@@ -110,13 +111,16 @@ struct AddCardView: View {
         }
         .onAppear {
             PersistenceController.shared.addDefaultCategory()
+            if let defaultCategory = dataViewModel.categories.first?.name {
+                selectedCategory = defaultCategory
+            }
         }
         
         .alert("Add Category", isPresented: $showingAlert) {
             TextField("category name", text: $textFieldInput)
             Button("Add", role: .none) {
                 dataViewModel.addCategory(name: textFieldInput)
-                pickerSelected = textFieldInput
+                selectedCategory = textFieldInput
                 textFieldInput = ""
             }
             Button("Cancel", role: .cancel) {}

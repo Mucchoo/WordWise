@@ -12,6 +12,7 @@ class DataViewModel: ObservableObject {
     private var viewContext: NSManagedObjectContext
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
+    @Published var cardsToStudy: [Card] = []
     
     var fetcher = WordFetcher()
     var maxStatusCount: Int {
@@ -96,7 +97,7 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func addCard(text: String, completion: (([String]) -> (Void))? = nil) {
+    func addCard(text: String, category: String, completion: (([String]) -> (Void))? = nil) {
         guard text != "" else { return }
         let lines = text.split(separator: "\n")
         let words = lines.map { String($0).trimmingCharacters(in: .whitespaces) }
@@ -118,6 +119,7 @@ class DataViewModel: ObservableObject {
                 card.text = String(word)
                 card.status = 2
                 card.failedTimes = 0
+                card.category = category
                 
                 self.fetcher.wordDefinition?.meanings?.forEach { meaning in
                     let newMeaning = Meaning(context: viewContext)
