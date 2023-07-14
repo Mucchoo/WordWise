@@ -1,6 +1,6 @@
 //
 //  Card+CoreDataProperties.swift
-//  VocabBuilder
+//  VocabAI
 //
 //  Created by Musa Yazuju on 6/19/23.
 //

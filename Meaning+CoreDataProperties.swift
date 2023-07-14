@@ -1,6 +1,6 @@
 //
 //  Meaning+CoreDataProperties.swift
-//  VocabBuilder
+//  VocabAI
 //
 //  Created by Musa Yazuju on 6/20/23.
 //
