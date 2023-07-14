@@ -33,7 +33,6 @@
 		2AB7C9682A512BD600A703FA /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9672A512BD600A703FA /* BackgroundView.swift */; };
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
-		2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63652A38147900718C90 /* Preview Assets.xcassets */; };
 		2ABC636D2A38167800718C90 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* AccountView.swift */; };
 		2ABC637D2A38194300718C90 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
@@ -83,7 +82,6 @@
 		2ABC635A2A38147900718C90 /* VocabAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VocabAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2ABC63612A38147900718C90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2ABC63652A38147900718C90 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2ABC636C2A38167800718C90 /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
@@ -267,17 +265,8 @@
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
 				2A224EE52A5BBE4900539872 /* Extensions */,
-				2ABC63642A38147900718C90 /* Preview Content */,
 			);
 			path = VocabAI;
-			sourceTree = "<group>";
-		};
-		2ABC63642A38147900718C90 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				2ABC63652A38147900718C90 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,7 +328,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */,
-				2ABC63662A38147900718C90 /* Preview Assets.xcassets in Resources */,
 				2ABC63622A38147900718C90 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
