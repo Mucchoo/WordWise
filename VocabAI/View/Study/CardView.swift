@@ -96,7 +96,7 @@ struct CardView: View {
                         .opacity(isWordVisible ? 1 : 0)
                         .animation(.easeIn(duration: 0.3), value: isWordVisible)
                         .onTapGesture {
-                            AudioViewModel.shared.playAudio(card: learningCards[index].card)
+                            AudioViewModel.shared.speechText(learningCards[index].card.text)
                         }
                         
                         Spacer().frame(height: 20)
@@ -158,7 +158,7 @@ struct CardView: View {
                                 PersistenceController.shared.saveContext()
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioViewModel.shared.playAudio(card: card)
+                                    AudioViewModel.shared.speechText(card.text)
                                 }
                             }
                         }) {
@@ -194,7 +194,7 @@ struct CardView: View {
                                 isWordVisible = true
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioViewModel.shared.playAudio(card: learningCards[index].card)
+                                    AudioViewModel.shared.speechText(learningCards[index].card.text)
                                 }
                             }
                         }) {
@@ -216,12 +216,8 @@ struct CardView: View {
             isVStackVisible = true
         }
         .onAppear {
-            learningCards.forEach { card in
-                AudioViewModel.shared.downloadAudio(card: card.card)
-            }
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                AudioViewModel.shared.playAudio(card: learningCards[0].card)
+                AudioViewModel.shared.speechText(learningCards[0].card.text)
             }
             
             AudioViewModel.shared.setCategoryToPlayback()

@@ -23,11 +23,6 @@ struct ContentView: View {
                 AccountView()
                     .tag("person")
             }
-            .onAppear {
-                dataViewModel.cards.forEach { card in
-                    AudioViewModel.shared.downloadAudio(card: card)
-                }
-            }
             .ignoresSafeArea()
             
             VStack {

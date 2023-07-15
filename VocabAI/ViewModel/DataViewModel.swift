@@ -161,11 +161,7 @@ class DataViewModel: ObservableObject {
             }
         }
         
-        group.notify(queue: .main) { [self] in
-            cards.forEach { card in
-                AudioViewModel.shared.downloadAudio(card: card)
-            }
-            
+        group.notify(queue: .main) {
             completion?(fetchFailedWords)
         }
     }
