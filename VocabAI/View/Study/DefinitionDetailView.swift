@@ -14,11 +14,6 @@ struct DefinitionDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                Text("Meaning \(index + 1)")
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
-                
                 Text(meaning.partOfSpeech ?? "Unknown")
                     .font(.headline)
                     .fontWeight(.semibold)
