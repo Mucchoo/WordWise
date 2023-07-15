@@ -110,6 +110,31 @@ struct CardView: View {
                                     }
                                     DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
                                 }
+                                
+                                Spacer().frame(height: 20)
+                                
+                                VStack(spacing: 2) {
+                                    HStack(spacing: 2) {
+                                        Rectangle()
+                                            .fill(Color.blue)
+                                            .aspectRatio(contentMode: .fit)
+                                        Rectangle()
+                                            .fill(Color.blue)
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                    HStack(spacing: 2) {
+                                        Rectangle()
+                                            .fill(Color.blue)
+                                            .aspectRatio(contentMode: .fit)
+                                        Rectangle()
+                                            .fill(Color.blue)
+                                            .aspectRatio(contentMode: .fit)
+                                    }
+                                }
+                                
+                                Text("Powered by Pixabay")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
                             }
                             
                             Rectangle()
