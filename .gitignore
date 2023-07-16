@@ -71,3 +71,7 @@ iOSInjectionProject/
 # Confidential files
 #
 VocabAI/Helper/Keys.swift
+
+# SPM
+#
+VocabAI.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
