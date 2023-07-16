@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import Combine
 
 class DataViewModel: ObservableObject {
     private var viewContext: NSManagedObjectContext
@@ -14,6 +15,8 @@ class DataViewModel: ObservableObject {
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
     @Published var cardList: [Card] = []
+    
+    private var cancellables = Set<AnyCancellable>()
     
     var maxStatusCount: Int {
         let statuses = [0, 1, 2]
@@ -94,94 +97,88 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func addCard(text: String, category: String, completion: (([String]) -> (Void))? = nil) {
-        guard text != "" else { return }
-        let lines = text.split(separator: "\n")
-        let words = lines.map { String($0).trimmingCharacters(in: .whitespaces) }
-        let cardsGroup = DispatchGroup()
-        var fetchFailedWords: [String] = []
-        
-        cardsGroup.enter()
-        for word in words {
-            let cardGroup = DispatchGroup()
-            let card = Card(context: viewContext)
-
-            cardsGroup.enter()
-            cardGroup.enter()
+    func addCardPublisher(text: String, category: String) -> AnyPublisher<[String], Never> {
+        return Future<[String], Never> { promise in
+            var fetchFailedWords: [String] = []
             
-            fetch(word: word) { [self] response in
-                guard let response = response else {
-                    print("failed fetching \(word)")
-                    fetchFailedWords.append(String(word))
-                    cardGroup.leave()
-                    return
+            let words = text.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
+            let fetchCard = self.fetchCards(words: words, category: category)
+            
+            fetchCard
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .failure(let error):
+                        print("Failed fetching: \(error.localizedDescription)")
+                        fetchFailedWords.append(error.localizedDescription)  // Handle errors here
+                    case .finished:
+                        break
+                    }
+                } receiveValue: { card in
+                    self.cards.append(card)
+                    PersistenceController.shared.saveContext()
                 }
-                
-                card.id = UUID()
-                card.text = String(word)
-                card.status = 2
-                card.failedTimes = 0
-                card.category = category
-                
-                
-                
-                response.meanings?.forEach { meaning in
-                    let newMeaning = Meaning(context: viewContext)
-                    newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
-                    
-                    meaning.definitions?.forEach { definition in
-                        let newDefinition = Definition(context: viewContext)
-                        newDefinition.definition = definition.definition
-                        newDefinition.example = definition.example
-                        newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
-                        newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                .store(in: &self.cancellables)
+            
+            promise(.success(fetchFailedWords))
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Error> {
+        let fetchPublishers = words.map { word -> AnyPublisher<Card, Error> in
+            let card = Card(context: self.viewContext)
+            card.id = UUID()
+            card.text = word
+            card.status = 2
+            card.failedTimes = 0
+            card.category = category
+
+            let fetchCardData = fetch(word: word)
+            let fetchImagesData = fetchImages(word: word)
+
+            return Publishers.Zip(fetchCardData, fetchImagesData)
+                .tryMap { cardResponse, imageUrls in
+                    cardResponse.meanings?.forEach { meaning in
+                        let newMeaning = Meaning(context: self.viewContext)
+                        newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                         
-                        newMeaning.addToDefinitions(newDefinition)
+                        meaning.definitions?.forEach { definition in
+                            let newDefinition = Definition(context: self.viewContext)
+                            newDefinition.definition = definition.definition
+                            newDefinition.example = definition.example
+                            newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                            newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                            
+                            newMeaning.addToDefinitions(newDefinition)
+                        }
+                        
+                        card.addToMeanings(newMeaning)
                     }
                     
-                    card.addToMeanings(newMeaning)
-                }
-                
-                response.phonetics?.forEach { phonetic in
-                    let newPhonetic = Phonetic(context: viewContext)
-                    newPhonetic.audio = phonetic.audio
-                    newPhonetic.text = phonetic.text
-                    card.addToPhonetics(newPhonetic)
-                }
-                
-                do {
-                    try card.validateForInsert()
-                } catch {
-                    print("Validation error: \(error.localizedDescription), \(error as NSError).userInfo")
-                }
-                
-                DispatchQueue.main.async {
-                    self.cards.append(card)
-                }
+                    cardResponse.phonetics?.forEach { phonetic in
+                        let newPhonetic = Phonetic(context: self.viewContext)
+                        newPhonetic.audio = phonetic.audio
+                        newPhonetic.text = phonetic.text
+                        card.addToPhonetics(newPhonetic)
+                    }
 
-                PersistenceController.shared.saveContext()
-                cardGroup.leave()
-            }
-            
-            cardGroup.enter()
-            fetchImages(word: word) { [self] urls in
-                urls.enumerated().forEach { index, url in
-                    let imageUrl = ImageUrl(context: viewContext)
-                    imageUrl.urlString = url
-                    imageUrl.priority = Int64(index)
-                    card.addToImageUrls(imageUrl)
+                    imageUrls.enumerated().forEach { index, url in
+                        let imageUrl = ImageUrl(context: self.viewContext)
+                        imageUrl.urlString = url
+                        imageUrl.priority = Int64(index)
+                        card.addToImageUrls(imageUrl)
+                    }
+
+                    return card
                 }
-                cardGroup.leave()
-            }
-            
-            cardGroup.notify(queue: .main) {
-                cardsGroup.leave()
-            }
+                .eraseToAnyPublisher()
         }
-        
-        cardsGroup.notify(queue: .main) {
-            completion?(fetchFailedWords)
-        }
+
+        return Publishers.MergeMany(fetchPublishers)
+            .collect()
+            .flatMap { $0.publisher }
+            .eraseToAnyPublisher()
     }
 
     func resetLearningData() {
@@ -192,54 +189,44 @@ class DataViewModel: ObservableObject {
         PersistenceController.shared.saveContext()
     }
     
-    func fetch(word: String, completion: @escaping ((CardResponse?) -> ())) {
+    func fetch(word: String) -> AnyPublisher<CardResponse, Error> {
         guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
             print("No URL for: \(word)")
-            return
-        }
-         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil, let data = data else {
-                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion(nil)
-                return
-                
-            }
-            
-            do {
-                let decodedResponse = try JSONDecoder().decode([CardResponse].self, from: data)
-                completion(decodedResponse.first)
-            } catch {
-                print("Fetch failed: \(error.localizedDescription)")
-                completion(nil)
-            }
+            return Fail(error: NSError(domain: "", code: -1, userInfo: nil)).eraseToAnyPublisher()
         }
         
-        task.resume()
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .decode(type: [CardResponse].self, decoder: JSONDecoder())
+            .tryMap { responses in
+                guard let response = responses.first else {
+                    throw NSError(domain: "", code: -1, userInfo: nil)
+                }
+                return response
+            }
+            .eraseToAnyPublisher()
     }
     
-    func fetchImages(word: String, completion: @escaping (([String]) -> ())) {
+    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
         guard let url = URL(string: "https://pixabay.com/api/?key=\(Keys.imageApiKey)&q=\(word)") else {
             print("No image URL for: \(word)")
-            completion([])
-            return
+            return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil, let data = data else {
-                print("Failed to fetch Image: \(error?.localizedDescription ?? "Unknown Error")")
-                return
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
             }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(ImageResponse.self, from: data)
-                let urls = decodedResponse.hits.map { $0.webformatURL }
-                completion(urls)
-            } catch {
-                print("Image Decode Failed: \(error.localizedDescription)")
-                completion([])
-            }
-        }
-        task.resume()
+            .decode(type: ImageResponse.self, decoder: JSONDecoder())
+            .map { $0.hits.map { $0.webformatURL } }
+            .eraseToAnyPublisher()
     }
 }

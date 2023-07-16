@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import Combine
 import SwiftUI
 
 struct AddCardView: View {
@@ -19,6 +20,7 @@ struct AddCardView: View {
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
     @State private var fetchFailedWords: [String] = []
+    @State private var cancellables = Set<AnyCancellable>()
 
     private let initialPlaceholder = "Write whatever wards you want to add. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
     
@@ -80,16 +82,17 @@ struct AddCardView: View {
                 
                 Button(action: {
                     print("selectedCategory: \(selectedCategory)")
-                    dataViewModel.addCard(text: cardText, category: selectedCategory) { [self] failedWords in
-                        cardText = ""
-                        
-                        fetchFailedWords = failedWords
-                        if !fetchFailedWords.isEmpty {
-                            showingFetchFailedAlert = true
+                    dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
+                        .sink { [self] failedWords in
+                            cardText = ""
+                            isFocused = false
+                            
+                            fetchFailedWords = failedWords
+                            if !fetchFailedWords.isEmpty {
+                                showingFetchFailedAlert = true
+                            }
                         }
-                    }
-                    cardText = ""
-                    isFocused = false
+                        .store(in: &cancellables)
                 }) {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
