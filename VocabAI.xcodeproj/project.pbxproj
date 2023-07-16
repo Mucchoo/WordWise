@@ -12,6 +12,9 @@
 		2A01FA152A4C8CDA00C7C1CE /* TabCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */; };
 		2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */; };
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
+		2A2015BC2A63D9EA00C67716 /* VocabAITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015BB2A63D9EA00C67716 /* VocabAITests.swift */; };
+		2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */; };
+		2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* NetworkCardService.swift */; };
 		2A2E82522A4AA12B00B9167B /* AudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
@@ -62,6 +65,16 @@
 		2AFBEAC72A5187D30049290E /* StatusFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFBEAC62A5187D30049290E /* StatusFilterView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2A2015BD2A63D9EA00C67716 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2ABC63522A38147900718C90 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2ABC63592A38147900718C90;
+			remoteInfo = VocabAI;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2A01FA0F2A4C84E900C7C1CE /* VocabAI.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = VocabAI.entitlements; sourceTree = "<group>"; };
 		2A01FA102A4C84F400C7C1CE /* VocabAIApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VocabAIApp.swift; sourceTree = "<group>"; };
@@ -69,6 +82,10 @@
 		2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCurve.swift; sourceTree = "<group>"; };
 		2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
+		2A2015B92A63D9EA00C67716 /* VocabAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A2015BB2A63D9EA00C67716 /* VocabAITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabAITests.swift; sourceTree = "<group>"; };
+		2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModelTests.swift; sourceTree = "<group>"; };
+		2A2015C52A63F42300C67716 /* NetworkCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCardService.swift; sourceTree = "<group>"; };
 		2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
@@ -120,6 +137,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2A2015B62A63D9EA00C67716 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2ABC63572A38147900718C90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +163,23 @@
 				2A01FA142A4C8CDA00C7C1CE /* TabCurve.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		2A2015BA2A63D9EA00C67716 /* VocabAITests */ = {
+			isa = PBXGroup;
+			children = (
+				2A2015BB2A63D9EA00C67716 /* VocabAITests.swift */,
+				2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */,
+			);
+			path = VocabAITests;
+			sourceTree = "<group>";
+		};
+		2A2015C42A63F40C00C67716 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				2A2015C52A63F42300C67716 /* NetworkCardService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		2A224EE52A5BBE4900539872 /* Extensions */ = {
@@ -265,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC635C2A38147900718C90 /* VocabAI */,
+				2A2015BA2A63D9EA00C67716 /* VocabAITests */,
 				2ABC635B2A38147900718C90 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -273,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC635A2A38147900718C90 /* VocabAI.app */,
+				2A2015B92A63D9EA00C67716 /* VocabAITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,6 +331,7 @@
 				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
+				2A2015C42A63F40C00C67716 /* Service */,
 				2AD20E332A6372E4000C3822 /* Helper */,
 				2A224EE52A5BBE4900539872 /* Extensions */,
 			);
@@ -306,6 +350,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2A2015B82A63D9EA00C67716 /* VocabAITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A2015C12A63D9EA00C67716 /* Build configuration list for PBXNativeTarget "VocabAITests" */;
+			buildPhases = (
+				2A2015B52A63D9EA00C67716 /* Sources */,
+				2A2015B62A63D9EA00C67716 /* Frameworks */,
+				2A2015B72A63D9EA00C67716 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A2015BE2A63D9EA00C67716 /* PBXTargetDependency */,
+			);
+			name = VocabAITests;
+			productName = VocabAITests;
+			productReference = 2A2015B92A63D9EA00C67716 /* VocabAITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		2ABC63592A38147900718C90 /* VocabAI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2ABC63692A38147900718C90 /* Build configuration list for PBXNativeTarget "VocabAI" */;
@@ -333,9 +395,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					2A2015B82A63D9EA00C67716 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 2ABC63592A38147900718C90;
+					};
 					2ABC63592A38147900718C90 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -358,11 +424,19 @@
 			projectRoot = "";
 			targets = (
 				2ABC63592A38147900718C90 /* VocabAI */,
+				2A2015B82A63D9EA00C67716 /* VocabAITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2A2015B72A63D9EA00C67716 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2ABC63582A38147900718C90 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -375,6 +449,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2A2015B52A63D9EA00C67716 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */,
+				2A2015BC2A63D9EA00C67716 /* VocabAITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2ABC63562A38147900718C90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -414,6 +497,7 @@
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
+				2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */,
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
 				2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */,
@@ -434,7 +518,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2A2015BE2A63D9EA00C67716 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2ABC63592A38147900718C90 /* VocabAI */;
+			targetProxy = 2A2015BD2A63D9EA00C67716 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		2A2015BF2A63D9EA00C67716 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DS86AF5N83;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VocabAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VocabAI";
+			};
+			name = Debug;
+		};
+		2A2015C02A63D9EA00C67716 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DS86AF5N83;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VocabAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VocabAI";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		2ABC63672A38147900718C90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -629,6 +771,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2A2015C12A63D9EA00C67716 /* Build configuration list for PBXNativeTarget "VocabAITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A2015BF2A63D9EA00C67716 /* Debug */,
+				2A2015C02A63D9EA00C67716 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2ABC63552A38147900718C90 /* Build configuration list for PBXProject "VocabAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -9,8 +9,19 @@ import CoreData
 import SwiftUI
 import Combine
 
+protocol CardService {
+    func fetch(word: String) -> AnyPublisher<CardResponse, Error>
+    func fetchImages(word: String) -> AnyPublisher<[String], Error>
+}
+
+protocol Persistence {
+    var viewContext: NSManagedObjectContext { get }
+    func saveContext()
+}
+
 class DataViewModel: ObservableObject {
-    private var viewContext: NSManagedObjectContext
+    private var cardService: CardService
+    private var persistence: Persistence
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
@@ -26,8 +37,9 @@ class DataViewModel: ObservableObject {
         return counts.max() ?? 0
     }
     
-    init(context: NSManagedObjectContext) {
-        self.viewContext = context
+    init(cardService: CardService, persistence: Persistence) {
+        self.cardService = cardService
+        self.persistence = persistence
         loadData()
     }
 
@@ -37,8 +49,8 @@ class DataViewModel: ObservableObject {
         let categoryFetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
 
         do {
-            let fetchedCards = try viewContext.fetch(cardFetchRequest)
-            let fetchedCategories = try viewContext.fetch(categoryFetchRequest)
+            let fetchedCards = try persistence.viewContext.fetch(cardFetchRequest)
+            let fetchedCategories = try persistence.viewContext.fetch(categoryFetchRequest)
             DispatchQueue.main.async {
                 self.cards = fetchedCards
                 self.categories = fetchedCategories
@@ -60,12 +72,13 @@ class DataViewModel: ObservableObject {
     }
     
     func deleteCard(_ card: Card) {
-        viewContext.delete(card)
+        persistence.viewContext.delete(card)
         PersistenceController.shared.saveContext()
+        loadData()
     }
     
     func addCategory(name: String) {
-        let category = CardCategory(context: viewContext)
+        let category = CardCategory(context: persistence.viewContext)
         category.name = name
         PersistenceController.shared.saveContext()
         
@@ -89,7 +102,7 @@ class DataViewModel: ObservableObject {
     
     func deleteCategory(name: String) {
         guard let category = categories.first(where: { $0.name == name }) else { return }
-        viewContext.delete(category)
+        persistence.viewContext.delete(category)
         PersistenceController.shared.saveContext()
         
         DispatchQueue.main.async {
@@ -98,53 +111,53 @@ class DataViewModel: ObservableObject {
     }
     
     func addCardPublisher(text: String, category: String) -> AnyPublisher<[String], Never> {
-        return Future<[String], Never> { promise in
-            var fetchFailedWords: [String] = []
-            
-            let words = text.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
-            let fetchCard = self.fetchCards(words: words, category: category)
-            
-            fetchCard
-                .receive(on: DispatchQueue.main)
-                .sink { completion in
-                    switch completion {
-                    case .failure(let error):
-                        print("Failed fetching: \(error.localizedDescription)")
-                        fetchFailedWords.append(error.localizedDescription)  // Handle errors here
-                    case .finished:
-                        break
+        return Deferred {
+            Future<[String], Never> { promise in
+                var fetchFailedWords: [String] = []
+                
+                let words = text.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
+                let fetchCard = self.fetchCards(words: words, category: category)
+                
+                fetchCard
+                    .receive(on: DispatchQueue.main)
+                    .sink { completion in
+                        switch completion {
+                        case .failure(let error):
+                            print("Failed fetching: \(error.localizedDescription)")
+                            fetchFailedWords.append(error.localizedDescription)  // Handle errors here
+                        case .finished:
+                            promise(.success(fetchFailedWords))
+                        }
+                    } receiveValue: { card in
+                        self.cards.append(card)
+                        PersistenceController.shared.saveContext()
                     }
-                } receiveValue: { card in
-                    self.cards.append(card)
-                    PersistenceController.shared.saveContext()
-                }
-                .store(in: &self.cancellables)
-            
-            promise(.success(fetchFailedWords))
+                    .store(in: &self.cancellables)
+            }
         }
         .eraseToAnyPublisher()
     }
     
     func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Error> {
         let fetchPublishers = words.map { word -> AnyPublisher<Card, Error> in
-            let card = Card(context: self.viewContext)
+            let card = Card(context: persistence.viewContext)
             card.id = UUID()
             card.text = word
             card.status = 2
             card.failedTimes = 0
             card.category = category
 
-            let fetchCardData = fetch(word: word)
-            let fetchImagesData = fetchImages(word: word)
+            let fetchCardData = cardService.fetch(word: word)
+            let fetchImagesData = cardService.fetchImages(word: word)
 
             return Publishers.Zip(fetchCardData, fetchImagesData)
                 .tryMap { cardResponse, imageUrls in
                     cardResponse.meanings?.forEach { meaning in
-                        let newMeaning = Meaning(context: self.viewContext)
+                        let newMeaning = Meaning(context: self.persistence.viewContext)
                         newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                         
                         meaning.definitions?.forEach { definition in
-                            let newDefinition = Definition(context: self.viewContext)
+                            let newDefinition = Definition(context: self.persistence.viewContext)
                             newDefinition.definition = definition.definition
                             newDefinition.example = definition.example
                             newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
@@ -157,14 +170,14 @@ class DataViewModel: ObservableObject {
                     }
                     
                     cardResponse.phonetics?.forEach { phonetic in
-                        let newPhonetic = Phonetic(context: self.viewContext)
+                        let newPhonetic = Phonetic(context: self.persistence.viewContext)
                         newPhonetic.audio = phonetic.audio
                         newPhonetic.text = phonetic.text
                         card.addToPhonetics(newPhonetic)
                     }
 
                     imageUrls.enumerated().forEach { index, url in
-                        let imageUrl = ImageUrl(context: self.viewContext)
+                        let imageUrl = ImageUrl(context: self.persistence.viewContext)
                         imageUrl.urlString = url
                         imageUrl.priority = Int64(index)
                         card.addToImageUrls(imageUrl)
@@ -187,46 +200,5 @@ class DataViewModel: ObservableObject {
             card.status = 2
         }
         PersistenceController.shared.saveContext()
-    }
-    
-    func fetch(word: String) -> AnyPublisher<CardResponse, Error> {
-        guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
-            print("No URL for: \(word)")
-            return Fail(error: NSError(domain: "", code: -1, userInfo: nil)).eraseToAnyPublisher()
-        }
-        
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: [CardResponse].self, decoder: JSONDecoder())
-            .tryMap { responses in
-                guard let response = responses.first else {
-                    throw NSError(domain: "", code: -1, userInfo: nil)
-                }
-                return response
-            }
-            .eraseToAnyPublisher()
-    }
-    
-    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
-        guard let url = URL(string: "https://pixabay.com/api/?key=\(Keys.imageApiKey)&q=\(word)") else {
-            print("No image URL for: \(word)")
-            return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
-        }
-
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: ImageResponse.self, decoder: JSONDecoder())
-            .map { $0.hits.map { $0.webformatURL } }
-            .eraseToAnyPublisher()
     }
 }

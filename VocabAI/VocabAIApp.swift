@@ -10,8 +10,14 @@ import SwiftUI
 @main
 struct VocabAIApp: App {
     let persistenceController = PersistenceController.shared
+    let cardService: CardService
+    @StateObject private var dataViewModel: DataViewModel
 
-    @StateObject private var dataViewModel = DataViewModel(context: PersistenceController.shared.viewContext)
+    init() {
+        self.cardService = NetworkCardService()
+        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistenceController)
+        self._dataViewModel = StateObject(wrappedValue: dataViewModel)
+    }
 
     var body: some Scene {
         WindowGroup {

@@ -64,8 +64,7 @@ struct ClubbedView: View {
                 }
             }
             .onReceive(timer) { _ in
-                print("timer received")
-                self.animate.toggle()
+                animate.toggle()
             }
     }
     

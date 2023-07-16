@@ -84,15 +84,15 @@ struct AddCardView: View {
                     print("selectedCategory: \(selectedCategory)")
                     dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
                         .sink { [self] failedWords in
-                            cardText = ""
-                            isFocused = false
-                            
                             fetchFailedWords = failedWords
                             if !fetchFailedWords.isEmpty {
                                 showingFetchFailedAlert = true
                             }
                         }
                         .store(in: &cancellables)
+                    
+                    cardText = ""
+                    isFocused = false
                 }) {
                     Text("Add \(cardText.split(separator: "\n").count) Cards")
                         .padding()
