@@ -101,20 +101,23 @@ class DataViewModel: ObservableObject {
         guard text != "" else { return }
         let lines = text.split(separator: "\n")
         let words = lines.map { String($0).trimmingCharacters(in: .whitespaces) }
-        let group = DispatchGroup()
+        let cardsGroup = DispatchGroup()
         var fetchFailedWords: [String] = []
         
+        cardsGroup.enter()
         for word in words {
-            group.enter()
-            fetch(word: String(word)) { [self] response in
+            let cardGroup = DispatchGroup()
+            let card = Card(context: viewContext)
+
+            cardGroup.enter()
+            fetch(word: word) { [self] response in
                 guard let response = response else {
                     print("failed fetching \(word)")
                     fetchFailedWords.append(String(word))
-                    group.leave()
+                    cardGroup.leave()
                     return
                 }
                 
-                let card = Card(context: viewContext)
                 card.id = UUID()
                 card.text = String(word)
                 card.status = 2
@@ -158,11 +161,26 @@ class DataViewModel: ObservableObject {
                 }
 
                 PersistenceController.shared.saveContext()
-                group.leave()
+                cardGroup.leave()
+            }
+            
+            cardGroup.enter()
+            fetchImages(word: word) { [self] urls in
+                urls.enumerated().forEach { index, url in
+                    let imageUrl = ImageUrl(context: viewContext)
+                    imageUrl.urlString = url
+                    imageUrl.priority = Int64(index)
+                    card.addToImageUrls(imageUrl)
+                }
+                cardGroup.leave()
+            }
+            
+            cardGroup.notify(queue: .main) {
+                cardsGroup.leave()
             }
         }
         
-        group.notify(queue: .main) {
+        cardsGroup.notify(queue: .main) {
             completion?(fetchFailedWords)
         }
     }
@@ -175,7 +193,7 @@ class DataViewModel: ObservableObject {
         PersistenceController.shared.saveContext()
     }
     
-    func fetch(word: String, completion: ((CardResponse?) -> ())? = nil) {
+    func fetch(word: String, completion: @escaping ((CardResponse?) -> ())) {
         guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
             print("No URL for: \(word)")
             return
@@ -184,20 +202,45 @@ class DataViewModel: ObservableObject {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil, let data = data else {
                 print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
-                completion?(nil)
+                completion(nil)
                 return
                 
             }
             
             do {
                 let decodedResponse = try JSONDecoder().decode([CardResponse].self, from: data)
-                completion?(decodedResponse.first)
+                completion(decodedResponse.first)
             } catch {
                 print("Fetch failed: \(error.localizedDescription)")
-                completion?(nil)
+                completion(nil)
             }
         }
         
+        task.resume()
+    }
+    
+    func fetchImages(word: String, completion: @escaping (([String]) -> ())) {
+        guard let url = URL(string: "https://pixabay.com/api/?key=\(Keys.imageApiKey)&q=\(word)") else {
+            print("No image URL for: \(word)")
+            completion([])
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil, let data = data else {
+                print("Failed to fetch Image: \(error?.localizedDescription ?? "Unknown Error")")
+                return
+            }
+
+            do {
+                let decodedResponse = try JSONDecoder().decode(ImageResponse.self, from: data)
+                let urls = decodedResponse.hits.map { $0.webformatURL }
+                completion(urls)
+            } catch {
+                print("Image Decode Failed: \(error.localizedDescription)")
+                completion([])
+            }
+        }
         task.resume()
     }
 }
