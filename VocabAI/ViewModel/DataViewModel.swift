@@ -56,11 +56,8 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func deleteCard(at offsets: IndexSet) {
-        for index in offsets {
-            let card = cards[index]
-            viewContext.delete(card)
-        }
+    func deleteCard(_ card: Card) {
+        viewContext.delete(card)
         PersistenceController.shared.saveContext()
     }
     

@@ -58,7 +58,7 @@ struct CardListView: View {
                                         Text(filterCategories.map { $0 }.joined(separator: ", "))
                                             .padding(.vertical, 8)
                                     }
-                                    .padding([.leading, .trailing])
+                                    .padding(.horizontal)
                                     .sheet(isPresented: $showingCategorySheet) {
                                         CategoryList(categories: $filterCategories)
                                     }
@@ -102,32 +102,73 @@ struct CardListView: View {
                                         }
                                     }
                                     .sheet(isPresented: $navigateToCardDetail) {
-                                        List {
-                                            HStack {
-                                                Text("Name")
-                                                Spacer()
-                                                Text("\(dataViewModel.cardList.first { $0.id == cardId }?.text ?? "")")
-                                            }
-                                            Picker("Category", selection: $cardCategory) {
-                                                ForEach(dataViewModel.categories) { category in
-                                                    let name = category.name ?? ""
-                                                    Text(name).tag(name)
+                                        VStack {
+                                            VStack(spacing: 4) {
+                                                HStack {
+                                                    Text("Name")
+                                                    Spacer()
+                                                    Text("\(dataViewModel.cardList.first { $0.id == cardId }?.text ?? "")")
                                                 }
-                                            }
-                                            .pickerStyle(MenuPickerStyle())
-                                            
-                                            Picker("Status", selection: $cardStatus) {
-                                                ForEach(statusArray, id: \.self) { status in
-                                                    Text("\(status.text)").tag(status.value)
+                                                .padding(.horizontal)
+                                                .padding(.vertical, 10)
+                                                
+                                                Divider()
+
+                                                HStack {
+                                                    Text("Category")
+                                                    Spacer()
+                                                    Picker("Category", selection: $cardCategory) {
+                                                        ForEach(dataViewModel.categories) { category in
+                                                            let name = category.name ?? ""
+                                                            Text(name).tag(name)
+                                                        }
+                                                    }
+                                                    .pickerStyle(MenuPickerStyle())
                                                 }
+                                                .padding(.leading)
+                                                
+                                                Divider()
+
+                                                HStack {
+                                                    Text("Status")
+                                                    Spacer()
+                                                    Picker("Status", selection: $cardStatus) {
+                                                        ForEach(statusArray, id: \.self) { status in
+                                                            Text("\(status.text)").tag(status.value)
+                                                        }
+                                                    }
+                                                    .pickerStyle(MenuPickerStyle())
+                                                }
+                                                .padding(.leading)
+
+                                                Divider()
+
+                                                HStack {
+                                                    Text("Failed Times")
+                                                    Spacer()
+                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions)
+                                                }
+                                                .padding(.leading)
                                             }
-                                            .pickerStyle(MenuPickerStyle())
+                                            .padding()
+                                            .padding(.top)
                                             
-                                            HStack {
-                                                Text("Failed Times")
-                                                Spacer()
-                                                NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions)
+                                            Button {
+                                                dataViewModel.deleteCard(card)
+                                                navigateToCardDetail = false
+                                                updateCardList()
+                                            } label: {
+                                                Text("Delete Card")
+                                                    .fontWeight(.bold)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity)
+                                                    .background(Color.red)
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(10)
+                                                    .padding()
                                             }
+                                            
+                                            Spacer()
                                         }
                                         .presentationDetents([.medium])
                                     }
@@ -137,7 +178,6 @@ struct CardListView: View {
                                         }
                                     }
                                 }
-                                .onDelete(perform: dataViewModel.deleteCard)
                             }
                             .modifier(BlurBackground())
                         }
