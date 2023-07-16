@@ -206,15 +206,14 @@ struct CardView: View {
                                         isFinished = true
                                     } else {
                                         index += 1
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                            AudioViewModel.shared.speechText(learningCards[index].card.text)
+                                        }
                                     }
                                 }
 
                                 isButtonEnabled = true
                                 isWordVisible = true
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioViewModel.shared.speechText(learningCards[index].card.text)
-                                }
                             }
                         }) {
                             Text("Easy")
