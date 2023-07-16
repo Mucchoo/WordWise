@@ -20,6 +20,8 @@ struct CardView: View {
     @State private var isFinished = false
     @State private var isButtonEnabled = true
     
+    let gridSize = (UIScreen.main.bounds.width - 21) / 2
+    
     init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
         _showingCardView = showingCardView
         _learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
@@ -99,9 +101,7 @@ struct CardView: View {
                         .onTapGesture {
                             AudioViewModel.shared.speechText(learningCards[index].card.text)
                         }
-                        
-                        Spacer().frame(height: 20)
-                        
+                                                
                         ZStack {
                             VStack {
                                 ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
@@ -116,25 +116,18 @@ struct CardView: View {
                                 
                                 VStack(spacing: 2) {
                                     HStack(spacing: 2) {
-                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[0].urlString ?? ""))
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[1].urlString ?? ""))
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
+                                        GridImage(card: learningCards[index].card, index: 0, size: gridSize)
+                                        GridImage(card: learningCards[index].card, index: 1, size: gridSize)
                                     }
                                     HStack(spacing: 2) {
-                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[2].urlString ?? ""))
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[3].urlString ?? ""))
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
+                                        GridImage(card: learningCards[index].card, index: 2, size: gridSize)
+                                        GridImage(card: learningCards[index].card, index: 3, size: gridSize)
                                     }
                                 }
+                                .frame(height: gridSize * 2 + 2)
                                 
                                 Text("Powered by Pixabay")
-                                    .font(.footnote)
+                                    .font(.caption2)
                                     .foregroundColor(.secondary)
                             }
                             
@@ -145,7 +138,7 @@ struct CardView: View {
                                 .zIndex(1)
                         }
                         
-                        Spacer()
+                        Spacer().frame(height: 20)
                     }.opacity(isFinished ? 0 : 1)
                 }
                 
@@ -236,7 +229,7 @@ struct CardView: View {
                 }
             }
         }
-        .padding([.leading, .trailing])
+        .padding([.leading, .trailing], 10)
         .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
         .onTapGesture {
             isVStackVisible = true
