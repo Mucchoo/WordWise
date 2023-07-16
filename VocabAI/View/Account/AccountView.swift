@@ -9,14 +9,15 @@ import SwiftUI
 
 struct AccountView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
-    @ObservedObject private var viewModel = ViewModel()
     @State private var isActive = false
     @State private var isShowingAlert = false
     @State var isShowingReauthenticate = false
     @State var isShowingTutorial = false
     @State var isShowingMail = false
     @State var showingResetAlert = false
+    @State var showingShareSheet = false
     @State private var mailData = Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line! Thank you!")
+    private var productURL = URL(string: "https://itunes.apple.com/jp/app/id1628829703?mt=8")!
     
     var body: some View {
         NavigationView {
@@ -39,13 +40,16 @@ struct AccountView: View {
                     .modifier(BlurBackground())
                     
                     VStack {
-                        Button {
-                            viewModel.shareApp()
-                        } label: {
+                        Button(action: {
+                            showingShareSheet = true
+                        }) {
                             HStack {
                                 Text("\(Image(systemName: "square.and.arrow.up")) Share App")
                                 Spacer()
                             }
+                        }
+                        .sheet(isPresented: $showingShareSheet) {
+                            ActivityViewController(shareItems: [productURL])
                         }
 
                         Divider()
