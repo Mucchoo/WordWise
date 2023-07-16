@@ -200,7 +200,6 @@
 		2A3C1DFE2A390F44001B6E0E /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				2AB7C9612A51240100A703FA /* Global.swift */,
 				2AB7C9652A512A6F00A703FA /* ClubbedView.swift */,
 				2A71E4402A4851FE005B897C /* NoCardView.swift */,
 				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
@@ -278,6 +277,7 @@
 				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A3C1DFD2A390F22001B6E0E /* ViewModel */,
+				2AD20E332A6372E4000C3822 /* Helper */,
 				2AD20E2B2A636F52000C3822 /* Fetcher */,
 				2A224EE52A5BBE4900539872 /* Extensions */,
 			);
@@ -290,6 +290,14 @@
 				2AD20E2C2A636F8D000C3822 /* WordFetcher.swift */,
 			);
 			path = Fetcher;
+			sourceTree = "<group>";
+		};
+		2AD20E332A6372E4000C3822 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				2AB7C9612A51240100A703FA /* Global.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
