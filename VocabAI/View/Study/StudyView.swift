@@ -38,6 +38,7 @@ struct StudyView: View {
                                 } label: {
                                     Text(filterViewModel.selectedCategories.map { $0 }.joined(separator: ", "))
                                 }
+                                .accessibilityIdentifier("filterButton")
                                 .padding([.leading, .trailing])
                                 .sheet(isPresented: $showingCategorySheet) {
                                     CategoryList(categories: $filterViewModel.selectedCategories)
@@ -47,6 +48,7 @@ struct StudyView: View {
                             
                             SettingsRow(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
                             SettingsRow(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
+                                .accessibilityIdentifier("failedTimesPicker")
                         }
                         .modifier(BlurBackground())
                         
@@ -64,6 +66,7 @@ struct StudyView: View {
                         }
                         .disabled(dataViewModel.cardsToStudy.count == 0)
                         .padding()
+                        .accessibilityIdentifier("studyCardsButton")
                         .fullScreenCover(isPresented: $showingCardView) {
                             CardView(showingCardView: $showingCardView, cardsToStudy: dataViewModel.cardsToStudy)
                         }
