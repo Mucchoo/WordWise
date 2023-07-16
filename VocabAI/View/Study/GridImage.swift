@@ -19,8 +19,14 @@ struct GridImage: View {
                let url = URL(string: urlString) {
                 KFImage(url)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: size, height: size)
+                    .background {
+                        KFImage(url)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .blur(radius: 10)
+                    }
                     .clipped()
             } else {
                 Spacer()
