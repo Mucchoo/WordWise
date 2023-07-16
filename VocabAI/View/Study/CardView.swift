@@ -28,204 +28,202 @@ struct CardView: View {
     }
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color(.systemGray4))
-                    .frame(width: 60, height: 8)
-                    .padding()
-                    .gesture(
-                        DragGesture()
-                            .onEnded { value in
-                                if value.translation.height > 50 {
-                                    dismiss()
-                                }
+        VStack {
+            RoundedRectangle(cornerRadius: 5)
+                .fill(Color(.systemGray4))
+                .frame(width: 60, height: 8)
+                .padding()
+                .gesture(
+                    DragGesture()
+                        .onEnded { value in
+                            if value.translation.height > 50 {
+                                dismiss()
                             }
-                    )
-                
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .frame(width: geometry.size.width , height: geometry.size.height)
-                            .foregroundColor(Color(colorScheme == .dark ? "Blue" : "Teal"))
-
-                        Rectangle()
-                            .fill(
-                                LinearGradient(colors: colorScheme == .dark ? [.teal, .mint] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing)
-                            )
-                            .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
-                            .animation(.spring())
-                    }
-                }
-                .cornerRadius(5)
-                .frame(height: 10)
-                
-                ZStack(alignment: .center) {
-                    GeometryReader { geometry in
-                        VStack {
-                            Text("Finished!")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 120, height: 120)
-                            Text("You've learned \(learningCards.count) cards")
-                                .font(.callout)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
-                                .padding(.top)
                         }
-                        .scaleEffect(isFinished ? 1 : 0.1)
-                        .opacity(isFinished ? 1 : 0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                )
+            
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .frame(width: geometry.size.width , height: geometry.size.height)
+                        .foregroundColor(Color(colorScheme == .dark ? "Blue" : "Teal"))
+                    
+                    Rectangle()
+                        .fill(
+                            LinearGradient(colors: colorScheme == .dark ? [.teal, .mint] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing)
+                        )
+                        .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
+                        .animation(.spring())
+                }
+            }
+            .cornerRadius(5)
+            .frame(height: 10)
+            
+            ZStack(alignment: .center) {
+                GeometryReader { geometry in
+                    VStack {
+                        Text("Finished!")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
+                        Image(systemName: "checkmark.circle")
+                            .resizable()
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 120, height: 120)
+                        Text("You've learned \(learningCards.count) cards")
+                            .font(.callout)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(colorScheme == .dark ? "Teal" : "Blue"))
+                            .padding(.top)
+                    }
+                    .scaleEffect(isFinished ? 1 : 0.1)
+                    .opacity(isFinished ? 1 : 0)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                }
+                
+                ScrollView {
+                    Spacer().frame(height: 20)
+                    
+                    VStack {
+                        Text(learningCards[index].card.text ?? "Unknown")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                        Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                            .foregroundColor(.primary)
+                    }
+                    .opacity(isWordVisible ? 1 : 0)
+                    .animation(.easeIn(duration: 0.3), value: isWordVisible)
+                    .onTapGesture {
+                        AudioViewModel.shared.speechText(learningCards[index].card.text)
                     }
                     
-                    ScrollView {
-                        Spacer().frame(height: 20)
-                        
+                    ZStack {
                         VStack {
-                            Text(learningCards[index].card.text ?? "Unknown")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundColor(.primary)
-                            Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
-                                .foregroundColor(.primary)
-                        }
-                        .opacity(isWordVisible ? 1 : 0)
-                        .animation(.easeIn(duration: 0.3), value: isWordVisible)
-                        .onTapGesture {
-                            AudioViewModel.shared.speechText(learningCards[index].card.text)
-                        }
-                                                
-                        ZStack {
-                            VStack {
-                                ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
-                                    if idx != 0 {
-                                        Divider()
-                                        Spacer().frame(height: 20)
-                                    }
-                                    DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
+                            ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
+                                if idx != 0 {
+                                    Divider()
+                                    Spacer().frame(height: 20)
                                 }
-                                
-                                Spacer().frame(height: 20)
-                                
-                                VStack(spacing: 2) {
-                                    HStack(spacing: 2) {
-                                        GridImage(card: learningCards[index].card, index: 0, size: gridSize)
-                                        GridImage(card: learningCards[index].card, index: 1, size: gridSize)
-                                    }
-                                    HStack(spacing: 2) {
-                                        GridImage(card: learningCards[index].card, index: 2, size: gridSize)
-                                        GridImage(card: learningCards[index].card, index: 3, size: gridSize)
-                                    }
-                                }
-                                .frame(height: gridSize * 2 + 2)
-                                
-                                Text("Powered by Pixabay")
-                                    .font(.caption2)
-                                    .foregroundColor(.secondary)
+                                DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
                             }
                             
-                            Rectangle()
-                                .fill(Color(UIColor.systemBackground))
-                                .opacity(isVStackVisible ? 0 : 1)
-                                .animation(.easeIn(duration: 0.3), value: isVStackVisible)
-                                .zIndex(1)
+                            Spacer().frame(height: 20)
+                            
+                            VStack(spacing: 2) {
+                                HStack(spacing: 2) {
+                                    GridImage(card: learningCards[index].card, index: 0, size: gridSize)
+                                    GridImage(card: learningCards[index].card, index: 1, size: gridSize)
+                                }
+                                HStack(spacing: 2) {
+                                    GridImage(card: learningCards[index].card, index: 2, size: gridSize)
+                                    GridImage(card: learningCards[index].card, index: 3, size: gridSize)
+                                }
+                            }
+                            .frame(height: gridSize * 2 + 2)
+                            
+                            Text("Powered by Pixabay")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
                         }
                         
-                        Spacer().frame(height: 20)
-                    }.opacity(isFinished ? 0 : 1)
-                }
+                        Rectangle()
+                            .fill(Color(UIColor.systemBackground))
+                            .opacity(isVStackVisible ? 0 : 1)
+                            .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+                            .zIndex(1)
+                    }
+                    
+                    Spacer().frame(height: 20)
+                }.opacity(isFinished ? 0 : 1)
+            }
+            
+            ZStack {
+                Button(action: {
+                    showingCardView = false
+                }) {
+                    Text("Go to Top Page")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .teal] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }.opacity(isFinished ? 1 : 0)
                 
-                ZStack {
+                HStack {
                     Button(action: {
-                        showingCardView = false
+                        guard isButtonEnabled else { return }
+                        
+                        isButtonEnabled = false
+                        isVStackVisible = false
+                        isWordVisible = false
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            withAnimation(.none) {
+                                let card = learningCards.remove(at: index)
+                                learningCards.append(card)
+                            }
+                            
+                            isButtonEnabled = true
+                            isWordVisible = true
+                            
+                            let card = learningCards[index].card
+                            card.failedTimes += 1
+                            card.status = 1
+                            PersistenceController.shared.saveContext()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                AudioViewModel.shared.speechText(card.text)
+                            }
+                        }
                     }) {
-                        Text("Go to Top Page")
+                        Text("Hard")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .teal] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                            .background(LinearGradient(colors: [.red, .pink], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                    }.opacity(isFinished ? 1 : 0)
+                    }
                     
-                    HStack {
-                        Button(action: {
-                            guard isButtonEnabled else { return }
-
-                            isButtonEnabled = false
-                            isVStackVisible = false
-                            isWordVisible = false
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                withAnimation(.none) {
-                                    let card = learningCards.remove(at: index)
-                                    learningCards.append(card)
-                                }
-                                
-                                isButtonEnabled = true
-                                isWordVisible = true
-                                
-                                let card = learningCards[index].card
-                                card.failedTimes += 1
-                                card.status = 1
-                                PersistenceController.shared.saveContext()
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioViewModel.shared.speechText(card.text)
-                                }
-                            }
-                        }) {
-                            Text("Hard")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.red, .pink], startPoint: .leading, endPoint: .trailing))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
+                    Button(action: {
+                        guard isButtonEnabled else { return }
                         
-                        Button(action: {
-                            guard isButtonEnabled else { return }
-                            
-                            isButtonEnabled = false
-                            isVStackVisible = false
-                            isWordVisible = false
-                            
-                            learningCards[index].isLearning = false
-                            learningCards[index].card.status = 0
-                            PersistenceController.shared.saveContext()
-
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                withAnimation(.none) {
-                                    if index + 1 == learningCards.count {
-                                        isFinished = true
-                                    } else {
-                                        index += 1
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                            AudioViewModel.shared.speechText(learningCards[index].card.text)
-                                        }
+                        isButtonEnabled = false
+                        isVStackVisible = false
+                        isWordVisible = false
+                        
+                        learningCards[index].isLearning = false
+                        learningCards[index].card.status = 0
+                        PersistenceController.shared.saveContext()
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            withAnimation(.none) {
+                                if index + 1 == learningCards.count {
+                                    isFinished = true
+                                } else {
+                                    index += 1
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                        AudioViewModel.shared.speechText(learningCards[index].card.text)
                                     }
                                 }
-
-                                isButtonEnabled = true
-                                isWordVisible = true
                             }
-                        }) {
-                            Text("Easy")
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                            
+                            isButtonEnabled = true
+                            isWordVisible = true
                         }
-                    }.opacity(isFinished ? 0 : 1)
-
-                }
+                    }) {
+                        Text("Easy")
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                }.opacity(isFinished ? 0 : 1)
+                
             }
         }
         .padding([.leading, .trailing], 10)
