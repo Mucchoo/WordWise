@@ -19,6 +19,7 @@ struct CardView: View {
     @State private var index = 0
     @State private var isFinished = false
     @State private var isButtonEnabled = true
+    @State private var shouldScrollToTop: Bool = false
     
     let gridSize = (UIScreen.main.bounds.width - 21) / 2
     
@@ -85,59 +86,67 @@ struct CardView: View {
                 }
                 
                 ScrollView {
-                    Spacer().frame(height: 20)
-                    
-                    VStack {
-                        Text(learningCards[index].card.text ?? "Unknown")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(.primary)
-                        Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
-                            .foregroundColor(.primary)
-                    }
-                    .opacity(isWordVisible ? 1 : 0)
-                    .animation(.easeIn(duration: 0.3), value: isWordVisible)
-                    .onTapGesture {
-                        AudioViewModel.shared.speechText(learningCards[index].card.text)
-                    }
-                    
-                    ZStack {
+                    ScrollViewReader { value in
                         VStack {
-                            ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
-                                if idx != 0 {
-                                    Divider()
+                            Spacer().frame(height: 20).id("TopSpacer")
+                            
+                            VStack {
+                                Text(learningCards[index].card.text ?? "Unknown")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary)
+                                Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                                    .foregroundColor(.primary)
+                            }
+                            .opacity(isWordVisible ? 1 : 0)
+                            .animation(.easeIn(duration: 0.3), value: isWordVisible)
+                            .onTapGesture {
+                                AudioViewModel.shared.speechText(learningCards[index].card.text)
+                            }
+                            
+                            ZStack {
+                                VStack {
+                                    ForEach(learningCards[index].card.meaningsArray.indices, id: \.self) { idx in
+                                        if idx != 0 {
+                                            Divider()
+                                            Spacer().frame(height: 20)
+                                        }
+                                        DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
+                                    }
+                                    
                                     Spacer().frame(height: 20)
+                                    
+                                    VStack(spacing: 2) {
+                                        HStack(spacing: 2) {
+                                            GridImage(card: learningCards[index].card, index: 0, size: gridSize)
+                                            GridImage(card: learningCards[index].card, index: 1, size: gridSize)
+                                        }
+                                        HStack(spacing: 2) {
+                                            GridImage(card: learningCards[index].card, index: 2, size: gridSize)
+                                            GridImage(card: learningCards[index].card, index: 3, size: gridSize)
+                                        }
+                                    }
+                                    .frame(height: gridSize * 2 + 2)
+                                    
+                                    Text("Powered by Pixabay")
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
                                 }
-                                DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
+                                
+                                Rectangle()
+                                    .fill(Color(UIColor.systemBackground))
+                                    .opacity(isVStackVisible ? 0 : 1)
+                                    .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+                                    .zIndex(1)
                             }
                             
                             Spacer().frame(height: 20)
-                            
-                            VStack(spacing: 2) {
-                                HStack(spacing: 2) {
-                                    GridImage(card: learningCards[index].card, index: 0, size: gridSize)
-                                    GridImage(card: learningCards[index].card, index: 1, size: gridSize)
-                                }
-                                HStack(spacing: 2) {
-                                    GridImage(card: learningCards[index].card, index: 2, size: gridSize)
-                                    GridImage(card: learningCards[index].card, index: 3, size: gridSize)
-                                }
-                            }
-                            .frame(height: gridSize * 2 + 2)
-                            
-                            Text("Powered by Pixabay")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
                         }
-                        
-                        Rectangle()
-                            .fill(Color(UIColor.systemBackground))
-                            .opacity(isVStackVisible ? 0 : 1)
-                            .animation(.easeIn(duration: 0.3), value: isVStackVisible)
-                            .zIndex(1)
+                        .onChange(of: shouldScrollToTop) { _ in
+                            value.scrollTo("TopSpacer", anchor: .top)
+                            shouldScrollToTop = false
+                        }
                     }
-                    
-                    Spacer().frame(height: 20)
                 }.opacity(isFinished ? 0 : 1)
             }
             
@@ -169,6 +178,7 @@ struct CardView: View {
                             
                             isButtonEnabled = true
                             isWordVisible = true
+                            shouldScrollToTop = true
                             
                             let card = learningCards[index].card
                             card.failedTimes += 1
@@ -213,6 +223,7 @@ struct CardView: View {
                             
                             isButtonEnabled = true
                             isWordVisible = true
+                            shouldScrollToTop = true
                         }
                     }) {
                         Text("Easy")
