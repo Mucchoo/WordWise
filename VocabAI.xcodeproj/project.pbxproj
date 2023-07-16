@@ -34,6 +34,7 @@
 		2AB6262A2A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB626282A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift */; };
 		2AB6262B2A636DEC00C168E1 /* CardCategory+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB626292A636DEC00C168E1 /* CardCategory+CoreDataClass.swift */; };
 		2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB76AF92A6386E300C2C260 /* ImageResponse.swift */; };
+		2AB76AFD2A6393D500C2C260 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2AB76AFC2A6393D500C2C260 /* Kingfisher */; };
 		2AB7C9622A51240100A703FA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9612A51240100A703FA /* Global.swift */; };
 		2AB7C9642A51243600A703FA /* CardStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9632A51243600A703FA /* CardStatus.swift */; };
 		2AB7C9662A512A6F00A703FA /* ClubbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9652A512A6F00A703FA /* ClubbedView.swift */; };
@@ -119,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AB76AFD2A6393D500C2C260 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +313,9 @@
 			dependencies = (
 			);
 			name = VocabAI;
+			packageProductDependencies = (
+				2AB76AFC2A6393D500C2C260 /* Kingfisher */,
+			);
 			productName = VocabAI;
 			productReference = 2ABC635A2A38147900718C90 /* VocabAI.app */;
 			productType = "com.apple.product-type.application";
@@ -339,6 +344,9 @@
 				Base,
 			);
 			mainGroup = 2ABC63512A38147900718C90;
+			packageReferences = (
+				2AB76AFB2A6393D500C2C260 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 2ABC635B2A38147900718C90 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -632,6 +640,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2AB76AFB2A6393D500C2C260 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2AB76AFC2A6393D500C2C260 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2AB76AFB2A6393D500C2C260 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */ = {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CardView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -115,19 +116,19 @@ struct CardView: View {
                                 
                                 VStack(spacing: 2) {
                                     HStack(spacing: 2) {
-                                        Rectangle()
-                                            .fill(Color.blue)
+                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[0].urlString ?? ""))
+                                            .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                        Rectangle()
-                                            .fill(Color.blue)
+                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[1].urlString ?? ""))
+                                            .resizable()
                                             .aspectRatio(contentMode: .fit)
                                     }
                                     HStack(spacing: 2) {
-                                        Rectangle()
-                                            .fill(Color.blue)
+                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[2].urlString ?? ""))
+                                            .resizable()
                                             .aspectRatio(contentMode: .fit)
-                                        Rectangle()
-                                            .fill(Color.blue)
+                                        KFImage(URL(string: learningCards[index].card.imageUrlsArray[3].urlString ?? ""))
+                                            .resizable()
                                             .aspectRatio(contentMode: .fit)
                                     }
                                 }

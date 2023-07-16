@@ -109,7 +109,9 @@ class DataViewModel: ObservableObject {
             let cardGroup = DispatchGroup()
             let card = Card(context: viewContext)
 
+            cardsGroup.enter()
             cardGroup.enter()
+            
             fetch(word: word) { [self] response in
                 guard let response = response else {
                     print("failed fetching \(word)")
