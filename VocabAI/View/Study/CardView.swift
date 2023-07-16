@@ -47,7 +47,7 @@ struct CardView: View {
                 ZStack(alignment: .leading) {
                     Rectangle()
                         .frame(width: geometry.size.width , height: geometry.size.height)
-                        .foregroundColor(Color(colorScheme == .dark ? "Blue" : "Teal"))
+                        .foregroundColor(colorScheme == .dark ? .navy : .teal)
                     
                     Rectangle()
                         .fill(
