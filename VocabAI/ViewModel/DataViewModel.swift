@@ -15,7 +15,6 @@ class DataViewModel: ObservableObject {
     @Published var cardsToStudy: [Card] = []
     @Published var cardList: [Card] = []
     
-    var fetcher = WordFetcher()
     var maxStatusCount: Int {
         let statuses = [0, 1, 2]
         let counts = statuses.map { status -> Int in
@@ -107,8 +106,8 @@ class DataViewModel: ObservableObject {
         
         for word in words {
             group.enter()
-            self.fetcher.fetch(word: String(word)) { [self] success in
-                guard success else {
+            fetch(word: String(word)) { [self] response in
+                guard let response = response else {
                     print("failed fetching \(word)")
                     fetchFailedWords.append(String(word))
                     group.leave()
@@ -122,7 +121,9 @@ class DataViewModel: ObservableObject {
                 card.failedTimes = 0
                 card.category = category
                 
-                self.fetcher.wordDefinition?.meanings?.forEach { meaning in
+                
+                
+                response.meanings?.forEach { meaning in
                     let newMeaning = Meaning(context: viewContext)
                     newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                     
@@ -139,7 +140,7 @@ class DataViewModel: ObservableObject {
                     card.addToMeanings(newMeaning)
                 }
                 
-                self.fetcher.wordDefinition?.phonetics?.forEach { phonetic in
+                response.phonetics?.forEach { phonetic in
                     let newPhonetic = Phonetic(context: viewContext)
                     newPhonetic.audio = phonetic.audio
                     newPhonetic.text = phonetic.text
@@ -172,5 +173,31 @@ class DataViewModel: ObservableObject {
             card.status = 2
         }
         PersistenceController.shared.saveContext()
+    }
+    
+    func fetch(word: String, completion: ((CardResponse?) -> ())? = nil) {
+        guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
+            print("No URL for: \(word)")
+            return
+        }
+         
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil, let data = data else {
+                print("Fetch failed: \(error?.localizedDescription ?? "Unknown error")")
+                completion?(nil)
+                return
+                
+            }
+            
+            do {
+                let decodedResponse = try JSONDecoder().decode([CardResponse].self, from: data)
+                completion?(decodedResponse.first)
+            } catch {
+                print("Fetch failed: \(error.localizedDescription)")
+                completion?(nil)
+            }
+        }
+        
+        task.resume()
     }
 }
