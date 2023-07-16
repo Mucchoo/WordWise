@@ -11,7 +11,7 @@ import SwiftUI
 struct VocabAIApp: App {
     let persistenceController = PersistenceController.shared
     let cardService: CardService
-    @StateObject private var dataViewModel: DataViewModel
+    @StateObject var dataViewModel: DataViewModel
 
     init() {
         self.cardService = NetworkCardService()

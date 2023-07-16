@@ -20,8 +20,8 @@ protocol Persistence {
 }
 
 class DataViewModel: ObservableObject {
-    private var cardService: CardService
-    private var persistence: Persistence
+    var cardService: CardService
+    var persistence: Persistence
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
