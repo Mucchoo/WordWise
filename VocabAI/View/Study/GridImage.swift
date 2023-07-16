@@ -29,8 +29,15 @@ struct GridImage: View {
                     }
                     .clipped()
             } else {
-                Spacer()
+                Text("No\nImage")
+                    .multilineTextAlignment(.center)
+                    .font(.title)
+                    .fontWeight(.black)
+                    .foregroundColor(.white)
                     .frame(width: size, height: size)
+                    .background(
+                        LinearGradient(gradient: Gradient(colors: [.navy, .ocean]), startPoint: .leading, endPoint: .trailing)
+                    )
             }
         }
     }
