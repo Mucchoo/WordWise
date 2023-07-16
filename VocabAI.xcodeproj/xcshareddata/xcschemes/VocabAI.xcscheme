@@ -40,6 +40,17 @@
                ReferencedContainer = "container:VocabAI.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2A8B04812A645C2600E19304"
+               BuildableName = "VocabAIUITests.xctest"
+               BlueprintName = "VocabAIUITests"
+               ReferencedContainer = "container:VocabAI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

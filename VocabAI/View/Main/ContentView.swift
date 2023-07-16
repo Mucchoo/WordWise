@@ -16,12 +16,16 @@ struct ContentView: View {
             TabView(selection: $selectedTab) {
                 StudyView()
                     .tag("book.closed")
+                    .accessibilityIdentifier("StudyView")
                 AddCardView()
                     .tag("plus.square")
+                    .accessibilityIdentifier("AddCardView")
                 CardListView()
                     .tag("rectangle.stack")
+                    .accessibilityIdentifier("CardListView")
                 AccountView()
                     .tag("person")
+                    .accessibilityIdentifier("AccountView")
             }
             .ignoresSafeArea()
             
@@ -34,6 +38,7 @@ struct ContentView: View {
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

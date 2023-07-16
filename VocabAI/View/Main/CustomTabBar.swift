@@ -75,6 +75,7 @@ struct TabBarButton: View {
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.white)
                         .offset(y: selectedTab == image ? -10 : 0)
+                        .accessibility(identifier: "\(image)")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             )

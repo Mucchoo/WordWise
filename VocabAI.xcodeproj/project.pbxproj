@@ -25,6 +25,8 @@
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
 		2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E4402A4851FE005B897C /* NoCardView.swift */; };
 		2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86890A2A400CB5001DBDFD /* LearningCard.swift */; };
+		2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */; };
+		2A8B048D2A645C2F00E19304 /* ContentViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */; };
 		2AB373A02A41657F004D0C6E /* Definition+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB3739E2A41657F004D0C6E /* Definition+CoreDataClass.swift */; };
 		2AB373A12A41657F004D0C6E /* Definition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB3739F2A41657F004D0C6E /* Definition+CoreDataProperties.swift */; };
 		2AB380A32A519E6900566B8E /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB380A22A519E6900566B8E /* CategoryList.swift */; };
@@ -75,6 +77,13 @@
 			remoteGlobalIDString = 2ABC63592A38147900718C90;
 			remoteInfo = VocabAI;
 		};
+		2A8B04882A645C2600E19304 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2ABC63522A38147900718C90 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2ABC63592A38147900718C90;
+			remoteInfo = VocabAI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +100,7 @@
 		2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModel.swift; sourceTree = "<group>"; };
 		2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModelTests.swift; sourceTree = "<group>"; };
 		2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTests.swift; sourceTree = "<group>"; };
+		2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewUITests.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -98,6 +108,8 @@
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		2A71E4402A4851FE005B897C /* NoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardView.swift; sourceTree = "<group>"; };
 		2A86890A2A400CB5001DBDFD /* LearningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCard.swift; sourceTree = "<group>"; };
+		2A8B04822A645C2600E19304 /* VocabAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VocabAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabAIUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2AB3739E2A41657F004D0C6E /* Definition+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2AB3739F2A41657F004D0C6E /* Definition+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2AB380A22A519E6900566B8E /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
@@ -148,6 +160,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2A8B047F2A645C2600E19304 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2ABC63572A38147900718C90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,6 +195,7 @@
 				2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */,
 				2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */,
 				2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */,
+				2A3154E32A6457BB008A66F1 /* View */,
 			);
 			path = VocabAITests;
 			sourceTree = "<group>";
@@ -195,6 +215,13 @@
 				2AB76B002A63998600C2C260 /* Array+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2A3154E32A6457BB008A66F1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		2A3C1DF92A390ECB001B6E0E /* Account */ = {
@@ -308,11 +335,21 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		2A8B04832A645C2600E19304 /* VocabAIUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */,
+				2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */,
+			);
+			path = VocabAIUITests;
+			sourceTree = "<group>";
+		};
 		2ABC63512A38147900718C90 = {
 			isa = PBXGroup;
 			children = (
 				2ABC635C2A38147900718C90 /* VocabAI */,
 				2A2015BA2A63D9EA00C67716 /* VocabAITests */,
+				2A8B04832A645C2600E19304 /* VocabAIUITests */,
 				2ABC635B2A38147900718C90 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -322,6 +359,7 @@
 			children = (
 				2ABC635A2A38147900718C90 /* VocabAI.app */,
 				2A2015B92A63D9EA00C67716 /* VocabAITests.xctest */,
+				2A8B04822A645C2600E19304 /* VocabAIUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -374,6 +412,24 @@
 			productReference = 2A2015B92A63D9EA00C67716 /* VocabAITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		2A8B04812A645C2600E19304 /* VocabAIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A8B048A2A645C2600E19304 /* Build configuration list for PBXNativeTarget "VocabAIUITests" */;
+			buildPhases = (
+				2A8B047E2A645C2600E19304 /* Sources */,
+				2A8B047F2A645C2600E19304 /* Frameworks */,
+				2A8B04802A645C2600E19304 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2A8B04892A645C2600E19304 /* PBXTargetDependency */,
+			);
+			name = VocabAIUITests;
+			productName = VocabAIUITests;
+			productReference = 2A8B04822A645C2600E19304 /* VocabAIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		2ABC63592A38147900718C90 /* VocabAI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2ABC63692A38147900718C90 /* Build configuration list for PBXNativeTarget "VocabAI" */;
@@ -408,6 +464,10 @@
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = 2ABC63592A38147900718C90;
 					};
+					2A8B04812A645C2600E19304 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 2ABC63592A38147900718C90;
+					};
 					2ABC63592A38147900718C90 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -431,12 +491,20 @@
 			targets = (
 				2ABC63592A38147900718C90 /* VocabAI */,
 				2A2015B82A63D9EA00C67716 /* VocabAITests */,
+				2A8B04812A645C2600E19304 /* VocabAIUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2A2015B72A63D9EA00C67716 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A8B04802A645C2600E19304 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -463,6 +531,15 @@
 				2A2015BC2A63D9EA00C67716 /* VocabAITests.swift in Sources */,
 				2A3154DF2A64547E008A66F1 /* FilterViewModelTests.swift in Sources */,
 				2A3154DD2A645379008A66F1 /* AudioViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2A8B047E2A645C2600E19304 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A8B048D2A645C2F00E19304 /* ContentViewUITests.swift in Sources */,
+				2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +609,11 @@
 			target = 2ABC63592A38147900718C90 /* VocabAI */;
 			targetProxy = 2A2015BD2A63D9EA00C67716 /* PBXContainerItemProxy */;
 		};
+		2A8B04892A645C2600E19304 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2ABC63592A38147900718C90 /* VocabAI */;
+			targetProxy = 2A8B04882A645C2600E19304 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -546,7 +628,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAITests;
@@ -571,7 +653,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAITests;
@@ -581,6 +663,54 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VocabAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/VocabAI";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2A8B048B2A645C2600E19304 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DS86AF5N83;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VocabAI;
+			};
+			name = Debug;
+		};
+		2A8B048C2A645C2600E19304 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = DS86AF5N83;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = yazujumusa.VocabAIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VocabAI;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -784,6 +914,15 @@
 			buildConfigurations = (
 				2A2015BF2A63D9EA00C67716 /* Debug */,
 				2A2015C02A63D9EA00C67716 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2A8B048A2A645C2600E19304 /* Build configuration list for PBXNativeTarget "VocabAIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A8B048B2A645C2600E19304 /* Debug */,
+				2A8B048C2A645C2600E19304 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
