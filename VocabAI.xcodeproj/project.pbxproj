@@ -17,6 +17,7 @@
 		2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* NetworkCardService.swift */; };
 		2A2E82522A4AA12B00B9167B /* AudioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */; };
 		2A3154DD2A645379008A66F1 /* AudioViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */; };
+		2A3154DF2A64547E008A66F1 /* FilterViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */; };
 		2A3C1DEA2A390873001B6E0E /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ViewModel.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
@@ -89,6 +90,7 @@
 		2A2015C52A63F42300C67716 /* NetworkCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCardService.swift; sourceTree = "<group>"; };
 		2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModel.swift; sourceTree = "<group>"; };
 		2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModelTests.swift; sourceTree = "<group>"; };
+		2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTests.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				2A2015BB2A63D9EA00C67716 /* VocabAITests.swift */,
 				2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */,
 				2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */,
+				2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */,
 			);
 			path = VocabAITests;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			files = (
 				2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */,
 				2A2015BC2A63D9EA00C67716 /* VocabAITests.swift in Sources */,
+				2A3154DF2A64547E008A66F1 /* FilterViewModelTests.swift in Sources */,
 				2A3154DD2A645379008A66F1 /* AudioViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

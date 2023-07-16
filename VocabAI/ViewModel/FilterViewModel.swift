@@ -10,10 +10,12 @@ import SwiftUI
 class FilterViewModel: ObservableObject {
     static let shared = FilterViewModel()
     
+    private var userDefaults: UserDefaults
+
     @Published var selectedCategories: [String] {
         didSet {
             if let encoded = try? JSONEncoder().encode(selectedCategories) {
-                UserDefaults.standard.set(encoded, forKey: "selectedCategories")
+                userDefaults.set(encoded, forKey: "selectedCategories")
             }
         }
     }
@@ -21,20 +23,22 @@ class FilterViewModel: ObservableObject {
     @Published var filterStatus: [Int16] {
         didSet {
             if let encoded = try? JSONEncoder().encode(filterStatus) {
-                UserDefaults.standard.set(encoded, forKey: "filterStatus")
+                userDefaults.set(encoded, forKey: "filterStatus")
             }
         }
     }
     
-    private init() {
-        if let data = UserDefaults.standard.data(forKey: "selectedCategories"),
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+        
+        if let data = userDefaults.data(forKey: "selectedCategories"),
            let categories = try? JSONDecoder().decode([String].self, from: data) {
             self.selectedCategories = categories
         } else {
             self.selectedCategories = []
         }
         
-        if let data = UserDefaults.standard.data(forKey: "filterStatus"),
+        if let data = userDefaults.data(forKey: "filterStatus"),
            let status = try? JSONDecoder().decode([Int16].self, from: data) {
             self.filterStatus = status
         } else {
@@ -42,4 +46,3 @@ class FilterViewModel: ObservableObject {
         }
     }
 }
-
