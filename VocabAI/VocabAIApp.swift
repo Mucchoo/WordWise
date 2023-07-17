@@ -9,20 +9,23 @@ import SwiftUI
 
 @main
 struct VocabAIApp: App {
-    let persistenceController = PersistenceController.shared
+    let persistence: persistence
     let cardService: CardService
     @StateObject var dataViewModel: DataViewModel
 
     init() {
+        let forTesting = CommandLine.arguments.contains("FOR_TESTING")
+        persistence = .init(inMemory: forTesting)
+        
         self.cardService = NetworkCardService()
-        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistenceController)
+        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistence)
         self._dataViewModel = StateObject(wrappedValue: dataViewModel)
     }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistenceController.viewContext)
+                .environment(\.managedObjectContext, persistence.viewContext)
                 .environmentObject(dataViewModel)
         }
     }

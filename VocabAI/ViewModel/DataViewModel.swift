@@ -14,14 +14,10 @@ protocol CardService {
     func fetchImages(word: String) -> AnyPublisher<[String], Error>
 }
 
-protocol Persistence {
-    var viewContext: NSManagedObjectContext { get }
-    func saveContext()
-}
-
 class DataViewModel: ObservableObject {
-    var cardService: CardService
-    var persistence: Persistence
+    let cardService: CardService
+    let persistence: persistence
+    let viewContext: NSManagedObjectContext
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
@@ -37,9 +33,10 @@ class DataViewModel: ObservableObject {
         return counts.max() ?? 0
     }
     
-    init(cardService: CardService, persistence: Persistence) {
+    init(cardService: CardService, persistence: persistence) {
         self.cardService = cardService
         self.persistence = persistence
+        self.viewContext = persistence.viewContext
         loadData()
     }
 
@@ -49,8 +46,8 @@ class DataViewModel: ObservableObject {
         let categoryFetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
 
         do {
-            let fetchedCards = try persistence.viewContext.fetch(cardFetchRequest)
-            let fetchedCategories = try persistence.viewContext.fetch(categoryFetchRequest)
+            let fetchedCards = try viewContext.fetch(cardFetchRequest)
+            let fetchedCategories = try viewContext.fetch(categoryFetchRequest)
             DispatchQueue.main.async {
                 self.cards = fetchedCards
                 self.categories = fetchedCategories
@@ -67,20 +64,20 @@ class DataViewModel: ObservableObject {
             card.category = category
             card.status = status
             card.failedTimes = Int64(Global.failedTimeOptions[failedTimesIndex])
-            PersistenceController.shared.saveContext()
+            persistence.saveContext()
         }
     }
     
     func deleteCard(_ card: Card) {
-        persistence.viewContext.delete(card)
-        PersistenceController.shared.saveContext()
+        viewContext.delete(card)
+        persistence.saveContext()
         loadData()
     }
     
     func addCategory(name: String) {
-        let category = CardCategory(context: persistence.viewContext)
+        let category = CardCategory(context: viewContext)
         category.name = name
-        PersistenceController.shared.saveContext()
+        persistence.saveContext()
         
         DispatchQueue.main.async {
             self.categories.append(category)
@@ -96,14 +93,14 @@ class DataViewModel: ObservableObject {
             }
             
             category.name = after
-            PersistenceController.shared.saveContext()
+            persistence.saveContext()
         }
     }
     
     func deleteCategory(name: String) {
         guard let category = categories.first(where: { $0.name == name }) else { return }
-        persistence.viewContext.delete(category)
-        PersistenceController.shared.saveContext()
+        viewContext.delete(category)
+        persistence.saveContext()
         
         DispatchQueue.main.async {
             self.categories.removeAll(where: { $0.name == category.name })
@@ -130,7 +127,7 @@ class DataViewModel: ObservableObject {
                         }
                     } receiveValue: { card in
                         self.cards.append(card)
-                        PersistenceController.shared.saveContext()
+                        self.persistence.saveContext()
                     }
                     .store(in: &self.cancellables)
             }
@@ -140,7 +137,7 @@ class DataViewModel: ObservableObject {
     
     func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Error> {
         let fetchPublishers = words.map { word -> AnyPublisher<Card, Error> in
-            let card = Card(context: persistence.viewContext)
+            let card = Card(context: viewContext)
             card.id = UUID()
             card.text = word
             card.status = 2
@@ -153,11 +150,11 @@ class DataViewModel: ObservableObject {
             return Publishers.Zip(fetchCardData, fetchImagesData)
                 .tryMap { cardResponse, imageUrls in
                     cardResponse.meanings?.forEach { meaning in
-                        let newMeaning = Meaning(context: self.persistence.viewContext)
+                        let newMeaning = Meaning(context: self.viewContext)
                         newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
                         
                         meaning.definitions?.forEach { definition in
-                            let newDefinition = Definition(context: self.persistence.viewContext)
+                            let newDefinition = Definition(context: self.viewContext)
                             newDefinition.definition = definition.definition
                             newDefinition.example = definition.example
                             newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
@@ -170,14 +167,14 @@ class DataViewModel: ObservableObject {
                     }
                     
                     cardResponse.phonetics?.forEach { phonetic in
-                        let newPhonetic = Phonetic(context: self.persistence.viewContext)
+                        let newPhonetic = Phonetic(context: self.viewContext)
                         newPhonetic.audio = phonetic.audio
                         newPhonetic.text = phonetic.text
                         card.addToPhonetics(newPhonetic)
                     }
 
                     imageUrls.enumerated().forEach { index, url in
-                        let imageUrl = ImageUrl(context: self.persistence.viewContext)
+                        let imageUrl = ImageUrl(context: self.viewContext)
                         imageUrl.urlString = url
                         imageUrl.priority = Int64(index)
                         card.addToImageUrls(imageUrl)
@@ -199,6 +196,22 @@ class DataViewModel: ObservableObject {
             card.failedTimes = 0
             card.status = 2
         }
-        PersistenceController.shared.saveContext()
+        persistence.saveContext()
+    }
+    
+    func addDefaultCategory() {
+        let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
+
+        do {
+            let categories = try viewContext.fetch(fetchRequest)
+            if categories.isEmpty {
+                let newCategory = CardCategory(context: viewContext)
+                newCategory.name = "Category 1"
+                persistence.saveContext()
+            }
+        } catch let error {
+            print("Failed to fetch categories: \(error.localizedDescription)")
+        }
     }
 }

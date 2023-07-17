@@ -4,8 +4,10 @@
 //
 //  Created by Musa Yazuju on 7/17/23.
 //
+// Structure: test_[ui component]_[expected result]
 
 import XCTest
+@testable import VocabAI
 
 final class StudyViewUITests: XCTestCase {
 
@@ -14,8 +16,9 @@ final class StudyViewUITests: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-
-        app = XCUIApplication()
+        
+        let app = XCUIApplication()
+        app.launchArguments = ["FOR_TESTING"]
         app.launch()
     }
 
@@ -29,5 +32,10 @@ final class StudyViewUITests: XCTestCase {
         let studyCardsButton = app.buttons["studyCardsButton"]
         XCTAssertTrue(studyCardsButton.exists, "The study cards button does not exist")
         studyCardsButton.tap()
+    }
+    
+    func test_categoryButton_shouldRespond() {
+        
+        
     }
 }

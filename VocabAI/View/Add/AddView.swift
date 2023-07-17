@@ -113,7 +113,7 @@ struct AddCardView: View {
             .navigationBarTitle("Add Cards", displayMode: .large)
         }
         .onAppear {
-            PersistenceController.shared.addDefaultCategory()
+            dataViewModel.addDefaultCategory()
             if let defaultCategory = dataViewModel.categories.first?.name {
                 selectedCategory = defaultCategory
             }
@@ -150,6 +150,6 @@ struct AddCardView: View {
 struct AddCardView_Previews: PreviewProvider {
     static var previews: some View {
         AddCardView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, persistence.preview.container.viewContext)
     }
 }

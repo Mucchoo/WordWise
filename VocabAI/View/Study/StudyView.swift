@@ -79,7 +79,7 @@ struct StudyView: View {
                 dataViewModel.cards.forEach { card in
                     guard card.category == nil else { return }
                     card.category = dataViewModel.categories.first?.name
-                    PersistenceController.shared.saveContext()
+                    dataViewModel.persistence.saveContext()
                 }
                 
                 guard isFirstAppearance else { return }

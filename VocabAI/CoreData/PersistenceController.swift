@@ -1,5 +1,5 @@
 //
-//  PersistenceController.swift
+//  persistence.swift
 //  VocabAI
 //
 //  Created by Musa Yazuju on 6/20/23.
@@ -7,17 +7,15 @@
 
 import CoreData
 
-class PersistenceController: ObservableObject, Persistence {
+class persistence: ObservableObject {
     let container: NSPersistentContainer
-    
-    static let shared = PersistenceController()
-    
+        
     var viewContext: NSManagedObjectContext {
         return container.viewContext
     }
     
-    static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
+    static var preview: persistence = {
+        let result = persistence(inMemory: true)
         let viewContext = result.container.viewContext
         
         for i in 0..<100 {
@@ -40,10 +38,6 @@ class PersistenceController: ObservableObject, Persistence {
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error.localizedDescription), \(error.userInfo)")
             }
-            
-            DispatchQueue.main.async {
-                self.addDefaultCategory()
-            }
         }
     }
     
@@ -56,22 +50,6 @@ class PersistenceController: ObservableObject, Persistence {
             } catch {
                 print("Failed to save context: \(error.localizedDescription), \(error as NSError).userInfo")
             }
-        }
-    }
-    
-    func addDefaultCategory() {
-        let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
-
-        do {
-            let categories = try viewContext.fetch(fetchRequest)
-            if categories.isEmpty {
-                let newCategory = CardCategory(context: viewContext)
-                newCategory.name = "Category 1"
-                self.saveContext()
-            }
-        } catch let error {
-            print("Failed to fetch categories: \(error.localizedDescription)")
         }
     }
 }

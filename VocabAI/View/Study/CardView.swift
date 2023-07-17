@@ -183,7 +183,7 @@ struct CardView: View {
                             let card = learningCards[index].card
                             card.failedTimes += 1
                             card.status = 1
-                            PersistenceController.shared.saveContext()
+                            dataViewModel.persistence.saveContext()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 AudioViewModel.shared.speechText(card.text)
@@ -207,8 +207,8 @@ struct CardView: View {
                         
                         learningCards[index].isLearning = false
                         learningCards[index].card.status = 0
-                        PersistenceController.shared.saveContext()
-                        
+                        dataViewModel.persistence.saveContext()
+
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             withAnimation(.none) {
                                 if index + 1 == learningCards.count {
@@ -257,6 +257,6 @@ struct CardView_Previews: PreviewProvider {
 
     static var previews: some View {
         CardView(showingCardView: $showingCardView, cardsToStudy: [])
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, persistence.preview.container.viewContext)
     }
 }
