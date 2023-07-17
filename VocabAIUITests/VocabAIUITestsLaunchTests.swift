@@ -13,11 +13,11 @@ final class VocabAIUITestsLaunchTests: XCTestCase {
         true
     }
 
-    override func setUpWithError() throws {
+    override func setUp() {
         continueAfterFailure = false
     }
 
-    func testLaunch() throws {
+    func testLaunch() {
         let app = XCUIApplication()
         app.launch()
 
