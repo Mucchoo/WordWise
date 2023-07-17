@@ -27,7 +27,6 @@
 		2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8054992A64640B0092A886 /* StudyViewUITests.swift */; };
 		2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86890A2A400CB5001DBDFD /* LearningCard.swift */; };
 		2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */; };
-		2A8B048D2A645C2F00E19304 /* ContentViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */; };
 		2AB373A02A41657F004D0C6E /* Definition+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB3739E2A41657F004D0C6E /* Definition+CoreDataClass.swift */; };
 		2AB373A12A41657F004D0C6E /* Definition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB3739F2A41657F004D0C6E /* Definition+CoreDataProperties.swift */; };
 		2AB380A32A519E6900566B8E /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB380A22A519E6900566B8E /* CategoryList.swift */; };
@@ -101,7 +100,6 @@
 		2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModel.swift; sourceTree = "<group>"; };
 		2A3154DC2A645379008A66F1 /* AudioViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewModelTests.swift; sourceTree = "<group>"; };
 		2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTests.swift; sourceTree = "<group>"; };
-		2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewUITests.swift; sourceTree = "<group>"; };
 		2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -341,7 +339,6 @@
 			isa = PBXGroup;
 			children = (
 				2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */,
-				2A3154E42A6457CD008A66F1 /* ContentViewUITests.swift */,
 				2A8054992A64640B0092A886 /* StudyViewUITests.swift */,
 			);
 			path = VocabAIUITests;
@@ -541,7 +538,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A8B048D2A645C2F00E19304 /* ContentViewUITests.swift in Sources */,
 				2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */,
 				2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */,
 			);
