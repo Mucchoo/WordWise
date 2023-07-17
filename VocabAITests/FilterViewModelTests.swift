@@ -13,20 +13,21 @@ final class FilterViewModelTests: XCTestCase {
     var userDefaults: UserDefaults!
     var filterViewModel: FilterViewModel!
 
-    override func setUpWithError() throws {
+    override func setUp() {
+        super.setUp()
         userDefaults = UserDefaults(suiteName: #file)
         userDefaults.removePersistentDomain(forName: #file)
-
         filterViewModel = FilterViewModel(userDefaults: userDefaults)
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() {
+        super.tearDown()
         userDefaults.removePersistentDomain(forName: #file)
         userDefaults = nil
         filterViewModel = nil
     }
 
-    func testSelectedCategoriesStorage() throws {
+    func test_selectedCategories_storesData() {
         let testCategories = ["Test1", "Test2", "Test3"]
         
         filterViewModel.selectedCategories = testCategories
@@ -39,7 +40,7 @@ final class FilterViewModelTests: XCTestCase {
         }
     }
 
-    func testFilterStatusStorage() throws {
+    func test_filterStatus_storesData() {
         let testStatus = [Int16](1...3)
 
         filterViewModel.filterStatus = testStatus
@@ -50,5 +51,15 @@ final class FilterViewModelTests: XCTestCase {
         } else {
             XCTFail("Failed to load filter status from UserDefaults.")
         }
+    }
+    
+    func test_selectedCategories_defaultValue() {
+        let defaultCategories: [String] = []
+        XCTAssertEqual(filterViewModel.selectedCategories, defaultCategories)
+    }
+
+    func test_filterStatus_defaultValue() {
+        let defaultStatus: [Int16] = [0, 1, 2]
+        XCTAssertEqual(filterViewModel.filterStatus, defaultStatus)
     }
 }
