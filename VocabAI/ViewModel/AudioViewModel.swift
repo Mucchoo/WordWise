@@ -19,7 +19,7 @@ class AudioViewModel {
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.volume = 0.5
         utterance.pitchMultiplier = 1.2
-        utterance.rate = 0.6
+        utterance.rate = 0.5
         synthesizer.speak(utterance)
     }
     
