@@ -23,45 +23,55 @@ class DataViewModelTests: XCTestCase {
         dataViewModel = DataViewModel(cardService: mockCardService, persistence: persistence)
     }
 
-    func testMaxStatusCount() {
-        let card1 = Card(context: dataViewModel.viewContext)
-        card1.status = 0
-        let card2 = Card(context: dataViewModel.viewContext)
-        card2.status = 1
-        let card3 = Card(context: dataViewModel.viewContext)
-        card3.status = 1
-        let card4 = Card(context: dataViewModel.viewContext)
-        card4.status = 2
-        let card5 = Card(context: dataViewModel.viewContext)
-        card5.status = 2
-        let card6 = Card(context: dataViewModel.viewContext)
-        card6.status = 2
-
-        dataViewModel.cards = [card1, card2, card3, card4, card5, card6]
-        XCTAssertEqual(dataViewModel.maxStatusCount, 3)
+    func test_maxStatusCount_calculatesMaxStatusCount() {
+        for _ in 0..<5 {
+            let cardCount = Int.random(in: 1...100)
+            var statuses: [Int16: Int] = [:]
+            
+            for _ in 0..<cardCount {
+                let status = Int16.random(in: 0...2)
+                statuses[status, default: 0] += 1
+                let card = makeTestCard()
+                card.status = status
+                dataViewModel.cards.append(card)
+            }
+            
+            dataViewModel.persistence.saveContext()
+            let maxStatusCount = statuses.values.max() ?? 0
+            XCTAssertEqual(dataViewModel.maxStatusCount, maxStatusCount)
+            dataViewModel.cards.forEach { dataViewModel.deleteCard($0) }
+            dataViewModel.cards.removeAll()
+        }
     }
     
-    func testLoadData() {
-        let expectation = XCTestExpectation(description: "Data is loaded")
+    func test_loadData_loadsCorrectData() {
+        let cardCount = Int.random(in: 2...10)
+        let categoryCount = Int.random(in: 1...5)
 
-        let card1 = Card(context: dataViewModel.viewContext)
-        card1.text = "card1"
-        card1.id = UUID()
-        let card2 = Card(context: dataViewModel.viewContext)
-        card2.text = "card2"
-        card2.id = UUID()
+        var createdCards = Set<String>()
+        var createdCategories = Set<String>()
 
-        let category1 = CardCategory(context: dataViewModel.viewContext)
-        category1.name = "category1"
+        for _ in 0..<cardCount {
+            let card = makeTestCard()
+            createdCards.insert(card.unwrappedText)
+        }
+
+        for i in 0..<categoryCount {
+            let category = CardCategory(context: dataViewModel.viewContext)
+            category.name = "category\(i)"
+            createdCategories.insert(category.name!)
+        }
 
         dataViewModel.persistence.saveContext()
         dataViewModel.loadData()
+        
+        let expectation = XCTestExpectation(description: "Data is loaded")
 
         DispatchQueue.main.async { [self] in
-            if dataViewModel.cards.count == 2 &&
-               dataViewModel.cards.map({ $0.unwrappedText }).sorted() == ["card1", "card2"] &&
-               dataViewModel.categories.count == 1 &&
-               dataViewModel.categories.first?.name == "category1" {
+            let loadedCards = Set(dataViewModel.cards.map({ $0.unwrappedText }))
+            let loadedCategories = Set(dataViewModel.categories.map({ $0.name! }))
+
+            if createdCards == loadedCards && createdCategories == loadedCategories {
                 expectation.fulfill()
             }
         }
@@ -69,15 +79,12 @@ class DataViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
 
-    func testUpdateCard() {
-        let card = Card(context: dataViewModel.viewContext)
-        card.id = UUID()
-        card.text = "Test Card"
+    func test_updateCard_updatesCardData() {
+        let card = makeTestCard(text: "Test Card")
         card.status = 0
         card.failedTimes = 0
         
         try! dataViewModel.viewContext.save()
-        
         let loadDataExpectation = expectation(description: "Data Loaded")
         
         dataViewModel.$cards
@@ -115,126 +122,65 @@ class DataViewModelTests: XCTestCase {
         XCTAssertEqual(dataViewModel.cards.first?.status, 1)
     }
 
-    func testDeleteCard() {
-        let card = Card(context: dataViewModel.viewContext)
-        card.text = "Test Card"
-        card.id = UUID()
+    func test_deleteCard_deletesCardFromData() {
+        let card = makeTestCard()
         try! dataViewModel.viewContext.save()
-        
-        let loadDataExpectation = expectation(description: "Data Loaded")
-        
-        dataViewModel.$cards
-            .sink { cards in
-                if !cards.isEmpty {
-                    loadDataExpectation.fulfill()
-                }
-            }
-            .store(in: &cancellables)
+        let loadDataExpectation = waitForCardsChange(to: { !$0.isEmpty }, description: "Data Loaded")
             
         dataViewModel.loadData()
-
         wait(for: [loadDataExpectation], timeout: 1)
-        
         XCTAssertEqual(dataViewModel.cards.count, 1)
         
-        let deleteExpectation = expectation(description: "Card Deleted")
-        
+        let deleteExpectation = waitForCardsChange(to: { $0.isEmpty }, description: "Card Deleted")
         dataViewModel.deleteCard(card)
-        
-        dataViewModel.$cards
-            .sink { cards in
-                if cards.isEmpty {
-                    deleteExpectation.fulfill()
-                }
-            }
-            .store(in: &cancellables)
 
         wait(for: [deleteExpectation], timeout: 1)
-        
         XCTAssertEqual(dataViewModel.cards.count, 0)
     }
 
-    func testAddCategory() {
+    func test_addCategory_addsNewCategoryToData() {
         XCTAssertEqual(dataViewModel.categories.count, 0)
-
-        let expectation = self.expectation(description: "Category added")
-
+        
+        let expectation = waitForCategoryChange(to: { $0.count == 1 }, description: "Category added")
         dataViewModel.addCategory(name: "Test Category")
-
-        DispatchQueue.main.async {
-            if self.dataViewModel.categories.count == 1 {
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 1)
+        wait(for: [expectation], timeout: 1)
 
         XCTAssertEqual(dataViewModel.categories.first?.name, "Test Category")
     }
-
-    func testRenameCategory() {
+    
+    func test_renameCategory_renamesExistingCategory() {
         dataViewModel.addCategory(name: "Test Category")
-
-        let expectation = self.expectation(description: "Category renamed")
-
-        DispatchQueue.main.async {
-            if self.dataViewModel.categories.first?.name == "Test Category" {
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 1)
+        
+        let addExpectation = waitForCategoryChange(to: { !$0.isEmpty && $0.first?.name == "Test Category" }, description: "Category added")
+        wait(for: [addExpectation], timeout: 1)
 
         dataViewModel.renameCategory(before: "Test Category", after: "Updated Category")
-
-        let renameExpectation = self.expectation(description: "Category rename check")
-
-        DispatchQueue.main.async {
-            if self.dataViewModel.categories.first?.name == "Updated Category" {
-                renameExpectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 1)
+        
+        let renameExpectation = waitForCategoryChange(to: { $0.first?.name == "Updated Category" }, description: "Category renamed")
+        wait(for: [renameExpectation], timeout: 1)
     }
 
-    func testDeleteCategory() {
+    func test_deleteCategory_deletesCategoryFromData() {
         dataViewModel.addCategory(name: "Test Category")
-
-        let expectation = self.expectation(description: "Category added")
-
-        DispatchQueue.main.async {
-            if self.dataViewModel.categories.count == 1 {
-                expectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 1)
-
+        
+        let addExpectation = waitForCategoryChange(to: { !$0.isEmpty }, description: "Category added")
+        wait(for: [addExpectation], timeout: 1)
+        
         dataViewModel.deleteCategory(name: "Test Category")
-
-        let deleteExpectation = self.expectation(description: "Category delete check")
-
-        DispatchQueue.main.async {
-            if self.dataViewModel.categories.isEmpty {
-                deleteExpectation.fulfill()
-            }
-        }
-
-        waitForExpectations(timeout: 1)
+        
+        let deleteExpectation = waitForCategoryChange(to: { $0.isEmpty }, description: "Category deleted")
+        wait(for: [deleteExpectation], timeout: 1)
     }
 
-    func testAddCardPublisher() {
+    func test_addCardPublisher_AddsCardsViaPublisher() {
         let words = ["word1", "word2"]
         let category = "test category"
 
-        // Set up mock responses for each word
         let mockCardResponse = CardResponse(word: "test", phonetic: "test", phonetics: [], origin: nil, meanings: [])
         mockCardService.mockCardResponse = mockCardResponse
         mockCardService.mockImageUrls = ["url1", "url2"]
 
         let expectation = self.expectation(description: "Cards added")
-        
         let publisher = dataViewModel.addCardPublisher(text: words.joined(separator: "\n"), category: category)
         
         let cancellable = publisher.sink(receiveCompletion: { _ in
@@ -258,7 +204,7 @@ class DataViewModelTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
 
-    func testFetchCards() {
+    func test_fetchCards_fetchesCardsCorrectly() {
         let words = ["word1", "word2"]
         let category = "test category"
         
@@ -269,54 +215,43 @@ class DataViewModelTests: XCTestCase {
 
         cancellables.insert(cancellable)
     }
-
-    func testFetch() {
-        let publisher = mockCardService.fetch(word: "test")
-        let cancellable = publisher.sink(receiveCompletion: { _ in }, receiveValue: { cardResponse in
-            XCTAssertEqual(cardResponse.word, "test", "Fetched word should be equal to 'test'")
-        })
-
-        cancellables.insert(cancellable)
-    }
-
-    func testFetchImages() {
-        let publisher = mockCardService.fetchImages(word: "test")
-        let cancellable = publisher.sink(receiveCompletion: { _ in }, receiveValue: { imageUrls in
-            XCTAssertFalse(imageUrls.isEmpty, "Fetched image URLs should not be empty")
-        })
-
-        cancellables.insert(cancellable)
-    }
 }
 
-class MockCardService: CardService {
-    var mockCardResponse: CardResponse?
-    var fetchError: Error?
-
-    var mockImageUrls: [String]?
-    var fetchImagesError: Error?
-    
-    func fetch(word: String) -> AnyPublisher<CardResponse, Error> {
-        if let error = fetchError {
-            return Fail(error: error).eraseToAnyPublisher()
-        }
-        
-        if let response = mockCardResponse {
-            return Just(response).setFailureType(to: Error.self).eraseToAnyPublisher()
-        }
-
-        return Fail(error: URLError(.unknown)).eraseToAnyPublisher()
+extension DataViewModelTests {
+    func makeTestCard(text: String = "test card") -> Card {
+        let card = Card(context: dataViewModel.viewContext)
+        card.text = text
+        card.id = UUID()
+        return card
     }
     
-    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
-        if let error = fetchImagesError {
-            return Fail(error: error).eraseToAnyPublisher()
-        }
+    func waitForCardsChange(to condition: @escaping ([Card]) -> Bool, description: String) -> XCTestExpectation {
+        let expectation = self.expectation(description: description)
         
-        if let urls = mockImageUrls {
-            return Just(urls).setFailureType(to: Error.self).eraseToAnyPublisher()
-        }
+        dataViewModel.$cards
+            .sink { cards in
+                if condition(cards) {
+                    expectation.fulfill()
+                }
+            }
+            .store(in: &cancellables)
         
-        return Fail(error: URLError(.unknown)).eraseToAnyPublisher()
+        return expectation
+    }
+    
+    func waitForCategoryChange(to condition: @escaping ([CardCategory]) -> Bool, description: String) -> XCTestExpectation {
+        let expectation = self.expectation(description: description)
+        
+        dataViewModel.$categories
+            .sink { categories in
+                DispatchQueue.main.async {
+                    if condition(categories) {
+                        expectation.fulfill()
+                    }
+                }
+            }
+            .store(in: &cancellables)
+        
+        return expectation
     }
 }
