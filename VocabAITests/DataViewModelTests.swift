@@ -12,7 +12,6 @@ import Combine
 
 class DataViewModelTests: XCTestCase {
     var mockCardService: MockCardService!
-    var mockPersistence: MockPersistence!
     var dataViewModel: DataViewModel!
     var cancellables: Set<AnyCancellable> = []
     
@@ -20,23 +19,22 @@ class DataViewModelTests: XCTestCase {
         super.setUp()
 
         mockCardService = MockCardService()
-        mockPersistence = MockPersistence()
-
-        dataViewModel = DataViewModel(cardService: mockCardService, persistence: mockPersistence)
+        let persistence = persistence(inMemory: true)
+        dataViewModel = DataViewModel(cardService: mockCardService, persistence: persistence)
     }
 
     func testMaxStatusCount() {
-        let card1 = Card(context: mockPersistence.viewContext)
+        let card1 = Card(context: dataViewModel.viewContext)
         card1.status = 0
-        let card2 = Card(context: mockPersistence.viewContext)
+        let card2 = Card(context: dataViewModel.viewContext)
         card2.status = 1
-        let card3 = Card(context: mockPersistence.viewContext)
+        let card3 = Card(context: dataViewModel.viewContext)
         card3.status = 1
-        let card4 = Card(context: mockPersistence.viewContext)
+        let card4 = Card(context: dataViewModel.viewContext)
         card4.status = 2
-        let card5 = Card(context: mockPersistence.viewContext)
+        let card5 = Card(context: dataViewModel.viewContext)
         card5.status = 2
-        let card6 = Card(context: mockPersistence.viewContext)
+        let card6 = Card(context: dataViewModel.viewContext)
         card6.status = 2
 
         dataViewModel.cards = [card1, card2, card3, card4, card5, card6]
@@ -46,17 +44,17 @@ class DataViewModelTests: XCTestCase {
     func testLoadData() {
         let expectation = XCTestExpectation(description: "Data is loaded")
 
-        let card1 = Card(context: mockPersistence.viewContext)
+        let card1 = Card(context: dataViewModel.viewContext)
         card1.text = "card1"
         card1.id = UUID()
-        let card2 = Card(context: mockPersistence.viewContext)
+        let card2 = Card(context: dataViewModel.viewContext)
         card2.text = "card2"
         card2.id = UUID()
 
-        let category1 = CardCategory(context: mockPersistence.viewContext)
+        let category1 = CardCategory(context: dataViewModel.viewContext)
         category1.name = "category1"
 
-        mockPersistence.saveContext()
+        dataViewModel.persistence.saveContext()
         dataViewModel.loadData()
 
         DispatchQueue.main.async { [self] in
@@ -72,13 +70,13 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testUpdateCard() {
-        let card = Card(context: mockPersistence.viewContext)
+        let card = Card(context: dataViewModel.viewContext)
         card.id = UUID()
         card.text = "Test Card"
         card.status = 0
         card.failedTimes = 0
         
-        try! mockPersistence.viewContext.save()
+        try! dataViewModel.viewContext.save()
         
         let loadDataExpectation = expectation(description: "Data Loaded")
         
@@ -118,10 +116,10 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testDeleteCard() {
-        let card = Card(context: mockPersistence.viewContext)
+        let card = Card(context: dataViewModel.viewContext)
         card.text = "Test Card"
         card.id = UUID()
-        try! mockPersistence.viewContext.save()
+        try! dataViewModel.viewContext.save()
         
         let loadDataExpectation = expectation(description: "Data Loaded")
         
@@ -227,17 +225,13 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testAddCardPublisher() {
-        let cardService = MockCardService()
-        let persistence = MockPersistence()
-
-        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistence)
         let words = ["word1", "word2"]
         let category = "test category"
 
         // Set up mock responses for each word
         let mockCardResponse = CardResponse(word: "test", phonetic: "test", phonetics: [], origin: nil, meanings: [])
-        cardService.mockCardResponse = mockCardResponse
-        cardService.mockImageUrls = ["url1", "url2"]
+        mockCardService.mockCardResponse = mockCardResponse
+        mockCardService.mockImageUrls = ["url1", "url2"]
 
         let expectation = self.expectation(description: "Cards added")
         
@@ -265,10 +259,6 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testFetchCards() {
-        let cardService = MockCardService()
-        let persistence = MockPersistence()
-
-        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistence)
         let words = ["word1", "word2"]
         let category = "test category"
         
@@ -281,9 +271,7 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testFetch() {
-        let cardService = MockCardService()
-
-        let publisher = cardService.fetch(word: "test")
+        let publisher = mockCardService.fetch(word: "test")
         let cancellable = publisher.sink(receiveCompletion: { _ in }, receiveValue: { cardResponse in
             XCTAssertEqual(cardResponse.word, "test", "Fetched word should be equal to 'test'")
         })
@@ -292,9 +280,7 @@ class DataViewModelTests: XCTestCase {
     }
 
     func testFetchImages() {
-        let cardService = MockCardService()
-
-        let publisher = cardService.fetchImages(word: "test")
+        let publisher = mockCardService.fetchImages(word: "test")
         let cancellable = publisher.sink(receiveCompletion: { _ in }, receiveValue: { imageUrls in
             XCTAssertFalse(imageUrls.isEmpty, "Fetched image URLs should not be empty")
         })
@@ -332,34 +318,5 @@ class MockCardService: CardService {
         }
         
         return Fail(error: URLError(.unknown)).eraseToAnyPublisher()
-    }
-}
-
-class MockPersistence: Persistence {
-    var container: NSPersistentContainer
-
-    var viewContext: NSManagedObjectContext {
-        return container.viewContext
-    }
-
-    init() {
-        container = NSPersistentContainer(name: "Card")
-        container.persistentStoreDescriptions.first?.type = NSInMemoryStoreType
-        container.loadPersistentStores { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        }
-    }
-    
-    func saveContext() {
-        let context = container.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print("Failed to save context: \(error.localizedDescription), \(error as NSError).userInfo")
-            }
-        }
     }
 }

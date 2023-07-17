@@ -4,7 +4,6 @@
 //
 //  Created by Musa Yazuju on 7/17/23.
 //
-// Structure: test_[ui component]_[expected result]
 
 import XCTest
 @testable import VocabAI
