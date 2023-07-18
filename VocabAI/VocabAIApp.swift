@@ -14,8 +14,7 @@ struct VocabAIApp: App {
     @StateObject var dataViewModel: DataViewModel
 
     init() {
-        let forTesting = CommandLine.arguments.contains("FOR_TESTING")
-        persistence = .init(inMemory: forTesting)
+        persistence = .init(inMemory: CommandLine.arguments.contains("FOR_TESTING"))
         
         self.cardService = NetworkCardService()
         let dataViewModel = DataViewModel(cardService: cardService, persistence: persistence)

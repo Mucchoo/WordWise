@@ -31,7 +31,7 @@ class DataViewModelTests: XCTestCase {
             for _ in 0..<cardCount {
                 let status = Int16.random(in: 0...2)
                 statuses[status, default: 0] += 1
-                let card = makeTestCard()
+                let card = dataViewModel.makeTestCard()
                 card.status = status
                 dataViewModel.cards.append(card)
             }
@@ -52,7 +52,7 @@ class DataViewModelTests: XCTestCase {
         var createdCategories = Set<String>()
 
         for _ in 0..<cardCount {
-            let card = makeTestCard()
+            let card = dataViewModel.makeTestCard()
             createdCards.insert(card.unwrappedText)
         }
 
@@ -80,7 +80,7 @@ class DataViewModelTests: XCTestCase {
     }
 
     func test_updateCard_updatesCardData() {
-        let card = makeTestCard(text: "Test Card")
+        let card = dataViewModel.makeTestCard(text: "Test Card")
         card.status = 0
         card.failedTimes = 0
         
@@ -123,7 +123,7 @@ class DataViewModelTests: XCTestCase {
     }
 
     func test_deleteCard_deletesCardFromData() {
-        let card = makeTestCard()
+        let card = dataViewModel.makeTestCard()
         try! dataViewModel.viewContext.save()
         let loadDataExpectation = waitForCardsChange(to: { !$0.isEmpty }, description: "Data Loaded")
             
@@ -218,13 +218,6 @@ class DataViewModelTests: XCTestCase {
 }
 
 extension DataViewModelTests {
-    func makeTestCard(text: String = "test card") -> Card {
-        let card = Card(context: dataViewModel.viewContext)
-        card.text = text
-        card.id = UUID()
-        return card
-    }
-    
     func waitForCardsChange(to condition: @escaping ([Card]) -> Bool, description: String) -> XCTestExpectation {
         let expectation = self.expectation(description: description)
         

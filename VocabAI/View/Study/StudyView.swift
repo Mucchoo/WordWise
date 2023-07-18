@@ -10,14 +10,16 @@ import SwiftUI
 struct StudyView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     @ObservedObject var filterViewModel = FilterViewModel.shared
+    
     @State private var showingCardView = false
+    @State private var showingCategorySheet = false
+    @State private var isFirstAppearance = true
+
     @AppStorage("learnedButton") private var learnedButton = true
     @AppStorage("learningButton") private var learningButton = true
     @AppStorage("newButton") private var newButton = true
-    @State private var showingCategorySheet = false
     @AppStorage("maximumCards") private var maximumCards = 10
     @AppStorage("failedTimes") private var failedTimes = 0
-    @State private var isFirstAppearance = true
         
     var body: some View {
         if dataViewModel.cards.isEmpty {

@@ -36,6 +36,17 @@ struct ContentView: View {
             }
             .edgesIgnoringSafeArea(.bottom)
         }
+        .onAppear {
+            guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
+            
+            for i in 0..<Int.random(in: 1..<100) {
+                let testCard = dataViewModel.makeTestCard(text: "test card \(i)")
+                dataViewModel.cards.append(testCard)
+                print("add card: \(i)")
+            }
+            dataViewModel.persistence.saveContext()
+            dataViewModel.loadData()
+        }
     }
 }
 

@@ -214,4 +214,11 @@ class DataViewModel: ObservableObject {
             print("Failed to fetch categories: \(error.localizedDescription)")
         }
     }
+    
+    func makeTestCard(text: String = "test card") -> Card {
+        let card = Card(context: viewContext)
+        card.text = text
+        card.id = UUID()
+        return card
+    }
 }
