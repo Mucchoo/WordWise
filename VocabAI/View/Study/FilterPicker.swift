@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsRow: View {
+struct FilterPicker: View {
     var description: String
     @Binding var value: Int
     var labelText: String
@@ -29,6 +29,6 @@ struct SettingsRow: View {
 
 struct SettingsRow_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsRow(description: "", value: .constant(0), labelText: "", options: [])
+        FilterPicker(description: "", value: .constant(0), labelText: "", options: [])
     }
 }

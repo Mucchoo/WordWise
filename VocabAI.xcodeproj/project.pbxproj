@@ -55,7 +55,7 @@
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* PersistenceController.swift */; };
 		2AC83E442A4D07A9002AC7D5 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */; };
-		2ACB05772A54F4250080C685 /* SettingsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* SettingsRow.swift */; };
+		2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* FilterPicker.swift */; };
 		2ACB05792A54F5E00080C685 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05782A54F5E00080C685 /* FilterViewModel.swift */; };
 		2AD20E372A637710000C3822 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD20E362A637710000C3822 /* Keys.swift */; };
 		2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */; };
@@ -138,7 +138,7 @@
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2ABD50272A40F461000459BC /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
-		2ACB05762A54F4250080C685 /* SettingsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRow.swift; sourceTree = "<group>"; };
+		2ACB05762A54F4250080C685 /* FilterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPicker.swift; sourceTree = "<group>"; };
 		2ACB05782A54F5E00080C685 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
 		2AD20E362A637710000C3822 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
@@ -257,7 +257,7 @@
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
 				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
 				2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */,
-				2ACB05762A54F4250080C685 /* SettingsRow.swift */,
+				2ACB05762A54F4250080C685 /* FilterPicker.swift */,
 				2AB76AFE2A63994400C2C260 /* GridImage.swift */,
 			);
 			path = Study;
@@ -585,7 +585,7 @@
 				2AB6261E2A636B8100C168E1 /* Meaning+CoreDataClass.swift in Sources */,
 				2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */,
 				2AB7C9642A51243600A703FA /* CardStatus.swift in Sources */,
-				2ACB05772A54F4250080C685 /* SettingsRow.swift in Sources */,
+				2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */,
 				2AFBEAC72A5187D30049290E /* StatusFilterView.swift in Sources */,
 				2AFBEAC52A5178320049290E /* DefinitionDetailView.swift in Sources */,
 				2AB373A02A41657F004D0C6E /* Definition+CoreDataClass.swift in Sources */,

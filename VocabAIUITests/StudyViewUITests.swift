@@ -25,19 +25,52 @@ final class StudyViewUITests: XCTestCase {
         super.tearDown()
         app = nil
     }
-
-    func testTapStudyCardsButton() {
-        waitForStudyView()
-        let studyCardsButton = app.buttons["studyCardsButton"]
-        XCTAssertTrue(studyCardsButton.exists, "The study cards button does not exist")
-        studyCardsButton.tap()
+    
+    func test_allButtons_shouldWork() throws {
+        tapButton("learnedFilterButton")
+        tapButton("learningFilterButton")
+        tapButton("newFilterButton")
+        tapButton("studyCategoryButton")
+        tapLeftTopArea()
+        tapButton("studyCardsButton")
+    }
+    
+    func test_AllPickers_shouldExist() {
+        checkTextExistance("maximumCardsPicker")
+        checkTextExistance("failedTimesPicker")
+    }
+    
+    func test_AllLabels_shouldExist() {
+        checkTextExistance("Learned")
+        checkTextExistance("Learning")
+        checkTextExistance("New")
+        checkTextExistance("Category")
+        checkTextExistance("Study")
     }
 }
 
 extension StudyViewUITests {
-    func waitForStudyView() {
-        let studyStaticText = app/*@START_MENU_TOKEN@*/.navigationBars["Study"]/*[[".otherElements[\"StudyView\"].navigationBars[\"Study\"]",".navigationBars[\"Study\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        wait(forElement: studyStaticText, timeout: 3)
+    func tapLeftTopArea() {
+        let leftTopArea = app.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.1))
+        leftTopArea.tap()
+    }
+    
+    func checkExistance(_ id: String) {
+        let view = app.otherElements[id]
+        let doesExist = view.waitForExistence(timeout: 3)
+        XCTAssertTrue(doesExist, "\(id) does not exist.")
+    }
+    
+    func checkTextExistance(_ text: String) {
+        let view = app.staticTexts[text]
+        let doesExist = view.waitForExistence(timeout: 3)
+        XCTAssertTrue(doesExist, "\(text) does not exist.")
+    }
+    
+    func tapButton(_ id: String) {
+        let button = app.buttons[id]
+        XCTAssertTrue(button.exists, "\(id) does not exist.")
+        button.tap()
     }
     
     func wait(forElement element: XCUIElement, timeout: TimeInterval) {
@@ -46,3 +79,11 @@ extension StudyViewUITests {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 }
+// move to tabbar UITests
+//    func test_tabBarIcon_shouldBefilledStyle() {
+//
+//    }
+//
+//    func test_tabBarIcon_shouldShowDotCorrectly() {
+//
+//    }

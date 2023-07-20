@@ -113,7 +113,6 @@ struct AddCardView: View {
             .navigationBarTitle("Add Cards", displayMode: .large)
         }
         .onAppear {
-            dataViewModel.addDefaultCategory()
             if let defaultCategory = dataViewModel.categories.first?.name {
                 selectedCategory = defaultCategory
             }

@@ -13,7 +13,6 @@ struct StudyView: View {
     
     @State private var showingCardView = false
     @State private var showingCategorySheet = false
-    @State private var isFirstAppearance = true
 
     @AppStorage("learnedButton") private var learnedButton = true
     @AppStorage("learningButton") private var learningButton = true
@@ -40,17 +39,19 @@ struct StudyView: View {
                                 } label: {
                                     Text(filterViewModel.selectedCategories.map { $0 }.joined(separator: ", "))
                                 }
-                                .accessibilityIdentifier("filterButton")
-                                .padding([.leading, .trailing])
+                                .accessibilityIdentifier("studyCategoryButton")
+                                .padding(.horizontal)
                                 .sheet(isPresented: $showingCategorySheet) {
                                     CategoryList(categories: $filterViewModel.selectedCategories)
+                                        .accessibilityIdentifier("categoryListSheet")
                                 }
                             }
                             .frame(height: 30)
                             
-                            SettingsRow(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
-                            SettingsRow(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
-                                .accessibilityIdentifier("failedTimesPicker")
+                            FilterPicker(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
+                                .accessibilityLabel("maximumCardsPicker")
+                            FilterPicker(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
+                                .accessibilityLabel("failedTimesPicker")
                         }
                         .modifier(BlurBackground())
                         
@@ -65,28 +66,19 @@ struct StudyView: View {
                                 .background(dataViewModel.cardsToStudy.count > 0 ? LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
+                                .accessibilityIdentifier("StudyCardsButton")
                         }
                         .disabled(dataViewModel.cardsToStudy.count == 0)
                         .padding()
                         .accessibilityIdentifier("studyCardsButton")
                         .fullScreenCover(isPresented: $showingCardView) {
                             CardView(showingCardView: $showingCardView, cardsToStudy: dataViewModel.cardsToStudy)
+                                .accessibilityIdentifier("CardView")
                         }
                     }
                 }
                 .background(BackgroundView())
                 .navigationBarTitle("Study", displayMode: .large)
-            }
-            .onAppear {
-                dataViewModel.cards.forEach { card in
-                    guard card.category == nil else { return }
-                    card.category = dataViewModel.categories.first?.name
-                    dataViewModel.persistence.saveContext()
-                }
-                
-                guard isFirstAppearance else { return }
-                filterViewModel.selectedCategories = dataViewModel.categories.map { $0.name ?? "" }
-                isFirstAppearance = false
             }
             .onReceive(dataViewModel.$cards) { _ in
                 DispatchQueue.main.async {

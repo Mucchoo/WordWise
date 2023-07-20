@@ -13,8 +13,11 @@ struct StatusFilterView: View {
     var body: some View {
         HStack(spacing: 0) {
             StatusButton(systemName: "checkmark.circle.fill", status: 0, title: "Learned", colors: [.black, .navy], filterStatus: $filterStatus)
+                .accessibilityIdentifier("learnedFilterButton")
             StatusButton(systemName: "flame.circle.fill", status: 1, title: "Learning", colors: [.navy, .ocean], filterStatus: $filterStatus)
+                .accessibilityIdentifier("learningFilterButton")
             StatusButton(systemName: "star.circle.fill", status: 2, title: "New", colors: [.ocean, .teal], filterStatus: $filterStatus)
+                .accessibilityIdentifier("newFilterButton")
         }
         .cornerRadius(20)
         .clipped()

@@ -211,7 +211,6 @@ struct CardListView: View {
             let statusFilter = filterStatus.contains { $0 == card.status }
             let failedTimesFilter = card.failedTimes >= filterFailedTimes
             let categoryFilter = filterCategories.contains { $0 == card.category }
-            print("card: \(card.text) status: \(statusFilter) failedTimes: \(failedTimesFilter) category: \(categoryFilter)")
             return statusFilter && failedTimesFilter && categoryFilter
         }
         dataViewModel.cardList = filteredCards
