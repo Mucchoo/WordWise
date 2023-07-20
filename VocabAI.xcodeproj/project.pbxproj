@@ -58,6 +58,7 @@
 		2AC83E442A4D07A9002AC7D5 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */; };
 		2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* FilterPicker.swift */; };
 		2ACB05792A54F5E00080C685 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05782A54F5E00080C685 /* FilterViewModel.swift */; };
+		2ACC40CD2A69EC1C0097D3FE /* AddViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */; };
 		2AD20E372A637710000C3822 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD20E362A637710000C3822 /* Keys.swift */; };
 		2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */; };
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
@@ -142,6 +143,7 @@
 		2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
 		2ACB05762A54F4250080C685 /* FilterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPicker.swift; sourceTree = "<group>"; };
 		2ACB05782A54F5E00080C685 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
+		2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewUITests.swift; sourceTree = "<group>"; };
 		2AD20E362A637710000C3822 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				2AAC04B32A68F6B70021B1B4 /* UITestHelper.swift */,
 				2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */,
 				2A8054992A64640B0092A886 /* StudyViewUITests.swift */,
+				2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */,
 			);
 			path = VocabAIUITests;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2ACC40CD2A69EC1C0097D3FE /* AddViewUITests.swift in Sources */,
 				2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */,
 				2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */,
 				2AAC04B42A68F6B70021B1B4 /* UITestHelper.swift in Sources */,

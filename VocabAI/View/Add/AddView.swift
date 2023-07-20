@@ -22,7 +22,7 @@ struct AddCardView: View {
     @State private var fetchFailedWords: [String] = []
     @State private var cancellables = Set<AnyCancellable>()
 
-    private let initialPlaceholder = "Write whatever wards you want to add. Multiple cards can be added by adding new lines.\n\nExample:\npineapple\nstrawberry\ncherry\nblueberry\npeach"
+    private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
     
     var body: some View {
         NavigationView {
@@ -45,6 +45,7 @@ struct AddCardView: View {
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
+                            .accessibilityIdentifier("addViewCategoryPicker")
                             Spacer()
                         }
                     }
@@ -61,6 +62,7 @@ struct AddCardView: View {
                             .cornerRadius(10)
                     }
                     .padding(.leading, 10)
+                    .accessibilityIdentifier("addCategoryButton")
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 20)
@@ -79,9 +81,9 @@ struct AddCardView: View {
                     cardText = newValue.lowercased()
                 }
                 .modifier(BlurBackground())
+                .accessibilityIdentifier("addViewTextEditor")
                 
                 Button(action: {
-                    print("selectedCategory: \(selectedCategory)")
                     dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
                         .sink { [self] failedWords in
                             fetchFailedWords = failedWords
@@ -101,6 +103,7 @@ struct AddCardView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                 }
+                .accessibilityIdentifier("addCardsButton")
                 .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
                 .padding([.horizontal, .bottom])
 

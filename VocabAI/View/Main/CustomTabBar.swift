@@ -14,9 +14,13 @@ struct CustomTabBar: View {
     var body: some View {
         HStack(spacing: 0) {
             TabBarButton(image: "book.closed", selectedTab: $selectedTab, tabPoints: $tabPoints)
+                .accessibilityIdentifier("studyViewTabButton")
             TabBarButton(image: "plus.square", selectedTab: $selectedTab, tabPoints: $tabPoints)
+                .accessibilityIdentifier("addViewTabButton")
             TabBarButton(image: "rectangle.stack", selectedTab: $selectedTab, tabPoints: $tabPoints)
+                .accessibilityIdentifier("cardListViewTabButton")
             TabBarButton(image: "person", selectedTab: $selectedTab, tabPoints: $tabPoints)
+                .accessibilityIdentifier("accountViewTabButton")
         }
         .padding()
         .background(

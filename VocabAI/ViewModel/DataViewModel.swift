@@ -222,7 +222,7 @@ class DataViewModel: ObservableObject {
     func makeTestCard(text: String = "test card") -> Card {
         let card = Card(context: viewContext)
         card.text = text
-        card.category = categories.first!.name!
+        card.category = categories.first?.name
         card.id = UUID()
         return card
     }

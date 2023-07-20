@@ -42,4 +42,8 @@ struct UITestHelper {
         testCase.expectation(for: existsPredicate, evaluatedWith: element, handler: nil)
         testCase.waitForExpectations(timeout: timeout, handler: nil)
     }
+    
+    func selectAlertCancelButton() {
+        app.alerts["Add Category"].scrollViews.otherElements.buttons["Cancel"].tap()
+    }
 }

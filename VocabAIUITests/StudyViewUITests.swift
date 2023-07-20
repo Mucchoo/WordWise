@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import CoreData
 @testable import VocabAI
 
 final class StudyViewUITests: XCTestCase {
