@@ -11,6 +11,7 @@ import CoreData
 
 final class StudyViewUITests: XCTestCase {
     private var app: XCUIApplication!
+    private var helper: UITestHelper!
 
     override func setUp() {
         super.setUp()
@@ -19,6 +20,8 @@ final class StudyViewUITests: XCTestCase {
         app = XCUIApplication()
         app.launchArguments = ["FOR_TESTING", "SETUP_DATA_FOR_TESTING"]
         app.launch()
+        
+        helper = .init(app: app)
     }
     
     override func tearDown() {
@@ -27,63 +30,24 @@ final class StudyViewUITests: XCTestCase {
     }
     
     func test_allButtons_shouldWork() throws {
-        tapButton("learnedFilterButton")
-        tapButton("learningFilterButton")
-        tapButton("newFilterButton")
-        tapButton("studyCategoryButton")
-        tapLeftTopArea()
-        tapButton("studyCardsButton")
+        helper.tapButton("learnedFilterButton")
+        helper.tapButton("learningFilterButton")
+        helper.tapButton("newFilterButton")
+        helper.tapButton("studyCategoryButton")
+        helper.tapLeftTopArea()
+        helper.tapButton("studyCardsButton")
     }
     
     func test_AllPickers_shouldExist() {
-        checkTextExistance("maximumCardsPicker")
-        checkTextExistance("failedTimesPicker")
+        helper.checkTextExistance("maximumCardsPicker")
+        helper.checkTextExistance("failedTimesPicker")
     }
     
     func test_AllLabels_shouldExist() {
-        checkTextExistance("Learned")
-        checkTextExistance("Learning")
-        checkTextExistance("New")
-        checkTextExistance("Category")
-        checkTextExistance("Study")
+        helper.checkTextExistance("Learned")
+        helper.checkTextExistance("Learning")
+        helper.checkTextExistance("New")
+        helper.checkTextExistance("Category")
+        helper.checkTextExistance("Study")
     }
 }
-
-extension StudyViewUITests {
-    func tapLeftTopArea() {
-        let leftTopArea = app.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.1))
-        leftTopArea.tap()
-    }
-    
-    func checkExistance(_ id: String) {
-        let view = app.otherElements[id]
-        let doesExist = view.waitForExistence(timeout: 3)
-        XCTAssertTrue(doesExist, "\(id) does not exist.")
-    }
-    
-    func checkTextExistance(_ text: String) {
-        let view = app.staticTexts[text]
-        let doesExist = view.waitForExistence(timeout: 3)
-        XCTAssertTrue(doesExist, "\(text) does not exist.")
-    }
-    
-    func tapButton(_ id: String) {
-        let button = app.buttons[id]
-        XCTAssertTrue(button.exists, "\(id) does not exist.")
-        button.tap()
-    }
-    
-    func wait(forElement element: XCUIElement, timeout: TimeInterval) {
-        let existsPredicate = NSPredicate(format: "exists == true")
-        expectation(for: existsPredicate, evaluatedWith: element, handler: nil)
-        waitForExpectations(timeout: timeout, handler: nil)
-    }
-}
-// move to tabbar UITests
-//    func test_tabBarIcon_shouldBefilledStyle() {
-//
-//    }
-//
-//    func test_tabBarIcon_shouldShowDotCorrectly() {
-//
-//    }
