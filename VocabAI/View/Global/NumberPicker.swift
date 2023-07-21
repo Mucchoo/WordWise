@@ -11,6 +11,7 @@ struct NumberPicker: View {
     @Binding var value: Int
     var labelText: String
     var options: [Int]
+    var id: String
     
     var body: some View {
         Picker(
@@ -27,6 +28,7 @@ struct NumberPicker: View {
                 }
             }
         )
+        .accessibilityIdentifier(id)
         .labelsHidden()
         .cornerRadius(15)
         .pickerStyle(MenuPickerStyle())

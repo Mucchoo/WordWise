@@ -31,6 +31,11 @@ struct UITestHelper {
         XCTAssertTrue(doesExist, "\(text) does not exist.")
     }
     
+    func checkButtonExistance(_ id: String) {
+        let button = app.buttons[id]
+        XCTAssertTrue(button.exists, "\(id) does not exist.")
+    }
+    
     func tapButton(_ id: String) {
         let button = app.buttons[id]
         XCTAssertTrue(button.exists, "\(id) does not exist.")

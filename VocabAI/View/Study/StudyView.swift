@@ -48,10 +48,8 @@ struct StudyView: View {
                             }
                             .frame(height: 30)
                             
-                            FilterPicker(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions)
-                                .accessibilityLabel("maximumCardsPicker")
-                            FilterPicker(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions)
-                                .accessibilityLabel("failedTimesPicker")
+                            FilterPicker(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: Global.maximumCardOptions, id: "studyMaximumCardsPicker")
+                            FilterPicker(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: Global.failedTimeOptions, id: "studyFailedTimesPicker")
                         }
                         .modifier(BlurBackground())
                         

@@ -38,9 +38,7 @@ final class AddViewUITests: XCTestCase {
         let picker = app.buttons["addViewCategoryPicker"]
         XCTAssertTrue(picker.exists, "Picker does not exist") // failed
         picker.tap()
-        
-        let firstOption = app.staticTexts["Category 1"]
-        XCTAssertTrue(firstOption.exists, "First option does not exist")
+        helper.checkTextExistance("Category 1")
     }
     
     func test_textEditor_shouldRespondToKeyboard() {

@@ -61,6 +61,7 @@
 		2ACC40CD2A69EC1C0097D3FE /* AddViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */; };
 		2AD20E372A637710000C3822 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD20E362A637710000C3822 /* Keys.swift */; };
 		2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */; };
+		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
 		2ADC3C292A50A5AE00AA5903 /* ChartBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* ChartBarView.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
@@ -146,6 +147,7 @@
 		2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewUITests.swift; sourceTree = "<group>"; };
 		2AD20E362A637710000C3822 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewUITests.swift; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
 		2ADC3C282A50A5AE00AA5903 /* ChartBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartBarView.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				2A8B04862A645C2600E19304 /* VocabAIUITestsLaunchTests.swift */,
 				2A8054992A64640B0092A886 /* StudyViewUITests.swift */,
 				2ACC40CC2A69EC1C0097D3FE /* AddViewUITests.swift */,
+				2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */,
 			);
 			path = VocabAIUITests;
 			sourceTree = "<group>";
@@ -539,6 +542,7 @@
 				2ACC40CD2A69EC1C0097D3FE /* AddViewUITests.swift in Sources */,
 				2A8B04872A645C2600E19304 /* VocabAIUITestsLaunchTests.swift in Sources */,
 				2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */,
+				2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */,
 				2AAC04B42A68F6B70021B1B4 /* UITestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

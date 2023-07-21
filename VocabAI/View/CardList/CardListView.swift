@@ -59,6 +59,7 @@ struct CardListView: View {
                                             .padding(.vertical, 8)
                                     }
                                     .padding(.horizontal)
+                                    .accessibilityIdentifier("cardListCategoryButton")
                                     .sheet(isPresented: $showingCategorySheet) {
                                         CategoryList(categories: $filterCategories)
                                     }
@@ -69,7 +70,7 @@ struct CardListView: View {
                                 HStack {
                                     Text("Failed Times")
                                     Spacer()
-                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: Global.failedTimeOptions)
+                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: Global.failedTimeOptions, id: "cardListFailedTimesPicker")
                                 }
                             }
                             .modifier(BlurBackground())
@@ -146,7 +147,7 @@ struct CardListView: View {
                                                 HStack {
                                                     Text("Failed Times")
                                                     Spacer()
-                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions)
+                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions, id: "cardListFailedTimesPicker")
                                                 }
                                                 .padding(.leading)
                                             }

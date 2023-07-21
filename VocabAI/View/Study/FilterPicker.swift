@@ -12,6 +12,7 @@ struct FilterPicker: View {
     @Binding var value: Int
     var labelText: String
     var options: [Int]
+    var id: String
 
     var body: some View {
         VStack {
@@ -20,15 +21,9 @@ struct FilterPicker: View {
             HStack {
                 Text(description)
                 Spacer()
-                NumberPicker(value: $value, labelText: labelText, options: options)
+                NumberPicker(value: $value, labelText: labelText, options: options, id: id)
             }
             .frame(height: 30)
         }
-    }
-}
-
-struct SettingsRow_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterPicker(description: "", value: .constant(0), labelText: "", options: [])
     }
 }
