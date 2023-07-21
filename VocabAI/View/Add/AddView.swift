@@ -128,6 +128,7 @@ struct AddCardView: View {
                 selectedCategory = textFieldInput
                 textFieldInput = ""
             }
+            .disabled(textFieldInput.isEmpty)
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Please enter the new category name.")

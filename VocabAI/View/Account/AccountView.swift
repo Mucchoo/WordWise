@@ -26,15 +26,16 @@ struct AccountView: View {
                     HStack {
                         Text("\(Image(systemName: "apple.logo")) yazujumusa") + Text("@icloud.com")
                             .foregroundColor(.primary)
+                            .accessibilityLabel("emailAddressText")
                         Spacer()
                     }
                     .modifier(BlurBackground())
                     
                     VStack {
                         VStack(spacing: 8) {
-                            ChartBarView(status: 0, name: "Learned", image: "checkmark", colors: [.black, .navy])
-                            ChartBarView(status: 1, name: "Learning", image: "flame.fill", colors: [.navy, .ocean])
-                            ChartBarView(status: 2, name: "New", image: "star.fill", colors: [.ocean, .teal])
+                            ChartBarView(status: 0, image: "checkmark", colors: [.black, .navy])
+                            ChartBarView(status: 1, image: "flame.fill", colors: [.navy, .ocean])
+                            ChartBarView(status: 2, image: "star.fill", colors: [.ocean, .teal])
                         }
                     }
                     .modifier(BlurBackground())
@@ -48,6 +49,7 @@ struct AccountView: View {
                                 Spacer()
                             }
                         }
+                        .accessibilityIdentifier("shareButton")
                         .sheet(isPresented: $showingShareSheet) {
                             ActivityViewController(shareItems: [productURL])
                         }
@@ -63,6 +65,7 @@ struct AccountView: View {
                                 Spacer()
                             }
                         }
+                        .accessibilityIdentifier("feedbackButton")
                         .sheet(isPresented: $isShowingMail) {
                             MailView(data: $mailData) { result in }
                         }
@@ -77,6 +80,7 @@ struct AccountView: View {
                                 .foregroundColor(.red)
                                 .cornerRadius(10)
                         }
+                        .accessibilityIdentifier("resetLearningDataButton")
                         .alert("Are you sure to reset all the learning data?", isPresented: $showingResetAlert) {
                             Button("Reset", role: .destructive, action: dataViewModel.resetLearningData)
                             Button("Cancel", role: .cancel) {}

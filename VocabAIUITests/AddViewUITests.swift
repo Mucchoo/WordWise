@@ -29,14 +29,16 @@ final class AddViewUITests: XCTestCase {
         app = nil
     }
     
-    func test_addCategoryButton_shouldShowAlert() throws {
+    func test_addCategoryButton_shouldShowAlert() {
         helper.tapButton("addCategoryButton")
-        helper.selectAlertCancelButton()
+        helper.selectAlertButton(title: "Add Category", button: "Cancel")
+        helper.tapButton("addCategoryButton")
+        helper.selectAlertButton(title: "Add Category", button: "Add")
     }
     
     func test_categoryPicker_shouldShowCategoryOptions() {
         let picker = app.buttons["addViewCategoryPicker"]
-        XCTAssertTrue(picker.exists, "Picker does not exist") // failed
+        XCTAssertTrue(picker.exists, "Picker does not exist")
         picker.tap()
         helper.checkTextExistance("Category 1")
     }
@@ -50,5 +52,9 @@ final class AddViewUITests: XCTestCase {
     
     func test_addCardsButton_shouldBeTappable() {
         helper.tapButton("addCardsButton")
+    }
+    
+    func test_navigationBarTitle_shouldBeVisible() {
+        helper.checkTextExistance("Add Cards")
     }
 }

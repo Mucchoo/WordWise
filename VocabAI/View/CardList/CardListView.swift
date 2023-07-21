@@ -190,7 +190,7 @@ struct CardListView: View {
                     isFirstAppearance = false
                 }
                 .background(BackgroundView())
-                .navigationBarTitle("Cards", displayMode: .large)
+                .navigationBarTitle("Card List", displayMode: .large)
                 .onReceive(dataViewModel.$cards) { _ in
                     updateCardList()
                 }

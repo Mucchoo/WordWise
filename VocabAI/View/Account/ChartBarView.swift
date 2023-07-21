@@ -10,7 +10,6 @@ import SwiftUI
 struct ChartBarView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     @State var status: Int
-    var name: String
     var image: String
     var colors: [Color]
     
@@ -57,11 +56,12 @@ struct ChartBarView: View {
             }
         }
         .frame(height: 30)
+        .accessibilityIdentifier("chartBar\(status)")
     }
 }
 
 struct ChartBarView_Previews: PreviewProvider {
     static var previews: some View {
-        ChartBarView(status: 0, name: "Learned", image: "checkmark", colors: [.black, .blue])
+        ChartBarView(status: 0, image: "checkmark", colors: [.black, .blue])
     }
 }

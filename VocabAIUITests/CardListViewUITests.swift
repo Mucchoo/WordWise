@@ -50,4 +50,8 @@ final class CardListViewUITests: XCTestCase {
     func test_testCardList_shouldBeVisible() {
         helper.checkTextExistance("test card 1")
     }
+    
+    func test_navigationBarTitle_shouldBeVisible() {
+        helper.checkTextExistance("Card List")
+    }
 }

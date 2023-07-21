@@ -31,14 +31,15 @@ struct UITestHelper {
         XCTAssertTrue(doesExist, "\(text) does not exist.")
     }
     
-    func checkButtonExistance(_ id: String) {
+    @discardableResult func checkButtonExistance(_ id: String) -> XCUIElement {
         let button = app.buttons[id]
-        XCTAssertTrue(button.exists, "\(id) does not exist.")
+        let doesExist = button.waitForExistence(timeout: 3)
+        XCTAssertTrue(doesExist, "\(id) does not exist.")
+        return button
     }
     
     func tapButton(_ id: String) {
-        let button = app.buttons[id]
-        XCTAssertTrue(button.exists, "\(id) does not exist.")
+        let button = checkButtonExistance(id)
         button.tap()
     }
     
@@ -47,8 +48,12 @@ struct UITestHelper {
         testCase.expectation(for: existsPredicate, evaluatedWith: element, handler: nil)
         testCase.waitForExpectations(timeout: timeout, handler: nil)
     }
+        
+    func selectAlertButton(title: String, button: String) {
+        app.alerts[title].scrollViews.otherElements.buttons[button].tap()
+    }
     
-    func selectAlertCancelButton() {
-        app.alerts["Add Category"].scrollViews.otherElements.buttons["Cancel"].tap()
+    func getAlertButton(title: String, button: String) -> XCUIElement {
+        return app.alerts[title].scrollViews.otherElements.buttons[button]
     }
 }
