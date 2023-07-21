@@ -30,10 +30,12 @@ final class AddViewUITests: XCTestCase {
     }
     
     func test_addCategoryButton_shouldShowAlert() {
+        let alertTitle = "Add Category"
+        let addButton = helper.getAlertButton(title: alertTitle, button: "Add")
+
         helper.tapButton("addCategoryButton")
-        helper.selectAlertButton(title: "Add Category", button: "Cancel")
-        helper.tapButton("addCategoryButton")
-        helper.selectAlertButton(title: "Add Category", button: "Add")
+        XCTAssertFalse(addButton.isEnabled)
+        helper.selectAlertButton(title:alertTitle, button: "Cancel")
     }
     
     func test_categoryPicker_shouldShowCategoryOptions() {
