@@ -91,9 +91,9 @@ struct CategoryList: View {
                     Text("Please enter the new category name.")
                 }
             }
-            .padding(.vertical, 6)
-            .background(Color.white)
-            .cornerRadius(10)
+            .padding(.vertical, 10)
+            .background(Color(UIColor.secondarySystemGroupedBackground))
+            .cornerRadius(20)
             .clipped()
             .padding()
         }
