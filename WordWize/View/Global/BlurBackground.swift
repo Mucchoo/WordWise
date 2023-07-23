@@ -15,7 +15,7 @@ struct BlurBackground: ViewModifier {
             .background {
                 TransparentBlurView(removeAllLayers: true)
                     .blur(radius: 9, opaque: true)
-                    .background(Color(UIColor.systemGroupedBackground).opacity(0.5))
+                    .background(Color(UIColor.tertiarySystemGroupedBackground).opacity(0.5))
             }
             .cornerRadius(10)
             .clipped()
