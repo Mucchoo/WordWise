@@ -1,5 +1,5 @@
 //
-//  AddViewUITests.swift
+//  AddCardViewUITests.swift
 //  WordWizeUITests
 //
 //  Created by Musa Yazuju on 7/21/23.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import WordWize
 
-final class AddViewUITests: XCTestCase {
+final class AddCardViewUITests: XCTestCase {
     private var app: XCUIApplication!
     private var helper: UITestHelper!
 
@@ -21,7 +21,7 @@ final class AddViewUITests: XCTestCase {
         app.launch()
         
         helper = .init(app: app)
-        helper.tapButton("addViewTabButton")
+        helper.tapButton("addCardViewTabButton")
     }
     
     override func tearDown() {
@@ -39,14 +39,14 @@ final class AddViewUITests: XCTestCase {
     }
     
     func test_categoryPicker_shouldShowCategoryOptions() {
-        let picker = app.buttons["addViewCategoryPicker"]
+        let picker = app.buttons["addCardViewCategoryPicker"]
         XCTAssertTrue(picker.exists, "Picker does not exist")
         picker.tap()
         helper.checkTextExistance("Category 1")
     }
     
     func test_textEditor_shouldRespondToKeyboard() {
-        let textEditor = app.textViews["addViewTextEditor"]
+        let textEditor = app.textViews["addCardViewTextEditor"]
         XCTAssertTrue(textEditor.exists, "Text editor does not exist")
         textEditor.tap()
         textEditor.typeText("test")

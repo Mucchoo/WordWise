@@ -16,7 +16,7 @@ struct CustomTabBar: View {
             TabBarButton(image: "book.closed", selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("studyViewTabButton")
             TabBarButton(image: "plus.square", selectedTab: $selectedTab, tabPoints: $tabPoints)
-                .accessibilityIdentifier("addViewTabButton")
+                .accessibilityIdentifier("addCardViewTabButton")
             TabBarButton(image: "rectangle.stack", selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("cardListViewTabButton")
             TabBarButton(image: "person", selectedTab: $selectedTab, tabPoints: $tabPoints)

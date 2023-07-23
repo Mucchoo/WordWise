@@ -1,5 +1,5 @@
 //
-//  AddView.swift
+//  AddCardView.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 6/13/23.
@@ -45,7 +45,7 @@ struct AddCardView: View {
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
-                            .accessibilityIdentifier("addViewCategoryPicker")
+                            .accessibilityIdentifier("addCardViewCategoryPicker")
                             Spacer()
                         }
                     }
@@ -65,7 +65,6 @@ struct AddCardView: View {
                     .accessibilityIdentifier("addCategoryButton")
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 20)
 
                 TextEditor(text: Binding(
                     get: { isEditing ? cardText : initialPlaceholder },
@@ -81,7 +80,7 @@ struct AddCardView: View {
                     cardText = newValue.lowercased()
                 }
                 .modifier(BlurBackground())
-                .accessibilityIdentifier("addViewTextEditor")
+                .accessibilityIdentifier("addCardViewTextEditor")
                 
                 Button(action: {
                     dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
