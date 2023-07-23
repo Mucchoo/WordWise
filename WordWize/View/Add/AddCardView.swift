@@ -21,50 +21,54 @@ struct AddCardView: View {
     @State private var showingFetchFailedAlert = false
     @State private var showingFetchSucceededAlert = false
     @State private var cancellables = Set<AnyCancellable>()
+    @StateObject private var keyboardResponder = KeyboardResponder()
 
     private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
     
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color(UIColor.systemGroupedBackground).opacity(0.5))
-                            .overlay(
-                                TransparentBlurView(removeAllLayers: true)
-                                .blur(radius: 9, opaque: true)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            )
-                        
-                        HStack {
-                            Picker("Options", selection: $selectedCategory) {
-                                ForEach(dataViewModel.categories) { category in
-                                    let name = category.name ?? ""
-                                    Text(name).tag(name)
+                
+                if !isFocused {
+                    HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(UIColor.systemGroupedBackground).opacity(0.5))
+                                .overlay(
+                                    TransparentBlurView(removeAllLayers: true)
+                                        .blur(radius: 9, opaque: true)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                )
+                            
+                            HStack {
+                                Picker("Options", selection: $selectedCategory) {
+                                    ForEach(dataViewModel.categories) { category in
+                                        let name = category.name ?? ""
+                                        Text(name).tag(name)
+                                    }
                                 }
+                                .pickerStyle(MenuPickerStyle())
+                                .accessibilityIdentifier("addCardViewCategoryPicker")
+                                Spacer()
                             }
-                            .pickerStyle(MenuPickerStyle())
-                            .accessibilityIdentifier("addCardViewCategoryPicker")
-                            Spacer()
                         }
+                        .frame(height: 44)
+                        
+                        Button(action: {
+                            showingAlert = true
+                        }) {
+                            Text("Add Category")
+                                .padding(.vertical, 12)
+                                .padding(.horizontal)
+                                .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding(.leading, 10)
+                        .accessibilityIdentifier("addCategoryButton")
                     }
-                    .frame(height: 44)
-                                        
-                    Button(action: {
-                        showingAlert = true
-                    }) {
-                        Text("Add Category")
-                            .padding(.vertical, 12)
-                            .padding(.horizontal)
-                            .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.leading, 10)
-                    .accessibilityIdentifier("addCategoryButton")
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
 
                 TextEditor(text: Binding(
                     get: { showPlaceholder ? initialPlaceholder : cardText },
@@ -95,6 +99,7 @@ struct AddCardView: View {
                     showPlaceholder = !newValue && (cardText.isEmpty || cardText == initialPlaceholder)
                 }
                 .modifier(BlurBackground())
+                .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 160)
                 .accessibilityIdentifier("addCardViewTextEditor")
                 
                 Button(action: {
@@ -130,6 +135,7 @@ struct AddCardView: View {
             }
             .background(BackgroundView())
             .navigationBarTitle("Add Cards", displayMode: .large)
+            .navigationBarHidden(isFocused)
             .ignoresSafeArea(edges: .bottom)
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -166,9 +172,25 @@ struct AddCardView: View {
     }
 }
 
-struct AddCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddCardView()
-            .environment(\.managedObjectContext, persistence.preview.container.viewContext)
+final class KeyboardResponder: ObservableObject {
+    @Published private(set) var currentHeight: CGFloat = 0
+
+    private var cancellable: AnyCancellable?
+
+    init() {
+        let keyboardWillShow = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .map { $0.keyboardHeight }
+
+        let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .map { _ in CGFloat(0) }
+
+        cancellable = Publishers.Merge(keyboardWillShow, keyboardWillHide)
+            .assign(to: \.currentHeight, on: self)
+    }
+}
+
+private extension Notification {
+    var keyboardHeight: CGFloat {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
     }
 }
