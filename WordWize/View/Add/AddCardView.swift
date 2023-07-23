@@ -13,7 +13,7 @@ struct AddCardView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     @FocusState var isFocused: Bool
     @State private var WordWizes = [String]()
-    @State private var hidePlaceholder = false
+    @State private var showPlaceholder = true
     @State private var cardText = ""
     @State private var selectedCategory = ""
     @State private var showingAlert = false
@@ -67,7 +67,7 @@ struct AddCardView: View {
                 .padding(.horizontal)
 
                 TextEditor(text: Binding(
-                    get: { hidePlaceholder ? cardText : initialPlaceholder },
+                    get: { showPlaceholder ? initialPlaceholder : cardText },
                     set: { cardText = $0 }
                 ))
                 .toolbar {
@@ -82,12 +82,17 @@ struct AddCardView: View {
                 }
                 .scrollContentBackground(.hidden)
                 .focused($isFocused)
-                .foregroundColor(hidePlaceholder ? .primary : .secondary)
-                .onTapGesture {
-                    hidePlaceholder = true
-                }
+                .foregroundColor(showPlaceholder ? .secondary : .primary)
                 .onChange(of: cardText) { newValue in
                     cardText = newValue.lowercased()
+                    if cardText.isEmpty && !isFocused {
+                        print("show placeholder 1")
+                        showPlaceholder = true
+                    }
+                }
+                .onChange(of: isFocused) { newValue in
+                    print("show placeholder: \(!newValue && (cardText.isEmpty || cardText == initialPlaceholder))")
+                    showPlaceholder = !newValue && (cardText.isEmpty || cardText == initialPlaceholder)
                 }
                 .modifier(BlurBackground())
                 .accessibilityIdentifier("addCardViewTextEditor")
