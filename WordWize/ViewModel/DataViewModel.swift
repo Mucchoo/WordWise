@@ -48,9 +48,12 @@ class DataViewModel: ObservableObject {
         do {
             let fetchedCards = try viewContext.fetch(cardFetchRequest)
             let fetchedCategories = try viewContext.fetch(categoryFetchRequest)
-            DispatchQueue.main.async {
-                self.cards = fetchedCards
-                self.categories = fetchedCategories
+            DispatchQueue.main.async { [self] in
+                cards = fetchedCards
+                categories = fetchedCategories
+                if categories.isEmpty {
+                    addDefaultCategory()
+                }
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
@@ -199,7 +202,7 @@ class DataViewModel: ObservableObject {
         persistence.saveContext()
     }
     
-    func addDefaultCategory(completion: @escaping () -> Void) {
+    func addDefaultCategory(completion: (() -> ())? = nil) {
         let fetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name == %@", "Category 1")
 
@@ -212,7 +215,7 @@ class DataViewModel: ObservableObject {
             self.categories.append(newCategory)
             
             persistence.saveContext()
-            completion()
+            completion?()
             
         } catch let error {
             print("Failed to fetch categories: \(error.localizedDescription)")

@@ -38,9 +38,9 @@ struct ContentView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
+            guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
+            
             dataViewModel.addDefaultCategory {
-                guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
-
                 for i in 0..<Int.random(in: 1..<100) {
                     let testCard = dataViewModel.makeTestCard(text: "test card \(i)")
                     dataViewModel.cards.append(testCard)
@@ -58,6 +58,7 @@ struct ContentView: View {
                 }
             }
         }
+        
         .onChange(of: dataViewModel.categories) { newValue in
             guard filterViewModel.selectedCategories.isEmpty else { return }
             filterViewModel.selectedCategories = dataViewModel.categories.map { $0.name ?? "" }
