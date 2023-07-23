@@ -13,7 +13,7 @@ struct AddCardView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     @FocusState var isFocused: Bool
     @State private var WordWizes = [String]()
-    @State private var isEditing = false
+    @State private var hidePlaceholder = false
     @State private var cardText = ""
     @State private var selectedCategory = ""
     @State private var showingAlert = false
@@ -67,14 +67,24 @@ struct AddCardView: View {
                 .padding(.horizontal)
 
                 TextEditor(text: Binding(
-                    get: { isEditing ? cardText : initialPlaceholder },
+                    get: { hidePlaceholder ? cardText : initialPlaceholder },
                     set: { cardText = $0 }
                 ))
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button(action: {
+                            isFocused = false
+                        }) {
+                            Text("Done").bold()
+                        }
+                    }
+                }
                 .scrollContentBackground(.hidden)
                 .focused($isFocused)
-                .foregroundColor(isEditing ? .primary : .secondary)
+                .foregroundColor(hidePlaceholder ? .primary : .secondary)
                 .onTapGesture {
-                    isEditing = true
+                    hidePlaceholder = true
                 }
                 .onChange(of: cardText) { newValue in
                     cardText = newValue.lowercased()
@@ -148,14 +158,6 @@ struct AddCardView: View {
         } message: {
             Text("Added \(dataViewModel.addedCardCount) cards successfully.")
         }
-        
-        .overlay(
-            Color.clear
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    isFocused = false
-                }
-        )
     }
 }
 
