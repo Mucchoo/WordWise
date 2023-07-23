@@ -25,7 +25,7 @@ struct ChartBarView: View {
                         LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     )
                     .frame(width: 60 + progress * (geometry.size.width - 60), height: 30)
-                    .animation(.easeInOut(duration: 1))
+                    .animation(.easeInOut(duration: 1), value: progress)
                 HStack(spacing: 2) {
                     Image(systemName: image)
                         .font(.system(size: 14))
@@ -43,7 +43,7 @@ struct ChartBarView: View {
                         .frame(width: 6)
                 }
                 .frame(width: 55 + progress * (geometry.size.width - 55), height: 30)
-                .animation(.easeInOut(duration: 1))
+                .animation(isLoaded ? .easeInOut(duration: 1) : .none, value: isLoaded)
             }
             .onAppear {
                 isLoaded = false

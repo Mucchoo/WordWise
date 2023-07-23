@@ -49,7 +49,7 @@ extension Card {
         let urlSet = imageUrls as? Set<ImageUrl> ?? []
         
         return urlSet.sorted {
-            $0.priority ?? 0 < $1.priority ?? 1
+            $0.priority < $1.priority
         }
     }
 }

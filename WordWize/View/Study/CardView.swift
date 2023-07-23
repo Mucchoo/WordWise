@@ -54,7 +54,7 @@ struct CardView: View {
                             LinearGradient(colors: colorScheme == .dark ? [.teal, .mint] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing)
                         )
                         .frame(width: min(CGFloat(Float(learningCards.filter { !$0.isLearning }.count) / Float(learningCards.count))*geometry.size.width, geometry.size.width), height: 10)
-                        .animation(.spring())
+                        .animation(.spring(), value: learningCards.filter { !$0.isLearning }.count)
                 }
             }
             .cornerRadius(5)
@@ -81,7 +81,7 @@ struct CardView: View {
                     }
                     .scaleEffect(isFinished ? 1 : 0.1)
                     .opacity(isFinished ? 1 : 0)
-                    .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0))
+                    .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0), value: isFinished)
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }
                 
