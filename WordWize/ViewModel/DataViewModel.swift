@@ -24,6 +24,8 @@ class DataViewModel: ObservableObject {
     @Published var cardList: [Card] = []
     
     private var cancellables = Set<AnyCancellable>()
+    var fetchFailedWords: [String] = []
+    var addedCardCount = 0
     
     var maxStatusCount: Int {
         let statuses = [0, 1, 2]
@@ -110,24 +112,18 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func addCardPublisher(text: String, category: String) -> AnyPublisher<[String], Never> {
+    func addCardPublisher(text: String, category: String) -> AnyPublisher<Void, Never> {
+        fetchFailedWords = []
+        
         return Deferred {
-            Future<[String], Never> { promise in
-                var fetchFailedWords: [String] = []
-                
+            Future<Void, Never> { promise in
                 let words = text.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
-                let fetchCard = self.fetchCards(words: words, category: category)
                 
-                fetchCard
+                self.fetchCards(words: words, category: category)
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
-                        switch completion {
-                        case .failure(let error):
-                            print("Failed fetching: \(error.localizedDescription)")
-                            fetchFailedWords.append(error.localizedDescription)  // Handle errors here
-                        case .finished:
-                            promise(.success(fetchFailedWords))
-                        }
+                        self.addedCardCount = words.count
+                        promise(.success(()))
                     } receiveValue: { card in
                         self.cards.append(card)
                         self.persistence.saveContext()
@@ -138,8 +134,8 @@ class DataViewModel: ObservableObject {
         .eraseToAnyPublisher()
     }
     
-    func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Error> {
-        let fetchPublishers = words.map { word -> AnyPublisher<Card, Error> in
+    func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Never> {
+        let fetchPublishers = words.map { word -> AnyPublisher<Card, Never> in
             let card = Card(context: viewContext)
             card.id = UUID()
             card.text = word
@@ -185,6 +181,11 @@ class DataViewModel: ObservableObject {
 
                     return card
                 }
+                .catch { error -> Empty<Card, Never> in
+                    self.fetchFailedWords.append(word)
+                    print("Failed fetching: \(word) error: \(error.localizedDescription)")
+                    return Empty()
+                }
                 .eraseToAnyPublisher()
         }
 
@@ -193,7 +194,7 @@ class DataViewModel: ObservableObject {
             .flatMap { $0.publisher }
             .eraseToAnyPublisher()
     }
-
+    
     func resetLearningData() {
         cards.forEach { card in
             card.failedTimes = 0

@@ -19,7 +19,7 @@ struct AddCardView: View {
     @State private var showingAlert = false
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
-    @State private var fetchFailedWords: [String] = []
+    @State private var showingFetchSucceededAlert = false
     @State private var cancellables = Set<AnyCancellable>()
 
     private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
@@ -84,9 +84,11 @@ struct AddCardView: View {
                 
                 Button(action: {
                     dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
-                        .sink { [self] failedWords in
-                            fetchFailedWords = failedWords
-                            if !fetchFailedWords.isEmpty {
+                        .sink { [self] in
+                            print("add card completion")
+                            if dataViewModel.fetchFailedWords.isEmpty {
+                                showingFetchSucceededAlert = true
+                            } else {
                                 showingFetchFailedAlert = true
                             }
                         }
@@ -138,7 +140,13 @@ struct AddCardView: View {
         .alert("Failed to add cards", isPresented: $showingFetchFailedAlert) {
             Button("OK", role: .none) {}
         } message: {
-            Text("Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))")
+            Text("Failed to find these wards on the dictionary.\n\n\(dataViewModel.fetchFailedWords.joined(separator: "\n"))")
+        }
+        
+        .alert("Added Cards", isPresented: $showingFetchFailedAlert) {
+            Button("OK", role: .none) {}
+        } message: {
+            Text("Added \(dataViewModel.addedCardCount) cards successfully.")
         }
         
         .overlay(
