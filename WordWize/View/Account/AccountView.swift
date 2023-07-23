@@ -96,6 +96,7 @@ struct AccountView: View {
             .background(BackgroundView())
             .navigationBarTitle("Account", displayMode: .large)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

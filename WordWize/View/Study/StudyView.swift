@@ -78,6 +78,7 @@ struct StudyView: View {
                 .background(BackgroundView())
                 .navigationBarTitle("Study", displayMode: .large)
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .onReceive(dataViewModel.$cards) { _ in
                 DispatchQueue.main.async {
                     self.updateCardsToStudy()

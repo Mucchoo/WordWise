@@ -115,6 +115,7 @@ struct AddCardView: View {
             .background(BackgroundView())
             .navigationBarTitle("Add Cards", displayMode: .large)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             if let defaultCategory = dataViewModel.categories.first?.name {
                 selectedCategory = defaultCategory

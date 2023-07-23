@@ -184,13 +184,13 @@ struct CardListView: View {
                         }
                     }
                 }
+                .background(BackgroundView())
+                .navigationBarTitle("Card List", displayMode: .large)
                 .onAppear {
                     guard isFirstAppearance else { return }
                     filterCategories = dataViewModel.categories.map { $0.name ?? "" }
                     isFirstAppearance = false
                 }
-                .background(BackgroundView())
-                .navigationBarTitle("Card List", displayMode: .large)
                 .onReceive(dataViewModel.$cards) { _ in
                     updateCardList()
                 }
@@ -204,6 +204,7 @@ struct CardListView: View {
                     updateCardList()
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
     
