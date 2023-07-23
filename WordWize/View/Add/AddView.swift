@@ -108,12 +108,13 @@ struct AddCardView: View {
                 .padding([.horizontal, .bottom])
 
             }
-            .padding(.bottom)
+            .padding(.bottom, 90)
             .onTapGesture {
                 isFocused = false
             }
             .background(BackgroundView())
             .navigationBarTitle("Add Cards", displayMode: .large)
+            .ignoresSafeArea(edges: .bottom)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {

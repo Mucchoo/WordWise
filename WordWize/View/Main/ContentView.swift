@@ -35,8 +35,8 @@ struct ContentView: View {
                 CustomTabBar(selectedTab: $selectedTab)
                 Spacer().frame(height: 20)
             }
-            .edgesIgnoringSafeArea(.bottom)
         }
+        .ignoresSafeArea(edges: .bottom)
         .onAppear {
             guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
             
