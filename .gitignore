@@ -70,7 +70,7 @@ iOSInjectionProject/
 
 # Confidential files
 #
-VocabAI/Helper/Keys.swift
+Keys.swift
 
 # SPM
 #

@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Combine
 import Kingfisher
 
 struct CardView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataViewModel: DataViewModel
+    @ObservedObject var translationViewModel = TranslationViewModel()
     @Binding var showingCardView: Bool
     @State private var isVStackVisible = false
     @State private var isWordVisible = true
@@ -20,6 +22,7 @@ struct CardView: View {
     @State private var isFinished = false
     @State private var isButtonEnabled = true
     @State private var shouldScrollToTop: Bool = false
+    @State private var cancellables = Set<AnyCancellable>()
     
     let gridSize = (UIScreen.main.bounds.width - 21) / 2
     
@@ -90,18 +93,50 @@ struct CardView: View {
                         VStack {
                             Spacer().frame(height: 20).id("TopSpacer")
                             
-                            VStack {
-                                Text(learningCards[index].card.text ?? "Unknown")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.primary)
-                                Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
-                                    .foregroundColor(.primary)
-                            }
-                            .opacity(isWordVisible ? 1 : 0)
-                            .animation(.easeIn(duration: 0.3), value: isWordVisible)
-                            .onTapGesture {
-                                AudioViewModel.shared.speechText(learningCards[index].card.text)
+                            HStack(spacing: 0) {
+                                Spacer().frame(width: 50, height: 50)
+                                
+                                Spacer()
+                                
+                                VStack {
+                                    Text(learningCards[index].card.text ?? "Unknown")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.primary)
+                                    Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                                        .foregroundColor(.primary)
+                                }
+                                .opacity(isWordVisible ? 1 : 0)
+                                .animation(.easeIn(duration: 0.3), value: isWordVisible)
+                                .onTapGesture {
+                                    AudioViewModel.shared.speechText(learningCards[index].card.text)
+                                }
+                                
+                                Spacer()
+                                
+                                Button {
+                                    translationViewModel.translateText("An act or instance of adding.")
+                                        .sink(
+                                            receiveCompletion: { completion in
+                                                if case .failure(let error) = completion {
+                                                    print("Error translating text: \(error)")
+                                                }
+                                            },
+                                            receiveValue: { translatedText in
+                                                print("Translated text: \(translatedText)")
+                                            }
+                                        )
+                                        .store(in: &cancellables)
+                                    
+                                } label: {
+                                    Image("DeepL")
+                                        .resizable()
+                                        .frame(width: 30, height: 30, alignment: .center)
+                                }
+                                .frame(width: 50, height: 50)
+                                .background(Color.white)
+                                .cornerRadius(25)
+                                .shadow(radius: 10)
                             }
                             
                             ZStack {
