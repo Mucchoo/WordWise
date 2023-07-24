@@ -94,8 +94,8 @@ struct CardView: View {
                         VStack {
                             Spacer().frame(height: 20).id("TopSpacer")
                             
-                            HStack(spacing: 0) {
-                                Spacer().frame(width: 50, height: 50)
+                            HStack(alignment: .center, spacing: 0) {
+                                Spacer().frame(width: 50, height: 40)
                                 
                                 Spacer()
                                 
@@ -135,15 +135,16 @@ struct CardView: View {
                                     } else {
                                         Image("DeepL")
                                             .resizable()
-                                            .frame(width: 30, height: 30, alignment: .center)
+                                            .frame(width: 25, height: 25, alignment: .center)
                                             .tint(showTranslations ? Color.white : Color.deepL)
                                     }
                                 }
-                                .frame(width: 50, height: 50)
+                                .frame(width: 40, height: 40)
                                 .background(showTranslations ? Color.deepL : Color.white)
-                                .cornerRadius(25)
-                                .shadow(radius: 10)
+                                .cornerRadius(20)
+                                .shadow(radius: 5)
                                 .opacity(isDefinitionVisible ? 1 : 0)
+                                .padding(.trailing, 10)
                                 .animation(.easeIn(duration: 0.3), value: isDefinitionVisible)
                             }
                             
