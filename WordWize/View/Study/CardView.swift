@@ -13,9 +13,8 @@ struct CardView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataViewModel: DataViewModel
-    @ObservedObject var translationViewModel = TranslationViewModel()
     @Binding var showingCardView: Bool
-    @State private var isVStackVisible = false
+    @State private var isDefinitionVisible = false
     @State private var isWordVisible = true
     @State private var learningCards: [LearningCard]
     @State private var index = 0
@@ -23,6 +22,8 @@ struct CardView: View {
     @State private var isButtonEnabled = true
     @State private var shouldScrollToTop: Bool = false
     @State private var cancellables = Set<AnyCancellable>()
+    @State private var showTranslations = false
+    @State private var translating = false
     
     let gridSize = (UIScreen.main.bounds.width - 21) / 2
     
@@ -115,28 +116,35 @@ struct CardView: View {
                                 Spacer()
                                 
                                 Button {
-                                    translationViewModel.translateText("An act or instance of adding.")
-                                        .sink(
-                                            receiveCompletion: { completion in
-                                                if case .failure(let error) = completion {
-                                                    print("Error translating text: \(error)")
-                                                }
-                                            },
-                                            receiveValue: { translatedText in
-                                                print("Translated text: \(translatedText)")
-                                            }
-                                        )
-                                        .store(in: &cancellables)
+                                    if showTranslations {
+                                        showTranslations = false
+                                    } else {
+                                        translating = true
+                                        dataViewModel.translateDefinitions(learningCards[index].card) {
+                                            self.translating = false
+                                            self.showTranslations = true
+                                        }
+                                    }
                                     
                                 } label: {
-                                    Image("DeepL")
-                                        .resizable()
-                                        .frame(width: 30, height: 30, alignment: .center)
+                                    if translating {
+                                        ProgressView()
+                                            .scaleEffect(1, anchor: .center)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Color.deepL))
+                                            .padding()
+                                    } else {
+                                        Image("DeepL")
+                                            .resizable()
+                                            .frame(width: 30, height: 30, alignment: .center)
+                                            .tint(showTranslations ? Color.white : Color.deepL)
+                                    }
                                 }
                                 .frame(width: 50, height: 50)
-                                .background(Color.white)
+                                .background(showTranslations ? Color.deepL : Color.white)
                                 .cornerRadius(25)
                                 .shadow(radius: 10)
+                                .opacity(isDefinitionVisible ? 1 : 0)
+                                .animation(.easeIn(duration: 0.3), value: isDefinitionVisible)
                             }
                             
                             ZStack {
@@ -146,7 +154,7 @@ struct CardView: View {
                                             Divider()
                                             Spacer().frame(height: 20)
                                         }
-                                        DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx)
+                                        DefinitionDetailView(meaning: learningCards[index].card.meaningsArray[idx], index: idx, showTranslations: $showTranslations)
                                     }
                                     
                                     Spacer().frame(height: 20)
@@ -170,8 +178,8 @@ struct CardView: View {
                                 
                                 Rectangle()
                                     .fill(Color(UIColor.systemBackground))
-                                    .opacity(isVStackVisible ? 0 : 1)
-                                    .animation(.easeIn(duration: 0.3), value: isVStackVisible)
+                                    .opacity(isDefinitionVisible ? 0 : 1)
+                                    .animation(.easeIn(duration: 0.3), value: isDefinitionVisible)
                                     .zIndex(1)
                             }
                             
@@ -202,8 +210,9 @@ struct CardView: View {
                         guard isButtonEnabled else { return }
                         
                         isButtonEnabled = false
-                        isVStackVisible = false
+                        isDefinitionVisible = false
                         isWordVisible = false
+                        showTranslations = false
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                             withAnimation(.none) {
@@ -237,14 +246,16 @@ struct CardView: View {
                         guard isButtonEnabled else { return }
                         
                         isButtonEnabled = false
-                        isVStackVisible = false
+                        isDefinitionVisible = false
                         isWordVisible = false
-                        
+                        showTranslations = false
+
                         learningCards[index].isLearning = false
                         learningCards[index].card.status = 0
                         dataViewModel.persistence.saveContext()
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+
                             withAnimation(.none) {
                                 if index + 1 == learningCards.count {
                                     isFinished = true
@@ -275,7 +286,7 @@ struct CardView: View {
         .padding([.leading, .trailing], 10)
         .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
         .onTapGesture {
-            isVStackVisible = true
+            isDefinitionVisible = true
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

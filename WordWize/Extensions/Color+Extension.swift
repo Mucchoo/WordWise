@@ -12,4 +12,5 @@ extension Color {
     static let ocean = Color("Ocean")
     static let teal = Color("Teal")
     static let mint = Color("Mint")
+    static let deepL = Color("DeepLColor")
 }

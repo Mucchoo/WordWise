@@ -10,6 +10,7 @@ import SwiftUI
 struct DefinitionDetailView: View {
     let meaning: Meaning
     let index: Int
+    @Binding var showTranslations: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,7 +35,7 @@ struct DefinitionDetailView: View {
                 let definition = meaning.definitionsArray[index]
                 
                 VStack(alignment: .leading) {
-                    Text("\(index + 1). \(definition.definition ?? "Unknown")")
+                    Text("\(index + 1). \(showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
                                         
@@ -64,8 +65,8 @@ struct DefinitionDetailView: View {
     }
 }
 
-struct DefinitionDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        DefinitionDetailView(meaning: Meaning(), index: 0)
-    }
-}
+//struct DefinitionDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DefinitionDetailView(meaning: Meaning(), index: 0)
+//    }
+//}

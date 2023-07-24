@@ -230,4 +230,58 @@ class DataViewModel: ObservableObject {
         card.id = UUID()
         return card
     }
+    
+    func translateDefinitions(_ card: Card, completion: (() -> ())? = nil) {
+        var definitions = [String]()
+        
+        card.meaningsArray.forEach { meaning in
+            meaning.definitionsArray.forEach { definition in
+                definitions.append(definition.definition ?? "")
+            }
+        }
+        
+        print("translate definitions: \(definitions)")
+        requestTranslation(definitions)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                completion?()
+            } receiveValue: { response in
+                print("response: \(response)")
+                var index = 0
+                
+                card.meaningsArray.forEach { meaning in
+                    meaning.definitionsArray.forEach { definition in
+                        definition.translatedDefinition = response.translations[safe: index]?.text ?? ""
+                        index += 1
+                    }
+                }
+                
+                self.persistence.saveContext()
+            }
+            .store(in: &cancellables)
+    }
+    
+    func requestTranslation(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
+        
+        let url = URL(string: "https://api-free.deepl.com/v2/translate")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("DeepL-Auth-Key \(Keys.deepLApiKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let requestData = TranslationRequest(text: texts, target_lang: "JA") // need to change DE to JP
+        
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(requestData)
+            request.httpBody = jsonData
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, _ in data }
+            .decode(type: TranslationResponse.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
 }
