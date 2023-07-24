@@ -238,7 +238,7 @@ struct CardView: View {
                         Text("Hard")
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(LinearGradient(colors: [.red, .pink], startPoint: .leading, endPoint: .trailing))
+                            .background(LinearGradient(colors: [.red, .orange], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
