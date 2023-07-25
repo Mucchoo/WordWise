@@ -164,7 +164,7 @@ struct AddCardView: View {
             Text("Failed to find these wards on the dictionary.\n\n\(dataViewModel.fetchFailedWords.joined(separator: "\n"))")
         }
         
-        .alert("Added Cards", isPresented: $showingFetchFailedAlert) {
+        .alert("Added Cards", isPresented: $showingFetchSucceededAlert) {
             Button("OK", role: .none) {}
         } message: {
             Text("Added \(dataViewModel.addedCardCount) cards successfully.")
