@@ -19,12 +19,13 @@ extension Meaning {
     @NSManaged public var partOfSpeech: String?
     @NSManaged public var card: Card?
     @NSManaged public var definitions: NSSet?
+    @NSManaged public var createdAt: Date?
 
     public var definitionsArray: [Definition] {
         let definitionSet = definitions as? Set<Definition> ?? []
         
         return definitionSet.sorted {
-            $0.id < $1.id
+            $0.createdAt ?? Date() < $1.createdAt ?? Date()
         }
     }
 }

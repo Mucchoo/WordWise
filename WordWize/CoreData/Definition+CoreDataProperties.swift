@@ -2,7 +2,7 @@
 //  Definition+CoreDataProperties.swift
 //  WordWize
 //
-//  Created by Musa Yazuju on 7/24/23.
+//  Created by Musa Yazuju on 7/25/23.
 //
 //
 
@@ -21,6 +21,7 @@ extension Definition {
     @NSManaged public var example: String?
     @NSManaged public var synonyms: String?
     @NSManaged public var translatedDefinition: String?
+    @NSManaged public var createdAt: Date?
     @NSManaged public var meaning: NSSet?
 
 }

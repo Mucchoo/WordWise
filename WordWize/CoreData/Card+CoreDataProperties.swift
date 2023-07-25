@@ -41,7 +41,7 @@ extension Card {
         let meaningSet = meanings as? Set<Meaning> ?? []
         
         return meaningSet.sorted {
-            $0.id < $1.id
+            $0.createdAt ?? Date() < $1.createdAt ?? Date()
         }
     }
     

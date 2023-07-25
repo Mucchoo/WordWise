@@ -151,6 +151,7 @@ class DataViewModel: ObservableObject {
                     cardResponse.meanings?.forEach { meaning in
                         let newMeaning = Meaning(context: self.viewContext)
                         newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+                        newMeaning.createdAt = Date()
                         
                         meaning.definitions?.forEach { definition in
                             let newDefinition = Definition(context: self.viewContext)
@@ -158,6 +159,7 @@ class DataViewModel: ObservableObject {
                             newDefinition.example = definition.example
                             newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
                             newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                            newDefinition.createdAt = Date()
                             
                             newMeaning.addToDefinitions(newDefinition)
                         }

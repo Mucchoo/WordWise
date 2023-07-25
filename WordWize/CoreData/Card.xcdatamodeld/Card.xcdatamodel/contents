@@ -15,6 +15,7 @@
     </entity>
     <entity name="Definition" representedClassName="Definition" syncable="YES">
         <attribute name="antonyms" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="definition" optional="YES" attributeType="String"/>
         <attribute name="example" optional="YES" attributeType="String"/>
         <attribute name="synonyms" optional="YES" attributeType="String"/>
@@ -27,6 +28,7 @@
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageUrls" inverseEntity="Card"/>
     </entity>
     <entity name="Meaning" representedClassName="Meaning" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="partOfSpeech" attributeType="String"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="meanings" inverseEntity="Card"/>
         <relationship name="definitions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Definition" inverseName="meaning" inverseEntity="Definition"/>
