@@ -68,7 +68,7 @@ class DataViewModel: ObservableObject {
             card.text = text
             card.category = category
             card.status = status
-            card.failedTimes = Int64(Global.failedTimeOptions[failedTimesIndex])
+            card.failedTimes = Int64(PickerOptions.failedTime[failedTimesIndex])
             persistence.saveContext()
         }
     }
@@ -271,7 +271,8 @@ class DataViewModel: ObservableObject {
         request.addValue("DeepL-Auth-Key \(Keys.deepLApiKey)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let requestData = TranslationRequest(text: texts, target_lang: "JA") // need to change DE to JP
+        let targetLanguage = UserDefaults.standard.string(forKey: "nativeLanguage") ?? "JA"
+        let requestData = TranslationRequest(text: texts, target_lang: targetLanguage)
         
         do {
             let encoder = JSONEncoder()

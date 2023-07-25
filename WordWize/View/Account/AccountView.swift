@@ -16,6 +16,8 @@ struct AccountView: View {
     @State var isShowingMail = false
     @State var showingResetAlert = false
     @State var showingShareSheet = false
+    @AppStorage("nativeLanguage") private var nativeLanguage = "JA"
+
     @State private var mailData = Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line! Thank you!")
     private var productURL = URL(string: "https://itunes.apple.com/jp/app/id1628829703?mt=8")!
     
@@ -41,6 +43,21 @@ struct AccountView: View {
                     .modifier(BlurBackground())
                     
                     VStack {
+                        HStack {
+                            Text("Native Language")
+                            Spacer()
+                            Picker(selection: $nativeLanguage, label: EmptyView(), content: {
+                                    ForEach(PickerOptions.language, id: \.self) { language in
+                                        Text(language.name).tag(language.code)
+                                    }
+                                }
+                            )
+                            .cornerRadius(15)
+                            .pickerStyle(MenuPickerStyle())
+                        }
+                        
+                        Divider()
+                        
                         Button(action: {
                             showingShareSheet = true
                         }) {
@@ -50,12 +67,12 @@ struct AccountView: View {
                             }
                         }
                         .accessibilityIdentifier("shareButton")
+                        .padding(.vertical, 8)
                         .sheet(isPresented: $showingShareSheet) {
                             ActivityViewController(shareItems: [productURL])
                         }
 
                         Divider()
-                            .padding(.horizontal)
                         
                         Button {
                             isShowingMail = true
@@ -66,6 +83,7 @@ struct AccountView: View {
                             }
                         }
                         .accessibilityIdentifier("feedbackButton")
+                        .padding(.vertical, 8)
                         .sheet(isPresented: $isShowingMail) {
                             MailView(data: $mailData) { result in }
                         }

@@ -70,7 +70,7 @@ struct CardListView: View {
                                 HStack {
                                     Text("Failed Times")
                                     Spacer()
-                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: Global.failedTimeOptions, id: "cardListFailedTimesPicker")
+                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: PickerOptions.failedTime, id: "cardListFailedTimesPicker")
                                 }
                             }
                             .modifier(BlurBackground())
@@ -147,7 +147,7 @@ struct CardListView: View {
                                                 HStack {
                                                     Text("Failed Times")
                                                     Spacer()
-                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: Global.failedTimeOptions, id: "cardListFailedTimesPicker")
+                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: PickerOptions.failedTime, id: "cardListFailedTimesPicker")
                                                 }
                                                 .padding(.leading)
                                             }

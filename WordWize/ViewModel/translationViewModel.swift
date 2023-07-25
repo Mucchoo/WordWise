@@ -11,6 +11,7 @@ import Foundation
 struct TranslationRequest: Codable {
     var text: [String]
     var target_lang: String
+    var source_lang = "EN"
 }
 
 struct TranslationResponse: Codable {
