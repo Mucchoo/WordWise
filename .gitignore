@@ -70,7 +70,7 @@ iOSInjectionProject/
 
 # Confidential files
 #
-Keys.swift
+WordWize/Helper/Keys.swift
 
 # SPM
 #
