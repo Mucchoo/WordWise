@@ -12,6 +12,7 @@ class NetworkCardService: CardService {
     private let freeDictionaryAPIURLString = "https://api.dictionaryapi.dev/api/v2/entries/en/"
     private let pixabayAPIURLString = "https://pixabay.com/api/"
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
+    private let deepLAPIURLString = "https://api-free.deepl.com/v2/translate"
     
     func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
         guard let url = URL(string: merriamWebsterAPIURLString + word + "?key=" + Keys.merriamWebsterApiKey) else {
@@ -94,6 +95,30 @@ class NetworkCardService: CardService {
             }
             .decode(type: ImageResponse.self, decoder: JSONDecoder())
             .map { $0.hits.map { $0.webformatURL } }
+            .eraseToAnyPublisher()
+    }
+    
+    func fetchTranslations(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
+        let url = URL(string: deepLAPIURLString)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("DeepL-Auth-Key \(Keys.deepLApiKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let targetLanguage = UserDefaults.standard.string(forKey: "nativeLanguage") ?? "JA"
+        let requestData = TranslationRequest(text: texts, target_lang: targetLanguage)
+        
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(requestData)
+            request.httpBody = jsonData
+        } catch {
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: request)
+            .tryMap { data, _ in data }
+            .decode(type: TranslationResponse.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
 }

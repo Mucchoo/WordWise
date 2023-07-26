@@ -9,15 +9,7 @@ import CoreData
 import SwiftUI
 import Combine
 
-protocol CardService {
-    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error>
-    func fetchImages(word: String) -> AnyPublisher<[String], Error>
-}
-
 class DataViewModel: ObservableObject {
-    let cardService: CardService
-    let persistence: persistence
-    let viewContext: NSManagedObjectContext
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
@@ -26,6 +18,9 @@ class DataViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     var fetchFailedWords: [String] = []
     var addedCardCount = 0
+    let cardService: CardService
+    let persistence: persistence
+    let viewContext: NSManagedObjectContext
     
     var maxStatusCount: Int {
         let statuses = [0, 1, 2]
@@ -43,7 +38,6 @@ class DataViewModel: ObservableObject {
     }
 
     func loadData() {
-        print("loadData")
         let cardFetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
         let categoryFetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
 
@@ -63,7 +57,6 @@ class DataViewModel: ObservableObject {
     }
     
     func updateCard(id: UUID, text: String, category: String, status: Int16, failedTimesIndex: Int) {
-        print("updateCard id: \(id) text: \(text) category: \(category) status: \(status) failedTimesIndex: \(failedTimesIndex)")
         if let card = cards.first(where: { $0.id == id }) {
             card.text = text
             card.category = category
@@ -242,8 +235,7 @@ class DataViewModel: ObservableObject {
             }
         }
         
-        print("translate definitions: \(definitions)")
-        requestTranslation(definitions)
+        cardService.fetchTranslations(definitions)
             .receive(on: DispatchQueue.main)
             .sink { _ in
                 completion?()
@@ -262,34 +254,4 @@ class DataViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
-    func requestTranslation(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
-        
-        let url = URL(string: "https://api-free.deepl.com/v2/translate")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("DeepL-Auth-Key \(Keys.deepLApiKey)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let targetLanguage = UserDefaults.standard.string(forKey: "nativeLanguage") ?? "JA"
-        let requestData = TranslationRequest(text: texts, target_lang: targetLanguage)
-        
-        do {
-            let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(requestData)
-            request.httpBody = jsonData
-        } catch {
-            return Fail(error: error).eraseToAnyPublisher()
-        }
-        
-        return URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap { data, _ in data }
-            .decode(type: TranslationResponse.self, decoder: JSONDecoder())
-            .eraseToAnyPublisher()
-    }
-}
-
-struct MerriamWebsterDefinition: Codable {
-    let fl: String
-    let shortdef: [String]
 }
