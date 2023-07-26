@@ -130,9 +130,6 @@ struct AddCardView: View {
 
             }
             .padding(.bottom, 90)
-            .onTapGesture {
-                isFocused = false
-            }
             .background(BackgroundView())
             .navigationBarTitle("Add Cards", displayMode: .large)
             .navigationBarHidden(isFocused)
