@@ -25,14 +25,6 @@ struct AccountView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    HStack {
-                        Text("\(Image(systemName: "apple.logo")) yazujumusa") + Text("@icloud.com")
-                            .foregroundColor(.primary)
-                            .accessibilityLabel("emailAddressText")
-                        Spacer()
-                    }
-                    .modifier(BlurBackground())
-                    
                     VStack {
                         VStack(spacing: 8) {
                             ChartBarView(status: 0, image: "checkmark", colors: [.black, .navy])
