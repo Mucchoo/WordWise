@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class NetworkCardService: CardService {
-    private let dictionaryAPIURLString = "https://api.dictionaryapi.dev/api/v2/entries/en/"
+    private let freeDictionaryAPIURLString = "https://api.dictionaryapi.dev/api/v2/entries/en/"
     private let pixabayAPIURLString = "https://pixabay.com/api/"
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
     
@@ -46,7 +46,7 @@ class NetworkCardService: CardService {
     }
     
     func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
-        guard let url = URL(string: dictionaryAPIURLString + word) else {
+        guard let url = URL(string: freeDictionaryAPIURLString + word) else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
