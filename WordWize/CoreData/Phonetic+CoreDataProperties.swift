@@ -22,7 +22,7 @@ extension Phonetic {
     @NSManaged public var card: Card?
     
     public var unwrappedText: String {
-        text ?? "Unknown Text"
+        text ?? "Unknown"
     }
 }
 

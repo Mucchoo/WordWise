@@ -100,11 +100,11 @@ struct CardView: View {
                                 Spacer()
                                 
                                 VStack {
-                                    Text(learningCards[index].card.text ?? "Unknown")
+                                    Text(learningCards[index].card.text ?? "")
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .foregroundColor(.primary)
-                                    Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "Unknown")
+                                    Text(learningCards[index].card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? learningCards[index].card.phoneticsArray.first?.text ?? "")
                                         .foregroundColor(.primary)
                                 }
                                 .opacity(isWordVisible ? 1 : 0)

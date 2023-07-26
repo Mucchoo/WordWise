@@ -10,18 +10,18 @@ import Combine
 @testable import WordWize
 
 class MockCardService: CardService {
-    var mockCardResponse: CardResponse?
+    var mockWordDefinition: WordDefinition?
     var fetchError: Error?
 
     var mockImageUrls: [String]?
     var fetchImagesError: Error?
     
-    func fetch(word: String) -> AnyPublisher<CardResponse, Error> {
+    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
         if let error = fetchError {
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        if let response = mockCardResponse {
+        if let response = mockWordDefinition {
             return Just(response).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 

@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 protocol CardService {
-    func fetch(word: String) -> AnyPublisher<CardResponse, Error>
+    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error>
     func fetchImages(word: String) -> AnyPublisher<[String], Error>
 }
 
@@ -143,7 +143,7 @@ class DataViewModel: ObservableObject {
             card.failedTimes = 0
             card.category = category
 
-            let fetchCardData = cardService.fetch(word: word)
+            let fetchCardData = cardService.fetchDefinitions(word: word)
             let fetchImagesData = cardService.fetchImages(word: word)
 
             return Publishers.Zip(fetchCardData, fetchImagesData)
@@ -287,4 +287,9 @@ class DataViewModel: ObservableObject {
             .decode(type: TranslationResponse.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
+}
+
+struct MerriamWebsterDefinition: Codable {
+    let fl: String
+    let shortdef: [String]
 }

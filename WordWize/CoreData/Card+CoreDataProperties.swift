@@ -26,7 +26,7 @@ extension Card {
     @NSManaged public var phonetics: NSSet?
     
     public var unwrappedText: String {
-        text ?? "Unknown Text"
+        text ?? "Unknown"
     }
     
     public var phoneticsArray: [Phonetic] {

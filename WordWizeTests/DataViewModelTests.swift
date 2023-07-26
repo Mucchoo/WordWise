@@ -176,8 +176,8 @@ class DataViewModelTests: XCTestCase {
         let words = ["word1", "word2"]
         let category = "test category"
 
-        let mockCardResponse = CardResponse(word: "test", phonetic: "test", phonetics: [], origin: nil, meanings: [])
-        mockCardService.mockCardResponse = mockCardResponse
+        let mockWordDefinition = WordDefinition(word: "test", phonetic: "test", phonetics: [], origin: nil, meanings: [])
+        mockCardService.mockWordDefinition = mockWordDefinition
         mockCardService.mockImageUrls = ["url1", "url2"]
 
         let expectation = self.expectation(description: "Cards added")

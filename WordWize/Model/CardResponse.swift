@@ -1,5 +1,5 @@
 //
-//  CardResponse.swift
+//  WordDefinition.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 6/21/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CardResponse: Codable, Identifiable {
+struct WordDefinition: Codable, Identifiable {
     let id = UUID()
     let word: String
     let phonetic: String?
