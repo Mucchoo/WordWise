@@ -22,7 +22,11 @@ class NetworkCardService: CardService {
         
         return URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+                guard httpResponse.statusCode == 200 else {
+                    print("Merriam Webster API request for word: \(word) failed with status code: \(httpResponse.statusCode)")
                     throw URLError(.badServerResponse)
                 }
                 return data
@@ -30,22 +34,7 @@ class NetworkCardService: CardService {
             .decode(type: [MerriamWebsterDefinition].self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
-    
-    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
-        fetchDefinitionsFromFreeAPI(word: word)
-            .catch { [weak self] _ in
-                self?.fetchDefinitionsFromMerriamWebsterAPI(word: word)
-                    .tryMap { merriamWebsterDefinitions in
-                        guard let convertedDefinition = self?.convertMerriamWebsterDefinition(word: word, data: merriamWebsterDefinitions) else {
-                            throw URLError(.cannotParseResponse)
-                        }
-                        return convertedDefinition
-                    }
-                    .eraseToAnyPublisher() ?? Fail(error: URLError(.unknown)).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
-    }
-    
+
     func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
         guard let url = URL(string: freeDictionaryAPIURLString + word) else {
             print("Invalid URL for: \(word)")
@@ -54,7 +43,11 @@ class NetworkCardService: CardService {
         
         return URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+                guard httpResponse.statusCode == 200 else {
+                    print("Free Dictionary API request for word: \(word) failed with status code: \(httpResponse.statusCode)")
                     throw URLError(.badServerResponse)
                 }
                 return data
@@ -68,6 +61,44 @@ class NetworkCardService: CardService {
             }
             .eraseToAnyPublisher()
     }
+
+    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
+        guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
+            print("Invalid URL for: \(word)")
+            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw URLError(.badServerResponse)
+                }
+                guard httpResponse.statusCode == 200 else {
+                    print("Pixabay API request for word: \(word) images failed with status code: \(httpResponse.statusCode)")
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .decode(type: ImageResponse.self, decoder: JSONDecoder())
+            .map { $0.hits.map { $0.webformatURL } }
+            .eraseToAnyPublisher()
+    }
+    
+    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
+        fetchDefinitionsFromFreeAPI(word: word)
+            .catch { [weak self] _ in
+                self?.fetchDefinitionsFromMerriamWebsterAPI(word: word)
+                    .tryMap { merriamWebsterDefinitions in
+                        guard let convertedDefinition = self?.convertMerriamWebsterDefinition(word: word, data: merriamWebsterDefinitions) else {
+                            print("Cannot convert merriamWebster response of: \(word)0")
+                            throw URLError(.cannotParseResponse)
+                        }
+                        return convertedDefinition
+                    }
+                    .eraseToAnyPublisher() ?? Fail(error: URLError(.unknown)).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
     
     private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> WordDefinition {
         let meanings: [WordDefinition.Meaning] = data.map { data in
@@ -78,24 +109,6 @@ class NetworkCardService: CardService {
         }
         
         return .init(word: word, phonetic: nil, phonetics: [], origin: nil, meanings: meanings)
-    }
-    
-    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
-        guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
-            print("Invalid URL for: \(word)")
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-        
-        return URLSession.shared.dataTaskPublisher(for: url)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: ImageResponse.self, decoder: JSONDecoder())
-            .map { $0.hits.map { $0.webformatURL } }
-            .eraseToAnyPublisher()
     }
     
     func fetchTranslations(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {

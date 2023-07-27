@@ -14,6 +14,16 @@ class DataViewModel: ObservableObject {
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
     @Published var cardList: [Card] = []
+    @Published var requestedWordCount = 0 {
+        didSet {
+            print("requestedWordCount: \(requestedWordCount)")
+        }
+    }
+    @Published var fetchedWordCount = 0 {
+        didSet {
+            print("fetchedWordCount: \(fetchedWordCount)")
+        }
+    }
     
     private var cancellables = Set<AnyCancellable>()
     var fetchFailedWords: [String] = []
@@ -111,15 +121,17 @@ class DataViewModel: ObservableObject {
         return Deferred {
             Future<Void, Never> { promise in
                 let words = text.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
+                self.requestedWordCount = words.count
+                self.fetchedWordCount = 0
                 
                 self.fetchCards(words: words, category: category)
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
                         self.addedCardCount = words.count
+                        self.persistence.saveContext()
                         promise(.success(()))
                     } receiveValue: { card in
                         self.cards.append(card)
-                        self.persistence.saveContext()
                     }
                     .store(in: &self.cancellables)
             }
@@ -128,65 +140,69 @@ class DataViewModel: ObservableObject {
     }
     
     func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Never> {
-        let fetchPublishers = words.map { word -> AnyPublisher<Card, Never> in
-            let card = Card(context: viewContext)
-            card.id = UUID()
-            card.text = word
-            card.status = 2
-            card.failedTimes = 0
-            card.category = category
+        let fetchPublishers = words.publisher
+            .buffer(size: words.count, prefetch: .keepFull, whenFull: .dropOldest)
+            .flatMap(maxPublishers: .max(20)) { word -> AnyPublisher<Card, Never> in
+                let card = Card(context: self.viewContext)
+                card.id = UUID()
+                card.text = word
+                card.status = 2
+                card.failedTimes = 0
+                card.category = category
 
-            let fetchCardData = cardService.fetchDefinitions(word: word)
-            let fetchImagesData = cardService.fetchImages(word: word)
+                let fetchCardData = self.cardService.fetchDefinitions(word: word)
+                let fetchImagesData = self.cardService.fetchImages(word: word)
 
-            return Publishers.Zip(fetchCardData, fetchImagesData)
-                .tryMap { cardResponse, imageUrls in
-                    cardResponse.meanings?.forEach { meaning in
-                        let newMeaning = Meaning(context: self.viewContext)
-                        newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
-                        newMeaning.createdAt = Date()
-                        
-                        meaning.definitions?.forEach { definition in
-                            let newDefinition = Definition(context: self.viewContext)
-                            newDefinition.definition = definition.definition
-                            newDefinition.example = definition.example
-                            newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
-                            newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
-                            newDefinition.createdAt = Date()
+                return Publishers.Zip(fetchCardData, fetchImagesData)
+                    .receive(on: DispatchQueue.main)
+                    .tryMap { cardResponse, imageUrls in
+                        print("got result of \(cardResponse.word)")
+                        cardResponse.meanings?.forEach { meaning in
+                            let newMeaning = Meaning(context: self.viewContext)
+                            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+                            newMeaning.createdAt = Date()
                             
-                            newMeaning.addToDefinitions(newDefinition)
+                            meaning.definitions?.forEach { definition in
+                                let newDefinition = Definition(context: self.viewContext)
+                                newDefinition.definition = definition.definition
+                                newDefinition.example = definition.example
+                                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                                newDefinition.createdAt = Date()
+                                
+                                newMeaning.addToDefinitions(newDefinition)
+                            }
+                            
+                            card.addToMeanings(newMeaning)
                         }
                         
-                        card.addToMeanings(newMeaning)
-                    }
-                    
-                    cardResponse.phonetics?.forEach { phonetic in
-                        let newPhonetic = Phonetic(context: self.viewContext)
-                        newPhonetic.audio = phonetic.audio
-                        newPhonetic.text = phonetic.text
-                        card.addToPhonetics(newPhonetic)
-                    }
+                        cardResponse.phonetics?.forEach { phonetic in
+                            let newPhonetic = Phonetic(context: self.viewContext)
+                            newPhonetic.audio = phonetic.audio
+                            newPhonetic.text = phonetic.text
+                            card.addToPhonetics(newPhonetic)
+                        }
 
-                    imageUrls.enumerated().forEach { index, url in
-                        let imageUrl = ImageUrl(context: self.viewContext)
-                        imageUrl.urlString = url
-                        imageUrl.priority = Int64(index)
-                        card.addToImageUrls(imageUrl)
+                        imageUrls.enumerated().forEach { index, url in
+                            let imageUrl = ImageUrl(context: self.viewContext) // Thread 11: EXC_BAD_ACCESS (code=1, address=0xfffffffffffffff8)
+                            imageUrl.urlString = url
+                            imageUrl.priority = Int64(index)
+                            card.addToImageUrls(imageUrl)
+                        }
+
+                        self.fetchedWordCount += 1
+                        return card
                     }
-
-                    return card
-                }
-                .catch { error -> Empty<Card, Never> in
-                    self.fetchFailedWords.append(word)
-                    print("Failed fetching: \(word) error: \(error.localizedDescription)")
-                    return Empty()
-                }
-                .eraseToAnyPublisher()
-        }
-
-        return Publishers.MergeMany(fetchPublishers)
-            .collect()
-            .flatMap { $0.publisher }
+                    .catch { error -> Empty<Card, Never> in
+                        self.fetchFailedWords.append(word)
+                        print("Failed fetching: \(word) error: \(error.localizedDescription)")
+                        self.fetchedWordCount += 1
+                        return Empty()
+                    }
+                    .eraseToAnyPublisher()
+            }
+            
+        return fetchPublishers
             .eraseToAnyPublisher()
     }
     

@@ -11,6 +11,7 @@ struct ContentView: View {
     @ObservedObject var filterViewModel = FilterViewModel.shared
     @EnvironmentObject var dataViewModel: DataViewModel
     @State var selectedTab = "book.closed"
+    @State var generatingCards = false
 
     var body: some View {
         ZStack {
@@ -18,7 +19,7 @@ struct ContentView: View {
                 StudyView()
                     .tag("book.closed")
                     .accessibilityIdentifier("StudyView")
-                AddCardView()
+                AddCardView(generatingCards: $generatingCards)
                     .tag("plus.square")
                     .accessibilityIdentifier("AddCardView")
                 CardListView()
@@ -33,6 +34,8 @@ struct ContentView: View {
             VStack {
                 Spacer()
                 CustomTabBar(selectedTab: $selectedTab)
+                    .opacity(generatingCards ? 0.5 : 1)
+                    .disabled(generatingCards)
                 Spacer().frame(height: 20)
             }
         }

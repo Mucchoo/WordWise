@@ -17,7 +17,7 @@ struct StudyView: View {
     @AppStorage("learnedButton") private var learnedButton = true
     @AppStorage("learningButton") private var learningButton = true
     @AppStorage("newButton") private var newButton = true
-    @AppStorage("maximumCards") private var maximumCards = 10
+    @AppStorage("maximumCards") private var maximumCards = 1000
     @AppStorage("failedTimes") private var failedTimes = 0
         
     var body: some View {
