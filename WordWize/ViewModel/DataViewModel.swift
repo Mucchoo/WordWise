@@ -129,6 +129,7 @@ class DataViewModel: ObservableObject {
                     .sink { completion in
                         self.addedCardCount = words.count
                         self.persistence.saveContext()
+                        self.retryFetchingImages()
                         promise(.success(()))
                     } receiveValue: { card in
                         self.cards.append(card)
@@ -205,6 +206,47 @@ class DataViewModel: ObservableObject {
         return fetchPublishers
             .eraseToAnyPublisher()
     }
+    
+    func retryFetchingImages() {
+        let cardsFailedFetchingImages = cards.filter({ $0.imageUrls?.contains("error") ?? false })
+        print("retryFetchingImages for: \(cardsFailedFetchingImages.count) cards")
+        guard !cardsFailedFetchingImages.isEmpty else { return }
+        
+        let fetchPublishers = cardsFailedFetchingImages.publisher
+            .buffer(size: cardsFailedFetchingImages.count, prefetch: .keepFull, whenFull: .dropOldest)
+            .flatMap(maxPublishers: .max(20)) { card -> AnyPublisher<Void, Never> in
+                let fetchImagesData = self.cardService.fetchImages(word: card.unwrappedText)
+
+                return fetchImagesData
+                    .receive(on: DispatchQueue.main)
+                    .map { imageUrls in
+                        card.imageUrls = nil
+                        imageUrls.enumerated().forEach { index, url in
+                            let imageUrl = ImageUrl(context: self.viewContext)
+                            imageUrl.urlString = url
+                            imageUrl.priority = Int64(index)
+                            card.addToImageUrls(imageUrl)
+                        }
+
+                        self.fetchedWordCount += 1
+                        return
+                    }
+                    .catch { error -> Empty<Void, Never> in
+                        print("Failed retry fetching image error: \(error.localizedDescription)")
+                        return Empty()
+                    }
+                    .eraseToAnyPublisher()
+            }
+            
+        fetchPublishers
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                self.persistence.saveContext()
+                self.retryFetchingImages()
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
+    }
+
     
     func resetLearningData() {
         cards.forEach { card in

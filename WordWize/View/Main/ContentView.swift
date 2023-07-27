@@ -41,6 +41,8 @@ struct ContentView: View {
         }
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
+            dataViewModel.retryFetchingImages()
+            
             guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
             
             dataViewModel.addDefaultCategory {

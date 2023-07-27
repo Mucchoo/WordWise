@@ -81,8 +81,10 @@ class NetworkCardService: CardService {
             }
             .decode(type: ImageResponse.self, decoder: JSONDecoder())
             .map { $0.hits.map { $0.webformatURL } }
+            .catch { _ in Result.Publisher(["error"]) }
             .eraseToAnyPublisher()
     }
+
     
     func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
         fetchDefinitionsFromFreeAPI(word: word)
