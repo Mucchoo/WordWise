@@ -24,6 +24,7 @@
 		2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* CardService.swift */; };
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
+		2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */; };
 		2A6F6D612A65C79400529D72 /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6F6D602A65C79400529D72 /* MockCardService.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
 		2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E4402A4851FE005B897C /* NoCardView.swift */; };
@@ -113,6 +114,7 @@
 		2A4804AC2A714ED6003AC26E /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
+		2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewModifier.swift; sourceTree = "<group>"; };
 		2A6F6D602A65C79400529D72 /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		2A71E4402A4851FE005B897C /* NoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardView.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				2ABC637E2A381B2700718C90 /* StudyView.swift */,
 				2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
+				2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */,
 				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
 				2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */,
 				2ACB05762A54F4250080C685 /* FilterPicker.swift */,
@@ -599,6 +602,7 @@
 				2AB6261F2A636B8100C168E1 /* Card+CoreDataProperties.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ActivityViewController.swift in Sources */,
 				2AB626222A636B8100C168E1 /* ImageUrl+CoreDataProperties.swift in Sources */,
+				2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationViewModel.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,

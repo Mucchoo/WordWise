@@ -24,6 +24,7 @@ struct CardView: View {
     @State private var cancellables = Set<AnyCancellable>()
     @State private var showTranslations = false
     @State private var translating = false
+    @State private var showReviewAlert = false
     
     let gridSize = (UIScreen.main.bounds.width - 21) / 2
     
@@ -264,6 +265,10 @@ struct CardView: View {
                             withAnimation(.none) {
                                 if index + 1 == learningCards.count {
                                     isFinished = true
+                                    
+                                    if learningCards.count > 20 {
+                                        showReviewAlert = true
+                                    }
                                 } else {
                                     index += 1
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -284,6 +289,7 @@ struct CardView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+                    .appStoreReviewModifier(showReviewRequest: $showReviewAlert)
                 }.opacity(isFinished ? 0 : 1)
                 
             }
