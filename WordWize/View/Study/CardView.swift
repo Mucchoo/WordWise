@@ -160,17 +160,21 @@ struct CardView: View {
                                     
                                     Spacer().frame(height: 20)
                                     
-                                    VStack(spacing: 2) {
-                                        HStack(spacing: 2) {
-                                            GridImage(card: learningCards[index].card, index: 0, size: gridSize)
-                                            GridImage(card: learningCards[index].card, index: 1, size: gridSize)
+                                    if learningCards[index].card.imageUrlsArray.count > 0 {
+                                        VStack(spacing: 2) {
+                                            HStack(spacing: 2) {
+                                                GridImage(card: learningCards[index].card, index: 0, size: gridSize)
+                                                GridImage(card: learningCards[index].card, index: 1, size: gridSize)
+                                            }
+                                            if learningCards[index].card.imageUrlsArray.count > 2 {
+                                                HStack(spacing: 2) {
+                                                    GridImage(card: learningCards[index].card, index: 2, size: gridSize)
+                                                    GridImage(card: learningCards[index].card, index: 3, size: gridSize)
+                                                }
+                                            }
                                         }
-                                        HStack(spacing: 2) {
-                                            GridImage(card: learningCards[index].card, index: 2, size: gridSize)
-                                            GridImage(card: learningCards[index].card, index: 3, size: gridSize)
-                                        }
+                                        .frame(height: gridSize * 2 + 2)
                                     }
-                                    .frame(height: gridSize * 2 + 2)
                                     
                                     Text("Powered by Pixabay")
                                         .font(.caption2)
