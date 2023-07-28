@@ -75,7 +75,7 @@ struct CardListView: View {
                             }
                             .modifier(BlurBackground())
                             
-                            VStack {
+                            LazyVStack {
                                 ForEach(dataViewModel.cardList, id: \.id) { card in
                                     VStack {
                                         Button(action: {
