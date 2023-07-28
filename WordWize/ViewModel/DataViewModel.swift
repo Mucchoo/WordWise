@@ -83,6 +83,8 @@ class DataViewModel: ObservableObject {
     }
     
     func addCategory(name: String) {
+        guard !categories.contains(where: { $0.name == name }) else { return }
+        
         let category = CardCategory(context: viewContext)
         category.name = name
         persistence.saveContext()
