@@ -21,6 +21,8 @@ extension Card {
     @NSManaged public var id: UUID?
     @NSManaged public var status: Int16
     @NSManaged public var text: String?
+    @NSManaged public var masteryRate: Int16
+    @NSManaged public var nextLearningDate: Date?
     @NSManaged public var imageUrls: NSSet?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
