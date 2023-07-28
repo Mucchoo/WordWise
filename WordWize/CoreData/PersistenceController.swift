@@ -30,15 +30,20 @@ class persistence: ObservableObject {
     }()
     
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "Card")
+        container = NSPersistentCloudKitContainer(name: "Card")
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error.localizedDescription), \(error.userInfo)")
             }
         }
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func saveContext() {
