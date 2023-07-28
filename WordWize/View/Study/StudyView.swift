@@ -18,7 +18,6 @@ struct StudyView: View {
     @AppStorage("learningButton") private var learningButton = true
     @AppStorage("newButton") private var newButton = true
     @AppStorage("maximumCards") private var maximumCards = 1000
-    @AppStorage("failedTimes") private var failedTimes = 0
         
     var body: some View {
         if dataViewModel.cards.isEmpty {
@@ -49,7 +48,6 @@ struct StudyView: View {
                             .frame(height: 30)
                             
                             FilterPicker(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: PickerOptions.maximumCard, id: "studyMaximumCardsPicker")
-                            FilterPicker(description: "Failed Times", value: $failedTimes, labelText: "or more times", options: PickerOptions.failedTime, id: "studyFailedTimesPicker")
                         }
                         .modifier(BlurBackground())
                         
@@ -84,9 +82,6 @@ struct StudyView: View {
                     self.updateCardsToStudy()
                 }
             }
-            .onChange(of: failedTimes) { _ in
-                updateCardsToStudy()
-            }
             .onChange(of: filterViewModel.selectedCategories) { _ in
                 updateCardsToStudy()
             }
@@ -102,9 +97,8 @@ struct StudyView: View {
     private func updateCardsToStudy() {
         let filteredCards = dataViewModel.cards.filter { card in
             let statusFilter = filterViewModel.filterStatus.contains { $0 == card.status }
-            let failedTimesFilter = card.failedTimes >= failedTimes
             let categoryFilter = filterViewModel.selectedCategories.contains { $0 == card.category }
-            return statusFilter && failedTimesFilter && categoryFilter
+            return statusFilter && categoryFilter
         }
         dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }

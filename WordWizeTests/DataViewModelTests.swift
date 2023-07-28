@@ -82,7 +82,6 @@ class DataViewModelTests: XCTestCase {
     func test_updateCard_updatesCardData() {
         let card = dataViewModel.makeTestCard(text: "Test Card")
         card.status = 0
-        card.failedTimes = 0
         
         try! dataViewModel.viewContext.save()
         let loadDataExpectation = expectation(description: "Data Loaded")
@@ -104,7 +103,7 @@ class DataViewModelTests: XCTestCase {
 
         let updateExpectation = expectation(description: "Card Updated")
         
-        dataViewModel.updateCard(id: card.id!, text: "Updated Test Card", category: "Updated Category", status: 1, failedTimesIndex: 1)
+        dataViewModel.updateCard(id: card.id!, text: "Updated Test Card", category: "Updated Category", status: 1)
         
         dataViewModel.$cards
             .sink { cards in

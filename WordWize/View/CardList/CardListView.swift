@@ -27,10 +27,8 @@ struct CardListView: View {
     @State private var cardText = ""
     @State private var cardId: UUID?
     @State private var cardStatus: Int16 = 0
-    @State private var cardFailedTimes = 0
     @State private var cardCategory = ""
 
-    @State private var filterFailedTimes = 0
     @State private var filterCategories: [String] = []
     @State private var filterStatus: [Int16]  = [0, 1, 2]
     
@@ -64,14 +62,6 @@ struct CardListView: View {
                                         CategoryList(categories: $filterCategories)
                                     }
                                 }
-                                
-                                Divider()
-                                
-                                HStack {
-                                    Text("Failed Times")
-                                    Spacer()
-                                    NumberPicker(value: $filterFailedTimes, labelText: "or more times", options: PickerOptions.failedTime, id: "cardListFailedTimesPicker")
-                                }
                             }
                             .modifier(BlurBackground())
                             
@@ -83,7 +73,6 @@ struct CardListView: View {
                                             cardText = card.text ?? ""
                                             cardStatus = card.status
                                             cardCategory = card.category ?? ""
-                                            cardFailedTimes = Int(card.failedTimes)
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
@@ -141,15 +130,6 @@ struct CardListView: View {
                                                     .pickerStyle(MenuPickerStyle())
                                                 }
                                                 .padding(.leading)
-
-                                                Divider()
-
-                                                HStack {
-                                                    Text("Failed Times")
-                                                    Spacer()
-                                                    NumberPicker(value: $filterFailedTimes, labelText: "times", options: PickerOptions.failedTime, id: "cardListFailedTimesPicker")
-                                                }
-                                                .padding(.leading)
                                             }
                                             .padding()
                                             .padding(.top)
@@ -175,7 +155,7 @@ struct CardListView: View {
                                     }
                                     .onChange(of: navigateToCardDetail) { newValue in
                                         if !newValue, let cardId = cardId {
-                                            dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus, failedTimesIndex: Int(cardFailedTimes))
+                                            dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus)
                                         }
                                     }
                                 }
@@ -194,9 +174,6 @@ struct CardListView: View {
                 .onReceive(dataViewModel.$cards) { _ in
                     updateCardList()
                 }
-                .onChange(of: filterFailedTimes) { _ in
-                    updateCardList()
-                }
                 .onChange(of: filterCategories) { _ in
                     updateCardList()
                 }
@@ -211,9 +188,8 @@ struct CardListView: View {
     private func updateCardList() {
         let filteredCards = dataViewModel.cards.filter { card in
             let statusFilter = filterStatus.contains { $0 == card.status }
-            let failedTimesFilter = card.failedTimes >= filterFailedTimes
             let categoryFilter = filterCategories.contains { $0 == card.category }
-            return statusFilter && failedTimesFilter && categoryFilter
+            return statusFilter && categoryFilter
         }
         dataViewModel.cardList = filteredCards
     }

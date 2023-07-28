@@ -66,12 +66,11 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func updateCard(id: UUID, text: String, category: String, status: Int16, failedTimesIndex: Int) {
+    func updateCard(id: UUID, text: String, category: String, status: Int16) {
         if let card = cards.first(where: { $0.id == id }) {
             card.text = text
             card.category = category
             card.status = status
-            card.failedTimes = Int64(PickerOptions.failedTime[failedTimesIndex])
             persistence.saveContext()
         }
     }

@@ -41,12 +41,6 @@ final class CardListViewUITests: XCTestCase {
         helper.checkButtonExistance("Rename")
     }
     
-    func test_failedTimesPicker_shouldRespond() {
-        helper.tapButton("cardListFailedTimesPicker")
-        helper.checkTextExistance("0 or more times")
-        helper.checkTextExistance("Failed Times")
-    }
-    
     func test_testCardList_shouldBeVisible() {
         helper.checkTextExistance("test card 1")
     }

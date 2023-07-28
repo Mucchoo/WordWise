@@ -39,7 +39,6 @@ final class StudyViewUITests: XCTestCase {
     
     func test_AllPickers_shouldExist() {
         helper.checkTextExistance("studyMaximumCardsPicker")
-        helper.checkTextExistance("studyFailedTimesPicker")
     }
     
     func test_AllLabels_shouldExist() {
