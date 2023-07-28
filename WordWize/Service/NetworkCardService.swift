@@ -54,7 +54,9 @@ class NetworkCardService: CardService {
             }
             .decode(type: [WordDefinition].self, decoder: JSONDecoder())
             .tryMap { responses in
-                guard let response = responses.first else {
+                guard let response = responses.first,
+                      let meanings = response.meanings,
+                      meanings.count > 0 else {
                     throw URLError(.badServerResponse)
                 }
                 return response
