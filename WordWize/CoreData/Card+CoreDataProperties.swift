@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
+public enum MasteryRate: Int16 {
+    case zero, twentyFive, fifty, seventyFive, oneHundred
+}
 
 extension Card {
 
@@ -53,6 +56,10 @@ extension Card {
         return urlSet.sorted {
             $0.priority < $1.priority
         }
+    }
+    
+    public var rate: MasteryRate {
+        return MasteryRate(rawValue: masteryRate) ?? .zero
     }
 }
 

@@ -67,7 +67,7 @@
 		2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */; };
 		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
-		2ADC3C292A50A5AE00AA5903 /* ChartBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* ChartBarView.swift */; };
+		2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2ADC3C2F2A50ADE600AA5903 /* StatusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */; };
 		2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */; };
@@ -159,7 +159,7 @@
 		2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewUITests.swift; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
-		2ADC3C282A50A5AE00AA5903 /* ChartBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartBarView.swift; sourceTree = "<group>"; };
+		2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBar.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2ADC3C2E2A50ADE600AA5903 /* StatusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusButton.swift; sourceTree = "<group>"; };
 		2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPicker.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC636C2A38167800718C90 /* AccountView.swift */,
-				2ADC3C282A50A5AE00AA5903 /* ChartBarView.swift */,
+				2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */,
 				2A3C1DEB2A390A2D001B6E0E /* MailView.swift */,
 				2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */,
 				2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */,
@@ -579,7 +579,7 @@
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */,
 				2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */,
-				2ADC3C292A50A5AE00AA5903 /* ChartBarView.swift in Sources */,
+				2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */,
 				2AB76AFF2A63994400C2C260 /* GridImage.swift in Sources */,
 				2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */,
 				2AB6262B2A636DEC00C168E1 /* CardCategory+CoreDataClass.swift in Sources */,

@@ -27,9 +27,11 @@ struct AccountView: View {
                 VStack {
                     VStack {
                         VStack(spacing: 8) {
-                            ChartBarView(status: 0, image: "checkmark", colors: [.black, .navy])
-                            ChartBarView(status: 1, image: "flame.fill", colors: [.navy, .ocean])
-                            ChartBarView(status: 2, image: "star.fill", colors: [.ocean, .teal])
+                            MasteryRateBar(.oneHundred)
+                            MasteryRateBar(.seventyFive)
+                            MasteryRateBar(.fifty)
+                            MasteryRateBar(.twentyFive)
+                            MasteryRateBar(.zero)
                         }
                     }
                     .modifier(BlurBackground())
