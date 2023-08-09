@@ -30,7 +30,8 @@ struct CardView: View {
     
     init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
         _showingCardView = showingCardView
-        _learningCards = State(initialValue: cardsToStudy.map { LearningCard(card: $0) })
+        let cards = cardsToStudy.map { LearningCard(card: $0) }.shuffled()
+        _learningCards = State(initialValue: cards)
     }
     
     var body: some View {
