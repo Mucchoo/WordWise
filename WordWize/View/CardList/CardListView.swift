@@ -43,7 +43,7 @@ struct CardListView: View {
                 VStack {
                     ScrollView {
                         VStack {
-                            StatusFilterView(filterStatus: $filterStatus)
+                            MasteryRateCountsView()
                             
                             VStack(spacing: 4) {
                                 HStack {

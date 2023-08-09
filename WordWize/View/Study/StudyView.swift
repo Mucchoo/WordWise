@@ -18,7 +18,7 @@ struct StudyView: View {
     @AppStorage("learningButton") private var learningButton = true
     @AppStorage("newButton") private var newButton = true
     @AppStorage("maximumCards") private var maximumCards = 1000
-        
+
     var body: some View {
         if dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
@@ -26,7 +26,7 @@ struct StudyView: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        StatusFilterView(filterStatus: $filterViewModel.filterStatus)
+                        MasteryRateCountsView()
                         
                         VStack {
                             HStack {

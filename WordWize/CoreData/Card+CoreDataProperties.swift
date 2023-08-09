@@ -9,10 +9,6 @@
 import Foundation
 import CoreData
 
-public enum MasteryRate: Int16 {
-    case zero, twentyFive, fifty, seventyFive, oneHundred
-}
-
 extension Card {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Card> {
