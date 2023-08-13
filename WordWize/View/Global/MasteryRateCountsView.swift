@@ -1,5 +1,5 @@
 //
-//  MasteryRateCountView.swift
+//  MasteryRateCountsView.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/2/23.
