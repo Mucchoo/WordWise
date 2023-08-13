@@ -32,14 +32,6 @@ class DataViewModel: ObservableObject {
     let persistence: Persistence
     let viewContext: NSManagedObjectContext
     
-    var maxStatusCount: Int {
-        let statuses = [0, 1, 2]
-        let counts = statuses.map { status -> Int in
-            return cards.filter { $0.status == Int16(status) }.count
-        }
-        return counts.max() ?? 0
-    }
-    
     init(cardService: CardService, persistence: Persistence) {
         self.cardService = cardService
         self.persistence = persistence

@@ -13,12 +13,25 @@ struct MasteryRateBar: View {
     @State private var progress: CGFloat = 0
     @State private var isLoaded = false
     @State private var countText = ""
+    @State var categoryName = ""
+    @State var cards: [Card] = []
     
     let rateText: String
     let colors: [Color]
     let rate: MasteryRate
     
-    init(_ rate: MasteryRate) {
+    var maxCount: Int {
+        let rates: [MasteryRate] = [.zero, .twentyFive, .fifty, .seventyFive, .oneHundred]
+        let counts = rates.map { rate -> Int in
+            return cards.filter { $0.masteryRate == rate.rawValue }.count
+        }
+        
+        let maxCount = counts.max() ?? 0
+        
+        return maxCount > 0 ? maxCount : 1
+    }
+    
+    init(_ rate: MasteryRate, categoryName: String = "") {
         self.rate = rate
         
         switch rate {
@@ -39,7 +52,7 @@ struct MasteryRateBar: View {
             colors = [.ocean, .teal, .teal]
         }
     }
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
@@ -70,18 +83,33 @@ struct MasteryRateBar: View {
                 .frame(width: 85 + progress * (geometry.size.width - 85), height: 30)
                 .animation(isLoaded ? .easeInOut(duration: 1) : .none, value: isLoaded)
             }
-            .onAppear {
-                isLoaded = false
-                countText = "\(dataViewModel.cards.filter { $0.rate == rate }.count)"
-                progress = dataViewModel.maxStatusCount > 0 ? CGFloat(dataViewModel.cards.filter { $0.rate == rate }.count) / CGFloat(dataViewModel.maxStatusCount) : 0
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    isLoaded = true
-                }
-            }
         }
         .frame(height: 30)
         .accessibilityIdentifier("chartBar\(rate)")
+        .onAppear {
+            updateCards()
+
+            isLoaded = false
+            countText = "\(cards.filter { $0.rate == rate }.count)"
+            progress = CGFloat(cards.filter { $0.rate == rate }.count) / CGFloat(maxCount)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isLoaded = true
+            }
+        }
+        .onReceive(dataViewModel.$cards) { _ in
+            DispatchQueue.main.async {
+                self.updateCards()
+            }
+        }
+    }
+    
+    private func updateCards() {
+        if categoryName.isEmpty {
+            cards = dataViewModel.cards
+        } else {
+            cards = dataViewModel.cards.filter({ $0.category == categoryName })
+        }
     }
 }
 
