@@ -73,4 +73,5 @@ struct CategoryListView: View {
 
 #Preview {
     CategoryListView()
+        .injectMockDataViewModelForPreview()
 }

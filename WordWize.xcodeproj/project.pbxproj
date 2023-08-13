@@ -26,7 +26,6 @@
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */; };
-		2A6F6D612A65C79400529D72 /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6F6D602A65C79400529D72 /* MockCardService.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
 		2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E4402A4851FE005B897C /* NoCardView.swift */; };
 		2A737B332A6DA3B1002814E2 /* translationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B322A6DA3B1002814E2 /* translationViewModel.swift */; };
@@ -62,6 +61,7 @@
 		2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddCardView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* PersistenceController.swift */; };
+		2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */; };
 		2AC83E442A4D07A9002AC7D5 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */; };
 		2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* FilterPicker.swift */; };
 		2ACB05792A54F5E00080C685 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05782A54F5E00080C685 /* FilterViewModel.swift */; };
@@ -118,7 +118,6 @@
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewModifier.swift; sourceTree = "<group>"; };
-		2A6F6D602A65C79400529D72 /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		2A71E4402A4851FE005B897C /* NoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardView.swift; sourceTree = "<group>"; };
 		2A737B322A6DA3B1002814E2 /* translationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = translationViewModel.swift; sourceTree = "<group>"; };
@@ -155,6 +154,7 @@
 		2ABC637C2A38194300718C90 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2ABD50272A40F461000459BC /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
 		2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
 		2ACB05762A54F4250080C685 /* FilterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPicker.swift; sourceTree = "<group>"; };
 		2ACB05782A54F5E00080C685 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
@@ -215,7 +215,6 @@
 				2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */,
 				2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */,
 				2A3154DE2A64547E008A66F1 /* FilterViewModelTests.swift */,
-				2A6F6D602A65C79400529D72 /* MockCardService.swift */,
 			);
 			path = WordWizeTests;
 			sourceTree = "<group>";
@@ -225,6 +224,7 @@
 			children = (
 				2A4804AC2A714ED6003AC26E /* CardService.swift */,
 				2A2015C52A63F42300C67716 /* NetworkCardService.swift */,
+				2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -551,7 +551,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A6F6D612A65C79400529D72 /* MockCardService.swift in Sources */,
 				2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */,
 				2A2015BC2A63D9EA00C67716 /* WordWizeTests.swift in Sources */,
 				2A3154DF2A64547E008A66F1 /* FilterViewModelTests.swift in Sources */,
@@ -598,6 +597,7 @@
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AB626202A636B8100C168E1 /* Meaning+CoreDataProperties.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */,
+				2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */,
 				2A01FA152A4C8CDA00C7C1CE /* TabCurve.swift in Sources */,
 				2ADC3C2F2A50ADE600AA5903 /* MasteryRateCountView.swift in Sources */,
 				2A01FA132A4C8B2300C7C1CE /* CustomTabBar.swift in Sources */,

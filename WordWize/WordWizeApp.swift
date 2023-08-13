@@ -15,7 +15,7 @@ struct WordWizeApp: App {
     @StateObject private var dataViewModel: DataViewModel = {
         let useInMemory = Self.shouldUseInMemory
         let persistence = Persistence(inMemory: useInMemory)
-        let cardService = NetworkCardService()
+        let cardService: CardService = Self.isRunningForPreviews ? MockCardService() : NetworkCardService()
         return DataViewModel(cardService: cardService, persistence: persistence)
     }()
     
@@ -30,7 +30,7 @@ struct WordWizeApp: App {
     init() {
         let useInMemory = Self.shouldUseInMemory
         self.persistence = .init(inMemory: useInMemory)
-        self.cardService = NetworkCardService()
+        self.cardService = Self.isRunningForPreviews ? MockCardService() : NetworkCardService()
     }
 
     var body: some Scene {
@@ -38,6 +38,19 @@ struct WordWizeApp: App {
             ContentView()
                 .environment(\.managedObjectContext, persistence.viewContext)
                 .environmentObject(dataViewModel)
+        }
+    }
+}
+
+extension View {
+    func injectMockDataViewModelForPreview() -> some View {
+        let isRunningForPreviews: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+        
+        if isRunningForPreviews {
+            let mockModel = DataViewModel(cardService: MockCardService(), persistence: .init(inMemory: true))
+            return AnyView(self.environmentObject(mockModel))
+        } else {
+            return AnyView(self)
         }
     }
 }
