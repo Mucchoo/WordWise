@@ -7,15 +7,15 @@
 
 import CoreData
 
-class persistence: ObservableObject {
+class Persistence: ObservableObject {
     let container: NSPersistentContainer
         
     var viewContext: NSManagedObjectContext {
         return container.viewContext
     }
     
-    static var preview: persistence = {
-        let result = persistence(inMemory: true)
+    static var preview: Persistence = {
+        let result = Persistence(inMemory: true)
         let viewContext = result.container.viewContext
         
         for i in 0..<100 {

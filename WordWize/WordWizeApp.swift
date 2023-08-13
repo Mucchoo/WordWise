@@ -9,16 +9,28 @@ import SwiftUI
 
 @main
 struct WordWizeApp: App {
-    let persistence: persistence
-    let cardService: CardService
-    @StateObject var dataViewModel: DataViewModel
+    private var persistence: Persistence
+    private var cardService: CardService
+    
+    @StateObject private var dataViewModel: DataViewModel = {
+        let useInMemory = Self.shouldUseInMemory
+        let persistence = Persistence(inMemory: useInMemory)
+        let cardService = NetworkCardService()
+        return DataViewModel(cardService: cardService, persistence: persistence)
+    }()
+    
+    private static var isRunningForPreviews: Bool {
+        ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+    }
+
+    private static var shouldUseInMemory: Bool {
+        isRunningForPreviews || CommandLine.arguments.contains("FOR_TESTING")
+    }
 
     init() {
-        persistence = .init(inMemory: CommandLine.arguments.contains("FOR_TESTING"))
-        
+        let useInMemory = Self.shouldUseInMemory
+        self.persistence = .init(inMemory: useInMemory)
         self.cardService = NetworkCardService()
-        let dataViewModel = DataViewModel(cardService: cardService, persistence: persistence)
-        self._dataViewModel = StateObject(wrappedValue: dataViewModel)
     }
 
     var body: some Scene {

@@ -315,6 +315,6 @@ struct CardView_Previews: PreviewProvider {
 
     static var previews: some View {
         CardView(showingCardView: $showingCardView, cardsToStudy: [])
-            .environment(\.managedObjectContext, persistence.preview.container.viewContext)
+            .environment(\.managedObjectContext, Persistence.preview.container.viewContext)
     }
 }

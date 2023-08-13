@@ -29,7 +29,7 @@ class DataViewModel: ObservableObject {
     var fetchFailedWords: [String] = []
     var addedCardCount = 0
     let cardService: CardService
-    let persistence: persistence
+    let persistence: Persistence
     let viewContext: NSManagedObjectContext
     
     var maxStatusCount: Int {
@@ -40,7 +40,7 @@ class DataViewModel: ObservableObject {
         return counts.max() ?? 0
     }
     
-    init(cardService: CardService, persistence: persistence) {
+    init(cardService: CardService, persistence: Persistence) {
         self.cardService = cardService
         self.persistence = persistence
         self.viewContext = persistence.viewContext
