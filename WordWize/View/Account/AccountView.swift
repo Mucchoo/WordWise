@@ -26,13 +26,7 @@ struct AccountView: View {
             ScrollView {
                 VStack {
                     VStack {
-                        VStack(spacing: 8) {
-                            MasteryRateBar(.oneHundred)
-                            MasteryRateBar(.seventyFive)
-                            MasteryRateBar(.fifty)
-                            MasteryRateBar(.twentyFive)
-                            MasteryRateBar(.zero)
-                        }
+                        MasteryRateBars()
                     }
                     .modifier(BlurBackground())
                     

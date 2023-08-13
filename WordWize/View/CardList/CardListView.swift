@@ -27,7 +27,7 @@ struct CardListView: View {
     @State private var cardText = ""
     @State private var cardId: UUID?
     @State private var cardStatus: Int16 = 0
-    @State private var cardCategory = ""
+    @State var categoryName = ""
 
     @State private var filterCategories: [String] = []
     @State private var filterStatus: [Int16]  = [0, 1, 2]
@@ -72,7 +72,7 @@ struct CardListView: View {
                                             cardId = card.id
                                             cardText = card.text ?? ""
                                             cardStatus = card.status
-                                            cardCategory = card.category ?? ""
+                                            categoryName = card.category ?? ""
                                             navigateToCardDetail = true
                                         }) {
                                             HStack{
@@ -107,7 +107,7 @@ struct CardListView: View {
                                                 HStack {
                                                     Text("Category")
                                                     Spacer()
-                                                    Picker("Category", selection: $cardCategory) {
+                                                    Picker("Category", selection: $categoryName) {
                                                         ForEach(dataViewModel.categories) { category in
                                                             let name = category.name ?? ""
                                                             Text(name).tag(name)
@@ -155,7 +155,7 @@ struct CardListView: View {
                                     }
                                     .onChange(of: navigateToCardDetail) { newValue in
                                         if !newValue, let cardId = cardId {
-                                            dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus)
+                                            dataViewModel.updateCard(id: cardId, text: cardText, category: categoryName, status: cardStatus)
                                         }
                                     }
                                 }
@@ -165,7 +165,7 @@ struct CardListView: View {
                     }
                 }
                 .background(BackgroundView())
-                .navigationBarTitle("Card List", displayMode: .large)
+                .navigationBarTitle(categoryName, displayMode: .large)
                 .onAppear {
                     guard isFirstAppearance else { return }
                     filterCategories = dataViewModel.categories.map { $0.name ?? "" }

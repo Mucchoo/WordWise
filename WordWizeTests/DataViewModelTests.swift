@@ -165,7 +165,7 @@ class DataViewModelTests: XCTestCase {
         let addExpectation = waitForCategoryChange(to: { !$0.isEmpty }, description: "Category added")
         wait(for: [addExpectation], timeout: 1)
         
-        dataViewModel.deleteCategory(name: "Test Category")
+        dataViewModel.deleteCategoryAndItsCards(name: "Test Category")
         
         let deleteExpectation = waitForCategoryChange(to: { $0.isEmpty }, description: "Category deleted")
         wait(for: [deleteExpectation], timeout: 1)

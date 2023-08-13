@@ -103,12 +103,25 @@ class DataViewModel: ObservableObject {
             
             category.name = after
             persistence.saveContext()
+            loadData()
         }
     }
     
-    func deleteCategory(name: String) {
+    func deleteCategoryAndItsCards(name: String) {
         guard let category = categories.first(where: { $0.name == name }) else { return }
         viewContext.delete(category)
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Card.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "category == %@", name)
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try viewContext.execute(batchDeleteRequest)
+        } catch {
+            print("Failed to execute batch delete: \(error)")
+        }
+        
         persistence.saveContext()
         
         DispatchQueue.main.async {

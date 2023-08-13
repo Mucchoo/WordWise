@@ -47,7 +47,7 @@ struct CategoryList: View {
                                 }
                             } else {
                                 Button {
-                                    dataViewModel.deleteCategory(name: category.name ?? "")
+                                    dataViewModel.deleteCategoryAndItsCards(name: category.name ?? "")
                                 } label: {
                                     Text("Delete")
                                         .fontWeight(.bold)

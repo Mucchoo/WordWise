@@ -26,6 +26,7 @@
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */; };
+		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
 		2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E4402A4851FE005B897C /* NoCardView.swift */; };
 		2A737B332A6DA3B1002814E2 /* translationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B322A6DA3B1002814E2 /* translationViewModel.swift */; };
@@ -119,6 +120,7 @@
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewModifier.swift; sourceTree = "<group>"; };
+		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		2A71E4402A4851FE005B897C /* NoCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardView.swift; sourceTree = "<group>"; };
 		2A737B322A6DA3B1002814E2 /* translationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = translationViewModel.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				2ABC636C2A38167800718C90 /* AccountView.swift */,
 				2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */,
+				2A581C222A89241900A86494 /* MasteryRateBars.swift */,
 				2A3C1DEB2A390A2D001B6E0E /* MailView.swift */,
 				2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */,
 				2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */,
@@ -634,6 +637,7 @@
 				2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */,
 				2A737B3A2A6DFE9C002814E2 /* Definition+CoreDataProperties.swift in Sources */,
 				2AFBEAC72A5187D30049290E /* MasteryRateCountsView.swift in Sources */,
+				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
 				2A737B3B2A6DFE9C002814E2 /* Definition+CoreDataClass.swift in Sources */,
 				2AFBEAC52A5178320049290E /* DefinitionDetailView.swift in Sources */,
 			);
