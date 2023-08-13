@@ -197,25 +197,7 @@ struct AddCardView: View {
     }
 }
 
-final class KeyboardResponder: ObservableObject {
-    @Published private(set) var currentHeight: CGFloat = 0
-
-    private var cancellable: AnyCancellable?
-
-    init() {
-        let keyboardWillShow = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-            .map { $0.keyboardHeight }
-
-        let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
-
-        cancellable = Publishers.Merge(keyboardWillShow, keyboardWillHide)
-            .assign(to: \.currentHeight, on: self)
-    }
-}
-
-private extension Notification {
-    var keyboardHeight: CGFloat {
-        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
-    }
+#Preview {
+    AddCardView(generatingCards: .constant(false))
+        .injectMockDataViewModelForPreview()
 }

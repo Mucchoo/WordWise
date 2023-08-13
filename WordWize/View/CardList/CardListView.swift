@@ -194,9 +194,3 @@ struct CardListView: View {
         dataViewModel.cardList = filteredCards
     }
 }
-
-struct CardListView_Previews: PreviewProvider {
-    static var previews: some View {
-        CardListView()
-    }
-}

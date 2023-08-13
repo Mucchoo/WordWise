@@ -62,6 +62,7 @@
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* PersistenceController.swift */; };
 		2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */; };
+		2ABDB1E82A88ED870036A4DB /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E72A88ED870036A4DB /* KeyboardResponder.swift */; };
 		2AC83E442A4D07A9002AC7D5 /* ParticleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */; };
 		2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* FilterPicker.swift */; };
 		2ACB05792A54F5E00080C685 /* FilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05782A54F5E00080C685 /* FilterViewModel.swift */; };
@@ -155,6 +156,7 @@
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2ABD50272A40F461000459BC /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
+		2ABDB1E72A88ED870036A4DB /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 		2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleEffect.swift; sourceTree = "<group>"; };
 		2ACB05762A54F4250080C685 /* FilterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPicker.swift; sourceTree = "<group>"; };
 		2ACB05782A54F5E00080C685 /* FilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModel.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				2ABC637C2A38194300718C90 /* AddCardView.swift */,
+				2ABDB1E72A88ED870036A4DB /* KeyboardResponder.swift */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2AB7C9682A512BD600A703FA /* BackgroundView.swift in Sources */,
+				2ABDB1E82A88ED870036A4DB /* KeyboardResponder.swift in Sources */,
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AB626202A636B8100C168E1 /* Meaning+CoreDataProperties.swift in Sources */,

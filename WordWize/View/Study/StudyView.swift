@@ -103,3 +103,8 @@ struct StudyView: View {
         dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }
 }
+
+#Preview {
+    StudyView()
+        .injectMockDataViewModelForPreview()
+}
