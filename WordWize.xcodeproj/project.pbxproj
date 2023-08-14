@@ -26,6 +26,7 @@
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */; };
 		2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */; };
+		2A4EDE3E2A89BAF000D36526 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */; };
 		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
@@ -122,6 +123,7 @@
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailSheetView.swift; sourceTree = "<group>"; };
 		2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRowView.swift; sourceTree = "<group>"; };
+		2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewModifier.swift; sourceTree = "<group>"; };
 		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				2A71E43E2A48500E005B897C /* CardListView.swift */,
+				2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */,
 				2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */,
 				2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */,
 				2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */,
@@ -600,6 +603,7 @@
 				2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */,
 				2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */,
 				2AB76AFF2A63994400C2C260 /* GridImage.swift in Sources */,
+				2A4EDE3E2A89BAF000D36526 /* SearchBar.swift in Sources */,
 				2ABD50282A40F461000459BC /* PersistenceController.swift in Sources */,
 				2AB6262B2A636DEC00C168E1 /* CardCategory+CoreDataClass.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
