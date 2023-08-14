@@ -13,7 +13,6 @@ class DataViewModel: ObservableObject {
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
-    @Published var cardList: [Card] = []
     @Published var requestedWordCount = 0 {
         didSet {
             print("requestedWordCount: \(requestedWordCount)")

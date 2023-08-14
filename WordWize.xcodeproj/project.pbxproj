@@ -24,6 +24,8 @@
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
 		2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* CardService.swift */; };
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
+		2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */; };
+		2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */; };
 		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
@@ -118,6 +120,8 @@
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		2A4804AC2A714ED6003AC26E /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
+		2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailSheetView.swift; sourceTree = "<group>"; };
+		2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRowView.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreReviewModifier.swift; sourceTree = "<group>"; };
 		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
@@ -333,6 +337,8 @@
 			isa = PBXGroup;
 			children = (
 				2A71E43E2A48500E005B897C /* CardListView.swift */,
+				2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */,
+				2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */,
 				2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */,
 			);
 			path = CardList;
@@ -587,6 +593,7 @@
 				2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */,
 				2AB6262A2A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift in Sources */,
 				2AB6261D2A636B8100C168E1 /* ImageUrl+CoreDataClass.swift in Sources */,
+				2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */,
 				2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */,
@@ -619,6 +626,7 @@
 				2AB626222A636B8100C168E1 /* ImageUrl+CoreDataProperties.swift in Sources */,
 				2A52F0992A72EB6B00496F02 /* AppStoreReviewModifier.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
+				2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationViewModel.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
