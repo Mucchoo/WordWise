@@ -32,6 +32,14 @@ struct AlertControllerView<Content: View>: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
         guard context.coordinator.isAlertBeingPresented == false else { return }
         
+        if !isPresented {
+            if let alertController = context.coordinator.alertController,
+               alertController.isBeingPresented {
+                uiViewController.dismiss(animated: true, completion: nil)
+            }
+            return
+        }
+
         let hostingController = UIHostingController(rootView: content)
         hostingController.view.backgroundColor = .clear
 

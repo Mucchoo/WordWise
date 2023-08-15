@@ -55,9 +55,9 @@ struct CardListView: View {
                     }
                 }
             },
-            customAction: .init(title: "Change", style: .default, handler: { _ in
+            customAction: .init(title: "Change", style: .default) { _ in
                 dataViewModel.changeCategory(of: selectedCards, newCategory: changeCategoryDestination)
-            }))
+            })
         )
         .navigationBarTitle(categoryName, displayMode: .large)
         .navigationBarItems(leading:
