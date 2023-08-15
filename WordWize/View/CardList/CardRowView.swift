@@ -15,25 +15,34 @@ struct CardRowView: View {
     @State private var cardStatus: Int16 = 0
     @State private var cardCategory = ""
     @State private var navigateToCardDetail: Bool = false
+    @State private var isCardSelected = false
     
     let card: Card
     let lastCardId: UUID?
+    @Binding var manageMode: Bool
+    @Binding var selectedCards: [Card]
     let updateCardList: () -> Void
-
+    
     var body: some View {
         VStack {
             Button(action: {
-                setupDetailView(card)
+                if manageMode {
+                    selectCard()
+                } else {
+                    setupDetailView(card)
+                }
             }) {
                 HStack {
-                    Image(systemName: card.status == 0 ? "checkmark.circle.fill" : card.status == 1 ? "flame.circle.fill" : "star.circle.fill")
-                        .foregroundColor(card.status == 0 ? .navy : card.status == 1 ? .ocean : .teal)
-                        .font(.system(size: 16))
-                        .fontWeight(.black)
-                        .frame(width: 20, height: 20, alignment: .center)
+                    if manageMode {
+                        Image(systemName: isCardSelected ? "checkmark.circle.fill" : "circle")
+                            .foregroundColor(.blue)
+                            .font(.system(size: 16))
+                            .fontWeight(isCardSelected ? .black : .regular)
+                            .frame(width: 20, height: 20, alignment: .center)
+                    }
                     
                     Text(card.text ?? "Unknown")
-                        .foregroundColor(Color(UIColor(.primary)))
+                        .foregroundColor(.primary)
                     Spacer()
                 }
             }
@@ -72,5 +81,15 @@ struct CardRowView: View {
         cardStatus = card.status
         cardCategory = card.category ?? ""
         navigateToCardDetail = true
+    }
+    
+    private func selectCard() {
+        isCardSelected.toggle()
+
+        if isCardSelected {
+            selectedCards.append(card)
+        } else {
+            selectedCards.removeAll(where: { $0 == card })
+        }
     }
 }

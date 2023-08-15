@@ -72,6 +72,15 @@ class DataViewModel: ObservableObject {
         loadData()
     }
     
+    func deleteCards(_ cards: [Card]) {
+        cards.forEach { card in
+            viewContext.delete(card)
+        }
+        
+        persistence.saveContext()
+        loadData()
+    }
+    
     func addCategory(name: String) {
         guard !categories.contains(where: { $0.name == name }) else { return }
         
@@ -190,7 +199,7 @@ class DataViewModel: ObservableObject {
                         }
 
                         imageUrls.enumerated().forEach { index, url in
-                            let imageUrl = ImageUrl(context: self.viewContext) // Thread 11: EXC_BAD_ACCESS (code=1, address=0xfffffffffffffff8)
+                            let imageUrl = ImageUrl(context: self.viewContext)
                             imageUrl.urlString = url
                             imageUrl.priority = Int64(index)
                             card.addToImageUrls(imageUrl)
@@ -259,6 +268,14 @@ class DataViewModel: ObservableObject {
             card.status = 2
         }
         persistence.saveContext()
+    }
+    
+    func resetMasteryRate(cards: [Card]) {
+        cards.forEach { card in
+            card.masteryRate = 0
+        }
+        persistence.saveContext()
+        loadData()
     }
     
     func addDefaultCategory(completion: (() -> ())? = nil) {
