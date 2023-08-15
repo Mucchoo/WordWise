@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ClubbedView: View {
     @Environment(\.colorScheme) var colorScheme
-    var isNoCardView = false
     @State private var animate = false
     
     let timer = Timer.publish(every: 20, on: .main, in: .common).autoconnect()
@@ -36,23 +35,21 @@ struct ClubbedView: View {
                         }
                     }
                     
-                    if isNoCardView {
-                        Canvas { context, size in
-                            context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
-                            context.addFilter(.blur(radius: 30))
-                            context.drawLayer { ctx in
-                                for index in 1...5 {
-                                    if let resolvedView = context.resolveSymbol(id: index) {
-                                        ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
-                                    }
+                    Canvas { context, size in
+                        context.addFilter(.alphaThreshold(min: 0.5, color: .yellow))
+                        context.addFilter(.blur(radius: 30))
+                        context.drawLayer { ctx in
+                            for index in 1...5 {
+                                if let resolvedView = context.resolveSymbol(id: index) {
+                                    ctx.draw(resolvedView, at: CGPoint(x: size.width / 2, y: size.height / 2))
                                 }
                             }
-                        } symbols: {
-                            ForEach(1...5, id: \.self) { index in
-                                let offset = CGSize(width: .random(in: -50...50), height: .random(in: -50...50))
-                                ClubbedRoundedRectangle(offset: offset, width: 350, height: 350, corner: 175)
-                                    .tag(index)
-                            }
+                        }
+                    } symbols: {
+                        ForEach(1...5, id: \.self) { index in
+                            let offset = CGSize(width: .random(in: -50...50), height: .random(in: -50...50))
+                            ClubbedRoundedRectangle(offset: offset, width: 350, height: 350, corner: 175)
+                                .tag(index)
                         }
                     }
                 }
@@ -80,7 +77,11 @@ struct ClubbedView: View {
 
 extension CGSize {
     static func randomOffset() -> CGSize {
-        return CGSize(width: .random(in: -300...300), height: .random(in: -500...500))
+        let horizontalRange = UIScreen.main.bounds.width / 2 + 100
+        let verticalRange = UIScreen.main.bounds.height / 2 + 100
+        return CGSize(
+            width: .random(in: -horizontalRange...horizontalRange),
+            height: .random(in: -verticalRange...verticalRange))
     }
 }
 

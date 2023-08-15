@@ -14,8 +14,6 @@ struct BackgroundView: View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: colorScheme == .light ? [.mint, .white] : [.black, .navy]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-            ClubbedView()
-                .edgesIgnoringSafeArea(.all)
         }
     }
 }

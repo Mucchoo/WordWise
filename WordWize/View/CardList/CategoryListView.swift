@@ -74,7 +74,7 @@ struct CategoryListView: View {
                                             Image(systemName: "ellipsis.circle.fill")
                                                 .resizable()
                                                 .frame(width: 35, height: 35)
-                                                .foregroundColor(colorScheme == .dark ? .ocean : .navy)
+                                                .foregroundColor(colorScheme == .dark ? .teal : .navy)
                                         }
                                         
                                         Spacer()
