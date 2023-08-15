@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategoryListView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var dataViewModel: DataViewModel
     
     @State private var showingRenameAlert = false
@@ -73,7 +74,7 @@ struct CategoryListView: View {
                                             Image(systemName: "ellipsis.circle.fill")
                                                 .resizable()
                                                 .frame(width: 35, height: 35)
-                                                .foregroundColor(.navy)
+                                                .foregroundColor(colorScheme == .dark ? .ocean : .navy)
                                         }
                                         
                                         Spacer()

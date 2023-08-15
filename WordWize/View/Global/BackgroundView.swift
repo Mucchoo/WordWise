@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct BackgroundView: View {
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         ZStack {
-            Color(UIColor.systemGroupedBackground)
+            LinearGradient(gradient: Gradient(colors: colorScheme == .light ? [.mint, .white] : [.black, .navy]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
             ClubbedView()
                 .edgesIgnoringSafeArea(.all)
