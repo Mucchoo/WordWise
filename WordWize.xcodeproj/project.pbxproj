@@ -78,6 +78,7 @@
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2ADC3C2F2A50ADE600AA5903 /* MasteryRateCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */; };
 		2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */; };
+		2AE09F562A8B12D700095107 /* AlertControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE09F552A8B12D700095107 /* AlertControllerView.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
 		2AFBEAC52A5178320049290E /* DefinitionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */; };
@@ -177,6 +178,7 @@
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateCountView.swift; sourceTree = "<group>"; };
 		2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPicker.swift; sourceTree = "<group>"; };
+		2AE09F552A8B12D700095107 /* AlertControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerView.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionDetailView.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				2A71E43E2A48500E005B897C /* CardListView.swift */,
+				2AE09F552A8B12D700095107 /* AlertControllerView.swift */,
 				2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */,
 				2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */,
 				2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */,
@@ -632,6 +635,7 @@
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationViewModel.swift in Sources */,
+				2AE09F562A8B12D700095107 /* AlertControllerView.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,

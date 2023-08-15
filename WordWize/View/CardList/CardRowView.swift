@@ -19,21 +19,21 @@ struct CardRowView: View {
     
     let card: Card
     let lastCardId: UUID?
-    @Binding var manageMode: Bool
+    @Binding var selectMode: Bool
     @Binding var selectedCards: [Card]
     let updateCardList: () -> Void
     
     var body: some View {
         VStack {
             Button(action: {
-                if manageMode {
+                if selectMode {
                     selectCard()
                 } else {
                     setupDetailView(card)
                 }
             }) {
                 HStack {
-                    if manageMode {
+                    if selectMode {
                         Image(systemName: isCardSelected ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(.blue)
                             .font(.system(size: 16))

@@ -10,13 +10,18 @@ import SwiftUI
 struct CardListView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     
-    @State var categoryName = ""
     @State private var searchBarText = ""
     @State private var cardList: [Card] = []
     @State private var selectMode = false
     @State private var selectedCards: [Card] = []
-    
-    @State private var showingChangeCategoryAlert = false
+    @State private var changeCategoryDestination = ""
+    @State var categoryName = "" {
+        didSet {
+            changeCategoryDestination = categoryName
+        }
+    }
+
+    @State private var showingChangeCategoryView = false
     @State private var showingResetMasteryRateyAlert = false
     @State private var showingDeleteCardsAlert = false
     
@@ -37,6 +42,23 @@ struct CardListView: View {
             }
         }
         .background(BackgroundView())
+        .background(AlertControllerView(
+            isPresented: $showingChangeCategoryView,
+            title: "Change Category",
+            message: "Select new category for the \(selectedCards.count) cards.",
+            content: {
+                VStack {
+                    Picker("", selection: $changeCategoryDestination) {
+                        ForEach(dataViewModel.categories, id: \.self) { category in
+                            Text(category.name ?? "").tag(category.name)
+                        }
+                    }
+                }
+            },
+            customAction: .init(title: "Change", style: .default, handler: { _ in
+                dataViewModel.changeCategory(of: selectedCards, newCategory: changeCategoryDestination)
+            }))
+        )
         .navigationBarTitle(categoryName, displayMode: .large)
         .navigationBarItems(leading:
             Group {
@@ -54,7 +76,7 @@ struct CardListView: View {
                     } else {
                         Menu("Actions...") {
                             Button(action: {
-                                showingChangeCategoryAlert = true
+                                showingChangeCategoryView = true
                             }) {
                                 Label("Change Category", systemImage: "folder.fill")
                             }
@@ -69,6 +91,7 @@ struct CardListView: View {
                                 showingDeleteCardsAlert = true
                             }) {
                                 Label("Delete Cards", systemImage: "trash.fill")
+                                    .foregroundColor(Color.red)
                             }
                         }
                         .foregroundStyle(Color.white)

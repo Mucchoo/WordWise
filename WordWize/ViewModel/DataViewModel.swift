@@ -129,6 +129,15 @@ class DataViewModel: ObservableObject {
         }
     }
     
+    func changeCategory(of cards: [Card], newCategory: String) {
+        cards.forEach { card in
+            card.category = newCategory
+        }
+        
+        persistence.saveContext()
+        loadData()
+    }
+    
     func addCardPublisher(text: String, category: String) -> AnyPublisher<Void, Never> {
         fetchFailedWords = []
         
