@@ -10,7 +10,7 @@ import SwiftUI
 struct MasteryRateBar: View {
     @EnvironmentObject var dataViewModel: DataViewModel
 
-    @State private var progress: CGFloat = 0
+    @State private var ratio: CGFloat = 0
     @State private var isLoaded = false
     @State private var countText = ""
     @State var categoryName = ""
@@ -60,8 +60,8 @@ struct MasteryRateBar: View {
                     .fill(
                         LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     )
-                    .frame(width: 90 + progress * (geometry.size.width - 90), height: 30)
-                    .animation(.easeInOut(duration: 1), value: progress)
+                    .frame(width: 90 + ratio * (geometry.size.width - 90), height: 30)
+                    .animation(.easeInOut(duration: 1), value: ratio)
                 HStack(spacing: 2) {
                     Text(rateText)
                         .foregroundStyle(.white)
@@ -80,7 +80,7 @@ struct MasteryRateBar: View {
                     Spacer()
                         .frame(width: 6)
                 }
-                .frame(width: 85 + progress * (geometry.size.width - 85), height: 30)
+                .frame(width: 85 + ratio * (geometry.size.width - 85), height: 30)
                 .animation(isLoaded ? .easeInOut(duration: 1) : .none, value: isLoaded)
             }
         }
@@ -91,7 +91,7 @@ struct MasteryRateBar: View {
 
             isLoaded = false
             countText = "\(cards.filter { $0.rate == rate }.count)"
-            progress = CGFloat(cards.filter { $0.rate == rate }.count) / CGFloat(maxCount)
+            ratio = CGFloat(cards.filter { $0.rate == rate }.count) / CGFloat(maxCount)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 isLoaded = true
