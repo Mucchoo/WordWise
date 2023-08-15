@@ -10,6 +10,7 @@ import SwiftUI
 struct MasteryRateBar: View {
     @EnvironmentObject var dataViewModel: DataViewModel
 
+    @State private var barWidth: CGFloat = 45
     @State private var ratio: CGFloat = 0
     @State private var isLoaded = false
     @State private var countText = ""
@@ -60,8 +61,20 @@ struct MasteryRateBar: View {
                     .fill(
                         LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing)
                     )
-                    .frame(width: 90 + ratio * (geometry.size.width - 90), height: 30)
-                    .animation(.easeInOut(duration: 1), value: ratio)
+                    .frame(width: barWidth, height: 30)
+                    .animation(.easeInOut(duration: 1), value: barWidth)
+                    .onAppear {
+                        updateCards()
+
+                        isLoaded = false
+                        countText = "\(cards.filter { $0.rate == rate }.count)"
+                        ratio = CGFloat(cards.filter { $0.rate == rate }.count) / CGFloat(maxCount)
+                        barWidth = 90 + (geometry.size.width - 90) * ratio
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            isLoaded = true
+                        }
+                    }
                 HStack(spacing: 2) {
                     Text(rateText)
                         .foregroundStyle(.white)
@@ -86,17 +99,6 @@ struct MasteryRateBar: View {
         }
         .frame(height: 30)
         .accessibilityIdentifier("chartBar\(rate)")
-        .onAppear {
-            updateCards()
-
-            isLoaded = false
-            countText = "\(cards.filter { $0.rate == rate }.count)"
-            ratio = CGFloat(cards.filter { $0.rate == rate }.count) / CGFloat(maxCount)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                isLoaded = true
-            }
-        }
         .onReceive(dataViewModel.$cards) { _ in
             DispatchQueue.main.async {
                 self.updateCards()
