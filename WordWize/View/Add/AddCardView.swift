@@ -32,29 +32,16 @@ struct AddCardView: View {
             ZStack {
                 VStack {
                     if !isFocused {
-                        HStack {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(UIColor.systemGroupedBackground).opacity(0.5))
-                                    .overlay(
-                                        TransparentBlurView(removeAllLayers: true)
-                                            .blur(radius: 9, opaque: true)
-                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    )
-                                
-                                HStack {
-                                    Picker("Options", selection: $selectedCategory) {
-                                        ForEach(dataViewModel.categories) { category in
-                                            let name = category.name ?? ""
-                                            Text(name).tag(name)
-                                        }
-                                    }
-                                    .pickerStyle(MenuPickerStyle())
-                                    .accessibilityIdentifier("addCardViewCategoryPicker")
-                                    Spacer()
+                        HStack(spacing: 0) {
+                            Picker("", selection: $selectedCategory) {
+                                ForEach(dataViewModel.categories) { category in
+                                    let name = category.name ?? ""
+                                    Text(name).tag(name)
                                 }
                             }
-                            .frame(height: 44)
+                            .frame(maxWidth: .infinity, maxHeight: 26)
+                            .modifier(BlurBackground())
+                            .accessibilityIdentifier("addCardViewCategoryPicker")
                             
                             Button(action: {
                                 showingAddCategoryAlert = true
@@ -66,10 +53,9 @@ struct AddCardView: View {
                                     .foregroundColor(.white)
                                     .cornerRadius(10)
                             }
-                            .padding(.leading, 10)
                             .accessibilityIdentifier("addCategoryButton")
                         }
-                        .padding(.horizontal)
+                        .padding(.trailing)
                     }
 
                     TextEditor(text: Binding(
