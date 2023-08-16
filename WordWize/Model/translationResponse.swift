@@ -1,5 +1,5 @@
 //
-//  translationViewModel.swift
+//  translationResponse.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/24/23.

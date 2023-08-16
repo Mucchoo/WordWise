@@ -9,15 +9,9 @@ import SwiftUI
 
 struct StudyView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
-    @ObservedObject var filterViewModel = FilterViewModel.shared
-    
-    @State private var showingCardView = false
-    @State private var showingCategorySheet = false
-
-    @AppStorage("learnedButton") private var learnedButton = true
-    @AppStorage("learningButton") private var learningButton = true
-    @AppStorage("newButton") private var newButton = true
     @AppStorage("maximumCards") private var maximumCards = 1000
+    @State private var showingCardView = false
+    @State private var selectedCategory = ""
 
     var body: some View {
         if dataViewModel.cards.isEmpty {
@@ -33,17 +27,13 @@ struct StudyView: View {
                                 Text("Category")
                                 Spacer()
                                 
-                                Button {
-                                    showingCategorySheet.toggle()
-                                } label: {
-                                    Text(filterViewModel.selectedCategories.map { $0 }.joined(separator: ", "))
+                                Picker("Options", selection: $selectedCategory) {
+                                    ForEach(dataViewModel.categories) { category in
+                                        let name = category.name ?? ""
+                                        Text(name).tag(name)
+                                    }
                                 }
-                                .accessibilityIdentifier("studyCategoryButton")
-                                .padding(.horizontal)
-                                .sheet(isPresented: $showingCategorySheet) {
-                                    CategoryList(categories: $filterViewModel.selectedCategories)
-                                        .accessibilityIdentifier("categoryListSheet")
-                                }
+                                .pickerStyle(MenuPickerStyle())
                             }
                             .frame(height: 30)
                             
@@ -82,23 +72,23 @@ struct StudyView: View {
                     self.updateCardsToStudy()
                 }
             }
-            .onChange(of: filterViewModel.selectedCategories) { _ in
+            .onChange(of: selectedCategory) { _ in
                 updateCardsToStudy()
             }
             .onChange(of: maximumCards) { _ in
                 updateCardsToStudy()
             }
-            .onChange(of: filterViewModel.filterStatus) { _ in
-                updateCardsToStudy()
+            .onChange(of: dataViewModel.categories) { newValue in
+                guard selectedCategory.isEmpty else { return }
+                selectedCategory = dataViewModel.categories.first?.name ?? ""
             }
         }
     }
     
     private func updateCardsToStudy() {
         let filteredCards = dataViewModel.cards.filter { card in
-            let statusFilter = filterViewModel.filterStatus.contains { $0 == card.status }
-            let categoryFilter = filterViewModel.selectedCategories.contains { $0 == card.category }
-            return statusFilter && categoryFilter
+            let categoryFilter = selectedCategory == card.category
+            return categoryFilter
         }
         dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }

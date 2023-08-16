@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var filterViewModel = FilterViewModel.shared
     @EnvironmentObject var dataViewModel: DataViewModel
     @State var selectedTab = "book.closed"
     @State var generatingCards = false
@@ -62,11 +61,6 @@ struct ContentView: View {
                     }
                 }
             }
-        }
-        
-        .onChange(of: dataViewModel.categories) { newValue in
-            guard filterViewModel.selectedCategories.isEmpty else { return }
-            filterViewModel.selectedCategories = dataViewModel.categories.map { $0.name ?? "" }
         }
     }
 }
