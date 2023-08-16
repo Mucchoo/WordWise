@@ -28,7 +28,7 @@ struct CustomTabBar: View {
                 .clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
         .overlay(
             Circle()
-                .fill(Color.navy)
+                .fill(Color.ocean)
                 .frame(width: 10, height: 10)
                 .offset(x: getCurvePoint() - 20)
             , alignment: .bottomLeading)
