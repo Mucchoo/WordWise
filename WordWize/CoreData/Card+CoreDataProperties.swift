@@ -25,6 +25,7 @@ extension Card {
     @NSManaged public var imageUrls: NSSet?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
+    @NSManaged public var lastHardDate: Date?
     
     public var unwrappedText: String {
         text ?? "Unknown"
