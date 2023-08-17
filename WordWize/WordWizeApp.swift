@@ -9,9 +9,6 @@ import SwiftUI
 
 @main
 struct WordWizeApp: App {
-    private var persistence: Persistence
-    private var cardService: CardService
-    
     @StateObject private var dataViewModel: DataViewModel = {
         let useInMemory = Self.shouldUseInMemory
         let persistence = Persistence(inMemory: useInMemory)
@@ -27,16 +24,10 @@ struct WordWizeApp: App {
         isRunningForPreviews || CommandLine.arguments.contains("FOR_TESTING")
     }
 
-    init() {
-        let useInMemory = Self.shouldUseInMemory
-        self.persistence = .init(inMemory: useInMemory)
-        self.cardService = Self.isRunningForPreviews ? MockCardService() : NetworkCardService()
-    }
-
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, persistence.viewContext)
+                .environment(\.managedObjectContext, dataViewModel.persistence.viewContext)
                 .environmentObject(dataViewModel)
         }
     }
