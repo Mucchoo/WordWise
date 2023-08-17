@@ -13,9 +13,9 @@ struct AddCardView: View {
     @StateObject private var keyboardResponder = KeyboardResponder()
     @EnvironmentObject private var dataViewModel: DataViewModel
     @FocusState var isFocused: Bool
-    @Binding var generatingCards: Bool
+    @Binding var showTabBar: Bool
     
-    @State private var WordWizes = [String]()
+    @State private var generatingCards = false
     @State private var showPlaceholder = true
     @State private var cardText = ""
     @State private var selectedCategory = ""
@@ -95,6 +95,7 @@ struct AddCardView: View {
                             .sink { [self] in
                                 print("add card completion")
                                 generatingCards = false
+                                showTabBar = true
                                 
                                 if dataViewModel.fetchFailedWords.isEmpty {
                                     showingFetchSucceededAlert = true
@@ -107,6 +108,7 @@ struct AddCardView: View {
                         cardText = ""
                         isFocused = false
                         generatingCards = true
+                        showTabBar = false
                     }) {
                         Text("Add \(cardText.split(separator: "\n").count) Cards")
                             .padding()
@@ -184,6 +186,6 @@ struct AddCardView: View {
 }
 
 #Preview {
-    AddCardView(generatingCards: .constant(false))
+    AddCardView(showTabBar: .constant(true))
         .injectMockDataViewModelForPreview()
 }

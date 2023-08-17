@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     @State var selectedTab = "book.closed"
-    @State var generatingCards = false
+    @State private var showTabBar = true
 
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct ContentView: View {
                 StudyView()
                     .tag("book.closed")
                     .accessibilityIdentifier("StudyView")
-                AddCardView(generatingCards: $generatingCards)
+                AddCardView(showTabBar: $showTabBar)
                     .tag("plus.square")
                     .accessibilityIdentifier("AddCardView")
                 CategoryListView()
@@ -32,10 +32,10 @@ struct ContentView: View {
             
             VStack {
                 Spacer()
-                CustomTabBar(selectedTab: $selectedTab)
-                    .opacity(generatingCards ? 0.5 : 1)
-                    .disabled(generatingCards)
-                Spacer().frame(height: 20)
+                if showTabBar {
+                    CustomTabBar(selectedTab: $selectedTab)
+                    Spacer().frame(height: 20)
+                }
             }
         }
         .ignoresSafeArea(edges: .bottom)

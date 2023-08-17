@@ -21,10 +21,10 @@ struct MasteryRateCountsView: View {
         }
         .cornerRadius(20)
         .clipped()
-        .padding()
     }
 }
 
 #Preview {
     MasteryRateCountsView()
+        .injectMockDataViewModelForPreview()
 }

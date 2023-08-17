@@ -34,6 +34,7 @@
 		2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B322A6DA3B1002814E2 /* translationResponse.swift */; };
 		2A737B3A2A6DFE9C002814E2 /* Definition+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B382A6DFE9C002814E2 /* Definition+CoreDataProperties.swift */; };
 		2A737B3B2A6DFE9C002814E2 /* Definition+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B392A6DFE9C002814E2 /* Definition+CoreDataClass.swift */; };
+		2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */; };
 		2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8054992A64640B0092A886 /* StudyViewUITests.swift */; };
 		2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86890A2A400CB5001DBDFD /* LearningCard.swift */; };
 		2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A881D222A8375C2003329E1 /* MasteryRate.swift */; };
@@ -129,6 +130,7 @@
 		2A737B322A6DA3B1002814E2 /* translationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = translationResponse.swift; sourceTree = "<group>"; };
 		2A737B382A6DFE9C002814E2 /* Definition+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2A737B392A6DFE9C002814E2 /* Definition+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataClass.swift"; sourceTree = "<group>"; };
+		2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMasteryRateView.swift; sourceTree = "<group>"; };
 		2A8054992A64640B0092A886 /* StudyViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewUITests.swift; sourceTree = "<group>"; };
 		2A86890A2A400CB5001DBDFD /* LearningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningCard.swift; sourceTree = "<group>"; };
 		2A881D222A8375C2003329E1 /* MasteryRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRate.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
 				2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */,
 				2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */,
+				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 			files = (
 				2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */,
 				2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */,
+				2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */,
 				2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */,
 				2AB6261C2A636B8100C168E1 /* Phonetic+CoreDataProperties.swift in Sources */,
 				2A86890B2A400CB5001DBDFD /* LearningCard.swift in Sources */,

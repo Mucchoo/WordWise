@@ -46,6 +46,14 @@ struct AccountView: View {
                         
                         Divider()
                         
+                        HStack {
+                            NavigationLink("What is Mastery Rate?", destination: WhatIsMasteryRateView())
+                                .padding(.vertical, 8)
+                            Spacer()
+                        }
+                        
+                        Divider()
+                        
                         Button(action: {
                             showingShareSheet = true
                         }) {

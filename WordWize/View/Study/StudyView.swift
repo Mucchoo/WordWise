@@ -20,8 +20,6 @@ struct StudyView: View {
             NavigationView {
                 ScrollView {
                     VStack {
-                        MasteryRateCountsView()
-                        
                         VStack {
                             HStack {
                                 Text("Category")
@@ -33,13 +31,26 @@ struct StudyView: View {
                                         Text(name).tag(name)
                                     }
                                 }
-                                .pickerStyle(MenuPickerStyle())
                             }
                             .frame(height: 30)
                             
                             FilterPicker(description: "Maximum Cards", value: $maximumCards, labelText: "cards", options: PickerOptions.maximumCard, id: "studyMaximumCardsPicker")
                         }
                         .modifier(BlurBackground())
+                        
+                        HStack {
+                            Text("Mastery Rate")
+                                .fontWeight(.bold)
+                                .padding(.leading, 10)
+                            
+                            NavigationLink(destination: WhatIsMasteryRateView()) {
+                                Image(systemName: "info.circle")
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        MasteryRateCountsView()
+                            .padding(.horizontal)
                         
                         Button(action: {
                             guard dataViewModel.cardsToStudy.count > 0 else { return }
