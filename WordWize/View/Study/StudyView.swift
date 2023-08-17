@@ -15,7 +15,7 @@ struct StudyView: View {
 
     var body: some View {
         if !dataViewModel.isDataLoaded {
-            EmptyView()
+            Text("")
         } else if dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
