@@ -14,7 +14,9 @@ struct StudyView: View {
     @State private var selectedCategory = ""
 
     var body: some View {
-        if dataViewModel.cards.isEmpty {
+        if !dataViewModel.isDataLoaded {
+            EmptyView()
+        } else if dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {

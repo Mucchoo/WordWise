@@ -13,16 +13,9 @@ class DataViewModel: ObservableObject {
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
     @Published var cardsToStudy: [Card] = []
-    @Published var requestedWordCount = 0 {
-        didSet {
-            print("requestedWordCount: \(requestedWordCount)")
-        }
-    }
-    @Published var fetchedWordCount = 0 {
-        didSet {
-            print("fetchedWordCount: \(fetchedWordCount)")
-        }
-    }
+    @Published var requestedWordCount = 0
+    @Published var fetchedWordCount = 0
+    @Published var isDataLoaded = false
     
     private var cancellables = Set<AnyCancellable>()
     var fetchFailedWords: [String] = []
@@ -51,6 +44,7 @@ class DataViewModel: ObservableObject {
                 if categories.isEmpty {
                     addDefaultCategory()
                 }
+                isDataLoaded = true
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
