@@ -27,7 +27,7 @@ struct WordWizeApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, dataViewModel.persistence.viewContext)
+                .environment(\.managedObjectContext, dataViewModel.viewContext)
                 .environmentObject(dataViewModel)
         }
     }
