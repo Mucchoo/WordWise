@@ -19,7 +19,6 @@ struct SearchBar: View {
                 .padding(7)
                 .modifier(BlurBackground())
                 .cornerRadius(8)
-                .padding(.horizontal, 10)
         }
         .padding(.top, 10)
     }

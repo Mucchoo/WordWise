@@ -12,12 +12,14 @@ struct CardListView: View {
     
     @State private var searchBarText = ""
     @State private var cardList: [Card] = []
-    @State private var selectMode = false
     @State private var selectedCards: [Card] = []
-    @State private var changeCategoryDestination = ""
-    @State var categoryName = "" {
+    @State private var selectedCategory = ""
+    @State var categoryName = ""
+    @State private var selectMode = false {
         didSet {
-            changeCategoryDestination = categoryName
+            if !selectMode {
+                selectedCards = []
+            }
         }
     }
 
@@ -42,23 +44,17 @@ struct CardListView: View {
             }
         }
         .background(BackgroundView())
-        .background(AlertControllerView(
+        .background(PickerAlert(
             isPresented: $showingChangeCategoryView,
             title: "Change Category",
             message: "Select new category for the \(selectedCards.count) cards.",
-            content: {
-                VStack {
-                    Picker("", selection: $changeCategoryDestination) {
-                        ForEach(dataViewModel.categories, id: \.self) { category in
-                            Text(category.name ?? "").tag(category.name)
-                        }
-                    }
-                }
-            },
-            customAction: .init(title: "Change", style: .default) { _ in
-                dataViewModel.changeCategory(of: selectedCards, newCategory: changeCategoryDestination)
-            })
-        )
+            categories: dataViewModel.categories.map { $0.name ?? "" },
+            selectedCategory: $selectedCategory
+        ) {
+                dataViewModel.changeCategory(of: selectedCards, newCategory: selectedCategory)
+                selectMode = false
+                updateCardList()
+        })
         .navigationBarTitle(categoryName, displayMode: .large)
         .navigationBarItems(leading:
             Group {
