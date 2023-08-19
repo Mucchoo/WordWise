@@ -101,7 +101,13 @@ struct StudyView: View {
     private func updateCardsToStudy() {
         let filteredCards = dataViewModel.cards.filter { card in
             let categoryFilter = selectedCategory == card.category
-            return categoryFilter
+            
+            var nextLearningDateFilter = true
+            if let date = card.nextLearningDate {
+                nextLearningDateFilter = Calendar.current.isDateInToday(date) || Date() < date
+            }
+            
+            return categoryFilter && nextLearningDateFilter
         }
         dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }
