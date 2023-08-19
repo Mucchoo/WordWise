@@ -51,11 +51,10 @@ class DataViewModel: ObservableObject {
         }
     }
     
-    func updateCard(id: UUID, text: String, category: String, status: Int16) {
+    func updateCard(id: UUID, text: String, category: String) {
         if let card = cards.first(where: { $0.id == id }) {
             card.text = text
             card.category = category
-            card.status = status
             persistence.saveContext()
         }
     }
@@ -164,8 +163,6 @@ class DataViewModel: ObservableObject {
                 let card = Card(context: self.viewContext)
                 card.id = UUID()
                 card.text = word
-                card.status = 2
-                card.failedTimes = 0
                 card.category = category
 
                 let fetchCardData = self.cardService.fetchDefinitions(word: word)
@@ -267,8 +264,9 @@ class DataViewModel: ObservableObject {
     
     func resetLearningData() {
         cards.forEach { card in
-            card.failedTimes = 0
-            card.status = 2
+            card.masteryRate = 0
+            card.lastHardDate = nil
+            card.nextLearningDate = nil
         }
         persistence.saveContext()
     }

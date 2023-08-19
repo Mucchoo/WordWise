@@ -63,14 +63,14 @@ struct CardRowView: View {
                 },
                 updateAction: {
                     if let cardId = cardId {
-                        dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus)
+                        dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory)
                     }
                 }
             )
         }
         .onChange(of: navigateToCardDetail) { newValue in
             if !newValue, let cardId = cardId {
-                dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, status: cardStatus)
+                dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory)
             }
         }
     }
@@ -78,7 +78,6 @@ struct CardRowView: View {
     private func setupDetailView(_ card: Card) {
         cardId = card.id
         cardText = card.text ?? ""
-        cardStatus = card.status
         cardCategory = card.category ?? ""
         navigateToCardDetail = true
     }

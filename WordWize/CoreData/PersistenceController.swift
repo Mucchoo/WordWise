@@ -14,21 +14,6 @@ class Persistence: ObservableObject {
         return container.viewContext
     }
     
-    static var preview: Persistence = {
-        let result = Persistence(inMemory: true)
-        let viewContext = result.container.viewContext
-        
-        for i in 0..<100 {
-            let newCard = Card(context: viewContext)
-            newCard.status = Int16(i % 3)
-            newCard.failedTimes = 0
-            newCard.text = "Test\(i)"
-        }
-    
-        result.saveContext()
-        return result
-    }()
-    
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "Card")
         

@@ -16,9 +16,7 @@ extension Card {
     }
 
     @NSManaged public var category: String?
-    @NSManaged public var failedTimes: Int64
     @NSManaged public var id: UUID?
-    @NSManaged public var status: Int16
     @NSManaged public var text: String?
     @NSManaged public var masteryRate: Int16
     @NSManaged public var nextLearningDate: Date?

@@ -232,8 +232,6 @@ struct CardView: View {
                             shouldScrollToTop = true
                             
                             let card = learningCards[index].card
-                            card.failedTimes += 1
-                            card.status = 1
                             card.lastHardDate = Date()
                             card.masteryRate = 0
                             dataViewModel.persistence.saveContext()
@@ -260,25 +258,26 @@ struct CardView: View {
                         showTranslations = false
 
                         learningCards[index].isLearning = false
-                        learningCards[index].card.status = 0
 
+                        var nextLearningDate = 0
                         if let date = learningCards[index].card.lastHardDate, Calendar.current.isDateInToday(date) {
-                            learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+                            nextLearningDate = 1
                         } else {
-                            switch learningCards[index].card.status {
+                            switch learningCards[index].card.masteryRate {
                             case 0:
-                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 2, to: Date())
+                                nextLearningDate = 2
                             case 1:
-                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 4, to: Date())
+                                nextLearningDate = 4
                             case 2:
-                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())
+                                nextLearningDate = 7
                             case 3:
-                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 14, to: Date())
+                                nextLearningDate = 14
                             default:
                                 break
                             }
                             
-                            learningCards[index].card.status += 1
+                            learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
+                            learningCards[index].card.masteryRate += 1
                         }
                         
                         dataViewModel.persistence.saveContext()
