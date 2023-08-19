@@ -11,7 +11,7 @@ struct WhatIsMasteryRateView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Text("The mastery rate is the level of memory retention based on the forgetting curve theory.")
+                Text("Mastery Rate is the level of memory retention based on the forgetting curve theory.")
                 Image("ForgettingCurve")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
