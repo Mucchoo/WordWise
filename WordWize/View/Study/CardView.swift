@@ -234,6 +234,8 @@ struct CardView: View {
                             let card = learningCards[index].card
                             card.failedTimes += 1
                             card.status = 1
+                            card.lastHardDate = Date()
+                            card.masteryRate = 0
                             dataViewModel.persistence.saveContext()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -259,6 +261,26 @@ struct CardView: View {
 
                         learningCards[index].isLearning = false
                         learningCards[index].card.status = 0
+
+                        if let date = learningCards[index].card.lastHardDate, Calendar.current.isDateInToday(date) {
+                            learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 1, to: Date())
+                        } else {
+                            switch learningCards[index].card.status {
+                            case 0:
+                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 2, to: Date())
+                            case 1:
+                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 4, to: Date())
+                            case 2:
+                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 7, to: Date())
+                            case 3:
+                                learningCards[index].card.nextLearningDate = Calendar.current.date(byAdding: .day, value: 14, to: Date())
+                            default:
+                                break
+                            }
+                            
+                            learningCards[index].card.status += 1
+                        }
+                        
                         dataViewModel.persistence.saveContext()
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -310,11 +332,7 @@ struct CardView: View {
     }
 }
 
-struct CardView_Previews: PreviewProvider {
-    @State static var showingCardView = true
-
-    static var previews: some View {
-        CardView(showingCardView: $showingCardView, cardsToStudy: [])
-            .environment(\.managedObjectContext, Persistence.preview.container.viewContext)
-    }
+#Preview {
+    CardView(showingCardView: .constant(true), cardsToStudy: [])
+        .injectMockDataViewModelForPreview()
 }
