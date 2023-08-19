@@ -91,14 +91,14 @@ struct StudyView: View {
             .onChange(of: maximumCards) { _ in
                 updateCardsToStudy()
             }
-            .onChange(of: dataViewModel.categories) { newValue in
-                guard selectedCategory.isEmpty else { return }
-                selectedCategory = dataViewModel.categories.first?.name ?? ""
-            }
         }
     }
     
     private func updateCardsToStudy() {
+        if selectedCategory.isEmpty {
+            selectedCategory = dataViewModel.categories.first?.name ?? ""
+        }
+        
         let filteredCards = dataViewModel.cards.filter { card in
             let categoryFilter = selectedCategory == card.category
             
