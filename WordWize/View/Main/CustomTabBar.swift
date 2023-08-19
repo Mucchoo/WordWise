@@ -9,17 +9,20 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @Binding var selectedTab: String
-    @State var tabPoints: [CGFloat] = [0,0,0,0]
+    @State var tabPoints: [CGFloat] = [10,0,0,0]
 
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: "book.closed", selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "book.closed", index: 0, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("studyViewTabButton")
-            TabBarButton(image: "plus.square", selectedTab: $selectedTab, tabPoints: $tabPoints)
+
+            TabBarButton(image: "plus.square", index: 1, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("addCardViewTabButton")
-            TabBarButton(image: "rectangle.stack", selectedTab: $selectedTab, tabPoints: $tabPoints)
+
+            TabBarButton(image: "rectangle.stack", index: 2, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("cardListViewTabButton")
-            TabBarButton(image: "person", selectedTab: $selectedTab, tabPoints: $tabPoints)
+
+            TabBarButton(image: "person", index: 3, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("accountViewTabButton")
         }
         .padding()
@@ -37,25 +40,22 @@ struct CustomTabBar: View {
     }
 
     func getCurvePoint() -> CGFloat {
-        if tabPoints.isEmpty {
-            return 10
-        } else {
-            switch selectedTab {
-            case "book.closed":
-                return tabPoints[0]
-            case "plus.square":
-                return tabPoints[1]
-            case "rectangle.stack":
-                return tabPoints[2]
-            default:
-                return tabPoints[3]
-            }
+        switch selectedTab {
+        case "book.closed":
+            return tabPoints[0]
+        case "plus.square":
+            return tabPoints[1]
+        case "rectangle.stack":
+            return tabPoints[2]
+        default:
+            return tabPoints[3]
         }
     }
 }
 
 struct TabBarButton: View {
     var image: String
+    var index: Int
     @Binding var selectedTab: String
     @Binding var tabPoints: [CGFloat]
 
@@ -64,9 +64,7 @@ struct TabBarButton: View {
             let midX = reader.frame(in: .global).midX
 
             DispatchQueue.main.async {
-                if tabPoints.count <= 4 {
-                    tabPoints.append(midX)
-                }
+                tabPoints[index] = midX
             }
 
             return AnyView(
