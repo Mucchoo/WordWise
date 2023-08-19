@@ -31,7 +31,6 @@ struct AddCardView: View {
         NavigationView {
             ZStack {
                 VStack {
-                    if !isFocused {
                         HStack(spacing: 0) {
                             Picker("", selection: $selectedCategory) {
                                 ForEach(dataViewModel.categories) { category in
@@ -56,7 +55,6 @@ struct AddCardView: View {
                             .accessibilityIdentifier("addCategoryButton")
                         }
                         .padding(.trailing)
-                    }
 
                     TextEditor(text: Binding(
                         get: { showPlaceholder ? initialPlaceholder : cardText },
@@ -78,12 +76,10 @@ struct AddCardView: View {
                     .onChange(of: cardText) { newValue in
                         cardText = newValue.lowercased()
                         if cardText.isEmpty && !isFocused {
-                            print("show placeholder 1")
                             showPlaceholder = true
                         }
                     }
                     .onChange(of: isFocused) { newValue in
-                        print("show placeholder: \(!newValue && (cardText.isEmpty || cardText == initialPlaceholder))")
                         showPlaceholder = !newValue && (cardText.isEmpty || cardText == initialPlaceholder)
                     }
                     .modifier(BlurBackground())
