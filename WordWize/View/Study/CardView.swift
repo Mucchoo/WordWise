@@ -235,6 +235,7 @@ struct CardView: View {
                             card.lastHardDate = Date()
                             card.masteryRate = 0
                             dataViewModel.persistence.saveContext()
+                            dataViewModel.loadData()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                 AudioViewModel.shared.speechText(card.text)
@@ -281,6 +282,7 @@ struct CardView: View {
                         }
                         
                         dataViewModel.persistence.saveContext()
+                        dataViewModel.loadData()
 
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 
