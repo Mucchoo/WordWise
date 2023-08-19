@@ -17,6 +17,7 @@ class DataViewModel: ObservableObject {
     @Published var fetchedWordCount = 0
     @Published var isDataLoaded = false
     
+    private var isAddingDefaultCategory = false
     private var cancellables = Set<AnyCancellable>()
     var fetchFailedWords: [String] = []
     var addedCardCount = 0
@@ -41,14 +42,38 @@ class DataViewModel: ObservableObject {
             DispatchQueue.main.async { [self] in
                 cards = fetchedCards
                 categories = fetchedCategories
+                
                 if categories.isEmpty {
                     addDefaultCategory()
                 }
+                deleteDuplicatedCategory()
+                
                 isDataLoaded = true
             }
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    private func deleteDuplicatedCategory() {
+        let groupedCategories = Dictionary(grouping: categories) { (category: CardCategory) in
+            return category.name ?? ""
+        }
+        
+        let duplicateGroups = groupedCategories.filter { $1.count > 1 }
+        
+        for (name, duplicateCategories) in duplicateGroups {
+            print("Found \(duplicateCategories.count) duplicates for category named: \(name)")
+            
+            let categoriesToDelete = duplicateCategories.dropFirst()
+            
+            for category in categoriesToDelete {
+                viewContext.delete(category)
+                categories.removeAll { $0 == category }
+            }
+        }
+        
+        persistence.saveContext()
     }
     
     func updateCard(id: UUID, text: String, category: String) {
@@ -75,7 +100,6 @@ class DataViewModel: ObservableObject {
     }
     
     func addCategory(name: String) {
-        print("musaa addCategory")
         guard !categories.contains(where: { $0.name == name }) else { return }
         
         let category = CardCategory(context: viewContext)
@@ -287,7 +311,6 @@ class DataViewModel: ObservableObject {
         do {
             let categories = try viewContext.fetch(fetchRequest)
             guard categories.isEmpty else { return }
-            print("addDefaultCategory")
             let newCategory = CardCategory(context: viewContext)
             newCategory.name = "Category 1"
             self.categories.append(newCategory)
