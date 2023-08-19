@@ -26,7 +26,7 @@ struct AccountView: View {
             ScrollView {
                 VStack {
                     VStack {
-                        MasteryRateBars()
+                        MasteryRateBars(categoryName: "")
                     }
                     .modifier(BlurBackground())
                     

@@ -14,12 +14,12 @@ struct MasteryRateBar: View {
     @State private var ratio: CGFloat = 0
     @State private var isLoaded = false
     @State private var countText = ""
-    @State var categoryName = ""
     @State var cards: [Card] = []
     
     let rateText: String
     let colors: [Color]
     let rate: MasteryRate
+    let categoryName: String
     
     var maxCount: Int {
         let rates: [MasteryRate] = [.zero, .twentyFive, .fifty, .seventyFive, .oneHundred]
@@ -32,8 +32,9 @@ struct MasteryRateBar: View {
         return maxCount > 0 ? maxCount : 1
     }
     
-    init(_ rate: MasteryRate, categoryName: String = "") {
+    init(_ rate: MasteryRate, categoryName: String) {
         self.rate = rate
+        self.categoryName = categoryName
         
         switch rate {
         case .zero:
@@ -116,5 +117,5 @@ struct MasteryRateBar: View {
 }
 
 #Preview {
-    MasteryRateBar(.oneHundred)
+    MasteryRateBar(.oneHundred, categoryName: "")
 }

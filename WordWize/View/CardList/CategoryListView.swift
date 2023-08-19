@@ -42,7 +42,7 @@ struct CategoryListView: View {
                                             
                                         }
                                         
-                                        MasteryRateBars(categoryName: category.name ?? "")
+                                        MasteryRateBars(categoryName: category.name ?? "nil")
                                     }
                                     .padding(10)
                                     .modifier(BlurBackground())

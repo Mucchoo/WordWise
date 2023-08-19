@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MasteryRateBars: View {
-    @State var categoryName = ""
+    let categoryName: String
     
     var body: some View {
         VStack(spacing: 8) {
@@ -22,5 +22,5 @@ struct MasteryRateBars: View {
 }
 
 #Preview {
-    MasteryRateBars()
+    MasteryRateBars(categoryName: "")
 }
