@@ -75,6 +75,7 @@ class DataViewModel: ObservableObject {
     }
     
     func addCategory(name: String) {
+        print("musaa addCategory")
         guard !categories.contains(where: { $0.name == name }) else { return }
         
         let category = CardCategory(context: viewContext)
@@ -286,7 +287,7 @@ class DataViewModel: ObservableObject {
         do {
             let categories = try viewContext.fetch(fetchRequest)
             guard categories.isEmpty else { return }
-            
+            print("addDefaultCategory")
             let newCategory = CardCategory(context: viewContext)
             newCategory.name = "Category 1"
             self.categories.append(newCategory)

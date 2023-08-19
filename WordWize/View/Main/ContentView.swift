@@ -43,6 +43,7 @@ struct ContentView: View {
             dataViewModel.retryFetchingImages()
             
             guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
+            print("SETUP_DATA_FOR_TESTING")
             
             dataViewModel.addDefaultCategory {
                 for i in 0..<Int.random(in: 1..<100) {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @Binding var selectedTab: String
-    @State var tabPoints: [CGFloat] = []
+    @State var tabPoints: [CGFloat] = [0,0,0,0]
 
     var body: some View {
         HStack(spacing: 0) {

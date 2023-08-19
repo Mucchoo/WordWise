@@ -30,7 +30,8 @@ struct AddCardView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
+                    if !isFocused {
                         HStack(spacing: 0) {
                             Picker("", selection: $selectedCategory) {
                                 ForEach(dataViewModel.categories) { category in
@@ -55,21 +56,12 @@ struct AddCardView: View {
                             .accessibilityIdentifier("addCategoryButton")
                         }
                         .padding(.trailing)
+                    }
 
                     TextEditor(text: Binding(
                         get: { showPlaceholder ? initialPlaceholder : cardText },
                         set: { cardText = $0 }
                     ))
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            Spacer()
-                            Button(action: {
-                                isFocused = false
-                            }) {
-                                Text("Done").bold()
-                            }
-                        }
-                    }
                     .scrollContentBackground(.hidden)
                     .focused($isFocused)
                     .foregroundColor(showPlaceholder ? .secondary : .primary)
@@ -83,8 +75,8 @@ struct AddCardView: View {
                         showPlaceholder = !newValue && (cardText.isEmpty || cardText == initialPlaceholder)
                     }
                     .modifier(BlurBackground())
-                    .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 160)
                     .accessibilityIdentifier("addCardViewTextEditor")
+                    .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90)
                     
                     Button(action: {
                         dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
@@ -109,6 +101,7 @@ struct AddCardView: View {
                         Text("Add \(cardText.split(separator: "\n").count) Cards")
                             .padding()
                             .frame(maxWidth: .infinity)
+                            .bold()
                             .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                             .foregroundColor(.white)
                             .cornerRadius(10)
@@ -116,13 +109,30 @@ struct AddCardView: View {
                     .accessibilityIdentifier("addCardsButton")
                     .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
                     .padding([.horizontal, .bottom])
-
                 }
                 .padding(.bottom, 90)
                 .background(BackgroundView())
                 .navigationBarTitle("Add Cards", displayMode: .large)
                 .navigationBarHidden(isFocused)
                 .ignoresSafeArea(edges: .bottom)
+                
+                if isFocused {
+                    VStack {
+                        Spacer()
+                        Button(action: {
+                            isFocused = false
+                        }) {
+                            Text("Done")
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .bold()
+                                .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding()
+                    }
+                }
                 
                 ZStack {
                     if generatingCards {
