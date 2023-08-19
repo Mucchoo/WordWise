@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct BlurBackground: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
+
     func body(content: Content) -> some View {
         content
             .padding(.horizontal)
@@ -15,7 +17,7 @@ struct BlurBackground: ViewModifier {
             .background {
                 TransparentBlurView(removeAllLayers: true)
                     .blur(radius: 9, opaque: true)
-                    .background(Color(UIColor.tertiarySystemGroupedBackground).opacity(0.5))
+                    .background(Color.init(white: colorScheme == .dark ? 0.2 : 1)).opacity(0.5)
             }
             .cornerRadius(10)
             .clipped()

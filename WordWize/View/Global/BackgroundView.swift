@@ -12,7 +12,9 @@ struct BackgroundView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: colorScheme == .light ? [.mint, .white] : [.black, .navy]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(
+                colors: colorScheme == .light ? [.init(white: 0.9), .mint] : [.black, .navy]),
+                startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
         }
     }
