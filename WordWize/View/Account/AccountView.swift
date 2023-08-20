@@ -18,7 +18,7 @@ struct AccountView: View {
     @State var showingShareSheet = false
     @AppStorage("nativeLanguage") private var nativeLanguage = "JA"
 
-    @State private var mailData = Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line! Thank you!")
+    @State private var mailData = Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line. Thank you!")
     private var productURL = URL(string: "https://itunes.apple.com/jp/app/id1628829703?mt=8")!
     
     var body: some View {
