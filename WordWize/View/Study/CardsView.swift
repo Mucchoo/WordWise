@@ -37,7 +37,14 @@ struct CardsView: View {
                                     Text(card.text ?? "")
                                         .foregroundColor(.primary)
                                     Spacer()
-                                    Text((MasteryRate(rawValue: card.masteryRate) ?? .zero).stringValue() + "%")
+                                    Text(getRemainingDays(card.nextLearningDate))
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 2)
+                                        .background(Color.navy)
+                                        .foregroundStyle(Color.white)
+                                        .bold()
+                                        .cornerRadius(8)
+                                    Text(card.rate.stringValue() + "%")
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 2)
                                         .background(Color.ocean)
@@ -59,6 +66,23 @@ struct CardsView: View {
         .background(BackgroundView())
         .navigationBarTitle(title, displayMode: .large)
     }
+    
+    private func getRemainingDays(_ nextLearningDate: Date?) -> String {
+        guard let nextLearningDate = nextLearningDate else { return "" }
+        
+        let components = Calendar.current.dateComponents([.day], from: Date(), to: nextLearningDate)
+        
+        if let remainingDays = components.day {
+            if remainingDays == 0 {
+                return "1 day left"
+            } else {
+                return "\(remainingDays + 1) days left"
+            }
+        }
+        
+        return ""
+    }
+
 }
 
 #Preview {
