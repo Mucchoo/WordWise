@@ -39,11 +39,12 @@ struct WhatIsMasteryRateView: View {
                 Text("The card will show over and over again until you tap Easy.")
                 Text("If you press Easy at the first time, Mastery Rate will proceed to next level.")
                     .bold()
+                Text("If you press Hard at the first time, Mastery Rate will go back to zero.")
+                    .bold()
                     .padding(.bottom)
                 Text("The card is redisplayed based on the forgetting curve. Below are the mastery rates and the intervals between redisplays.")
                     .padding(.bottom)
 
-                // Table with border and grid
                 VStack(spacing: 0) {
                     MasteryRateTableRow(masteryRate: "Mastery Rate", interval: "Intervals")
                     customDivider()
@@ -69,7 +70,6 @@ struct WhatIsMasteryRateView: View {
         .navigationBarTitle("Mastery Rate", displayMode: .large)
     }
     
-    // Custom divider function
     func customDivider() -> some View {
         Rectangle()
             .fill(Color.primary)
