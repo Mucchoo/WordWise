@@ -37,13 +37,17 @@ struct CardsView: View {
                                     Text(card.text ?? "")
                                         .foregroundColor(.primary)
                                     Spacer()
-                                    Text(getRemainingDays(card.nextLearningDate))
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 2)
-                                        .background(Color.navy)
-                                        .foregroundStyle(Color.white)
-                                        .bold()
-                                        .cornerRadius(8)
+                                    
+                                    if type == .upcoming {
+                                        Text(getRemainingDays(card.nextLearningDate))
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 2)
+                                            .background(Color.navy)
+                                            .foregroundStyle(Color.white)
+                                            .bold()
+                                            .cornerRadius(8)
+                                    }
+                                    
                                     Text(card.rate.stringValue() + "%")
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 2)

@@ -77,7 +77,7 @@ struct StudyView: View {
                         
                         if !dataViewModel.todaysCards.isEmpty {
                             NavigationLink(destination: CardsView(type: .todays)) {
-                                Text("Todays Cards: \(dataViewModel.upcomingCards.count) Cards")
+                                Text("Todays Cards: \(dataViewModel.todaysCards.count) Cards")
                             }
                             .padding(.top, 20)
                         }
