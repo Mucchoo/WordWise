@@ -71,6 +71,7 @@ struct CardRowView: View {
                 updateAction: {
                     if let cardId = cardId {
                         dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, rate: masteryRate)
+                        updateCardList()
                     }
                 }
             )
