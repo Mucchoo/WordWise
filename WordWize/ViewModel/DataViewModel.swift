@@ -12,7 +12,9 @@ import Combine
 class DataViewModel: ObservableObject {
     @Published var cards: [Card] = []
     @Published var categories: [CardCategory] = []
-    @Published var cardsToStudy: [Card] = []
+    @Published var studyingCards: [Card] = []
+    @Published var todaysCards: [Card] = []
+    @Published var upcomingCards: [Card] = []
     @Published var requestedWordCount = 0
     @Published var fetchedWordCount = 0
     @Published var isDataLoaded = false

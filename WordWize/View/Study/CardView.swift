@@ -28,9 +28,9 @@ struct CardView: View {
     
     let gridSize = (UIScreen.main.bounds.width - 21) / 2
     
-    init(showingCardView: Binding<Bool>, cardsToStudy: [Card]) {
+    init(showingCardView: Binding<Bool>, studyingCards: [Card]) {
         _showingCardView = showingCardView
-        let cards = cardsToStudy.map { LearningCard(card: $0) }.shuffled()
+        let cards = studyingCards.map { LearningCard(card: $0) }.shuffled()
         _learningCards = State(initialValue: cards)
     }
     
@@ -334,6 +334,6 @@ struct CardView: View {
 }
 
 #Preview {
-    CardView(showingCardView: .constant(true), cardsToStudy: [])
+    CardView(showingCardView: .constant(true), studyingCards: [])
         .injectMockDataViewModelForPreview()
 }

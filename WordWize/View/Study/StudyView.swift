@@ -55,24 +55,38 @@ struct StudyView: View {
                             .padding(.horizontal)
                         
                         Button(action: {
-                            guard dataViewModel.cardsToStudy.count > 0 else { return }
+                            guard dataViewModel.studyingCards.count > 0 else { return }
                             showingCardView = true
                         }) {
-                            Text(dataViewModel.cardsToStudy.count > 0 ? "Study \(dataViewModel.cardsToStudy.count) Cards" : "Finished Learning for Today!")
+                            Text(dataViewModel.studyingCards.count > 0 ? "Study \(dataViewModel.studyingCards.count) Cards" : "Finished Learning for Today!")
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(dataViewModel.cardsToStudy.count > 0 ? LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
+                                .background(dataViewModel.studyingCards.count > 0 ? LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                                 .accessibilityIdentifier("StudyCardsButton")
                         }
-                        .disabled(dataViewModel.cardsToStudy.count == 0)
+                        .disabled(dataViewModel.studyingCards.count == 0)
                         .padding()
                         .accessibilityIdentifier("studyCardsButton")
                         .fullScreenCover(isPresented: $showingCardView) {
-                            CardView(showingCardView: $showingCardView, cardsToStudy: dataViewModel.cardsToStudy)
+                            CardView(showingCardView: $showingCardView, studyingCards: dataViewModel.studyingCards)
                                 .accessibilityIdentifier("CardView")
+                        }
+                        
+                        if !dataViewModel.todaysCards.isEmpty {
+                            NavigationLink(destination: CardsView(type: .todays)) {
+                                Text("Todays Cards: \(dataViewModel.upcomingCards.count) Cards")
+                            }
+                            .padding(.top, 20)
+                        }
+                        
+                        if !dataViewModel.upcomingCards.isEmpty {
+                            NavigationLink(destination: CardsView(type: .upcoming)) {
+                                Text("Upcoming Cards: \(dataViewModel.upcomingCards.count) Cards")
+                            }
+                            .padding(.top, 20)
                         }
                     }
                 }
@@ -82,19 +96,24 @@ struct StudyView: View {
             .navigationViewStyle(StackNavigationViewStyle())
             .onReceive(dataViewModel.$cards) { _ in
                 DispatchQueue.main.async {
-                    self.updateCardsToStudy()
+                    self.updateCards()
                 }
             }
             .onChange(of: selectedCategory) { _ in
-                updateCardsToStudy()
+                updateCards()
             }
             .onChange(of: maximumCards) { _ in
-                updateCardsToStudy()
+                updateCards()
             }
         }
     }
     
-    private func updateCardsToStudy() {
+    private func updateCards() {
+        updateStudyingCards()
+        updateTodaysAndUpcomingCards()
+    }
+    
+    private func updateStudyingCards() {
         if selectedCategory.isEmpty {
             selectedCategory = dataViewModel.categories.first?.name ?? ""
         }
@@ -111,7 +130,34 @@ struct StudyView: View {
             
             return categoryFilter && nextLearningDateFilter && oneHundredRateFilter
         }
-        dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
+        dataViewModel.studyingCards = Array(filteredCards.prefix(maximumCards))
+    }
+    
+    private func updateTodaysAndUpcomingCards() {
+        let filteredCards = dataViewModel.cards.filter { card in
+            let categoryFilter = selectedCategory == card.category
+            let oneHundredRateFilter = card.rate != .oneHundred
+            return categoryFilter && oneHundredRateFilter
+        }
+        
+        let upcomingCards = filteredCards.filter { card in
+            var nextLearningDateFilter = false
+            if let date = card.nextLearningDate {
+                nextLearningDateFilter = !Calendar.current.isDateInToday(date) && Date() < date
+            }
+            return nextLearningDateFilter
+        }
+        
+        let todaysCards = filteredCards.filter { card in
+            var nextLearningDateFilter = true
+            if let date = card.nextLearningDate {
+                nextLearningDateFilter = Calendar.current.isDateInToday(date) || Date() > date
+            }
+            return nextLearningDateFilter
+        }
+        
+        dataViewModel.upcomingCards = upcomingCards
+        dataViewModel.todaysCards = todaysCards
     }
 }
 
