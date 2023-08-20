@@ -14,6 +14,7 @@ struct CardListView: View {
     @State private var cardList: [Card] = []
     @State private var selectedCards: [Card] = []
     @State private var selectedCategory = ""
+    @State private var selectedRate = ""
     @State var categoryName = ""
     @State private var selectMode = false {
         didSet {
@@ -24,7 +25,7 @@ struct CardListView: View {
     }
 
     @State private var showingChangeCategoryView = false
-    @State private var showingResetMasteryRateyAlert = false
+    @State private var showingChangeMasteryRateView = false
     @State private var showingDeleteCardsAlert = false
     
     var body: some View {
@@ -48,10 +49,21 @@ struct CardListView: View {
             isPresented: $showingChangeCategoryView,
             title: "Change Category",
             message: "Select new category for the \(selectedCards.count) cards.",
-            categories: dataViewModel.categories.map { $0.name ?? "" },
-            selectedCategory: $selectedCategory
+            options: dataViewModel.categories.map { $0.name ?? "" },
+            selectedValue: $selectedCategory
         ) {
                 dataViewModel.changeCategory(of: selectedCards, newCategory: selectedCategory)
+                selectMode = false
+                updateCardList()
+        })
+        .background(PickerAlert(
+            isPresented: $showingChangeMasteryRateView,
+            title: "Change Mastery Rate",
+            message: "Select Mastery Rate for the \(selectedCards.count) cards.",
+            options: MasteryRate.allValues.map { $0.stringValue() + "%" },
+            selectedValue: $selectedRate
+        ) {
+                dataViewModel.changeMasteryRate(of: selectedCards, rate: selectedRate)
                 selectMode = false
                 updateCardList()
         })
@@ -78,9 +90,9 @@ struct CardListView: View {
                             }
 
                             Button(action: {
-                                showingResetMasteryRateyAlert = true
+                                showingChangeMasteryRateView = true
                             }) {
-                                Label("Reset Mastery Rate", systemImage: "arrow.counterclockwise")
+                                Label("Change Mastery Rate", systemImage: "chart.bar.fill")
                             }
 
                             Button(action: {
@@ -123,16 +135,6 @@ struct CardListView: View {
         .alert("Do you want to delete the \(selectedCards.count) cards?", isPresented: $showingDeleteCardsAlert) {
             Button("Delete", role: .destructive) {
                 dataViewModel.deleteCards(selectedCards)
-                selectMode = false
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("This operation cannot be undone.")
-        }
-        
-        .alert("Do you want to reset mastery rate for the \(selectedCards.count) cards?", isPresented: $showingResetMasteryRateyAlert) {
-            Button("Reset", role: .destructive) {
-                dataViewModel.resetMasteryRate(cards: selectedCards)
                 selectMode = false
             }
             Button("Cancel", role: .cancel) {}

@@ -24,4 +24,6 @@ public enum MasteryRate: Int16 {
             return "100"
         }
     }
+    
+    static let allValues: [MasteryRate] = [.zero, .twentyFive, .fifty, .seventyFive, .oneHundred]
 }

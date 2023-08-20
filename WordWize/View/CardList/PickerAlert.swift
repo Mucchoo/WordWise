@@ -12,8 +12,8 @@ struct PickerAlert: UIViewControllerRepresentable {
     @Binding var isPresented: Bool
     let title: String?
     let message: String?
-    let categories: [String]
-    @Binding var selectedCategory: String
+    let options: [String]
+    @Binding var selectedValue: String
     let onConfirm: () -> Void
     
     func makeUIViewController(context: Context) -> UIViewController {
@@ -74,15 +74,15 @@ struct PickerAlert: UIViewControllerRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            parent.categories.count
+            parent.options.count
         }
         
         func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            parent.categories[row]
+            parent.options[row]
         }
         
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            parent.selectedCategory = parent.categories[row]
+            parent.selectedValue = parent.options[row]
         }
     }
 }

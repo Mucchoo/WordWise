@@ -177,6 +177,30 @@ class DataViewModel: ObservableObject {
         loadData()
     }
     
+    func changeMasteryRate(of cards: [Card], rate: String) {
+        var masteryRate: Int16 = 0
+        
+        switch rate {
+        case "25%":
+            masteryRate = 1
+        case "50%":
+            masteryRate = 2
+        case "75%":
+            masteryRate = 3
+        case "100%":
+            masteryRate = 4
+        default:
+            break
+        }
+        
+        cards.forEach { card in
+            card.masteryRate = masteryRate
+        }
+        
+        persistence.saveContext()
+        loadData()
+    }
+    
     func addCardPublisher(text: String, category: String) -> AnyPublisher<Void, Never> {
         fetchFailedWords = []
         
