@@ -10,6 +10,13 @@ import SwiftUI
 struct MasteryRateCountView: View {
     @EnvironmentObject var dataViewModel: DataViewModel
     var masteryRate: MasteryRate
+    @Binding var category: String
+    
+    var cardCount: Int {
+        let categoryCards = dataViewModel.cards.filter { $0.category == category }
+        let rateCards = categoryCards.filter { $0.rate == masteryRate }
+        return rateCards.count
+    }
     
     var body: some View {
         HStack(alignment: .center, spacing: 4) {
@@ -18,7 +25,7 @@ struct MasteryRateCountView: View {
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding(.top, 2)
-            Text("\(dataViewModel.cards.filter({ $0.masteryRate == masteryRate.rawValue }).count)")
+            Text("\(cardCount)")
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
@@ -50,5 +57,5 @@ struct MasteryRateCountView: View {
 }
 
 #Preview {
-    MasteryRateCountView(masteryRate: .zero)
+    MasteryRateCountView(masteryRate: .zero, category: .constant(""))
 }

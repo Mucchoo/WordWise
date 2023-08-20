@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct MasteryRateCountsView: View {
+    @Binding var category: String
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
-                MasteryRateCountView(masteryRate: .zero)
-                MasteryRateCountView(masteryRate: .twentyFive)
+                MasteryRateCountView(masteryRate: .zero, category: $category)
+                MasteryRateCountView(masteryRate: .twentyFive, category: $category)
             }
             HStack(spacing: 0) {
-                MasteryRateCountView(masteryRate: .fifty)
-                MasteryRateCountView(masteryRate: .seventyFive)
+                MasteryRateCountView(masteryRate: .fifty, category: $category)
+                MasteryRateCountView(masteryRate: .seventyFive, category: $category)
             }
         }
         .cornerRadius(20)
@@ -25,6 +27,6 @@ struct MasteryRateCountsView: View {
 }
 
 #Preview {
-    MasteryRateCountsView()
+    MasteryRateCountsView(category: .constant(""))
         .injectMockDataViewModelForPreview()
 }

@@ -51,7 +51,7 @@ struct StudyView: View {
                             Spacer()
                         }
                         .padding(.horizontal)
-                        MasteryRateCountsView()
+                        MasteryRateCountsView(category: $selectedCategory)
                             .padding(.horizontal)
                         
                         Button(action: {
