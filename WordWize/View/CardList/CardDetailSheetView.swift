@@ -12,12 +12,12 @@ struct CardDetailSheetView: View {
     
     @Binding var cardText: String
     @Binding var categoryName: String
-    @Binding var cardStatus: Int16
+    @Binding var masteryRate: Int16
     var cardId: UUID?
     let deleteAction: () -> Void
     let updateAction: () -> Void
     
-    private let statusArray: [CardStatus]  = [.init(text: "learned", value: 0), .init(text: "learning", value: 1), .init(text: "new", value: 2)]
+    private let masteryRates: [MasteryRate]  = [.zero, .twentyFive, .fifty, .seventyFive, .oneHundred]
 
     var body: some View {
         VStack {
@@ -48,14 +48,13 @@ struct CardDetailSheetView: View {
                 Divider()
                 
                 HStack {
-                    Text("Status")
+                    Text("Mastery Rate")
                     Spacer()
-                    Picker("Status", selection: $cardStatus) {
-                        ForEach(statusArray, id: \.self) { status in
-                            Text("\(status.text)").tag(status.value)
+                    Picker("Mastery Rate", selection: $masteryRate) {
+                        ForEach(masteryRates, id: \.self) { rate in
+                            Text(rate.stringValue() + "%").tag(rate.rawValue)
                         }
                     }
-                    .pickerStyle(MenuPickerStyle())
                 }
                 .padding(.leading)
             }

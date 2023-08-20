@@ -76,11 +76,13 @@ class DataViewModel: ObservableObject {
         persistence.saveContext()
     }
     
-    func updateCard(id: UUID, text: String, category: String) {
+    func updateCard(id: UUID, text: String, category: String, rate: Int16) {
         if let card = cards.first(where: { $0.id == id }) {
             card.text = text
             card.category = category
+            card.masteryRate = rate
             persistence.saveContext()
+            loadData()
         }
     }
     

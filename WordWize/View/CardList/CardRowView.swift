@@ -12,7 +12,7 @@ struct CardRowView: View {
     
     @State private var cardText = ""
     @State private var cardId: UUID?
-    @State private var cardStatus: Int16 = 0
+    @State private var masteryRate: Int16 = 0
     @State private var cardCategory = ""
     @State private var navigateToCardDetail: Bool = false
     @State private var isCardSelected = false
@@ -44,6 +44,13 @@ struct CardRowView: View {
                     Text(card.text ?? "Unknown")
                         .foregroundColor(.primary)
                     Spacer()
+                    Text((MasteryRate(rawValue: card.masteryRate) ?? .zero).stringValue() + "%")
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color.ocean)
+                        .foregroundStyle(Color.white)
+                        .bold()
+                        .cornerRadius(8)
                 }
             }
             if card.id != lastCardId {
@@ -54,7 +61,7 @@ struct CardRowView: View {
             CardDetailSheetView(
                 cardText: $cardText,
                 categoryName: $cardCategory,
-                cardStatus: $cardStatus,
+                masteryRate: $masteryRate,
                 cardId: cardId,
                 deleteAction: {
                     dataViewModel.deleteCard(card)
@@ -63,14 +70,14 @@ struct CardRowView: View {
                 },
                 updateAction: {
                     if let cardId = cardId {
-                        dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory)
+                        dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, rate: masteryRate)
                     }
                 }
             )
         }
         .onChange(of: navigateToCardDetail) { newValue in
             if !newValue, let cardId = cardId {
-                dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory)
+                dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, rate: masteryRate)
             }
         }
     }
