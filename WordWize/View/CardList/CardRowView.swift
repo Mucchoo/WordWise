@@ -51,6 +51,7 @@ struct CardRowView: View {
                         .bold()
                         .cornerRadius(8)
                 }
+                .padding(.top, 2)
             }
             if card.id != lastCardId {
                 Divider()
