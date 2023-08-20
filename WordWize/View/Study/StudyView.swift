@@ -58,7 +58,7 @@ struct StudyView: View {
                             guard dataViewModel.cardsToStudy.count > 0 else { return }
                             showingCardView = true
                         }) {
-                            Text(dataViewModel.cardsToStudy.count > 0 ? "Study \(dataViewModel.cardsToStudy.count) Cards" : "No Cards Available")
+                            Text(dataViewModel.cardsToStudy.count > 0 ? "Study \(dataViewModel.cardsToStudy.count) Cards" : "Finished Learning for Today!")
                                 .fontWeight(.bold)
                                 .padding()
                                 .frame(maxWidth: .infinity)
