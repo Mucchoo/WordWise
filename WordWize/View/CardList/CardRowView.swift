@@ -15,7 +15,6 @@ struct CardRowView: View {
     @State private var masteryRate: Int16 = 0
     @State private var cardCategory = ""
     @State private var navigateToCardDetail: Bool = false
-    @State private var isCardSelected = false
     
     let card: Card
     let lastCardId: UUID?
@@ -34,10 +33,10 @@ struct CardRowView: View {
             }) {
                 HStack {
                     if selectMode {
-                        Image(systemName: isCardSelected ? "checkmark.circle.fill" : "circle")
+                        Image(systemName: selectedCards.contains(where: { $0 == card }) ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(.blue)
                             .font(.system(size: 16))
-                            .fontWeight(isCardSelected ? .black : .regular)
+                            .fontWeight(selectedCards.contains(where: { $0 == card }) ? .black : .regular)
                             .frame(width: 20, height: 20, alignment: .center)
                     }
                     
@@ -91,9 +90,7 @@ struct CardRowView: View {
     }
     
     private func selectCard() {
-        isCardSelected.toggle()
-
-        if isCardSelected {
+        if !selectedCards.contains(where: { $0 == card }) {
             selectedCards.append(card)
         } else {
             selectedCards.removeAll(where: { $0 == card })
