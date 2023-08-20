@@ -107,7 +107,9 @@ struct StudyView: View {
                 nextLearningDateFilter = Calendar.current.isDateInToday(date) || Date() < date
             }
             
-            return categoryFilter && nextLearningDateFilter
+            let oneHundredRateFilter = card.rate != .oneHundred
+            
+            return categoryFilter && nextLearningDateFilter && oneHundredRateFilter
         }
         dataViewModel.cardsToStudy = Array(filteredCards.prefix(maximumCards))
     }
