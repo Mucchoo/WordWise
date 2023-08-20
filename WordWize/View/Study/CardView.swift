@@ -264,14 +264,14 @@ struct CardView: View {
                         if let date = learningCards[index].card.lastHardDate, Calendar.current.isDateInToday(date) {
                             nextLearningDate = 1
                         } else {
-                            switch learningCards[index].card.masteryRate {
-                            case 0:
+                            switch learningCards[index].card.rate {
+                            case .zero:
                                 nextLearningDate = 2
-                            case 1:
+                            case .twentyFive:
                                 nextLearningDate = 4
-                            case 2:
+                            case .fifty:
                                 nextLearningDate = 7
-                            case 3:
+                            case .seventyFive:
                                 nextLearningDate = 14
                             default:
                                 break

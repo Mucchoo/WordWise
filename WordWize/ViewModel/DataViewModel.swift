@@ -77,13 +77,30 @@ class DataViewModel: ObservableObject {
     }
     
     func updateCard(id: UUID, text: String, category: String, rate: Int16) {
-        if let card = cards.first(where: { $0.id == id }) {
-            card.text = text
-            card.category = category
-            card.masteryRate = rate
-            persistence.saveContext()
-            loadData()
+        guard let card = cards.first(where: { $0.id == id }) else { return }
+        card.text = text
+        card.category = category
+        card.masteryRate = rate
+        
+        var nextLearningDate: Int
+        switch card.rate {
+        case .zero:
+            nextLearningDate = 1
+        case .twentyFive:
+            nextLearningDate = 2
+        case .fifty:
+            nextLearningDate = 4
+        case .seventyFive:
+            nextLearningDate = 7
+        case .oneHundred:
+            nextLearningDate = 14
         }
+        
+        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
+        card.masteryRate += 1
+        
+        persistence.saveContext()
+        loadData()
     }
     
     func deleteCard(_ card: Card) {
