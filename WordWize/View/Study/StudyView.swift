@@ -104,7 +104,7 @@ struct StudyView: View {
             
             var nextLearningDateFilter = true
             if let date = card.nextLearningDate {
-                nextLearningDateFilter = Calendar.current.isDateInToday(date) || Date() < date
+                nextLearningDateFilter = Calendar.current.isDateInToday(date) || Date() > date
             }
             
             let oneHundredRateFilter = card.rate != .oneHundred
