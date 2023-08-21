@@ -162,13 +162,13 @@ struct CardView: View {
                                     
                                     Spacer().frame(height: 20)
                                     
-                                    if learningCards[index].card.imageUrlsArray.count > 0 {
+                                    if learningCards[index].card.imageDatasArray.count > 0 {
                                         VStack(spacing: 2) {
                                             HStack(spacing: 2) {
                                                 GridImage(card: learningCards[index].card, index: 0, size: gridSize)
                                                 GridImage(card: learningCards[index].card, index: 1, size: gridSize)
                                             }
-                                            if learningCards[index].card.imageUrlsArray.count > 2 {
+                                            if learningCards[index].card.imageDatasArray.count > 2 {
                                                 HStack(spacing: 2) {
                                                     GridImage(card: learningCards[index].card, index: 2, size: gridSize)
                                                     GridImage(card: learningCards[index].card, index: 3, size: gridSize)

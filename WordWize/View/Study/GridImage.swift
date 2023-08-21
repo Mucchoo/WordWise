@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct GridImage: View {
     let card: Card
@@ -15,14 +14,14 @@ struct GridImage: View {
 
     var body: some View {
         Group {
-            if let urlString = card.imageUrlsArray[safe: index]?.urlString,
-               let url = URL(string: urlString) {
-                KFImage(url)
+            if let imageData = card.imageDatasArray[safe: index]?.data,
+               let uiImage = UIImage(data: imageData) {
+                Image(uiImage: uiImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: size, height: size)
                     .background {
-                        KFImage(url)
+                        Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .blur(radius: 10)

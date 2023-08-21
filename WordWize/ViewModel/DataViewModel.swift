@@ -240,8 +240,9 @@ class DataViewModel: ObservableObject {
 
                 return Publishers.Zip(fetchCardData, fetchImagesData)
                     .receive(on: DispatchQueue.main)
-                    .tryMap { cardResponse, imageUrls in
+                    .flatMap { cardResponse, imageUrls -> AnyPublisher<Card, Never> in
                         print("got result of \(cardResponse.word)")
+                        
                         cardResponse.meanings?.forEach { meaning in
                             let newMeaning = Meaning(context: self.viewContext)
                             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
@@ -268,15 +269,30 @@ class DataViewModel: ObservableObject {
                             card.addToPhonetics(newPhonetic)
                         }
 
-                        imageUrls.enumerated().forEach { index, url in
-                            let imageUrl = ImageUrl(context: self.viewContext)
-                            imageUrl.urlString = url
-                            imageUrl.priority = Int64(index)
-                            card.addToImageUrls(imageUrl)
+                        let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
+                            return URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
+                                .map(\.data)
+                                .mapError { $0 as Error }
+                                .eraseToAnyPublisher()
                         }
 
-                        self.fetchedWordCount += 1
-                        return card
+                        return Publishers.MergeMany(downloadImages)
+                            .collect()
+                            .tryMap { imagesData in
+                                for (index, data) in imagesData.enumerated() {
+                                    let imageData = ImageData(context: self.viewContext)
+                                    imageData.data = data
+                                    imageData.priority = Int64(index)
+                                    imageData.retryFlag = imageUrls[index] == "error"
+                                    card.addToImageData(imageData)
+                                }
+                                return card
+                            }
+                            .catch { error in
+                                print("Failed downloading images: \(error)")
+                                return Just(card)
+                            }
+                            .eraseToAnyPublisher()
                     }
                     .catch { error -> Empty<Card, Never> in
                         self.fetchFailedWords.append(word)
@@ -286,13 +302,21 @@ class DataViewModel: ObservableObject {
                     }
                     .eraseToAnyPublisher()
             }
-            
+        
         return fetchPublishers
             .eraseToAnyPublisher()
     }
     
     func retryFetchingImages() {
-        let cardsFailedFetchingImages = cards.filter({ $0.imageUrls?.contains("error") ?? false })
+        let cardsFailedFetchingImages = cards.filter { (card: Card) -> Bool in
+            if let imageDatas = card.imageDatas as? Set<ImageData> {
+                return imageDatas.contains { (imageData: ImageData) in
+                    return imageData.retryFlag
+                }
+            }
+            return false
+        }
+        
         print("retryFetchingImages for: \(cardsFailedFetchingImages.count) cards")
         guard !cardsFailedFetchingImages.isEmpty else { return }
         
@@ -300,20 +324,36 @@ class DataViewModel: ObservableObject {
             .buffer(size: cardsFailedFetchingImages.count, prefetch: .keepFull, whenFull: .dropOldest)
             .flatMap(maxPublishers: .max(20)) { card -> AnyPublisher<Void, Never> in
                 let fetchImagesData = self.cardService.fetchImages(word: card.unwrappedText)
-
+                
                 return fetchImagesData
                     .receive(on: DispatchQueue.main)
-                    .map { imageUrls in
-                        card.imageUrls = nil
-                        imageUrls.enumerated().forEach { index, url in
-                            let imageUrl = ImageUrl(context: self.viewContext)
-                            imageUrl.urlString = url
-                            imageUrl.priority = Int64(index)
-                            card.addToImageUrls(imageUrl)
+                    .flatMap { imageUrls -> AnyPublisher<Void, Never> in
+                        card.imageDatas = nil
+                        
+                        let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
+                            return URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
+                                .map(\.data)
+                                .mapError { $0 as Error }
+                                .eraseToAnyPublisher()
                         }
-
-                        self.fetchedWordCount += 1
-                        return
+                        
+                        return Publishers.MergeMany(downloadImages)
+                            .collect()
+                            .tryMap { imagesData in
+                                for (index, data) in imagesData.enumerated() {
+                                    let imageData = ImageData(context: self.viewContext)
+                                    imageData.data = data
+                                    imageData.priority = Int64(index)
+                                    imageData.retryFlag = imageUrls[index] == "error"
+                                    card.addToImageData(imageData)
+                                }
+                            }
+                            .catch { error in
+                                print("Failed downloading images: \(error)")
+                                return Just(())
+                            }
+                            .map { _ in () }
+                            .eraseToAnyPublisher()
                     }
                     .catch { error -> Empty<Void, Never> in
                         print("Failed retry fetching image error: \(error.localizedDescription)")
@@ -330,7 +370,6 @@ class DataViewModel: ObservableObject {
             }, receiveValue: { _ in })
             .store(in: &cancellables)
     }
-
     
     func resetLearningData() {
         cards.forEach { card in

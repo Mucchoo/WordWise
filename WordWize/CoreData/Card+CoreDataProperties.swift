@@ -20,7 +20,7 @@ extension Card {
     @NSManaged public var text: String?
     @NSManaged public var masteryRate: Int16
     @NSManaged public var nextLearningDate: Date?
-    @NSManaged public var imageUrls: NSSet?
+    @NSManaged public var imageDatas: NSSet?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
     @NSManaged public var lastHardDate: Date?
@@ -45,8 +45,8 @@ extension Card {
         }
     }
     
-    public var imageUrlsArray: [ImageUrl] {
-        let urlSet = imageUrls as? Set<ImageUrl> ?? []
+    public var imageDatasArray: [ImageData] {
+        let urlSet = imageDatas as? Set<ImageData> ?? []
         
         return urlSet.sorted {
             $0.priority < $1.priority
@@ -58,20 +58,20 @@ extension Card {
     }
 }
 
-// MARK: Generated accessors for imageUrls
+// MARK: Generated accessors for imageData
 extension Card {
 
-    @objc(addImageUrlsObject:)
-    @NSManaged public func addToImageUrls(_ value: ImageUrl)
+    @objc(addImageDataObject:)
+    @NSManaged public func addToImageData(_ value: ImageData)
 
-    @objc(removeImageUrlsObject:)
-    @NSManaged public func removeFromImageUrls(_ value: ImageUrl)
+    @objc(removeImageDataObject:)
+    @NSManaged public func removeFromImageData(_ value: ImageData)
 
-    @objc(addImageUrls:)
-    @NSManaged public func addToImageUrls(_ values: NSSet)
+    @objc(addImageData:)
+    @NSManaged public func addToImageData(_ values: NSSet)
 
-    @objc(removeImageUrls:)
-    @NSManaged public func removeFromImageUrls(_ values: NSSet)
+    @objc(removeImageData:)
+    @NSManaged public func removeFromImageData(_ values: NSSet)
 
 }
 
