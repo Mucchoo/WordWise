@@ -266,7 +266,9 @@ class DataViewModel: ObservableObject {
                             newPhonetic.text = phonetic.text
                             card.addToPhonetics(newPhonetic)
                         }
-
+                        
+                        self.fetchedWordCount += 1
+                                                
                         let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
                             return URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
                                 .map(\.data)
@@ -282,8 +284,9 @@ class DataViewModel: ObservableObject {
                                     imageData.data = data
                                     imageData.priority = Int64(index)
                                     imageData.retryFlag = imageUrls[index] == "error"
-                                    card.addToImageData(imageData)
+                                    card.addToImageDatas(imageData)
                                 }
+                                
                                 return card
                             }
                             .catch { error in
@@ -343,7 +346,7 @@ class DataViewModel: ObservableObject {
                                     imageData.data = data
                                     imageData.priority = Int64(index)
                                     imageData.retryFlag = imageUrls[index] == "error"
-                                    card.addToImageData(imageData)
+                                    card.addToImageDatas(imageData)
                                 }
                             }
                             .catch { error in

@@ -17,13 +17,13 @@ extension Card {
 
     @NSManaged public var category: String?
     @NSManaged public var id: UUID?
-    @NSManaged public var text: String?
+    @NSManaged public var lastHardDate: Date?
     @NSManaged public var masteryRate: Int16
     @NSManaged public var nextLearningDate: Date?
+    @NSManaged public var text: String?
     @NSManaged public var imageDatas: NSSet?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
-    @NSManaged public var lastHardDate: Date?
     
     public var unwrappedText: String {
         text ?? "Unknown"
@@ -61,17 +61,17 @@ extension Card {
 // MARK: Generated accessors for imageData
 extension Card {
 
-    @objc(addImageDataObject:)
-    @NSManaged public func addToImageData(_ value: ImageData)
+    @objc(addImageDatasObject:)
+    @NSManaged public func addToImageDatas(_ value: ImageData)
 
-    @objc(removeImageDataObject:)
-    @NSManaged public func removeFromImageData(_ value: ImageData)
+    @objc(removeImageDatasObject:)
+    @NSManaged public func removeFromImageDatas(_ value: ImageData)
 
-    @objc(addImageData:)
-    @NSManaged public func addToImageData(_ values: NSSet)
+    @objc(addImageDatas:)
+    @NSManaged public func addToImageDatas(_ values: NSSet)
 
-    @objc(removeImageData:)
-    @NSManaged public func removeFromImageData(_ values: NSSet)
+    @objc(removeImageDatas:)
+    @NSManaged public func removeFromImageDatas(_ values: NSSet)
 
 }
 

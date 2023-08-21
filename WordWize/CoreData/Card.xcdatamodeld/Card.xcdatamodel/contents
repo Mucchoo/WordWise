@@ -7,7 +7,7 @@
         <attribute name="masteryRate" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="nextLearningDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="text" optional="YES" attributeType="String"/>
-        <relationship name="imageData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImageData" inverseName="card" inverseEntity="ImageData"/>
+        <relationship name="imageDatas" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImageData" inverseName="card" inverseEntity="ImageData"/>
         <relationship name="meanings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="card" inverseEntity="Meaning"/>
         <relationship name="phonetics" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Phonetic" inverseName="card" inverseEntity="Phonetic"/>
     </entity>
@@ -27,7 +27,7 @@
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="retryFlag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageData" inverseEntity="Card"/>
+        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageDatas" inverseEntity="Card"/>
     </entity>
     <entity name="Meaning" representedClassName="Meaning" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
