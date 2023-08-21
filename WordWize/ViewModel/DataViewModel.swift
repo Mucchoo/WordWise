@@ -149,6 +149,7 @@ class DataViewModel: ObservableObject {
     func deleteCategoryAndItsCards(name: String) {
         guard let category = categories.first(where: { $0.name == name }) else { return }
         viewContext.delete(category)
+        categories.removeAll(where: { $0.name == category.name })
         
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Card.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "category == %@", name)
@@ -162,10 +163,7 @@ class DataViewModel: ObservableObject {
         }
         
         persistence.saveContext()
-        
-        DispatchQueue.main.async {
-            self.categories.removeAll(where: { $0.name == category.name })
-        }
+        loadData()
     }
     
     func changeCategory(of cards: [Card], newCategory: String) {
