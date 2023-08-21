@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Combine
-import Kingfisher
 
 struct CardView: View {
     @Environment(\.colorScheme) var colorScheme
