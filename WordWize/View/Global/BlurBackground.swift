@@ -17,7 +17,7 @@ struct BlurBackground: ViewModifier {
             .background {
                 TransparentBlurView(removeAllLayers: true)
                     .blur(radius: 9, opaque: true)
-                    .background(Color.init(white: colorScheme == .dark ? 0.3 : 1)).opacity(0.5)
+                    .background(Color.init(white: colorScheme == .dark ? 0.25 : 1)).opacity(0.5)
             }
             .cornerRadius(10)
             .clipped()
