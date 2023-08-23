@@ -24,7 +24,7 @@ class Persistence: ObservableObject {
 
         container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error.localizedDescription), \(error.userInfo)")
+                print("Unresolved error \(error.localizedDescription), \(error.userInfo)")
             }
         }
 
