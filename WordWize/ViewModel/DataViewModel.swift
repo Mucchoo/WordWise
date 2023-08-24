@@ -278,7 +278,9 @@ class DataViewModel: ObservableObject {
 
                         return Publishers.MergeMany(downloadImages)
                             .collect()
-                            .tryMap { imagesData in
+                            .tryMap { [weak self] imagesData in
+                                guard let self = self else { return card }
+                                
                                 for (index, data) in imagesData.enumerated() {
                                     let imageData = ImageData(context: self.viewContext)
                                     imageData.data = data
