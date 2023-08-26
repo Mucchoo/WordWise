@@ -7,65 +7,46 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @EnvironmentObject var dataViewModel: DataViewModel
-    @State var selectedTab = "book.closed"
-    @State private var showTabBar = true
+enum TabType: String, CaseIterable {
+    case study = "book.closed"
+    case addCard = "plus.square"
+    case categoryList = "rectangle.stack"
+    case account = "person"
+}
 
+struct ContentView: View {
+    @ObservedObject var contentViewModel = ContentViewModel()
+    
     var body: some View {
         ZStack {
-            TabView(selection: $selectedTab) {
+            TabView(selection: $contentViewModel.selectedTab) {
                 StudyView()
-                    .tag("book.closed")
+                    .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(showTabBar: $showTabBar)
-                    .tag("plus.square")
+                AddCardView(showTabBar: $contentViewModel.showTabBar)
+                    .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
                 CategoryListView()
-                    .tag("rectangle.stack")
+                    .tag(TabType.categoryList.rawValue)
                     .accessibilityIdentifier("CategoryListView")
                 AccountView()
-                    .tag("person")
+                    .tag(TabType.account.rawValue)
                     .accessibilityIdentifier("AccountView")
             }
             .ignoresSafeArea()
             
             VStack {
                 Spacer()
-                if showTabBar {
-                    CustomTabBar(selectedTab: $selectedTab)
+                if contentViewModel.showTabBar {
+                    CustomTabBar(selectedTab: $contentViewModel.selectedTab, tabPoints: $contentViewModel.tabPoints)
                     Spacer().frame(height: 20)
                 }
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onAppear {
-            dataViewModel.retryFetchingImages()
-            
-            guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
-            print("SETUP_DATA_FOR_TESTING")
-            
-            dataViewModel.addDefaultCategory {
-                for i in 0..<Int.random(in: 1..<100) {
-                    let testCard = dataViewModel.makeTestCard(text: "test card \(i)")
-                    dataViewModel.cards.append(testCard)
-                    print("add card: \(i)")
-                }
-
-                dataViewModel.persistence.saveContext()
-                dataViewModel.loadData()
-
-                dataViewModel.cards.forEach { card in
-                    if card.category == nil {
-                        card.category = dataViewModel.categories.first?.name
-                        dataViewModel.persistence.saveContext()
-                    }
-                }
-            }
-        }
+        .onAppear { contentViewModel.onAppear() }
     }
 }
-
 
 #Preview {
     ContentView()
@@ -75,53 +56,46 @@ struct ContentView: View {
 
 private struct CustomTabBar: View {
     @Binding var selectedTab: String
-    @State var tabPoints: [CGFloat] = [10,0,0,0]
-
+    @Binding var tabPoints: [CGFloat]
+    
+    var curvePoint: CGFloat {
+        return tabPoints[tabIndex(for: selectedTab) ?? 0]
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: "book.closed", index: 0, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: TabType.study.rawValue, index: 0, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("studyViewTabButton")
-
-            TabBarButton(image: "plus.square", index: 1, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: TabType.addCard.rawValue, index: 1, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("addCardViewTabButton")
-
-            TabBarButton(image: "rectangle.stack", index: 2, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: TabType.categoryList.rawValue, index: 2, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("cardListViewTabButton")
-
-            TabBarButton(image: "person", index: 3, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: TabType.account.rawValue, index: 3, selectedTab: $selectedTab, tabPoints: $tabPoints)
                 .accessibilityIdentifier("accountViewTabButton")
         }
         .padding()
         .background(
             LinearGradient(gradient: Gradient(colors: [.navy, .ocean]), startPoint: .leading, endPoint: .trailing)
-                .clipShape(TabCurve(tabPoint: getCurvePoint() - 15)))
+                .clipShape(TabCurve(tabPoint: curvePoint - 15)))
         .overlay(
             Circle()
                 .fill(Color.ocean)
                 .frame(width: 10, height: 10)
-                .offset(x: getCurvePoint() - 20)
+                .offset(x: curvePoint - 20)
             , alignment: .bottomLeading)
         .cornerRadius(30)
         .padding(.horizontal)
     }
-
-    func getCurvePoint() -> CGFloat {
-        switch selectedTab {
-        case "book.closed":
-            return tabPoints[0]
-        case "plus.square":
-            return tabPoints[1]
-        case "rectangle.stack":
-            return tabPoints[2]
-        default:
-            return tabPoints[3]
-        }
+    
+    private func tabIndex(for tab: String) -> Int? {
+        return TabType.allCases.firstIndex { $0.rawValue == tab }
     }
 }
 
 private struct TabBarButton: View {
     var image: String
     var index: Int
+    
     @Binding var selectedTab: String
     @Binding var tabPoints: [CGFloat]
 
