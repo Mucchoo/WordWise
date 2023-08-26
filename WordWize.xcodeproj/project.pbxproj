@@ -74,7 +74,6 @@
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
 		2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
-		2ADC3C2F2A50ADE600AA5903 /* MasteryRateCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */; };
 		2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */; };
 		2AE09F562A8B12D700095107 /* PickerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE09F552A8B12D700095107 /* PickerAlert.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
@@ -173,7 +172,6 @@
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
 		2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBar.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateCountView.swift; sourceTree = "<group>"; };
 		2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPicker.swift; sourceTree = "<group>"; };
 		2AE09F552A8B12D700095107 /* PickerAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlert.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 			children = (
 				2AB6B86D2A9A5D6900645F08 /* StudyView */,
 				2A8250ED2A922B4000ADD88E /* CardsView.swift */,
-				2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
 				2AB92D1A2A9A053200E5180B /* WordInfoSection.swift */,
 				2A41F7542A99D8F7009BE564 /* BottomButtons.swift */,
@@ -615,7 +612,6 @@
 				2AB626202A636B8100C168E1 /* Meaning+CoreDataProperties.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */,
 				2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */,
-				2ADC3C2F2A50ADE600AA5903 /* MasteryRateCountView.swift in Sources */,
 				2A71E43F2A48500E005B897C /* CardListView.swift in Sources */,
 				2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */,
 				2AB626232A636B8100C168E1 /* Phonetic+CoreDataClass.swift in Sources */,
