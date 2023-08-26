@@ -38,9 +38,3 @@ struct TabCurve: Shape {
         }
     }
 }
-
-struct TabCurve_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-    }
-}
