@@ -22,12 +22,7 @@ struct StudyView: View {
                     VStack {
                         VStack {
                             CategoryPicker(selectedCategory: $studyViewModel.selectedCategory, categories: dataViewModel.categories)
-                            FilterPicker(
-                                description: "Maximum Cards",
-                                value: $studyViewModel.maximumCards,
-                                labelText: "cards",
-                                options: PickerOptions.maximumCard,
-                                id: "studyMaximumCardsPicker")
+                            FilterPicker(value: $studyViewModel.maximumCards)
                         }
                         .modifier(BlurBackground())
                         
@@ -68,6 +63,31 @@ struct StudyView: View {
                     self.studyViewModel.updateCards()
                 }
             }
+        }
+    }
+}
+
+private struct FilterPicker: View {
+    @Binding var value: Int
+
+    var body: some View {
+        VStack {
+            Divider()
+
+            HStack {
+                Text("Maximum Cards")
+                Spacer()
+                Picker("", selection: $value) {
+                    ForEach(PickerOptions.maximumCard, id: \.self) { i in
+                        Text("\(i) cards").tag(i)
+                    }
+                }
+                .accessibilityIdentifier("studyMaximumCardsPicker")
+                .labelsHidden()
+                .cornerRadius(15)
+                .pickerStyle(MenuPickerStyle())
+            }
+            .frame(height: 30)
         }
     }
 }

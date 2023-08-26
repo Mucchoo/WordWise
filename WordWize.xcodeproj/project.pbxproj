@@ -66,14 +66,12 @@
 		2ABD50282A40F461000459BC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* Persistence.swift */; };
 		2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */; };
 		2ABDB1E82A88ED870036A4DB /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E72A88ED870036A4DB /* KeyboardResponder.swift */; };
-		2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACB05762A54F4250080C685 /* FilterPicker.swift */; };
 		2ACC40CD2A69EC1C0097D3FE /* AddCardViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */; };
 		2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */; };
 		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
 		2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
-		2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */; };
 		2AE09F562A8B12D700095107 /* PickerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE09F552A8B12D700095107 /* PickerAlert.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
@@ -162,7 +160,6 @@
 		2ABD50272A40F461000459BC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
 		2ABDB1E72A88ED870036A4DB /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
-		2ACB05762A54F4250080C685 /* FilterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPicker.swift; sourceTree = "<group>"; };
 		2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewUITests.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
@@ -170,7 +167,6 @@
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
 		2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBar.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPicker.swift; sourceTree = "<group>"; };
 		2AE09F552A8B12D700095107 /* PickerAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlert.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
@@ -286,7 +282,6 @@
 				2A41F7542A99D8F7009BE564 /* BottomButtons.swift */,
 				2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */,
 				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
-				2ACB05762A54F4250080C685 /* FilterPicker.swift */,
 				2AB76AFE2A63994400C2C260 /* GridImage.swift */,
 				2A2E82512A4AA12B00B9167B /* AudioViewModel.swift */,
 			);
@@ -299,7 +294,6 @@
 				2A71E4402A4851FE005B897C /* NoCardView.swift */,
 				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
-				2ADC3C302A50AE0400AA5903 /* NumberPicker.swift */,
 				2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */,
 				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
 			);
@@ -630,11 +624,9 @@
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
 				2AB92D1B2A9A053200E5180B /* WordInfoSection.swift in Sources */,
-				2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */,
 				2A2E82522A4AA12B00B9167B /* AudioViewModel.swift in Sources */,
 				2AB6261E2A636B8100C168E1 /* Meaning+CoreDataClass.swift in Sources */,
 				2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */,
-				2ACB05772A54F4250080C685 /* FilterPicker.swift in Sources */,
 				2A737B3A2A6DFE9C002814E2 /* Definition+CoreDataProperties.swift in Sources */,
 				2AFBEAC72A5187D30049290E /* MasteryRateCountsView.swift in Sources */,
 				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
