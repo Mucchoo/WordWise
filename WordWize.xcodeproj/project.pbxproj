@@ -59,6 +59,7 @@
 		2AB7C9642A51243600A703FA /* CardStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9632A51243600A703FA /* CardStatus.swift */; };
 		2AB7C9662A512A6F00A703FA /* ClubbedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9652A512A6F00A703FA /* ClubbedView.swift */; };
 		2AB7C9682A512BD600A703FA /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9672A512BD600A703FA /* BackgroundView.swift */; };
+		2AB92D1B2A9A053200E5180B /* WordInfoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB92D1A2A9A053200E5180B /* WordInfoSection.swift */; };
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC636D2A38167800718C90 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* AccountView.swift */; };
@@ -157,6 +158,7 @@
 		2AB7C9632A51243600A703FA /* CardStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStatus.swift; sourceTree = "<group>"; };
 		2AB7C9652A512A6F00A703FA /* ClubbedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubbedView.swift; sourceTree = "<group>"; };
 		2AB7C9672A512BD600A703FA /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		2AB92D1A2A9A053200E5180B /* WordInfoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordInfoSection.swift; sourceTree = "<group>"; };
 		2ABC635A2A38147900718C90 /* WordWize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordWize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2ABC63612A38147900718C90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				2A8250ED2A922B4000ADD88E /* CardsView.swift */,
 				2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
+				2AB92D1A2A9A053200E5180B /* WordInfoSection.swift */,
 				2A41F7542A99D8F7009BE564 /* BottomButtons.swift */,
 				2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */,
 				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
@@ -640,6 +643,7 @@
 				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
+				2AB92D1B2A9A053200E5180B /* WordInfoSection.swift in Sources */,
 				2ADC3C312A50AE0400AA5903 /* NumberPicker.swift in Sources */,
 				2AC83E442A4D07A9002AC7D5 /* ParticleEffect.swift in Sources */,
 				2A2E82522A4AA12B00B9167B /* AudioViewModel.swift in Sources */,

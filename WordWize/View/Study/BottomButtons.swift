@@ -22,6 +22,8 @@ struct BottomButtons: View {
     @Binding var isFinished: Bool
     @Binding var index: Int
     @Binding var learningCards: [LearningCard]
+    
+    let audioViewModel: AudioViewModel
 
     var body: some View {
         ZStack {
@@ -62,7 +64,7 @@ struct BottomButtons: View {
                         dataViewModel.loadData()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            AudioViewModel.shared.speechText(card.text)
+                            audioViewModel.speechText(card.text)
                         }
                     }
                 }) {
@@ -120,7 +122,7 @@ struct BottomButtons: View {
                             } else {
                                 index += 1
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    AudioViewModel.shared.speechText(learningCards[index].card.text)
+                                    audioViewModel.speechText(learningCards[index].card.text)
                                 }
                             }
                         }

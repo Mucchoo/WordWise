@@ -9,7 +9,6 @@ import Foundation
 import AVFoundation
 
 class AudioViewModel {
-    static let shared = AudioViewModel()
     private var audioPlayer: AVAudioPlayer?
     private var synthesizer = AVSpeechSynthesizer()
     
