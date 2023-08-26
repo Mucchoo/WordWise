@@ -53,6 +53,20 @@ extension Card {
         }
     }
     
+    public var isTodayOrBefore: Bool {
+        guard let nextLearningDate = nextLearningDate else {
+            return false
+        }
+        return Calendar.current.isDateInToday(nextLearningDate) || Date() > nextLearningDate
+    }
+    
+    public var isUpcoming: Bool {
+        guard let nextLearningDate = nextLearningDate else {
+            return false
+        }
+        return !Calendar.current.isDateInToday(nextLearningDate) && Date() < nextLearningDate
+    }
+    
     public var rate: MasteryRate {
         return MasteryRate(rawValue: masteryRate) ?? .zero
     }
