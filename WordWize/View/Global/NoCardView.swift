@@ -36,8 +36,6 @@ struct NoCardView: View {
     }
 }
 
-struct NoCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        NoCardView(image: "BoyLeft")
-    }
+#Preview {
+    NoCardView(image: "BoyLeft")
 }

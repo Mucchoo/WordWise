@@ -85,8 +85,6 @@ extension CGSize {
     }
 }
 
-struct ClubbedView_Previews: PreviewProvider {
-    static var previews: some View {
-        ClubbedView()
-    }
+#Preview {
+    ClubbedView()
 }

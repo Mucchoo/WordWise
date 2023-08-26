@@ -64,9 +64,3 @@ struct DefinitionDetailView: View {
         }
     }
 }
-
-//struct DefinitionDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DefinitionDetailView(meaning: Meaning(), index: 0)
-//    }
-//}
