@@ -19,6 +19,7 @@
 		2A3C1DEA2A390873001B6E0E /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */; };
 		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
+		2A41F7552A99D8F7009BE564 /* BottomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A41F7542A99D8F7009BE564 /* BottomButtons.swift */; };
 		2A442B8F2A7010420083A476 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A442B8E2A7010420083A476 /* Keys.swift */; };
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
 		2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* CardService.swift */; };
@@ -115,6 +116,7 @@
 		2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		2A41F7542A99D8F7009BE564 /* BottomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtons.swift; sourceTree = "<group>"; };
 		2A442B8E2A7010420083A476 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		2A4804AC2A714ED6003AC26E /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				2A8250ED2A922B4000ADD88E /* CardsView.swift */,
 				2ADC3C2E2A50ADE600AA5903 /* MasteryRateCountView.swift */,
 				2A3C1E072A3944E4001B6E0E /* CardView.swift */,
+				2A41F7542A99D8F7009BE564 /* BottomButtons.swift */,
 				2A52F0982A72EB6B00496F02 /* AppStoreReviewModifier.swift */,
 				2AFBEAC42A5178320049290E /* DefinitionDetailView.swift */,
 				2AC83E432A4D07A9002AC7D5 /* ParticleEffect.swift */,
@@ -595,6 +598,7 @@
 				2A7B0B612A92F9DF0009F28E /* ImageData+CoreDataProperties.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */,
+				2A41F7552A99D8F7009BE564 /* BottomButtons.swift in Sources */,
 				2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */,
 				2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */,
 				2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */,
