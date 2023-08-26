@@ -9,6 +9,11 @@ import SwiftUI
 import Combine
 
 struct CardView: View {
+    struct LearningCard {
+        let card: Card
+        var isLearning = true
+    }
+    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataViewModel: DataViewModel
