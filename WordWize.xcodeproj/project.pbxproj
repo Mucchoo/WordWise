@@ -66,7 +66,6 @@
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
-		2AFBEAC72A5187D30049290E /* MasteryRateCountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */; };
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -152,7 +151,6 @@
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
-		2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateCountsView.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -267,7 +265,6 @@
 				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
 				2A581C222A89241900A86494 /* MasteryRateBars.swift */,
-				2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */,
 				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
 			);
 			path = Global;
@@ -624,7 +621,6 @@
 				2AB6261E2A636B8100C168E1 /* Meaning+CoreDataClass.swift in Sources */,
 				2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */,
 				2A737B3A2A6DFE9C002814E2 /* Definition+CoreDataProperties.swift in Sources */,
-				2AFBEAC72A5187D30049290E /* MasteryRateCountsView.swift in Sources */,
 				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
 				2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */,
 				2A737B3B2A6DFE9C002814E2 /* Definition+CoreDataClass.swift in Sources */,

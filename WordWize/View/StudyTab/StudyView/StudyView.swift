@@ -8,49 +8,33 @@
 import SwiftUI
 
 struct StudyView: View {
-    @ObservedObject var studyViewModel = StudyViewModel()
-    @EnvironmentObject var dataViewModel: DataViewModel
+    @StateObject private var viewModel = StudyViewModel()
 
     var body: some View {
-        if !dataViewModel.isDataLoaded {
+        if !viewModel.dataViewModel.isDataLoaded {
             Text("")
-        } else if dataViewModel.cards.isEmpty {
+        } else if viewModel.dataViewModel.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
                 ScrollView {
                     VStack {
                         VStack {
-                            CategoryPicker(selectedCategory: $studyViewModel.selectedCategory, categories: dataViewModel.categories)
-                            FilterPicker(value: $studyViewModel.maximumCards)
+                            categoryPicker
+                            maximumCardsPicker
                         }
                         .blurBackground()
                         
-                        MasteryRateInfo()
-                        MasteryRateCountsView(category: $studyViewModel.selectedCategory)
-                            .padding(.horizontal)
+                        masteryRateTitleAndInfo
+                        masteryRateCounts
+                        studyButton
                         
-                        StudyButton(studyCount: studyViewModel.studyingCards.count) {
-                            studyViewModel.updateCards()
-                            studyViewModel.showingCardView = true
-                        }
-                        .fullScreenCover(isPresented: $studyViewModel.showingCardView) {
-                            CardView(showingCardView: $studyViewModel.showingCardView, studyingCards: studyViewModel.studyingCards)
-                                .accessibilityIdentifier("CardView")
+                        if !viewModel.todaysCards.isEmpty {
+                            todaysCardsButton
                         }
                         
-                        if !studyViewModel.todaysCards.isEmpty {
-                            NavigationLink(destination: CardsView(type: .todays)) {
-                                Text("Todays Cards: \(studyViewModel.todaysCards.count) Cards")
-                            }
-                            .padding(.top, 20)
-                        }
-                        
-                        if !studyViewModel.upcomingCards.isEmpty {
-                            NavigationLink(destination: CardsView(type: .upcoming)) {
-                                Text("Upcoming Cards: \(studyViewModel.upcomingCards.count) Cards")
-                            }
-                            .padding(.top, 20)
+                        if !viewModel.upcomingCards.isEmpty {
+                            upcomingCardsButton
                         }
                     }
                 }
@@ -58,26 +42,22 @@ struct StudyView: View {
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .onReceive(dataViewModel.$cards) { _ in
+            .onReceive(viewModel.dataViewModel.$cards) { _ in
                 DispatchQueue.main.async {
-                    self.studyViewModel.updateCards()
+                    self.viewModel.updateCards()
                 }
             }
         }
     }
-}
-
-private struct FilterPicker: View {
-    @Binding var value: Int
-
-    var body: some View {
+    
+    private var maximumCardsPicker: some View {
         VStack {
             Divider()
 
             HStack {
                 Text("Maximum Cards")
                 Spacer()
-                Picker("", selection: $value) {
+                Picker("", selection: $viewModel.maximumCards) {
                     ForEach(PickerOptions.maximumCard, id: \.self) { i in
                         Text("\(i) cards").tag(i)
                     }
@@ -90,18 +70,13 @@ private struct FilterPicker: View {
             .frame(height: 30)
         }
     }
-}
-
-private struct CategoryPicker: View {
-    @Binding var selectedCategory: String
-    var categories: [CardCategory]
-
-    var body: some View {
+    
+    private var categoryPicker: some View {
         HStack {
             Text("Category")
             Spacer()
-            Picker("Options", selection: $selectedCategory) {
-                ForEach(categories) { category in
+            Picker("Options", selection: $viewModel.selectedCategory) {
+                ForEach(viewModel.dataViewModel.categories) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -109,10 +84,8 @@ private struct CategoryPicker: View {
         }
         .frame(height: 30)
     }
-}
-
-private struct MasteryRateInfo: View {
-    var body: some View {
+    
+    private var masteryRateTitleAndInfo: some View {
         HStack {
             Text("Mastery Rate")
                 .fontWeight(.bold)
@@ -124,31 +97,82 @@ private struct MasteryRateInfo: View {
         }
         .padding(.horizontal)
     }
-}
-
-private struct StudyButton: View {
-    var studyCount: Int
-    var action: () -> Void
     
-    var body: some View {
-        Button(action: action) {
-            Text(studyCount > 0 ? "Study \(studyCount) Cards" : "Finished Learning for Today!")
+    private var studyButton: some View {
+        Button {
+            viewModel.updateCards()
+            viewModel.showingCardView = true
+        } label: {
+            Text(viewModel.studyButtonTitle)
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(studyCount > 0 ?
+                .background(viewModel.studyingCards.count > 0 ?
                             LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) :
                             LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .accessibilityIdentifier("StudyCardsButton")
         }
-        .disabled(studyCount == 0)
+        .disabled(viewModel.studyingCards.count == 0)
         .padding()
         .accessibilityIdentifier("studyCardsButton")
+        .fullScreenCover(isPresented: $viewModel.showingCardView) {
+            CardView(showingCardView: $viewModel.showingCardView, studyingCards: viewModel.studyingCards)
+                .accessibilityIdentifier("CardView")
+        }
+    }
+    
+    private var masteryRateCounts: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                rateBar(rate: .zero)
+                rateBar(rate: .twentyFive)
+            }
+            HStack(spacing: 0) {
+                rateBar(rate: .fifty)
+                rateBar(rate: .seventyFive)
+            }
+        }
+        .cornerRadius(20)
+        .clipped()
+        .padding(.horizontal)
+    }
+    
+    private func rateBar(rate: MasteryRate) -> some View {
+        return HStack(alignment: .center, spacing: 4) {
+            Text(rate.stringValue() + "%:")
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding(.top, 2)
+            Text("\(viewModel.rateBarCardCount(rate: rate))")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            Text("cards")
+                .font(.caption2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding(.top, 6)
+        }
+        .frame(height: 60)
+        .frame(maxWidth: .infinity)
+        .background(LinearGradient(colors: viewModel.getRateBarColors(rate: rate), startPoint: .topLeading, endPoint: .bottomTrailing))
+    }
+    
+    private var todaysCardsButton: some View {
+        return NavigationLink(destination: CardsView(type: .todays)) {
+            Text("Todays Cards: \(viewModel.todaysCards.count) Cards")
+        }.padding(.top, 20)
+    }
+    
+    private var upcomingCardsButton: some View {
+        return NavigationLink(destination: CardsView(type: .upcoming)) {
+            Text("Upcoming Cards: \(viewModel.upcomingCards.count) Cards")
+        }.padding(.top, 20)
     }
 }
-
 
 #Preview {
     StudyView()
