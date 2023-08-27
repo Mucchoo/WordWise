@@ -1,5 +1,5 @@
 //
-//  BackgroundView.swift
+//  GradientBackground.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/2/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BackgroundView: View {
+struct GradientBackground: View {
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
@@ -21,11 +21,11 @@ struct BackgroundView: View {
 }
 
 extension View {
-    func backgroundView() -> some View {
-        self.background(BackgroundView())
+    func gradientBackground() -> some View {
+        self.background(GradientBackground())
     }
 }
 
 #Preview {
-    BackgroundView()
+    GradientBackground()
 }

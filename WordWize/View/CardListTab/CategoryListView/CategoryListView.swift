@@ -23,7 +23,7 @@ struct CategoryListView: View {
                         }
                     }
                 }
-                .backgroundView()
+                .gradientBackground()
                 .navigationBarTitle("Categories", displayMode: .large)
                 .alert("Rename Category", isPresented: $viewModel.showingRenameAlert) {
                     TextField("category name", text: $viewModel.categoryNameTextFieldInput)

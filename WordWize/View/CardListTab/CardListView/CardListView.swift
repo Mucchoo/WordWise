@@ -27,7 +27,7 @@ struct CardListView: View {
                 .blurBackground()
             }
         }
-        .backgroundView()
+        .gradientBackground()
         .background(PickerAlert(viewModel: viewModel, type: .category))
         .background(PickerAlert(viewModel: viewModel, type: .masteryRate))
         .navigationBarTitle(viewModel.categoryName, displayMode: .large)

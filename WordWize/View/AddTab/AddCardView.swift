@@ -27,7 +27,7 @@ struct AddCardView: View {
                     generateButton
                 }
                 .padding(.bottom, 90)
-                .backgroundView()
+                .gradientBackground()
                 .navigationBarTitle("Add Cards", displayMode: .large)
                 .navigationBarHidden(isFocused)
                 .ignoresSafeArea(edges: .bottom)

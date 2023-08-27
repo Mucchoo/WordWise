@@ -53,7 +53,7 @@
 		2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB76AF92A6386E300C2C260 /* ImageResponse.swift */; };
 		2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB76B002A63998600C2C260 /* Array+Extension.swift */; };
 		2AB7C9622A51240100A703FA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9612A51240100A703FA /* Global.swift */; };
-		2AB7C9682A512BD600A703FA /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9672A512BD600A703FA /* BackgroundView.swift */; };
+		2AB7C9682A512BD600A703FA /* GradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9672A512BD600A703FA /* GradientBackground.swift */; };
 		2ABC63602A38147900718C90 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC635F2A38147900718C90 /* ContentView.swift */; };
 		2ABC63622A38147900718C90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2ABC63612A38147900718C90 /* Assets.xcassets */; };
 		2ABC636D2A38167800718C90 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* AccountView.swift */; };
@@ -137,7 +137,7 @@
 		2AB76AF92A6386E300C2C260 /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
 		2AB76B002A63998600C2C260 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2AB7C9612A51240100A703FA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
-		2AB7C9672A512BD600A703FA /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		2AB7C9672A512BD600A703FA /* GradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBackground.swift; sourceTree = "<group>"; };
 		2ABC635A2A38147900718C90 /* WordWize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordWize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABC635F2A38147900718C90 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2ABC63612A38147900718C90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -264,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				2A68022B2A9BB94200AADB8C /* NoCardView */,
-				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
+				2AB7C9672A512BD600A703FA /* GradientBackground.swift */,
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
 				2A581C222A89241900A86494 /* MasteryRateBars.swift */,
 				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
@@ -605,7 +605,7 @@
 				2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */,
 				2AB6B8722A9A738C00645F08 /* CardViewModel.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
-				2AB7C9682A512BD600A703FA /* BackgroundView.swift in Sources */,
+				2AB7C9682A512BD600A703FA /* GradientBackground.swift in Sources */,
 				2AB6B86C2A9A511A00645F08 /* ContentViewModel.swift in Sources */,
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,
 				2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */,

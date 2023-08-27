@@ -34,7 +34,7 @@ struct AccountView: View {
                         .blurBackground()
                 }
             }
-            .backgroundView()
+            .gradientBackground()
             .navigationBarTitle("Account", displayMode: .large)
         }
         .navigationViewStyle(StackNavigationViewStyle())

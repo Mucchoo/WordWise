@@ -38,7 +38,7 @@ struct StudyView: View {
                         }
                     }
                 }
-                .backgroundView()
+                .gradientBackground()
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .navigationViewStyle(StackNavigationViewStyle())

@@ -31,7 +31,7 @@ struct CardsView: View {
                 }
             }
         }
-        .backgroundView()
+        .gradientBackground()
         .navigationBarTitle(viewModel.title, displayMode: .large)
     }
     
