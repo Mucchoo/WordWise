@@ -17,7 +17,7 @@ struct AccountView: View {
             ScrollView {
                 VStack {
                     MasteryRateBars(categoryName: "")
-                        .modifier(BlurBackground())
+                        .blurBackground()
                     
                     VStack {
                         nativeLanguageView
@@ -28,13 +28,13 @@ struct AccountView: View {
                         Divider()
                         feedbackView
                     }
-                    .modifier(BlurBackground())
+                    .blurBackground()
                     
                     resetLearningDataView
-                        .modifier(BlurBackground())
+                        .blurBackground()
                 }
             }
-            .background(BackgroundView())
+            .backgroundView()
             .navigationBarTitle("Account", displayMode: .large)
         }
         .navigationViewStyle(StackNavigationViewStyle())

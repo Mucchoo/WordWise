@@ -25,6 +25,12 @@ struct BlurBackground: ViewModifier {
     }
 }
 
+extension View {
+    func blurBackground() -> some View {
+        modifier(BlurBackground())
+    }
+}
+
 private struct TransparentBlurView: UIViewRepresentable {
     var removeAllLayers = false
     func makeUIView(context: Context) -> TransparentBlurViewHelper {

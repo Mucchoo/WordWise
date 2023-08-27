@@ -24,7 +24,7 @@ struct StudyView: View {
                             CategoryPicker(selectedCategory: $studyViewModel.selectedCategory, categories: dataViewModel.categories)
                             FilterPicker(value: $studyViewModel.maximumCards)
                         }
-                        .modifier(BlurBackground())
+                        .blurBackground()
                         
                         MasteryRateInfo()
                         MasteryRateCountsView(category: $studyViewModel.selectedCategory)
@@ -54,7 +54,7 @@ struct StudyView: View {
                         }
                     }
                 }
-                .background(BackgroundView())
+                .backgroundView()
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .navigationViewStyle(StackNavigationViewStyle())

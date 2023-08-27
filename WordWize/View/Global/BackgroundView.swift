@@ -20,6 +20,12 @@ struct BackgroundView: View {
     }
 }
 
+extension View {
+    func backgroundView() -> some View {
+        self.background(BackgroundView())
+    }
+}
+
 #Preview {
     BackgroundView()
 }

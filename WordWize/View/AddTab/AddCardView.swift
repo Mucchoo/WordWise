@@ -36,7 +36,7 @@ struct AddCardView: View {
                     .onChange(of: isFocused) { newValue in
                         viewModel.togglePlaceHolder(isFocused)
                     }
-                    .modifier(BlurBackground())
+                    .blurBackground()
                     .accessibilityIdentifier("addCardViewTextEditor")
                     
                     .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90) 
@@ -59,7 +59,7 @@ struct AddCardView: View {
                     .padding([.horizontal, .bottom])
                 }
                 .padding(.bottom, 90)
-                .background(BackgroundView())
+                .backgroundView()
                 .navigationBarTitle("Add Cards", displayMode: .large)
                 .navigationBarHidden(isFocused)
                 .ignoresSafeArea(edges: .bottom)
@@ -111,7 +111,7 @@ private struct CategoryPickerView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: 26)
-            .modifier(BlurBackground())
+            .blurBackground()
             .accessibilityIdentifier("addCardViewCategoryPicker")
             
             AddCategoryButton(viewModel: viewModel)

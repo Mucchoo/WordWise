@@ -23,7 +23,7 @@ struct CategoryListView: View {
                         }
                     }
                 }
-                .background(BackgroundView())
+                .backgroundView()
                 .navigationBarTitle("Categories", displayMode: .large)
                 .alert("Rename Category", isPresented: $viewModel.showingRenameAlert) {
                     TextField("category name", text: $viewModel.categoryNameTextFieldInput)
@@ -80,7 +80,7 @@ private struct CategoryListItemView: View {
                     MasteryRateBars(categoryName: category.name ?? "nil")
                 }
                 .padding(10)
-                .modifier(BlurBackground())
+                .blurBackground()
                 .cornerRadius(20)
             }
 

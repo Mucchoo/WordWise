@@ -55,11 +55,11 @@ struct CardsView: View {
                             }
                         }
                     }
-                    .modifier(BlurBackground())
+                    .blurBackground()
                 }
             }
         }
-        .background(BackgroundView())
+        .backgroundView()
         .navigationBarTitle(viewModel.title, displayMode: .large)
     }
 }

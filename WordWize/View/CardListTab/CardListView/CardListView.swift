@@ -24,10 +24,10 @@ struct CardListView: View {
                         CardRow(viewModel: viewModel, card: card)
                     }
                 }
-                .modifier(BlurBackground())
+                .blurBackground()
             }
         }
-        .background(BackgroundView())
+        .backgroundView()
         .background(PickerAlert(viewModel: viewModel, type: .category))
         .background(PickerAlert(viewModel: viewModel, type: .masteryRate))
         .navigationBarTitle(viewModel.categoryName, displayMode: .large)
@@ -127,7 +127,7 @@ private struct SearchBar: View {
                     text = newValue.lowercased()
                 }
                 .padding(7)
-                .modifier(BlurBackground())
+                .blurBackground()
                 .cornerRadius(8)
         }
         .padding(.top, 10)
