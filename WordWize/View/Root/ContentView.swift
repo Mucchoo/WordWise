@@ -15,15 +15,15 @@ enum TabType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @ObservedObject var contentViewModel = ContentViewModel()
+    @StateObject private var viewModel = ContentViewModel()
     
     var body: some View {
         ZStack {
-            TabView(selection: $contentViewModel.selectedTab) {
+            TabView(selection: $viewModel.selectedTab) {
                 StudyView()
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(showTabBar: $contentViewModel.showTabBar)
+                AddCardView(showTabBar: $viewModel.showTabBar)
                     .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
                 CategoryListView()
@@ -37,41 +37,30 @@ struct ContentView: View {
             
             VStack {
                 Spacer()
-                if contentViewModel.showTabBar {
-                    CustomTabBar(selectedTab: $contentViewModel.selectedTab, tabPoints: $contentViewModel.tabPoints)
+                if viewModel.showTabBar {
+                    customTabBar
                     Spacer().frame(height: 20)
                 }
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onAppear { contentViewModel.onAppear() }
-    }
-}
-
-#Preview {
-    ContentView()
-}
-
-// MARK: - CustomTabBar
-
-private struct CustomTabBar: View {
-    @Binding var selectedTab: String
-    @Binding var tabPoints: [CGFloat]
-    
-    var curvePoint: CGFloat {
-        return tabPoints[tabIndex(for: selectedTab) ?? 0]
+        .onAppear { viewModel.onAppear() }
     }
     
-    var body: some View {
+    private var curvePoint: CGFloat {
+        return viewModel.tabPoints[tabIndex(for: viewModel.selectedTab) ?? 0]
+    }
+    
+    private func tabIndex(for tab: String) -> Int? {
+        return TabType.allCases.firstIndex { $0.rawValue == tab }
+    }
+    
+    private var customTabBar: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: TabType.study.rawValue, index: 0, selectedTab: $selectedTab, tabPoints: $tabPoints)
-                .accessibilityIdentifier("studyViewTabButton")
-            TabBarButton(image: TabType.addCard.rawValue, index: 1, selectedTab: $selectedTab, tabPoints: $tabPoints)
-                .accessibilityIdentifier("addCardViewTabButton")
-            TabBarButton(image: TabType.categoryList.rawValue, index: 2, selectedTab: $selectedTab, tabPoints: $tabPoints)
-                .accessibilityIdentifier("cardListViewTabButton")
-            TabBarButton(image: TabType.account.rawValue, index: 3, selectedTab: $selectedTab, tabPoints: $tabPoints)
-                .accessibilityIdentifier("accountViewTabButton")
+            tabBarButton(index: 0, image: TabType.study.rawValue)
+            tabBarButton(index: 1, image: TabType.addCard.rawValue)
+            tabBarButton(index: 2, image: TabType.categoryList.rawValue)
+            tabBarButton(index: 3, image: TabType.account.rawValue)
         }
         .padding()
         .background(
@@ -87,36 +76,24 @@ private struct CustomTabBar: View {
         .padding(.horizontal)
     }
     
-    private func tabIndex(for tab: String) -> Int? {
-        return TabType.allCases.firstIndex { $0.rawValue == tab }
-    }
-}
-
-private struct TabBarButton: View {
-    var image: String
-    var index: Int
-    
-    @Binding var selectedTab: String
-    @Binding var tabPoints: [CGFloat]
-
-    var body: some View {
-        GeometryReader { reader -> AnyView in
+    private func tabBarButton(index: Int, image: String) -> some View {
+        return GeometryReader { reader -> AnyView in
             let midX = reader.frame(in: .global).midX
 
             DispatchQueue.main.async {
-                tabPoints[index] = midX
+                viewModel.tabPoints[index] = midX
             }
 
             return AnyView(
                 Button {
                     withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5)) {
-                        selectedTab = image
+                        viewModel.selectedTab = image
                     }
                 } label: {
-                    Image(systemName: "\(image)\(selectedTab == image ? ".fill" : "")")
+                    Image(systemName: "\(image)\(viewModel.selectedTab == image ? ".fill" : "")")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.white)
-                        .offset(y: selectedTab == image ? -10 : 0)
+                        .offset(y: viewModel.selectedTab == image ? -10 : 0)
                         .accessibility(identifier: "\(image)")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -124,6 +101,10 @@ private struct TabBarButton: View {
         }
         .frame(height: 40)
     }
+}
+
+#Preview {
+    ContentView()
 }
 
 private struct TabCurve: Shape {
