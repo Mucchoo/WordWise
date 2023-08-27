@@ -20,9 +20,6 @@
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
 		2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* CardService.swift */; };
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
-		2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */; };
-		2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */; };
-		2A4EDE3E2A89BAF000D36526 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
@@ -69,7 +66,6 @@
 		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
 		2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
-		2AE09F562A8B12D700095107 /* PickerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE09F552A8B12D700095107 /* PickerAlert.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
 		2AFBEAC72A5187D30049290E /* MasteryRateCountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */; };
@@ -108,9 +104,6 @@
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		2A4804AC2A714ED6003AC26E /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
-		2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailSheetView.swift; sourceTree = "<group>"; };
-		2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRowView.swift; sourceTree = "<group>"; };
-		2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
@@ -160,7 +153,6 @@
 		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
 		2ADC3C282A50A5AE00AA5903 /* MasteryRateBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBar.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		2AE09F552A8B12D700095107 /* PickerAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlert.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateCountsView.swift; sourceTree = "<group>"; };
@@ -301,10 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				2A71E43E2A48500E005B897C /* CardListView.swift */,
-				2AE09F552A8B12D700095107 /* PickerAlert.swift */,
-				2A4EDE3D2A89BAF000D36526 /* SearchBar.swift */,
-				2A4EDE3B2A89B3C300D36526 /* CardRowView.swift */,
-				2A4EDE392A89AAA100D36526 /* CardDetailSheetView.swift */,
 				2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */,
 			);
 			path = CardListTab;
@@ -583,7 +571,6 @@
 				2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */,
 				2AB6261C2A636B8100C168E1 /* Phonetic+CoreDataProperties.swift in Sources */,
 				2AB6262A2A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift in Sources */,
-				2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */,
 				2AB6B8752A9AFE0F00645F08 /* CardsViewModel.swift in Sources */,
 				2A7B0B612A92F9DF0009F28E /* ImageData+CoreDataProperties.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
@@ -591,7 +578,6 @@
 				2ADA32392A506DB000E0F050 /* TransparentBlurView.swift in Sources */,
 				2ADC3C292A50A5AE00AA5903 /* MasteryRateBar.swift in Sources */,
 				2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */,
-				2A4EDE3E2A89BAF000D36526 /* SearchBar.swift in Sources */,
 				2ABD50282A40F461000459BC /* Persistence.swift in Sources */,
 				2AB6262B2A636DEC00C168E1 /* CardCategory+CoreDataClass.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
@@ -615,9 +601,7 @@
 				2AB6261F2A636B8100C168E1 /* Card+CoreDataProperties.swift in Sources */,
 				2A3C1DEA2A390873001B6E0E /* ActivityViewController.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
-				2A4EDE3A2A89AAA100D36526 /* CardDetailSheetView.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
-				2AE09F562A8B12D700095107 /* PickerAlert.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
