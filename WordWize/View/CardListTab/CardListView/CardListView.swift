@@ -9,19 +9,19 @@ import SwiftUI
 import UIKit
 
 struct CardListView: View {
-    @StateObject var viewModel: CardListViewModel
+    @StateObject private var viewModel: CardListViewModel
     
     init(categoryName: String) {
         _viewModel = StateObject(wrappedValue: CardListViewModel(categoryName: categoryName))
     }
     
     var body: some View {
-        SearchBar(text: $viewModel.searchBarText)
+        searchBar
         ScrollView {
             VStack {
                 LazyVStack {
                     ForEach(viewModel.cardList, id: \.id) { card in
-                        CardRow(viewModel: viewModel, card: card)
+                        cardRow(card)
                     }
                 }
                 .blurBackground()
@@ -31,100 +31,87 @@ struct CardListView: View {
         .background(PickerAlert(viewModel: viewModel, type: .category))
         .background(PickerAlert(viewModel: viewModel, type: .masteryRate))
         .navigationBarTitle(viewModel.categoryName, displayMode: .large)
-        .navigationBarItems(
-            leading: NavigationLeadingItems(viewModel: viewModel),
-            trailing: Button(action: {
-                viewModel.selectMode.toggle()
-            }) {
-                Text(viewModel.selectMode ? "Cancel" : "Select")
-                    .foregroundStyle(Color.white)
-                    .font(.footnote)
-                    .fontWeight(.bold)
-                    .frame(width: 80, height: 30)
-                    .background(RoundedRectangle(cornerRadius: 15).foregroundStyle(Color.blue))
-            }
-        )
+        .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
         .onReceive(viewModel.dataViewModel.$cards) { _ in
             viewModel.updateCardList()
         }
         .onChange(of: viewModel.searchBarText) { _ in
             viewModel.updateCardList()
         }
-        .alert("Do you want to delete the \(viewModel.selectedCards.count) cards?", isPresented: $viewModel.showingDeleteCardsAlert) {
-            Button("Delete", role: .destructive) {
-                viewModel.deleteSelectedCards()
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("This operation cannot be undone.")
-        }
     }
-}
-
-#Preview {
-    CardListView(categoryName: "")
-        .injectMockDataViewModelForPreview()
-}
-
-private struct NavigationLeadingItems: View {
-    @ObservedObject var viewModel: CardListViewModel
-
-    var body: some View {
-        if viewModel.selectMode {
-            if viewModel.selectedCards.count == 0 {
-                Text("Select Cards")
+    
+    private var navigationLeadingItems: some View {
+        Group {
+            if viewModel.selectMode {
+                if viewModel.selectedCards.count == 0 {
+                    Text("Select Cards")
+                        .foregroundStyle(Color.white)
+                        .font(.footnote)
+                        .fontWeight(.bold)
+                        .frame(width: 120, height: 30)
+                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+                } else {
+                    Menu("Actions...") {
+                        Button(action: {
+                            viewModel.showingPickerAlert = true
+                        }) {
+                            Label("Change Category", systemImage: "folder.fill")
+                        }
+                        
+                        Button(action: {
+                            viewModel.showingChangeMasteryRateView = true
+                        }) {
+                            Label("Change Mastery Rate", systemImage: "chart.bar.fill")
+                        }
+                        
+                        Button(action: {
+                            viewModel.showingDeleteCardsAlert = true
+                        }) {
+                            Label("Delete Cards", systemImage: "trash.fill")
+                                .foregroundColor(Color.red)
+                        }
+                    }
                     .foregroundStyle(Color.white)
                     .font(.footnote)
                     .fontWeight(.bold)
                     .frame(width: 120, height: 30)
                     .background(
                         RoundedRectangle(cornerRadius: 15)
-                            .fill(Color.gray)
+                            .foregroundStyle(Color.blue)
                     )
-            } else {
-                Menu("Actions...") {
-                    Button(action: {
-                        viewModel.showingPickerAlert = true
-                    }) {
-                        Label("Change Category", systemImage: "folder.fill")
-                    }
-                    
-                    Button(action: {
-                        viewModel.showingChangeMasteryRateView = true
-                    }) {
-                        Label("Change Mastery Rate", systemImage: "chart.bar.fill")
-                    }
-                    
-                    Button(action: {
-                        viewModel.showingDeleteCardsAlert = true
-                    }) {
-                        Label("Delete Cards", systemImage: "trash.fill")
-                            .foregroundColor(Color.red)
+                    .alert("Do you want to delete the \(viewModel.selectedCards.count) cards?", isPresented: $viewModel.showingDeleteCardsAlert) {
+                        Button("Delete", role: .destructive) {
+                            viewModel.deleteSelectedCards()
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("This operation cannot be undone.")
                     }
                 }
+            } else {
+                EmptyView()
+            }
+        }
+    }
+    
+    private var selectModeButton: some View {
+        Button(action: {
+            viewModel.selectMode.toggle()
+        }) {
+            Text(viewModel.selectMode ? "Cancel" : "Select")
                 .foregroundStyle(Color.white)
                 .font(.footnote)
                 .fontWeight(.bold)
-                .frame(width: 120, height: 30)
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .foregroundStyle(Color.blue)
-                )
-            }
-        } else {
-            EmptyView()
+                .frame(width: 80, height: 30)
+                .background(RoundedRectangle(cornerRadius: 15).foregroundStyle(Color.blue))
         }
     }
-}
-
-private struct SearchBar: View {
-    @Binding var text: String
     
-    var body: some View {
+    private var searchBar: some View {
         HStack {
-            TextField("Search...", text: $text)
-                .onChange(of: text) { newValue in
-                    text = newValue.lowercased()
+            TextField("Search...", text: $viewModel.searchBarText)
+                .onChange(of: viewModel.searchBarText) { newValue in
+                    viewModel.searchBarText = newValue.lowercased()
                 }
                 .padding(7)
                 .blurBackground()
@@ -132,13 +119,8 @@ private struct SearchBar: View {
         }
         .padding(.top, 10)
     }
-}
-
-private struct CardRow: View {
-    @ObservedObject var viewModel: CardListViewModel
-    let card: Card
-
-    var body: some View {
+    
+    private func cardRow(_ card: Card) -> some View {
         VStack {
             Button(action: {
                 if viewModel.selectMode {
@@ -174,20 +156,15 @@ private struct CardRow: View {
             }
         }
         .sheet(isPresented: $viewModel.navigateToCardDetail) {
-            CardDetailSheetView(viewModel: viewModel, card: card)
+            cardDetailSheet(card)
         }
         .onChange(of: viewModel.navigateToCardDetail) { newValue in
             guard !newValue else { return }
             viewModel.updateCard(card)
         }
     }
-}
-
-private struct CardDetailSheetView: View {
-    @ObservedObject var viewModel: CardListViewModel
-    let card: Card
     
-    var body: some View {
+    private func cardDetailSheet(_ card: Card) -> some View {
         VStack {
             VStack(spacing: 4) {
                 HStack {
@@ -249,6 +226,11 @@ private struct CardDetailSheetView: View {
             viewModel.updateCard(card)
         }
     }
+}
+
+#Preview {
+    CardListView(categoryName: "")
+        .injectMockDataViewModelForPreview()
 }
 
 private struct PickerAlert: UIViewControllerRepresentable {
