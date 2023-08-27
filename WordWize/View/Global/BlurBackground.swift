@@ -1,5 +1,5 @@
 //
-//  GroupedBackground.swift
+//  BlurBackground.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/2/23.
@@ -71,7 +71,5 @@ private class TransparentBlurViewHelper: UIVisualEffectView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        
-    }
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {}
 }
