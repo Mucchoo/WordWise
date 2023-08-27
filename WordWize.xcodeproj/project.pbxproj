@@ -50,6 +50,7 @@
 		2AB6B86C2A9A511A00645F08 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B86B2A9A511A00645F08 /* ContentViewModel.swift */; };
 		2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B86E2A9A5D8000645F08 /* StudyViewModel.swift */; };
 		2AB6B8722A9A738C00645F08 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B8712A9A738C00645F08 /* CardViewModel.swift */; };
+		2AB6B8752A9AFE0F00645F08 /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B8742A9AFE0F00645F08 /* CardsViewModel.swift */; };
 		2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB76AF92A6386E300C2C260 /* ImageResponse.swift */; };
 		2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB76B002A63998600C2C260 /* Array+Extension.swift */; };
 		2AB7C9622A51240100A703FA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C9612A51240100A703FA /* Global.swift */; };
@@ -138,6 +139,7 @@
 		2AB6B86B2A9A511A00645F08 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		2AB6B86E2A9A5D8000645F08 /* StudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewModel.swift; sourceTree = "<group>"; };
 		2AB6B8712A9A738C00645F08 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
+		2AB6B8742A9AFE0F00645F08 /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 		2AB76AF92A6386E300C2C260 /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
 		2AB76B002A63998600C2C260 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2AB7C9612A51240100A703FA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -267,7 +269,7 @@
 			children = (
 				2AB6B86D2A9A5D6900645F08 /* StudyView */,
 				2AB6B8702A9A736500645F08 /* CardView */,
-				2A8250ED2A922B4000ADD88E /* CardsView.swift */,
+				2AB6B8732A9AFE0000645F08 /* CardsView */,
 			);
 			path = StudyTab;
 			sourceTree = "<group>";
@@ -360,6 +362,15 @@
 				2AB6B8712A9A738C00645F08 /* CardViewModel.swift */,
 			);
 			path = CardView;
+			sourceTree = "<group>";
+		};
+		2AB6B8732A9AFE0000645F08 /* CardsView */ = {
+			isa = PBXGroup;
+			children = (
+				2A8250ED2A922B4000ADD88E /* CardsView.swift */,
+				2AB6B8742A9AFE0F00645F08 /* CardsViewModel.swift */,
+			);
+			path = CardsView;
 			sourceTree = "<group>";
 		};
 		2ABC63512A38147900718C90 = {
@@ -573,6 +584,7 @@
 				2AB6261C2A636B8100C168E1 /* Phonetic+CoreDataProperties.swift in Sources */,
 				2AB6262A2A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift in Sources */,
 				2A4EDE3C2A89B3C300D36526 /* CardRowView.swift in Sources */,
+				2AB6B8752A9AFE0F00645F08 /* CardsViewModel.swift in Sources */,
 				2A7B0B612A92F9DF0009F28E /* ImageData+CoreDataProperties.swift in Sources */,
 				2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */,
 				2A71E4412A4851FE005B897C /* NoCardView.swift in Sources */,
