@@ -12,10 +12,10 @@ struct CardsView: View {
         case todays, upcoming
     }
 
-    @ObservedObject var viewModel: CardsViewModel
+    @StateObject var viewModel: CardsViewModel
     
     init(type: ViewType) {
-        viewModel = .init(type: type)
+        _viewModel = StateObject(wrappedValue: CardsViewModel(type: type))
     }
 
     var body: some View {
@@ -24,35 +24,7 @@ struct CardsView: View {
                 VStack {
                     LazyVStack {
                         ForEach(viewModel.cards, id: \.id) { card in
-                            VStack {
-                                HStack {
-                                    Text(card.text ?? "")
-                                        .foregroundColor(.primary)
-                                    Spacer()
-
-                                    if viewModel.title == "Upcoming Cards" {
-                                        Text(viewModel.getRemainingDays(card.nextLearningDate))
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 2)
-                                            .background(Color.navy)
-                                            .foregroundStyle(Color.white)
-                                            .bold()
-                                            .cornerRadius(8)
-                                    }
-
-                                    Text(card.rate.stringValue() + "%")
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 2)
-                                        .background(Color.ocean)
-                                        .foregroundStyle(Color.white)
-                                        .bold()
-                                        .cornerRadius(8)
-                                }
-
-                                if card.id != viewModel.cards.last?.id {
-                                    Divider()
-                                }
-                            }
+                            cardRow(card)
                         }
                     }
                     .blurBackground()
@@ -61,6 +33,38 @@ struct CardsView: View {
         }
         .backgroundView()
         .navigationBarTitle(viewModel.title, displayMode: .large)
+    }
+    
+    private func cardRow(_ card: Card) -> some View {
+        return VStack {
+            HStack {
+                Text(card.text ?? "")
+                    .foregroundColor(.primary)
+                Spacer()
+
+                if viewModel.title == "Upcoming Cards" {
+                    Text(viewModel.getRemainingDays(card.nextLearningDate))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color.navy)
+                        .foregroundStyle(Color.white)
+                        .bold()
+                        .cornerRadius(8)
+                }
+
+                Text(card.rate.stringValue() + "%")
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Color.ocean)
+                    .foregroundStyle(Color.white)
+                    .bold()
+                    .cornerRadius(8)
+            }
+
+            if card.id != viewModel.cards.last?.id {
+                Divider()
+            }
+        }
     }
 }
 
