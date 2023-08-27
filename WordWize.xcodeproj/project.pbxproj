@@ -13,8 +13,6 @@
 		2A2015BC2A63D9EA00C67716 /* WordWizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */; };
 		2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */; };
 		2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* NetworkCardService.swift */; };
-		2A3C1DEA2A390873001B6E0E /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */; };
-		2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1DEB2A390A2D001B6E0E /* MailView.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A442B8F2A7010420083A476 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A442B8E2A7010420083A476 /* Keys.swift */; };
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
@@ -98,8 +96,6 @@
 		2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWizeTests.swift; sourceTree = "<group>"; };
 		2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModelTests.swift; sourceTree = "<group>"; };
 		2A2015C52A63F42300C67716 /* NetworkCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCardService.swift; sourceTree = "<group>"; };
-		2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
-		2A3C1DEB2A390A2D001B6E0E /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A442B8E2A7010420083A476 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
@@ -227,10 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				2ABC636C2A38167800718C90 /* AccountView.swift */,
-				2A581C222A89241900A86494 /* MasteryRateBars.swift */,
-				2A3C1DEB2A390A2D001B6E0E /* MailView.swift */,
-				2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */,
-				2A3C1DE92A390873001B6E0E /* ActivityViewController.swift */,
 			);
 			path = AccountTab;
 			sourceTree = "<group>";
@@ -273,6 +265,8 @@
 				2A71E4402A4851FE005B897C /* NoCardView.swift */,
 				2AB7C9672A512BD600A703FA /* BackgroundView.swift */,
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
+				2A581C222A89241900A86494 /* MasteryRateBars.swift */,
+				2ADA32382A506DB000E0F050 /* TransparentBlurView.swift */,
 				2AFBEAC62A5187D30049290E /* MasteryRateCountsView.swift */,
 				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
 			);
@@ -619,7 +613,6 @@
 				2AB626212A636B8100C168E1 /* Card+CoreDataClass.swift in Sources */,
 				2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */,
 				2AB6261F2A636B8100C168E1 /* Card+CoreDataProperties.swift in Sources */,
-				2A3C1DEA2A390873001B6E0E /* ActivityViewController.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
@@ -627,7 +620,6 @@
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				2A7901A32A95F99D00E13110 /* View+Extension.swift in Sources */,
 				2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */,
-				2A3C1DEC2A390A2D001B6E0E /* MailView.swift in Sources */,
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
 				2AB6261E2A636B8100C168E1 /* Meaning+CoreDataClass.swift in Sources */,
