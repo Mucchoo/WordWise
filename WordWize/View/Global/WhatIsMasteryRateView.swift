@@ -48,12 +48,12 @@ struct WhatIsMasteryRateView: View {
                 }
 
                 VStack(spacing: 0) {
-                    MasteryRateTableRow(masteryRate: "Mastery Rate", interval: "Intervals")
-                    MasteryRateTableRow(masteryRate: "0%", interval: "1 day")
-                    MasteryRateTableRow(masteryRate: "25%", interval: "2 days")
-                    MasteryRateTableRow(masteryRate: "50%", interval: "4 days")
-                    MasteryRateTableRow(masteryRate: "75%", interval: "1 week")
-                    MasteryRateTableRow(masteryRate: "100%", interval: "2 weeks")
+                    TableRow(masteryRate: "Mastery Rate", interval: "Intervals")
+                    TableRow(masteryRate: "0%", interval: "1 day")
+                    TableRow(masteryRate: "25%", interval: "2 days")
+                    TableRow(masteryRate: "50%", interval: "4 days")
+                    TableRow(masteryRate: "75%", interval: "1 week")
+                    TableRow(masteryRate: "100%", interval: "2 weeks")
                 }
                 .frame(width: 300)
                 .border(Color.primary, width: 1)
@@ -68,7 +68,14 @@ struct WhatIsMasteryRateView: View {
     }
 }
 
-struct MasteryRateTableRow: View {
+#Preview {
+    NavigationView {
+        WhatIsMasteryRateView()
+            .injectMockDataViewModelForPreview()
+    }
+}
+
+private struct TableRow: View {
     var masteryRate: String
     var interval: String
 
@@ -91,13 +98,5 @@ struct MasteryRateTableRow: View {
                     .frame(height: 1)
             }
         }
-    }
-}
-
-
-#Preview {
-    NavigationView {
-        WhatIsMasteryRateView()
-            .injectMockDataViewModelForPreview()
     }
 }
