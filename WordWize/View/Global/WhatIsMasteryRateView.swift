@@ -48,12 +48,12 @@ struct WhatIsMasteryRateView: View {
                 }
 
                 VStack(spacing: 0) {
-                    TableRow(masteryRate: "Mastery Rate", interval: "Intervals")
-                    TableRow(masteryRate: "0%", interval: "1 day")
-                    TableRow(masteryRate: "25%", interval: "2 days")
-                    TableRow(masteryRate: "50%", interval: "4 days")
-                    TableRow(masteryRate: "75%", interval: "1 week")
-                    TableRow(masteryRate: "100%", interval: "2 weeks")
+                    tableRow(rate: "Mastery Rate", interval: "Intervals")
+                    tableRow(rate: "0%", interval: "1 day")
+                    tableRow(rate: "25%", interval: "2 days")
+                    tableRow(rate: "50%", interval: "4 days")
+                    tableRow(rate: "75%", interval: "1 week")
+                    tableRow(rate: "100%", interval: "2 weeks")
                 }
                 .frame(width: 300)
                 .border(Color.primary, width: 1)
@@ -66,23 +66,11 @@ struct WhatIsMasteryRateView: View {
         }
         .navigationBarTitle("Mastery Rate", displayMode: .large)
     }
-}
-
-#Preview {
-    NavigationView {
-        WhatIsMasteryRateView()
-            .injectMockDataViewModelForPreview()
-    }
-}
-
-private struct TableRow: View {
-    var masteryRate: String
-    var interval: String
-
-    var body: some View {
-        VStack(spacing: 0) {
+    
+    private func tableRow(rate: String, interval: String) -> some View {
+        return VStack(spacing: 0) {
             HStack(spacing: 0) {
-                Text(masteryRate)
+                Text(rate)
                     .frame(minWidth: 0, maxWidth: .infinity)
                 Rectangle()
                     .fill(Color.primary)
@@ -92,11 +80,18 @@ private struct TableRow: View {
             }
             .frame(width: 300, height: 30)
             
-            if masteryRate != "100%" {
+            if rate != "100%" {
                 Rectangle()
                     .fill(Color.primary)
                     .frame(height: 1)
             }
         }
+    }
+}
+
+#Preview {
+    NavigationView {
+        WhatIsMasteryRateView()
+            .injectMockDataViewModelForPreview()
     }
 }
