@@ -23,7 +23,6 @@ struct AddCardView: View {
     @State private var textFieldInput = ""
     @State private var showingFetchFailedAlert = false
     @State private var showingFetchSucceededAlert = false
-    @State private var cancellables = Set<AnyCancellable>()
 
     private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
     
@@ -91,7 +90,7 @@ struct AddCardView: View {
                                     showingFetchFailedAlert = true
                                 }
                             }
-                            .store(in: &cancellables)
+                            .store(in: &dataViewModel.cancellables)
                         
                         cardText = ""
                         isFocused = false
@@ -194,4 +193,27 @@ struct AddCardView: View {
 #Preview {
     AddCardView(showTabBar: .constant(true))
         .injectMockDataViewModelForPreview()
+}
+
+private class KeyboardResponder: ObservableObject {
+    @Published private(set) var currentHeight: CGFloat = 0
+
+    private var cancellable: AnyCancellable?
+
+    init() {
+        let keyboardWillShow = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .map { $0.keyboardHeight }
+
+        let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .map { _ in CGFloat(0) }
+
+        cancellable = Publishers.Merge(keyboardWillShow, keyboardWillHide)
+            .assign(to: \.currentHeight, on: self)
+    }
+}
+
+private extension Notification {
+    var keyboardHeight: CGFloat {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
+    }
 }

@@ -20,7 +20,7 @@ class DataViewModel: ObservableObject {
     @Published var isDataLoaded = false
     
     private var isAddingDefaultCategory = false
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     var fetchFailedWords: [String] = []
     var addedCardCount = 0
     let cardService: CardService
