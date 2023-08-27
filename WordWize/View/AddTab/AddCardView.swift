@@ -11,20 +11,12 @@ import SwiftUI
 
 struct AddCardView: View {
     @StateObject private var keyboardResponder = KeyboardResponder()
-    @EnvironmentObject private var dataViewModel: DataViewModel
+    @StateObject var viewModel = AddCardViewModel()
     @FocusState var isFocused: Bool
     @Binding var showTabBar: Bool
     
-    @State private var generatingCards = false
-    @State private var showPlaceholder = true
-    @State private var cardText = ""
-    @State private var selectedCategory = ""
-    @State private var showingAddCategoryAlert = false
-    @State private var textFieldInput = ""
-    @State private var showingFetchFailedAlert = false
-    @State private var showingFetchSucceededAlert = false
-
     private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
+    @State private var showPlaceholder = true
     
     var body: some View {
         NavigationView {
@@ -32,8 +24,8 @@ struct AddCardView: View {
                 VStack(spacing: 0) {
                     if !isFocused {
                         HStack(spacing: 0) {
-                            Picker("", selection: $selectedCategory) {
-                                ForEach(dataViewModel.categories) { category in
+                            Picker("", selection: $viewModel.selectedCategory) {
+                                ForEach(viewModel.dataViewModel.categories) { category in
                                     let name = category.name ?? ""
                                     Text(name).tag(name)
                                 }
@@ -43,7 +35,7 @@ struct AddCardView: View {
                             .accessibilityIdentifier("addCardViewCategoryPicker")
                             
                             Button(action: {
-                                showingAddCategoryAlert = true
+                                viewModel.showingAddCategoryAlert = true
                             }) {
                                 Text("Add Category")
                                     .padding(.vertical, 12)
@@ -58,46 +50,35 @@ struct AddCardView: View {
                     }
 
                     TextEditor(text: Binding(
-                        get: { showPlaceholder ? initialPlaceholder : cardText },
-                        set: { cardText = $0 }
+                        get: { showPlaceholder ? initialPlaceholder : viewModel.cardText },
+                        set: { viewModel.cardText = $0 }
                     ))
                     .scrollContentBackground(.hidden)
                     .focused($isFocused)
                     .foregroundColor(showPlaceholder ? .secondary : .primary)
-                    .onChange(of: cardText) { newValue in
-                        cardText = newValue.lowercased()
-                        if cardText.isEmpty && !isFocused {
+                    .onChange(of: viewModel.cardText) { newValue in
+                        viewModel.cardText = newValue.lowercased()
+                        if viewModel.cardText.isEmpty && !isFocused {
                             showPlaceholder = true
                         }
                     }
                     .onChange(of: isFocused) { newValue in
-                        showPlaceholder = !newValue && (cardText.isEmpty || cardText == initialPlaceholder)
+                        showPlaceholder = !newValue && (viewModel.cardText.isEmpty || viewModel.cardText == initialPlaceholder)
                     }
                     .modifier(BlurBackground())
                     .accessibilityIdentifier("addCardViewTextEditor")
                     .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90)
-                    
+
                     Button(action: {
-                        dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
-                            .sink { [self] in
-                                print("add card completion")
-                                generatingCards = false
-                                showTabBar = true
-                                
-                                if dataViewModel.fetchFailedWords.isEmpty {
-                                    showingFetchSucceededAlert = true
-                                } else {
-                                    showingFetchFailedAlert = true
-                                }
-                            }
-                            .store(in: &dataViewModel.cancellables)
-                        
-                        cardText = ""
+                        let cancellable = viewModel.addCardPublisher()
+                        cancellable.store(in: &viewModel.dataViewModel.cancellables)
+
+                        viewModel.cardText = ""
                         isFocused = false
-                        generatingCards = true
+                        viewModel.generatingCards = true
                         showTabBar = false
                     }) {
-                        Text("Add \(cardText.split(separator: "\n").count) Cards")
+                        Text("Add \(viewModel.cardText.split(separator: "\n").count) Cards")
                             .padding()
                             .frame(maxWidth: .infinity)
                             .bold()
@@ -106,7 +87,7 @@ struct AddCardView: View {
                             .cornerRadius(10)
                     }
                     .accessibilityIdentifier("addCardsButton")
-                    .disabled(cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || cardText == initialPlaceholder)
+                    .disabled(viewModel.shouldDisableAddCardButton())
                     .padding([.horizontal, .bottom])
                 }
                 .padding(.bottom, 90)
@@ -114,7 +95,7 @@ struct AddCardView: View {
                 .navigationBarTitle("Add Cards", displayMode: .large)
                 .navigationBarHidden(isFocused)
                 .ignoresSafeArea(edges: .bottom)
-                
+
                 if isFocused {
                     VStack {
                         Spacer()
@@ -134,7 +115,7 @@ struct AddCardView: View {
                 }
                 
                 ZStack {
-                    if generatingCards {
+                    if viewModel.generatingCards {
                         Color.black.opacity(0.2)
                             .ignoresSafeArea()
                         RoundedRectangle(cornerRadius: 20)
@@ -145,10 +126,10 @@ struct AddCardView: View {
                             Text("Generating Cards...")
                                 .font(.headline)
                                 .fontWeight(.bold)
-                            Text("\(dataViewModel.fetchedWordCount) / \(dataViewModel.requestedWordCount) Completed")
+                            Text("\(viewModel.dataViewModel.fetchedWordCount) / \(viewModel.dataViewModel.requestedWordCount) Completed")
                                 .font(.footnote)
                                 .padding(.bottom)
-                            ProgressView(value: Float(dataViewModel.fetchedWordCount), total: Float(dataViewModel.requestedWordCount))
+                            ProgressView(value: Float(viewModel.dataViewModel.fetchedWordCount), total: Float(viewModel.dataViewModel.requestedWordCount))
                         }
                         .frame(width: 210)
                         .transition(.scale)
@@ -158,34 +139,9 @@ struct AddCardView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            if let defaultCategory = dataViewModel.categories.first?.name {
-                selectedCategory = defaultCategory
+            if let defaultCategory = viewModel.dataViewModel.categories.first?.name {
+                viewModel.selectedCategory = defaultCategory
             }
-        }
-        
-        .alert("Add Category", isPresented: $showingAddCategoryAlert) {
-            TextField("category name", text: $textFieldInput)
-            Button("Add", role: .none) {
-                dataViewModel.addCategory(name: textFieldInput)
-                selectedCategory = textFieldInput
-                textFieldInput = ""
-            }
-            .disabled(textFieldInput.isEmpty)
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Please enter the new category name.")
-        }
-        
-        .alert("Failed to add cards", isPresented: $showingFetchFailedAlert) {
-            Button("OK", role: .none) {}
-        } message: {
-            Text("Failed to find these wards on the dictionary.\n\n\(dataViewModel.fetchFailedWords.joined(separator: "\n"))")
-        }
-        
-        .alert("Added Cards", isPresented: $showingFetchSucceededAlert) {
-            Button("OK", role: .none) {}
-        } message: {
-            Text("Added \(dataViewModel.addedCardCount) cards successfully.")
         }
     }
 }
