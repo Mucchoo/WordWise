@@ -10,103 +10,28 @@ import UIKit
 import MessageUI
 
 struct AccountView: View {
-    @EnvironmentObject var dataViewModel: DataViewModel
-    @State private var isActive = false
-    @State private var isShowingAlert = false
-    @State var isShowingReauthenticate = false
-    @State var isShowingTutorial = false
-    @State var isShowingMail = false
-    @State var showingResetAlert = false
-    @State var showingShareSheet = false
-    @AppStorage("nativeLanguage") private var nativeLanguage = "JA"
+    @StateObject var viewModel = AccountViewModel()
 
-    @State private var mailData = MailView.Email(subject: "Feedback", recipients: ["yazujumusa@gmail.com"], message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line. Thank you!")
-    private var productURL = URL(string: "https://itunes.apple.com/jp/app/id1628829703?mt=8")!
-    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
+                    MasteryRateBars(categoryName: "")
+                        .modifier(BlurBackground())
+                    
                     VStack {
-                        MasteryRateBars(categoryName: "")
+                        nativeLanguageView
+                        Divider()
+                        navigationLinkView
+                        Divider()
+                        shareAppView
+                        Divider()
+                        feedbackView
                     }
                     .modifier(BlurBackground())
                     
-                    VStack {
-                        HStack {
-                            Text("Native Language")
-                            Spacer()
-                            Picker(selection: $nativeLanguage, label: EmptyView(), content: {
-                                    ForEach(PickerOptions.language, id: \.self) { language in
-                                        Text(language.name).tag(language.code)
-                                    }
-                                }
-                            )
-                            .cornerRadius(15)
-                            .pickerStyle(MenuPickerStyle())
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            NavigationLink("What is Mastery Rate?", destination: WhatIsMasteryRateView())
-                                .padding(.vertical, 8)
-                            Spacer()
-                        }
-                        
-                        Divider()
-                        
-                        Button(action: {
-                            showingShareSheet = true
-                        }) {
-                            HStack {
-                                Text("\(Image(systemName: "square.and.arrow.up")) Share App")
-                                Spacer()
-                            }
-                        }
-                        .accessibilityIdentifier("shareButton")
-                        .padding(.vertical, 8)
-                        .sheet(isPresented: $showingShareSheet) {
-                            ActivityViewController(shareItems: [productURL])
-                        }
-
-                        Divider()
-                        
-                        Button {
-                            isShowingMail = true
-                        } label: {
-                            HStack {
-                                Text("\(Image(systemName: "envelope")) Feedback")
-                                Spacer()
-                            }
-                        }
-                        .accessibilityIdentifier("feedbackButton")
-                        .padding(.vertical, 8)
-                        .sheet(isPresented: $isShowingMail) {
-                            MailView(data: $mailData) { result in }
-                        }
-                    }
-                    .modifier(BlurBackground())
-
-                    HStack {
-                        Button(action: {
-                            showingResetAlert = true
-                        }) {
-                            Text("\(Image(systemName: "trash")) Reset Leaning Data")
-                                .foregroundColor(.red)
-                                .cornerRadius(10)
-                        }
-                        .accessibilityIdentifier("resetLearningDataButton")
-                        .alert("Are you sure to reset all the learning data?", isPresented: $showingResetAlert) {
-                            Button("Reset", role: .destructive, action: dataViewModel.resetLearningData)
-                            Button("Cancel", role: .cancel) {}
-                        } message: {
-                            Text("Failed times and the status of all cards will be reset.")
-                        }
-                        
-                        Spacer()
-                    }
-                    .modifier(BlurBackground())
+                    resetLearningDataView
+                        .modifier(BlurBackground())
                 }
             }
             .background(BackgroundView())
@@ -114,7 +39,79 @@ struct AccountView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
+    
+    // MARK: - Subviews
+    private var nativeLanguageView: some View {
+        HStack {
+            Text("Native Language")
+            Spacer()
+            Picker(selection: $viewModel.nativeLanguage, label: EmptyView(), content: {
+                    ForEach(PickerOptions.language, id: \.self) { language in
+                        Text(language.name).tag(language.code)
+                    }
+                }
+            )
+            .cornerRadius(15)
+            .pickerStyle(MenuPickerStyle())
+        }
+    }
+    
+    private var navigationLinkView: some View {
+        HStack {
+            NavigationLink("What is Mastery Rate?", destination: WhatIsMasteryRateView())
+                .padding(.vertical, 8)
+            Spacer()
+        }
+    }
+    
+    private var shareAppView: some View {
+        Button(action: viewModel.showShareSheet) {
+            HStack {
+                Text("\(Image(systemName: "square.and.arrow.up")) Share App")
+                Spacer()
+            }
+        }
+        .accessibilityIdentifier("shareButton")
+        .padding(.vertical, 8)
+        .sheet(isPresented: $viewModel.isShowingShareSheet) {
+            ActivityViewController(shareItems: [viewModel.productURL])
+        }
+    }
+    
+    private var feedbackView: some View {
+        Button(action: viewModel.showMail) {
+            HStack {
+                Text("\(Image(systemName: "envelope")) Feedback")
+                Spacer()
+            }
+        }
+        .accessibilityIdentifier("feedbackButton")
+        .padding(.vertical, 8)
+        .sheet(isPresented: $viewModel.isShowingMail) {
+            MailView() { result in }
+        }
+    }
+    
+    private var resetLearningDataView: some View {
+        HStack {
+            Button(action: viewModel.showResetAlert) {
+                Text("\(Image(systemName: "trash")) Reset Learning Data")
+                    .foregroundColor(.red)
+                    .cornerRadius(10)
+            }
+            .accessibilityIdentifier("resetLearningDataButton")
+            .alert("Are you sure to reset all the learning data?", isPresented: $viewModel.showingResetAlert) {
+                Button("Reset", role: .destructive, action: viewModel.dataViewModel.resetLearningData)
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Failed times and the status of all cards will be reset.")
+            }
+            
+            Spacer()
+        }
+    }
 }
+
 
 private struct MailView: UIViewControllerRepresentable {
     typealias Callback = ((Result<MFMailComposeResult, Error>) -> Void)?
@@ -126,8 +123,11 @@ private struct MailView: UIViewControllerRepresentable {
     }
     
     @Environment(\.presentationMode) var presentation
-    @Binding var data: Email
     let callback: Callback
+    @State var mailData = Email(
+        subject: "Feedback",
+        recipients: ["yazujumusa@gmail.com"],
+        message: "\n\n\n\n\nーーーーーーーーーーーーーーーーー\nPlease write your feedback above this line. Thank you!")
     
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
         @Binding var presentation: PresentationMode
@@ -153,14 +153,14 @@ private struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
-        vc.setSubject(data.subject)
-        vc.setToRecipients(data.recipients)
-        vc.setMessageBody(data.message, isHTML: false)
+        vc.setSubject(mailData.subject)
+        vc.setToRecipients(mailData.recipients)
+        vc.setMessageBody(mailData.message, isHTML: false)
         return vc
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(presentation: presentation, data: $data, callback: callback)
+        Coordinator(presentation: presentation, data: $mailData, callback: callback)
     }
     
     func updateUIViewController(_ uiViewController: MFMailComposeViewController, context: UIViewControllerRepresentableContext<MailView>) {}
