@@ -14,68 +14,36 @@ struct AddCardView: View {
     @StateObject var viewModel = AddCardViewModel()
     @FocusState var isFocused: Bool
     @Binding var showTabBar: Bool
-    
-    private let initialPlaceholder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
-    @State private var showPlaceholder = true
-    
+        
     var body: some View {
         NavigationView {
             ZStack {
                 VStack(spacing: 0) {
                     if !isFocused {
-                        HStack(spacing: 0) {
-                            Picker("", selection: $viewModel.selectedCategory) {
-                                ForEach(viewModel.dataViewModel.categories) { category in
-                                    let name = category.name ?? ""
-                                    Text(name).tag(name)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: 26)
-                            .modifier(BlurBackground())
-                            .accessibilityIdentifier("addCardViewCategoryPicker")
-                            
-                            Button(action: {
-                                viewModel.showingAddCategoryAlert = true
-                            }) {
-                                Text("Add Category")
-                                    .padding(.vertical, 12)
-                                    .padding(.horizontal)
-                                    .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                            .accessibilityIdentifier("addCategoryButton")
-                        }
-                        .padding(.trailing)
+                        CategoryPickerView(viewModel: viewModel)
                     }
-
+                    
                     TextEditor(text: Binding(
-                        get: { showPlaceholder ? initialPlaceholder : viewModel.cardText },
+                        get: { viewModel.displayText },
                         set: { viewModel.cardText = $0 }
                     ))
                     .scrollContentBackground(.hidden)
                     .focused($isFocused)
-                    .foregroundColor(showPlaceholder ? .secondary : .primary)
+                    .foregroundColor(viewModel.showPlaceholder ? .secondary : .primary)
                     .onChange(of: viewModel.cardText) { newValue in
-                        viewModel.cardText = newValue.lowercased()
-                        if viewModel.cardText.isEmpty && !isFocused {
-                            showPlaceholder = true
-                        }
+                        viewModel.updateTextEditor(text: newValue, isFocused: isFocused)
                     }
                     .onChange(of: isFocused) { newValue in
-                        showPlaceholder = !newValue && (viewModel.cardText.isEmpty || viewModel.cardText == initialPlaceholder)
+                        viewModel.togglePlaceHolder(isFocused)
                     }
                     .modifier(BlurBackground())
                     .accessibilityIdentifier("addCardViewTextEditor")
-                    .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90)
-
+                    
+                    .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90) 
+                    
                     Button(action: {
-                        let cancellable = viewModel.addCardPublisher()
-                        cancellable.store(in: &viewModel.dataViewModel.cancellables)
-
-                        viewModel.cardText = ""
+                        viewModel.generateCards()
                         isFocused = false
-                        viewModel.generatingCards = true
                         showTabBar = false
                     }) {
                         Text("Add \(viewModel.cardText.split(separator: "\n").count) Cards")
@@ -95,7 +63,7 @@ struct AddCardView: View {
                 .navigationBarTitle("Add Cards", displayMode: .large)
                 .navigationBarHidden(isFocused)
                 .ignoresSafeArea(edges: .bottom)
-
+                
                 if isFocused {
                     VStack {
                         Spacer()
@@ -114,27 +82,7 @@ struct AddCardView: View {
                     }
                 }
                 
-                ZStack {
-                    if viewModel.generatingCards {
-                        Color.black.opacity(0.2)
-                            .ignoresSafeArea()
-                        RoundedRectangle(cornerRadius: 20)
-                            .fill(.thickMaterial)
-                            .frame(width: 250, height: 100)
-                            .transition(.scale)
-                        VStack {
-                            Text("Generating Cards...")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                            Text("\(viewModel.dataViewModel.fetchedWordCount) / \(viewModel.dataViewModel.requestedWordCount) Completed")
-                                .font(.footnote)
-                                .padding(.bottom)
-                            ProgressView(value: Float(viewModel.dataViewModel.fetchedWordCount), total: Float(viewModel.dataViewModel.requestedWordCount))
-                        }
-                        .frame(width: 210)
-                        .transition(.scale)
-                    }
-                }
+                GeneratingCardsOverlay(viewModel: viewModel)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -149,6 +97,73 @@ struct AddCardView: View {
 #Preview {
     AddCardView(showTabBar: .constant(true))
         .injectMockDataViewModelForPreview()
+}
+
+private struct CategoryPickerView: View {
+    @ObservedObject var viewModel: AddCardViewModel
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Picker("", selection: $viewModel.selectedCategory) {
+                ForEach(viewModel.dataViewModel.categories) { category in
+                    let name = category.name ?? ""
+                    Text(name).tag(name)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: 26)
+            .modifier(BlurBackground())
+            .accessibilityIdentifier("addCardViewCategoryPicker")
+            
+            AddCategoryButton(viewModel: viewModel)
+        }
+        .padding(.trailing)
+    }
+}
+
+struct AddCategoryButton: View {
+    @ObservedObject var viewModel: AddCardViewModel
+    
+    var body: some View {
+        Button(action: {
+            viewModel.showingAddCategoryAlert = true
+        }) {
+            Text("Add Category")
+                .padding(.vertical, 12)
+                .padding(.horizontal)
+                .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+        .accessibilityIdentifier("addCategoryButton")
+    }
+}
+
+private struct GeneratingCardsOverlay: View {
+    @ObservedObject var viewModel: AddCardViewModel
+    
+    var body: some View {
+        ZStack {
+            if viewModel.generatingCards {
+                Color.black.opacity(0.2)
+                    .ignoresSafeArea()
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.thickMaterial)
+                    .frame(width: 250, height: 100)
+                    .transition(.scale)
+                VStack {
+                    Text("Generating Cards...")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    Text("\(viewModel.dataViewModel.fetchedWordCount) / \(viewModel.dataViewModel.requestedWordCount) Completed")
+                        .font(.footnote)
+                        .padding(.bottom)
+                    ProgressView(value: Float(viewModel.dataViewModel.fetchedWordCount), total: Float(viewModel.dataViewModel.requestedWordCount))
+                }
+                .frame(width: 210)
+                .transition(.scale)
+            }
+        }
+    }
 }
 
 private class KeyboardResponder: ObservableObject {

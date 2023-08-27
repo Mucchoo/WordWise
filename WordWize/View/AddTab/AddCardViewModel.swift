@@ -17,7 +17,14 @@ class AddCardViewModel: ObservableObject {
     @Published var showingFetchFailedAlert = false
     @Published var showingAddCategoryAlert = false
     @Published var showingFetchSucceededAlert = false
+    @Published var showPlaceholder = true
         
+    private let placeHolder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
+
+    var displayText: String {
+        showPlaceholder ? placeHolder : cardText
+    }
+    
     func addCardPublisher() -> AnyCancellable {
         return dataViewModel.addCardPublisher(text: cardText, category: selectedCategory)
             .sink { [weak self] in
@@ -31,6 +38,14 @@ class AddCardViewModel: ObservableObject {
             }
     }
     
+    func generateCards() {
+        let cancellable = addCardPublisher()
+        cancellable.store(in: &dataViewModel.cancellables)
+
+        cardText = ""
+        generatingCards = true
+    }
+    
     func addCategory(name: String) {
         dataViewModel.addCategory(name: name)
         selectedCategory = name
@@ -38,5 +53,16 @@ class AddCardViewModel: ObservableObject {
     
     func shouldDisableAddCardButton() -> Bool {
         return cardText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    func updateTextEditor(text: String, isFocused: Bool) {
+        cardText = text.lowercased()
+        if cardText.isEmpty && !isFocused {
+            showPlaceholder = true
+        }
+    }
+    
+    func togglePlaceHolder(_ isFocused: Bool) {
+        showPlaceholder = !isFocused && (cardText.isEmpty || cardText == placeHolder)
     }
 }
