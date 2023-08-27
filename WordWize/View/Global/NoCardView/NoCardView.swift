@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct NoCardView: View {
+    @StateObject var viewModel: NoCardViewModel = NoCardViewModel()
+    @Environment(\.colorScheme) private var colorScheme
     let image: String
     
     var body: some View {
         VStack {
             Spacer()
             ZStack {
-                SlimeAnimationView()
+                slimeAnimationView
                 VStack {
                     Image(image)
                         .resizable()
@@ -34,15 +36,8 @@ struct NoCardView: View {
         }
         .edgesIgnoringSafeArea(.all)
     }
-}
-
-private struct SlimeAnimationView: View {
-    @Environment(\.colorScheme) var colorScheme
-    @State private var animate = false
     
-    let timer = Timer.publish(every: 20, on: .main, in: .common).autoconnect()
-
-    var body: some View {
+    private var slimeAnimationView: some View {
         Rectangle()
             .fill(.linearGradient(colors: colorScheme == .dark ? [.navy, .ocean] : [.teal, .mint], startPoint: .top, endPoint: .bottom))
             .mask {
@@ -59,7 +54,7 @@ private struct SlimeAnimationView: View {
                         }
                     } symbols: {
                         ForEach(1...30, id: \.self) { index in
-                            ClubbedRoundedRectangle(offset: .randomOffset(), width: 100, height: 100, corner: 50)
+                            SlimeRoundedRectangle(offset: .randomOffset(), width: 100, height: 100, corner: 50)
                                 .tag(index)
                         }
                     }
@@ -77,7 +72,7 @@ private struct SlimeAnimationView: View {
                     } symbols: {
                         ForEach(1...5, id: \.self) { index in
                             let offset = CGSize(width: .random(in: -50...50), height: .random(in: -50...50))
-                            ClubbedRoundedRectangle(offset: offset, width: 350, height: 350, corner: 175)
+                            SlimeRoundedRectangle(offset: offset, width: 350, height: 350, corner: 175)
                                 .tag(index)
                         }
                     }
@@ -86,21 +81,18 @@ private struct SlimeAnimationView: View {
             .contentShape(Rectangle())
             .onAppear {
                 DispatchQueue.main.async {
-                    self.animate = true
+                    self.viewModel.animate = true
                 }
-            }
-            .onReceive(timer) { _ in
-                animate.toggle()
             }
     }
     
     @ViewBuilder
-    func ClubbedRoundedRectangle(offset: CGSize, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
+    private func SlimeRoundedRectangle(offset: CGSize, width: CGFloat, height: CGFloat, corner: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: corner, style: .continuous)
             .fill(.white)
             .frame(width: width, height: height)
-            .offset(x: animate ? offset.width : offset.width, y: animate ? offset.height : offset.height)
-            .animation(.easeInOut(duration: 20), value: animate)
+            .offset(x: viewModel.animate ? offset.width : offset.width, y: viewModel.animate ? offset.height : offset.height)
+            .animation(.easeInOut(duration: 20), value: viewModel.animate)
     }
 }
 
