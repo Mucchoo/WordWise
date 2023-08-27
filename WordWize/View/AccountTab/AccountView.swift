@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 struct AccountView: View {
-    @StateObject var viewModel = AccountViewModel()
+    @StateObject private var viewModel = AccountViewModel()
 
     var body: some View {
         NavigationView {
@@ -40,7 +40,6 @@ struct AccountView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    // MARK: - Subviews
     private var nativeLanguageView: some View {
         HStack {
             Text("Native Language")
