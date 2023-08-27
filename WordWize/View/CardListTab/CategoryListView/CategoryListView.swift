@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryListView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var viewModel = CategoryListViewModel()
     
     var body: some View {
@@ -19,7 +19,7 @@ struct CategoryListView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(viewModel.dataViewModel.categories) { category in
-                            CategoryListItemView(category: category, viewModel: viewModel)
+                            categoryRow(category)
                         }
                     }
                 }
@@ -47,19 +47,8 @@ struct CategoryListView: View {
             .navigationViewStyle(StackNavigationViewStyle())
         }
     }
-}
-
-#Preview {
-    CategoryListView()
-        .injectMockDataViewModelForPreview()
-}
-
-private struct CategoryListItemView: View {
-    let category: CardCategory
-    @ObservedObject var viewModel: CategoryListViewModel
-    @Environment(\.colorScheme) var colorScheme
-
-    var body: some View {
+    
+    private func categoryRow(_ category: CardCategory) -> some View {
         ZStack() {
             NavigationLink(destination: CardListView(categoryName: category.name ?? "")) {
                 VStack {
@@ -119,4 +108,9 @@ private struct CategoryListItemView: View {
             }
         }
     }
+}
+
+#Preview {
+    CategoryListView()
+        .injectMockDataViewModelForPreview()
 }
