@@ -10,8 +10,11 @@ import Combine
 import StoreKit
 
 struct CardView: View {
-    @ObservedObject var viewModel: CardViewModel
-    @Binding var showingCardView: Bool
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var viewModel: CardViewModel
+    @Binding private var showingCardView: Bool
+    private let gridSize = (UIScreen.main.bounds.width - 21) / 2
 
     init(showingCardView: Binding<Bool>, studyingCards: [Card]) {
         _showingCardView = showingCardView
@@ -20,10 +23,10 @@ struct CardView: View {
 
     var body: some View {
         VStack {
-            DismissBar()
-            ProgressBar(learningCards: $viewModel.learningCards)
-            WordInfoSection(viewModel: viewModel)
-            BottomButtons(viewModel: viewModel, showingCardView: $showingCardView)
+            dismissBar
+            progressBar
+            wordInfoSection
+            bottomButtons
         }
         .padding([.leading, .trailing], 10)
         .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
@@ -37,53 +40,31 @@ struct CardView: View {
             viewModel.setCategoryToPlayback()
         }
     }
-}
-
-#Preview {
-    CardView(showingCardView: .constant(true), studyingCards: [])
-        .injectMockDataViewModelForPreview()
-}
-
-// MARK: - DismissBar
-
-private struct DismissBar: View {
-    @Environment(\.dismiss) private var dismiss
-
-    private let dismissGestureThreshold: CGFloat = 50
-    private let loadingBarWidth: CGFloat = 60
-    private let loadingBarHeight: CGFloat = 8
     
-    var body: some View {
+    private var dismissBar: some View {
         RoundedRectangle(cornerRadius: 5)
             .fill(Color(.systemGray4))
-            .frame(width: loadingBarWidth, height: loadingBarHeight)
+            .frame(width: 60, height: 8)
             .padding()
             .gesture(
                 DragGesture()
                     .onEnded { value in
-                        if value.translation.height > dismissGestureThreshold {
+                        if value.translation.height > 50 {
                             dismiss()
                         }
                     }
             )
     }
-}
-
-// MARK: - ProgressBar
-
-private struct ProgressBar: View {
-    @Environment(\.colorScheme) private var colorScheme
-    @Binding var learningCards: [LearningCard]
-
-    var body: some View {
+    
+    private var progressBar: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: geometry.size.width , height: geometry.size.height)
                     .foregroundColor(colorScheme == .dark ? .navy : .teal)
 
-                let completedCards = learningCards.filter { !$0.isLearning }.count
-                let totalCards = learningCards.count
+                let completedCards = viewModel.learningCards.filter { !$0.isLearning }.count
+                let totalCards = viewModel.learningCards.count
                 let progressBarWidth = min(CGFloat(Float(completedCards) / Float(totalCards)) * geometry.size.width, geometry.size.width)
 
                 Rectangle()
@@ -95,25 +76,22 @@ private struct ProgressBar: View {
         .cornerRadius(5)
         .frame(height: 10)
     }
-}
-
-// MARK: - WordInfoSection
-
-private struct WordInfoSection: View {
-    @ObservedObject var viewModel: CardViewModel
     
-    var body: some View {
+    private var wordInfoSection: some View {
         ZStack(alignment: .center) {
-            CompletionView(viewModel: viewModel)
+            completionView
             
             ScrollView {
                 ScrollViewReader { value in
                     VStack {
                         Spacer().frame(height: 20).id("TopSpacer")
                         
-                        WordSection(viewModel: viewModel)
-                        DefinitionSection(viewModel: viewModel)
-                        ImageSection(viewModel: viewModel)
+                        wordSection
+                        definitionSection
+                        
+                        if viewModel.currentCard.card.imageDatasArray.count > 0 {
+                            imageSection
+                        }
                         
                         Spacer().frame(height: 20)
                     }
@@ -125,13 +103,8 @@ private struct WordInfoSection: View {
             }.opacity(viewModel.isFinished ? 0 : 1)
         }
     }
-}
-
-private struct CompletionView: View {
-    @Environment(\.colorScheme) private var colorScheme
-    let viewModel: CardViewModel
     
-    var body: some View {
+    private var completionView: some View {
         GeometryReader { geometry in
             VStack {
                 Text("Finished!")
@@ -156,12 +129,8 @@ private struct CompletionView: View {
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
     }
-}
-
-private struct WordSection: View {
-    @ObservedObject var viewModel: CardViewModel
     
-    var body: some View {
+    private var wordSection: some View {
         HStack(alignment: .center, spacing: 0) {
             Spacer().frame(width: 50, height: 40)
             
@@ -207,12 +176,8 @@ private struct WordSection: View {
             .animation(.easeIn(duration: 0.3), value: viewModel.isDefinitionVisible)
         }
     }
-}
-
-private struct DefinitionSection: View {
-    @ObservedObject var viewModel: CardViewModel
     
-    var body: some View {
+    private var definitionSection: some View {
         ZStack {
             VStack {
                 ForEach(viewModel.currentCard.card.meaningsArray.indices, id: \.self) { idx in
@@ -222,7 +187,7 @@ private struct DefinitionSection: View {
                             Spacer().frame(height: 20)
                         }
                     }
-                    DefinitionDetailView(meaning: viewModel.currentCard.card.meaningsArray[idx], index: idx, showTranslations: $viewModel.showTranslations)
+                    definitionDetailView(index: idx)
                 }
                 
                 Spacer().frame(height: 20)
@@ -235,23 +200,18 @@ private struct DefinitionSection: View {
                 .zIndex(1)
         }
     }
-}
-
-private struct ImageSection: View {
-    @ObservedObject var viewModel: CardViewModel
-    private let gridSize = (UIScreen.main.bounds.width - 21) / 2
-
-    var body: some View {
-        if viewModel.currentCard.card.imageDatasArray.count > 0 {
+    
+    private var imageSection: some View {
+        Group {
             VStack(spacing: 2) {
                 HStack(spacing: 2) {
-                    GridImage(card: viewModel.currentCard.card, index: 0, size: gridSize)
-                    GridImage(card: viewModel.currentCard.card, index: 1, size: gridSize)
+                    gridImage(card: viewModel.currentCard.card, index: 0, size: gridSize)
+                    gridImage(card: viewModel.currentCard.card, index: 1, size: gridSize)
                 }
                 if viewModel.currentCard.card.imageDatasArray.count > 2 {
                     HStack(spacing: 2) {
-                        GridImage(card: viewModel.currentCard.card, index: 2, size: gridSize)
-                        GridImage(card: viewModel.currentCard.card, index: 3, size: gridSize)
+                        gridImage(card: viewModel.currentCard.card, index: 2, size: gridSize)
+                        gridImage(card: viewModel.currentCard.card, index: 3, size: gridSize)
                     }
                 }
             }
@@ -262,14 +222,8 @@ private struct ImageSection: View {
                 .foregroundColor(.secondary)
         }
     }
-}
-
-private struct GridImage: View {
-    let card: Card
-    let index: Int
-    let size: CGFloat
-
-    var body: some View {
+    
+    private func gridImage(card: Card, index: Int, size: CGFloat) -> some View {
         Group {
             if let imageData = card.imageDatasArray[safe: index]?.data,
                let uiImage = UIImage(data: imageData) {
@@ -297,17 +251,11 @@ private struct GridImage: View {
             }
         }
     }
-}
-
-private struct DefinitionDetailView: View {
-    let meaning: Meaning
-    let index: Int
-    @Binding var showTranslations: Bool
     
-    var body: some View {
+    private func definitionDetailView(index: Int) -> some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                Text(meaning.partOfSpeech ?? "Unknown")
+                Text(viewModel.currentCard.card.meaningsArray[index].partOfSpeech ?? "")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(Color(UIColor.systemBackground))
@@ -319,49 +267,44 @@ private struct DefinitionDetailView: View {
                 Spacer()
             }
             
-            ForEach(meaning.definitionsArray.indices, id: \.self) { index in
-                if index != 0 {
+            ForEach(viewModel.currentCard.card.meaningsArray[index].definitionsArray.indices, id: \.self) { idx in
+                if idx != 0 {
                     Spacer().frame(height: 24)
                 }
                 
-                let definition = meaning.definitionsArray[index]
+                let definition = viewModel.currentCard.card.meaningsArray[index].definitionsArray[idx]
                 
                 VStack(alignment: .leading) {
-                    Text("\(index + 1). \(showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
+                    Text("\(idx + 1). \(viewModel.showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
-                                        
-                    InformationRow(label: "Example", content: definition.example)
-                    InformationRow(label: "Synonyms", content: definition.synonyms)
-                    InformationRow(label: "Antonyms", content: definition.antonyms)
+                    
+                    if let content = definition.example, !content.isEmpty {
+                        informationRow(label: "Example", content: content)
+                    }
+                    
+                    if let content = definition.synonyms, !content.isEmpty {
+                        informationRow(label: "Synonyms", content: content)
+                    }
+                    
+                    if let content = definition.antonyms, !content.isEmpty {
+                        informationRow(label: "Antonyms", content: content)
+                    }
                 }
             }
         }
     }
-}
-
-private struct InformationRow: View {
-    let label: String
-    let content: String?
     
-    var body: some View {
-        if let content = content, !content.isEmpty {
+    private func informationRow(label: String, content: String) -> some View {
+        Group {
             Spacer().frame(height: 8)
             Text("\(label): \(content)")
                 .font(.subheadline)
                 .foregroundColor(.primary)
         }
     }
-}
-
-// MARK: - BottomButtons
-
-private struct BottomButtons: View {
-    @Environment(\.colorScheme) private var colorScheme
-    let viewModel: CardViewModel
-    @Binding var showingCardView: Bool
     
-    var body: some View {
+    private var bottomButtons: some View {
         ZStack {
             Button(action: {
                 showingCardView = false
@@ -403,4 +346,9 @@ private struct BottomButtons: View {
             }
         }
     }
+}
+
+#Preview {
+    CardView(showingCardView: .constant(true), studyingCards: [])
+        .injectMockDataViewModelForPreview()
 }
