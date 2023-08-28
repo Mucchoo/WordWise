@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 class CategoryListViewModel: ObservableObject {
     @EnvironmentObject var dataViewModel: DataViewModel
@@ -17,10 +18,34 @@ class CategoryListViewModel: ObservableObject {
     @Published var targetCategoryName = ""
     
     func renameCategory() {
-        dataViewModel.renameCategory(before: targetCategoryName, after: categoryNameTextFieldInput)
+        guard let category = dataViewModel.categories.first(where: { $0.name == targetCategoryName }) else { return }
+        
+        DispatchQueue.main.async { [self] in
+            dataViewModel.cards.filter({ $0.category == category.name }).forEach { card in
+                card.category = categoryNameTextFieldInput
+            }
+            
+            category.name = categoryNameTextFieldInput
+            dataViewModel.saveAndReload()
+        }
     }
     
     func deleteCategory() {
-        dataViewModel.deleteCategoryAndItsCards(name: targetCategoryName)
+        guard let category = dataViewModel.categories.first(where: { $0.name == targetCategoryName }) else { return }
+        dataViewModel.viewContext.delete(category)
+        dataViewModel.categories.removeAll(where: { $0.name == category.name })
+        
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Card.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "category == %@", targetCategoryName)
+        
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try dataViewModel.viewContext.execute(batchDeleteRequest)
+        } catch {
+            print("Failed to execute batch delete: \(error)")
+        }
+        
+        dataViewModel.saveAndReload()
     }
 }

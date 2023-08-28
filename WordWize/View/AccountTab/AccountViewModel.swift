@@ -31,4 +31,13 @@ class AccountViewModel: ObservableObject {
     func showResetAlert() {
         showingResetAlert = true
     }
+    
+    func resetLearningData() {
+        dataViewModel.cards.forEach { card in
+            card.masteryRate = 0
+            card.lastHardDate = nil
+            card.nextLearningDate = nil
+        }
+        dataViewModel.saveAndReload()
+    }
 }

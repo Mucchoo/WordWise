@@ -100,7 +100,7 @@ struct AccountView: View {
             }
             .accessibilityIdentifier("resetLearningDataButton")
             .alert("Are you sure to reset all the learning data?", isPresented: $viewModel.showingResetAlert) {
-                Button("Reset", role: .destructive, action: viewModel.dataViewModel.resetLearningData)
+                Button("Reset", role: .destructive, action: viewModel.resetLearningData)
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Failed times and the status of all cards will be reset.")

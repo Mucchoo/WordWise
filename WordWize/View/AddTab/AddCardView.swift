@@ -91,10 +91,10 @@ struct AddCardView: View {
                     Text("Generating Cards...")
                         .font(.headline)
                         .fontWeight(.bold)
-                    Text("\(viewModel.dataViewModel.fetchedWordCount) / \(viewModel.dataViewModel.requestedWordCount) Completed")
+                    Text("\(viewModel.fetchedWordCount) / \(viewModel.requestedWordCount) Completed")
                         .font(.footnote)
                         .padding(.bottom)
-                    ProgressView(value: Float(viewModel.dataViewModel.fetchedWordCount), total: Float(viewModel.dataViewModel.requestedWordCount))
+                    ProgressView(value: Float(viewModel.fetchedWordCount), total: Float(viewModel.requestedWordCount))
                 }
                 .frame(width: 210)
                 .transition(.scale)

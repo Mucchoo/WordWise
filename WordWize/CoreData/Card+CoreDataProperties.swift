@@ -70,6 +70,16 @@ extension Card {
     public var rate: MasteryRate {
         return MasteryRate(rawValue: masteryRate) ?? .zero
     }
+    
+    public var shouldRetryFetchingImages: Bool {
+        if let imageDatas = self.imageDatas as? Set<ImageData> {
+            return imageDatas.contains { (imageData: ImageData) in
+                return imageData.retryFlag
+            }
+        }
+        return false
+    }
+
 }
 
 // MARK: Generated accessors for imageData

@@ -180,7 +180,7 @@ class DataViewModelTests: XCTestCase {
         mockCardService.mockImageUrls = ["url1", "url2"]
 
         let expectation = self.expectation(description: "Cards added")
-        let publisher = dataViewModel.addCardPublisher(text: words.joined(separator: "\n"), category: category)
+        let publisher = dataViewModel.generateCards(text: words.joined(separator: "\n"), category: category)
         
         let cancellable = publisher.sink(receiveCompletion: { _ in
         }, receiveValue: { failedWords in

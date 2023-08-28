@@ -20,20 +20,21 @@ class ContentViewModel: ObservableObject {
         guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
         print("SETUP_DATA_FOR_TESTING")
         
-        dataViewModel.addDefaultCategory { [weak self] in
+        dataViewModel.addDefaultCategoryIfNeeded { [weak self] in
             self?.populateRandomTestData()
         }
     }
 
     private func populateRandomTestData() {
         for i in 0..<Int.random(in: 1..<100) {
-            let testCard = dataViewModel.makeTestCard(text: "test card \(i)")
-            dataViewModel.cards.append(testCard)
+            let card = Card(context: dataViewModel.viewContext)
+            card.text = "test card \(i)"
+            card.category = dataViewModel.categories.first?.name
+            card.id = UUID()
             print("add card: \(i)")
         }
 
-        dataViewModel.persistence.saveContext()
-        dataViewModel.loadData()
+        dataViewModel.saveAndReload()
 
         dataViewModel.cards.forEach { card in
             if card.category == nil {

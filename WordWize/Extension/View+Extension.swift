@@ -13,7 +13,10 @@ extension View {
         
         if isRunningForPreviews {
             let mockModel = DataViewModel(cardService: MockCardService(), persistence: .init(inMemory: true))
-            let card = mockModel.makeTestCard()
+            let card = Card(context: mockModel.viewContext)
+            card.text = "test"
+            card.category = mockModel.categories.first?.name
+            card.id = UUID()
             mockModel.cards.append(card)
             mockModel.persistence.saveContext()
             mockModel.loadData()

@@ -40,13 +40,34 @@ class CardListViewModel: ObservableObject {
     }
     
     func changeCategory() {
-        dataViewModel.changeCategory(of: selectedCards, newCategory: pickerAlertValue)
+        selectedCards.forEach { card in
+            card.category = pickerAlertValue
+        }
+        dataViewModel.saveAndReload()
         selectMode = false
         updateCardList()
     }
     
     func changeMasteryRate() {
-        dataViewModel.changeMasteryRate(of: selectedCards, rate: selectedRate)
+        var masteryRate: Int16 = 0
+        switch selectedRate {
+        case "25%":
+            masteryRate = 1
+        case "50%":
+            masteryRate = 2
+        case "75%":
+            masteryRate = 3
+        case "100%":
+            masteryRate = 4
+        default:
+            return
+        }
+        
+        selectedCards.forEach { card in
+            card.masteryRate = masteryRate
+        }
+        
+        dataViewModel.saveAndReload()
         selectMode = false
         updateCardList()
     }
@@ -62,14 +83,37 @@ class CardListViewModel: ObservableObject {
     }
     
     func deleteCard(_ card: Card) {
-        dataViewModel.deleteCard(card)
+        dataViewModel.viewContext.delete(card)
+        dataViewModel.saveAndReload()
         navigateToCardDetail = false
         updateCardList()
     }
     
     func updateCard(_ card: Card) {
-        guard let cardId = card.id else { return }
-        dataViewModel.updateCard(id: cardId, text: cardText, category: cardCategory, rate: masteryRate)
+        card.text = cardText
+        card.category = cardCategory
+        card.masteryRate = masteryRate
+        
+        var nextLearningDate: Int
+        switch card.masteryRate {
+        case 0:
+            nextLearningDate = 1
+        case 1:
+            nextLearningDate = 2
+        case 2:
+            nextLearningDate = 4
+        case 3:
+            nextLearningDate = 7
+        case 4:
+            nextLearningDate = 14
+        default:
+            return
+        }
+        
+        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
+        card.masteryRate += 1
+        
+        dataViewModel.saveAndReload()
         updateCardList()
     }
     
@@ -89,7 +133,10 @@ class CardListViewModel: ObservableObject {
     }
     
     func deleteSelectedCards() {
-        dataViewModel.deleteCards(selectedCards)
+        selectedCards.forEach { card in
+            dataViewModel.viewContext.delete(card)
+        }
+        dataViewModel.saveAndReload()
         selectMode = false
     }
 }

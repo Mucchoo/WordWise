@@ -171,10 +171,39 @@ class CardViewModel: ObservableObject {
             showTranslations = false
         } else {
             translating = true
-            dataViewModel.translateDefinitions(currentCard.card) { [weak self] in
+            translateDefinitions { [weak self] in
                 self?.translating = false
                 self?.showTranslations = true
             }
         }
+    }
+    
+    func translateDefinitions(completion: @escaping () -> ()) {
+        var definitions = [String]()
+        
+        currentCard.card.meaningsArray.forEach { meaning in
+            meaning.definitionsArray.forEach { definition in
+                definitions.append(definition.definition ?? "")
+            }
+        }
+        
+        dataViewModel.cardService.fetchTranslations(definitions)
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                completion()
+            } receiveValue: { response in
+                print("response: \(response)")
+                var index = 0
+                
+                self.currentCard.card.meaningsArray.forEach { meaning in
+                    meaning.definitionsArray.forEach { definition in
+                        definition.translatedDefinition = response.translations[safe: index]?.text ?? ""
+                        index += 1
+                    }
+                }
+                
+                self.dataViewModel.saveAndReload()
+            }
+            .store(in: &dataViewModel.cancellables)
     }
 }

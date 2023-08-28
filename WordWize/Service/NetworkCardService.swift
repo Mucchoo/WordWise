@@ -7,12 +7,107 @@
 
 import Foundation
 import Combine
+import CoreData
 
 class NetworkCardService: CardService {
     private let freeDictionaryAPIURLString = "https://api.dictionaryapi.dev/api/v2/entries/en/"
     private let pixabayAPIURLString = "https://pixabay.com/api/"
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
     private let deepLAPIURLString = "https://api-free.deepl.com/v2/translate"
+    
+    func fetchAndPopulateCard(word: String, card: Card, context: NSManagedObjectContext, onFetched: @escaping () -> Void) -> AnyPublisher<Card, Error> {
+        let fetchCardData = fetchDefinitions(word: word)
+        let fetchImagesData = fetchImages(word: word)
+
+        return Publishers.Zip(fetchCardData, fetchImagesData)
+            .flatMap { cardResponse, imageUrls -> AnyPublisher<Card, Error> in
+                print("got result of \(cardResponse.word)")
+                
+                cardResponse.meanings?.forEach { meaning in
+                    let newMeaning = Meaning(context: context)
+                    newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+                    newMeaning.createdAt = Date()
+                    
+                    meaning.definitions?.forEach { definition in
+                        let newDefinition = Definition(context: context)
+                        newDefinition.definition = definition.definition
+                        newDefinition.example = definition.example
+                        newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                        newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                        newDefinition.createdAt = Date()
+                        
+                        newMeaning.addToDefinitions(newDefinition)
+                    }
+                    
+                    card.addToMeanings(newMeaning)
+                }
+                
+                cardResponse.phonetics?.forEach { phonetic in
+                    let newPhonetic = Phonetic(context: context)
+                    newPhonetic.audio = phonetic.audio
+                    newPhonetic.text = phonetic.text
+                    card.addToPhonetics(newPhonetic)
+                }
+                
+                onFetched()
+                
+                let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
+                    guard let urlObj = URL(string: url) else { return nil }
+                    return URLSession.shared.dataTaskPublisher(for: urlObj)
+                        .map(\.data)
+                        .mapError { $0 as Error }
+                        .eraseToAnyPublisher()
+                }
+                
+                return Publishers.MergeMany(downloadImages)
+                    .collect()
+                    .flatMap { (imagesData: [Data]) -> AnyPublisher<Card, Error> in
+                        for (index, data) in imagesData.enumerated() {
+                            let imageData = ImageData(context: context) // Assuming context is accessible
+                            imageData.data = data
+                            imageData.priority = Int64(index)
+                            imageData.retryFlag = imageUrls[index] == "error"
+                            card.addToImageDatas(imageData)
+                        }
+                        
+                        return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
+                    }
+                    .catch { _ in
+                        return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
+                    }
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func retryFetchingImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Void, Error> {
+        return fetchImages(word: card.unwrappedText)
+            .flatMap { imageUrls -> AnyPublisher<Void, Error> in
+                card.imageDatas = nil
+                
+                let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
+                    return URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
+                        .map(\.data)
+                        .mapError { $0 as Error }
+                        .eraseToAnyPublisher()
+                }
+                
+                return Publishers.MergeMany(downloadImages)
+                    .collect()
+                    .tryMap { imagesData in
+                        for (index, data) in imagesData.enumerated() {
+                            let imageData = ImageData(context: context)
+                            imageData.data = data
+                            imageData.priority = Int64(index)
+                            imageData.retryFlag = imageUrls[index] == "error" // Replace "error" with appropriate condition
+                            card.addToImageDatas(imageData)
+                        }
+                    }
+                    .map { _ in () }
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
     
     func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
         guard let url = URL(string: merriamWebsterAPIURLString + word + "?key=" + Keys.merriamWebsterApiKey) else {
