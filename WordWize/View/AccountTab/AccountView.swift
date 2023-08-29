@@ -10,13 +10,17 @@ import UIKit
 import MessageUI
 
 struct AccountView: View {
-    @StateObject private var viewModel = AccountViewModel()
+    @StateObject private var viewModel: AccountViewModel
+    
+    init(container: DIContainer) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
+    }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    MasteryRateBars(categoryName: "")
+                    MasteryRateBars(container: viewModel.container, categoryName: "")
                         .blurBackground()
                     
                     VStack {
@@ -176,7 +180,7 @@ private struct ActivityViewController: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ActivityViewController>) {}
 }
 
-#Preview {
-    AccountView()
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    AccountView()
+//        .injectMockDataViewModelForPreview()
+//}

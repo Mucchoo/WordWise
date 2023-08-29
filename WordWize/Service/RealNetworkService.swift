@@ -1,5 +1,5 @@
 //
-//  NetworkCardService.swift
+//  RealNetworkService.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/16/23.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import CoreData
 
-class NetworkCardService: CardService {
+class RealNetworkService: NetworkService {
     private let freeDictionaryAPIURLString = "https://api.dictionaryapi.dev/api/v2/entries/en/"
     private let pixabayAPIURLString = "https://pixabay.com/api/"
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"

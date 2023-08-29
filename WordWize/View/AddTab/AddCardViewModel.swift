@@ -9,7 +9,8 @@ import Combine
 import SwiftUI
 
 class AddCardViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
+    private var cancellables = Set<AnyCancellable>()
+    let container: DIContainer
     
     @Published var cardText: String = ""
     @Published var selectedCategory: String = ""
@@ -29,6 +30,10 @@ class AddCardViewModel: ObservableObject {
         showPlaceholder ? placeHolder : cardText
     }
     
+    init(container: DIContainer) {
+        self.container = container
+    }
+    
     func addCardPublisher() -> AnyCancellable {
         return generateCards()
             .sink { [weak self] in
@@ -45,7 +50,7 @@ class AddCardViewModel: ObservableObject {
     
     func generateCards() {
         let cancellable = addCardPublisher()
-        cancellable.store(in: &dataViewModel.cancellables)
+        cancellable.store(in: &cancellables)
 
         cardText = ""
         generatingCards = true
@@ -64,13 +69,13 @@ class AddCardViewModel: ObservableObject {
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
                         self.addedCardCount = words.count
-                        self.dataViewModel.persistence.saveContext()
-                        self.dataViewModel.retryFetchingImages()
+                        self.container.persistence.saveContext()
+                        self.container.coreDataService.retryFetchingImages()
                         promise(.success(()))
                     } receiveValue: { card in
-                        self.dataViewModel.cards.append(card)
+                        self.container.appState.cards.append(card)
                     }
-                    .store(in: &self.dataViewModel.cancellables)
+                    .store(in: &self.cancellables)
             }
         }
         .eraseToAnyPublisher()
@@ -79,12 +84,13 @@ class AddCardViewModel: ObservableObject {
     private func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Never> {
         let fetchPublishers = words.publisher
             .flatMap(maxPublishers: .max(10)) { word -> AnyPublisher<Card, Never> in
-                let card = Card(context: self.dataViewModel.viewContext)
+                let card = Card(context: self.container.persistence.viewContext)
                 card.id = UUID()
                 card.text = word
                 card.category = category
                 
-                return self.dataViewModel.cardService.fetchAndPopulateCard(word: word, card: card, context: self.dataViewModel.viewContext) {
+                return self.container.networkService.fetchAndPopulateCard(
+                    word: word, card: card, context: self.container.persistence.viewContext) {
                     self.fetchedWordCount += 1
                 }
                     .catch { error -> AnyPublisher<Card, Never> in
@@ -98,13 +104,13 @@ class AddCardViewModel: ObservableObject {
     }
     
     func addCategory(name: String) {
-        if !dataViewModel.categories.contains(where: { $0.name == name }) {
-            let category = CardCategory(context: dataViewModel.viewContext)
+        if !container.appState.categories.contains(where: { $0.name == name }) {
+            let category = CardCategory(context: container.persistence.viewContext)
             category.name = name
-            dataViewModel.persistence.saveContext()
+            container.persistence.saveContext()
             
             DispatchQueue.main.async {
-                self.dataViewModel.categories.append(category)
+                self.container.appState.categories.append(category)
             }
         }
         

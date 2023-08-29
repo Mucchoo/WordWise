@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct StudyView: View {
-    @StateObject private var viewModel = StudyViewModel()
+    @StateObject private var viewModel: StudyViewModel
+    
+    init(container: DIContainer) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
+    }
 
     var body: some View {
-        if !viewModel.dataViewModel.isDataLoaded {
+        if !viewModel.isDataLoaded {
             Text("")
-        } else if viewModel.dataViewModel.cards.isEmpty {
+        } else if viewModel.container.appState.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
@@ -29,11 +33,11 @@ struct StudyView: View {
                         masteryRateCounts
                         studyButton
                         
-                        if !viewModel.todaysCards.isEmpty {
+                        if !viewModel.container.appState.todaysCards.isEmpty {
                             todaysCardsButton
                         }
                         
-                        if !viewModel.upcomingCards.isEmpty {
+                        if !viewModel.container.appState.upcomingCards.isEmpty {
                             upcomingCardsButton
                         }
                     }
@@ -42,11 +46,6 @@ struct StudyView: View {
                 .navigationBarTitle("Study", displayMode: .large)
             }
             .navigationViewStyle(StackNavigationViewStyle())
-            .onReceive(viewModel.dataViewModel.$cards) { _ in
-                DispatchQueue.main.async {
-                    self.viewModel.updateCards()
-                }
-            }
         }
     }
     
@@ -76,7 +75,7 @@ struct StudyView: View {
             Text("Category")
             Spacer()
             Picker("Options", selection: $viewModel.selectedCategory) {
-                ForEach(viewModel.dataViewModel.categories) { category in
+                ForEach(viewModel.container.appState.categories) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -107,18 +106,20 @@ struct StudyView: View {
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(viewModel.studyingCards.count > 0 ?
+                .background(viewModel.container.appState.studyingCards.count > 0 ?
                             LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) :
                             LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .accessibilityIdentifier("StudyCardsButton")
         }
-        .disabled(viewModel.studyingCards.count == 0)
+        .disabled(viewModel.container.appState.studyingCards.count == 0)
         .padding()
         .accessibilityIdentifier("studyCardsButton")
         .fullScreenCover(isPresented: $viewModel.showingCardView) {
-            CardView(showingCardView: $viewModel.showingCardView, studyingCards: viewModel.studyingCards)
+            CardView(container: viewModel.container,
+                     showingCardView: $viewModel.showingCardView,
+                     studyingCards: viewModel.container.appState.studyingCards)
                 .accessibilityIdentifier("CardView")
         }
     }
@@ -162,19 +163,19 @@ struct StudyView: View {
     }
     
     private var todaysCardsButton: some View {
-        return NavigationLink(destination: CardsView(type: .todays)) {
-            Text("Todays Cards: \(viewModel.todaysCards.count) Cards")
+        return NavigationLink(destination: CardsView(container: viewModel.container, type: .todays)) {
+            Text("Todays Cards: \(viewModel.container.appState.todaysCards.count) Cards")
         }.padding(.top, 20)
     }
     
     private var upcomingCardsButton: some View {
-        return NavigationLink(destination: CardsView(type: .upcoming)) {
-            Text("Upcoming Cards: \(viewModel.upcomingCards.count) Cards")
+        return NavigationLink(destination: CardsView(container: viewModel.container, type: .upcoming)) {
+            Text("Upcoming Cards: \(viewModel.container.appState.upcomingCards.count) Cards")
         }.padding(.top, 20)
     }
 }
 
-#Preview {
-    StudyView()
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    StudyView()
+//        .injectMockDataViewModelForPreview()
+//}

@@ -12,14 +12,16 @@
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
 		2A2015BC2A63D9EA00C67716 /* WordWizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */; };
 		2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */; };
-		2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* NetworkCardService.swift */; };
+		2A2015C62A63F42300C67716 /* RealNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* RealNetworkService.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A442B8F2A7010420083A476 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A442B8E2A7010420083A476 /* Keys.swift */; };
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
-		2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* CardService.swift */; };
+		2A4804AD2A714ED6003AC26E /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AC2A714ED6003AC26E /* NetworkService.swift */; };
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
+		2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8C402A9C7B9E00039950 /* AppState.swift */; };
+		2A5E8C432A9C7BBD00039950 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8C422A9C7BBD00039950 /* DIContainer.swift */; };
 		2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A68022C2A9BB94E00AADB8C /* NoCardViewModel.swift */; };
 		2A6802302A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A68022F2A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift */; };
 		2A71E43F2A48500E005B897C /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A71E43E2A48500E005B897C /* CardListView.swift */; };
@@ -61,10 +63,10 @@
 		2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddCardView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2ABD50282A40F461000459BC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* Persistence.swift */; };
-		2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */; };
+		2ABDB1E62A88E80F0036A4DB /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */; };
 		2ACC40CD2A69EC1C0097D3FE /* AddCardViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */; };
 		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
-		2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */; };
+		2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
@@ -96,14 +98,16 @@
 		2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWizeTests.swift; sourceTree = "<group>"; };
 		2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModelTests.swift; sourceTree = "<group>"; };
-		2A2015C52A63F42300C67716 /* NetworkCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCardService.swift; sourceTree = "<group>"; };
+		2A2015C52A63F42300C67716 /* RealNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkService.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A442B8E2A7010420083A476 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
-		2A4804AC2A714ED6003AC26E /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
+		2A4804AC2A714ED6003AC26E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
+		2A5E8C402A9C7B9E00039950 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		2A5E8C422A9C7BBD00039950 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		2A68022C2A9BB94E00AADB8C /* NoCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModel.swift; sourceTree = "<group>"; };
 		2A68022F2A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModel.swift; sourceTree = "<group>"; };
 		2A71E43E2A48500E005B897C /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
@@ -147,11 +151,11 @@
 		2ABC637C2A38194300718C90 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2ABD50272A40F461000459BC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCardService.swift; sourceTree = "<group>"; };
+		2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewUITests.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewUITests.swift; sourceTree = "<group>"; };
-		2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModel.swift; sourceTree = "<group>"; };
+		2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
@@ -204,9 +208,10 @@
 		2A2015C42A63F40C00C67716 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				2A4804AC2A714ED6003AC26E /* CardService.swift */,
-				2A2015C52A63F42300C67716 /* NetworkCardService.swift */,
-				2ABDB1E52A88E80F0036A4DB /* MockCardService.swift */,
+				2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */,
+				2A4804AC2A714ED6003AC26E /* NetworkService.swift */,
+				2A2015C52A63F42300C67716 /* RealNetworkService.swift */,
+				2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -285,6 +290,15 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		2A5E8C3F2A9C7B8F00039950 /* Injected */ = {
+			isa = PBXGroup;
+			children = (
+				2A5E8C402A9C7B9E00039950 /* AppState.swift */,
+				2A5E8C422A9C7BBD00039950 /* DIContainer.swift */,
+			);
+			path = Injected;
+			sourceTree = "<group>";
+		};
 		2A68022B2A9BB94200AADB8C /* NoCardView */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,7 +332,6 @@
 				2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */,
 				2ABD50272A40F461000459BC /* Persistence.swift */,
 				2A881D222A8375C2003329E1 /* MasteryRate.swift */,
-				2ADC3C262A50A20C00AA5903 /* DataViewModel.swift */,
 				2AB626192A636B8100C168E1 /* Card+CoreDataClass.swift */,
 				2AB626172A636B8100C168E1 /* Card+CoreDataProperties.swift */,
 				2AB626162A636B8100C168E1 /* Meaning+CoreDataClass.swift */,
@@ -414,6 +427,7 @@
 				2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */,
 				2A894F8A2A3FB60700163F92 /* CoreData */,
 				2A3C1DFF2A3924FC001B6E0E /* Response */,
+				2A5E8C3F2A9C7B8F00039950 /* Injected */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
 				2A2015C42A63F40C00C67716 /* Service */,
 				2AD20E332A6372E4000C3822 /* Helper */,
@@ -600,7 +614,7 @@
 				2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */,
 				2A7B0B602A92F9DF0009F28E /* ImageData+CoreDataClass.swift in Sources */,
 				2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */,
-				2A4804AD2A714ED6003AC26E /* CardService.swift in Sources */,
+				2A4804AD2A714ED6003AC26E /* NetworkService.swift in Sources */,
 				2AB6261C2A636B8100C168E1 /* Phonetic+CoreDataProperties.swift in Sources */,
 				2AB6262A2A636DEC00C168E1 /* CardCategory+CoreDataProperties.swift in Sources */,
 				2AB6B8752A9AFE0F00645F08 /* CardsViewModel.swift in Sources */,
@@ -623,10 +637,11 @@
 				2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */,
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AB626202A636B8100C168E1 /* Meaning+CoreDataProperties.swift in Sources */,
+				2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */,
 				2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */,
 				2A73CE362A9B2F1C003D9A23 /* AddCardViewModel.swift in Sources */,
 				2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */,
-				2ABDB1E62A88E80F0036A4DB /* MockCardService.swift in Sources */,
+				2ABDB1E62A88E80F0036A4DB /* MockNetworkService.swift in Sources */,
 				2A71E43F2A48500E005B897C /* CardListView.swift in Sources */,
 				2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */,
 				2AB626232A636B8100C168E1 /* Phonetic+CoreDataClass.swift in Sources */,
@@ -635,11 +650,11 @@
 				2AB6261F2A636B8100C168E1 /* Card+CoreDataProperties.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
-				2ADC3C272A50A20C00AA5903 /* DataViewModel.swift in Sources */,
+				2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				2A7901A32A95F99D00E13110 /* View+Extension.swift in Sources */,
-				2A2015C62A63F42300C67716 /* NetworkCardService.swift in Sources */,
+				2A2015C62A63F42300C67716 /* RealNetworkService.swift in Sources */,
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
 				2AB6261E2A636B8100C168E1 /* Meaning+CoreDataClass.swift in Sources */,
@@ -647,6 +662,7 @@
 				2A737B3A2A6DFE9C002814E2 /* Definition+CoreDataProperties.swift in Sources */,
 				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
 				2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */,
+				2A5E8C432A9C7BBD00039950 /* DIContainer.swift in Sources */,
 				2A737B3B2A6DFE9C002814E2 /* Definition+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

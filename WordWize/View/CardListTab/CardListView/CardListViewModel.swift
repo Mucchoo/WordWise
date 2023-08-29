@@ -9,7 +9,8 @@ import SwiftUI
 import Combine
 
 class CardListViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
+    private var cancellables = Set<AnyCancellable>()
+    let container: DIContainer
 
     @Published var cardList: [Card] = []
     @Published var selectedCards: [Card] = []
@@ -35,15 +36,32 @@ class CardListViewModel: ObservableObject {
         }
     }
     
-    init(categoryName: String) {
+    init(container: DIContainer, categoryName: String) {
+        self.container = container
         self.categoryName = categoryName
+        
+        observeChanges()
+    }
+    
+    private func observeChanges() {
+        container.appState.$cards
+            .sink { [weak self] _ in
+                self?.updateCardList()
+            }
+            .store(in: &cancellables)
+
+        $searchBarText
+            .sink { [weak self] _ in
+                self?.updateCardList()
+            }
+            .store(in: &cancellables)
     }
     
     func changeCategory() {
         selectedCards.forEach { card in
             card.category = pickerAlertValue
         }
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
         selectMode = false
         updateCardList()
     }
@@ -67,13 +85,13 @@ class CardListViewModel: ObservableObject {
             card.masteryRate = masteryRate
         }
         
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
         selectMode = false
         updateCardList()
     }
     
     func updateCardList() {
-        let filteredCards = dataViewModel.cards.filter { card in
+        let filteredCards = container.appState.cards.filter { card in
             let categoryFilter = card.category == categoryName
             let cardText = card.text ?? ""
             let searchTextFilter = cardText.contains(searchBarText) || searchBarText.isEmpty
@@ -83,8 +101,8 @@ class CardListViewModel: ObservableObject {
     }
     
     func deleteCard(_ card: Card) {
-        dataViewModel.viewContext.delete(card)
-        dataViewModel.saveAndReload()
+        container.persistence.viewContext.delete(card)
+        container.coreDataService.saveAndReload()
         navigateToCardDetail = false
         updateCardList()
     }
@@ -113,7 +131,7 @@ class CardListViewModel: ObservableObject {
         card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
         card.masteryRate += 1
         
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
         updateCardList()
     }
     
@@ -134,9 +152,9 @@ class CardListViewModel: ObservableObject {
     
     func deleteSelectedCards() {
         selectedCards.forEach { card in
-            dataViewModel.viewContext.delete(card)
+            container.persistence.viewContext.delete(card)
         }
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
         selectMode = false
     }
 }

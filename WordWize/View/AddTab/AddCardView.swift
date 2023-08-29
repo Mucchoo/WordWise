@@ -11,9 +11,14 @@ import SwiftUI
 
 struct AddCardView: View {
     @StateObject private var keyboardResponder = KeyboardResponder()
-    @StateObject private var viewModel = AddCardViewModel()
+    @StateObject private var viewModel: AddCardViewModel
     @FocusState private var isFocused: Bool
     @Binding var showTabBar: Bool
+    
+    init(container: DIContainer, showTabBar: Binding<Bool>) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
+        _showTabBar = showTabBar
+    }
         
     var body: some View {
         NavigationView {
@@ -41,7 +46,7 @@ struct AddCardView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            if let defaultCategory = viewModel.dataViewModel.categories.first?.name {
+            if let defaultCategory = viewModel.container.appState.categories.first?.name {
                 viewModel.selectedCategory = defaultCategory
             }
         }
@@ -50,7 +55,7 @@ struct AddCardView: View {
     private var categoryPicker: some View {
         HStack(spacing: 0) {
             Picker("", selection: $viewModel.selectedCategory) {
-                ForEach(viewModel.dataViewModel.categories) { category in
+                ForEach(viewModel.container.appState.categories) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -160,10 +165,10 @@ struct AddCardView: View {
     }
 }
 
-#Preview {
-    AddCardView(showTabBar: .constant(true))
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    AddCardView(showTabBar: .constant(true))
+//        .injectMockDataViewModelForPreview()
+//}
 
 private class KeyboardResponder: ObservableObject {
     @Published private(set) var currentHeight: CGFloat = 0

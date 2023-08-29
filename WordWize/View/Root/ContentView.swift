@@ -15,21 +15,25 @@ enum TabType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @StateObject private var viewModel = ContentViewModel()
+    @StateObject private var viewModel: ContentViewModel
+    
+    init(container: DIContainer) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
+    }
     
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                StudyView()
+                StudyView(container: viewModel.container)
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(showTabBar: $viewModel.showTabBar)
+                AddCardView(container: viewModel.container, showTabBar: $viewModel.showTabBar)
                     .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
-                CategoryListView()
+                CategoryListView(container: viewModel.container)
                     .tag(TabType.categoryList.rawValue)
                     .accessibilityIdentifier("CategoryListView")
-                AccountView()
+                AccountView(container: viewModel.container)
                     .tag(TabType.account.rawValue)
                     .accessibilityIdentifier("AccountView")
             }
@@ -103,9 +107,9 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
 
 private struct TabCurve: Shape {
     var tabPoint: CGFloat

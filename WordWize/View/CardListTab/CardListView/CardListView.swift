@@ -11,8 +11,8 @@ import UIKit
 struct CardListView: View {
     @StateObject private var viewModel: CardListViewModel
     
-    init(categoryName: String) {
-        _viewModel = StateObject(wrappedValue: CardListViewModel(categoryName: categoryName))
+    init(container: DIContainer, categoryName: String) {
+        _viewModel = StateObject(wrappedValue: .init(container: container, categoryName: categoryName))
     }
     
     var body: some View {
@@ -32,7 +32,7 @@ struct CardListView: View {
         .background(PickerAlert(viewModel: viewModel, type: .masteryRate))
         .navigationBarTitle(viewModel.categoryName, displayMode: .large)
         .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
-        .onReceive(viewModel.dataViewModel.$cards) { _ in
+        .onChange(of: viewModel.container.appState.cards) { _ in
             viewModel.updateCardList()
         }
         .onChange(of: viewModel.searchBarText) { _ in
@@ -181,7 +181,7 @@ struct CardListView: View {
                     Text("Category")
                     Spacer()
                     Picker("Category", selection: $viewModel.categoryName) {
-                        ForEach(viewModel.dataViewModel.categories) { category in
+                        ForEach(viewModel.container.appState.categories) { category in
                             let name = category.name ?? ""
                             Text(name).tag(name)
                         }
@@ -228,10 +228,10 @@ struct CardListView: View {
     }
 }
 
-#Preview {
-    CardListView(categoryName: "")
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    CardListView(categoryName: "")
+//        .injectMockDataViewModelForPreview()
+//}
 
 private struct PickerAlert: UIViewControllerRepresentable {
     enum ViewType {
@@ -250,7 +250,7 @@ private struct PickerAlert: UIViewControllerRepresentable {
         if type == .category {
             title = "Change Category"
             message = "Select new category for the \(viewModel.selectedCards.count) cards."
-            options = viewModel.dataViewModel.categories.map { $0.name ?? "" }
+            options = viewModel.container.appState.categories.map { $0.name ?? "" }
             onConfirm = viewModel.changeCategory
         } else {
             title = "Change Mastery Rate"

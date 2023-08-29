@@ -10,8 +10,8 @@ import SwiftUI
 struct MasteryRateBars: View {
     @StateObject private var viewModel: MasteryRateBarsViewModel
     
-    init(categoryName: String) {
-        _viewModel = StateObject(wrappedValue: MasteryRateBarsViewModel(categoryName: categoryName))
+    init(container: DIContainer, categoryName: String) {
+        _viewModel = StateObject(wrappedValue: .init(container: container, categoryName: categoryName))
     }
     
     var body: some View {
@@ -75,7 +75,7 @@ struct MasteryRateBars: View {
         }
         .frame(height: 30)
         .accessibilityIdentifier("chartBar\(rate)")
-        .onReceive(viewModel.dataViewModel.$cards) { _ in
+        .onReceive(viewModel.container.appState.$cards) { _ in
             DispatchQueue.main.async {
                 self.viewModel.updateCards()
             }
@@ -83,6 +83,6 @@ struct MasteryRateBars: View {
     }
 }
 
-#Preview {
-    MasteryRateBars(categoryName: "")
-}
+//#Preview {
+//    MasteryRateBars(categoryName: "")
+//}

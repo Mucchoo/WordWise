@@ -15,7 +15,7 @@ class Persistence: ObservableObject {
         return container.viewContext
     }
 
-    init(inMemory: Bool = false) {
+    init(inMemory: Bool) {
         container = NSPersistentCloudKitContainer(name: "Card")
 
         if inMemory {

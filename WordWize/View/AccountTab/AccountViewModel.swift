@@ -9,8 +9,8 @@ import SwiftUI
 import Combine
 
 class AccountViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
-
+    let container: DIContainer
+    
     @Published var nativeLanguage: String = "JA"
     @Published var isShowingReauthenticate: Bool = false
     @Published var isShowingTutorial: Bool = false
@@ -19,6 +19,10 @@ class AccountViewModel: ObservableObject {
     @Published var showingResetAlert: Bool = false
     
     let productURL = URL(string: "https://itunes.apple.com/jp/app/id1628829703?mt=8")!
+    
+    init(container: DIContainer) {
+        self.container = container
+    }
 
     func showShareSheet() {
         isShowingShareSheet = true
@@ -33,11 +37,11 @@ class AccountViewModel: ObservableObject {
     }
     
     func resetLearningData() {
-        dataViewModel.cards.forEach { card in
+        container.appState.cards.forEach { card in
             card.masteryRate = 0
             card.lastHardDate = nil
             card.nextLearningDate = nil
         }
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
     }
 }

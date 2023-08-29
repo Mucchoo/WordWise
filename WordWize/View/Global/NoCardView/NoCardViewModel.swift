@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class NoCardViewModel: ObservableObject {
-    @Published var animate: Bool = false
+    @Published var animate = false
     private var timer: Timer? = nil
     
     init() {

@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class MasteryRateBarsViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
+    let container: DIContainer
     @Published var cards: [Card] = []
     var categoryName: String
     
@@ -22,7 +22,8 @@ class MasteryRateBarsViewModel: ObservableObject {
         return maxCount > 0 ? maxCount : 1
     }
     
-    init(categoryName: String) {
+    init(container: DIContainer, categoryName: String) {
+        self.container = container
         self.categoryName = categoryName
     }
     
@@ -40,9 +41,9 @@ class MasteryRateBarsViewModel: ObservableObject {
     
     func updateCards() {
         if categoryName.isEmpty {
-            cards = dataViewModel.cards
+            cards = container.appState.cards
         } else {
-            cards = dataViewModel.cards.filter({ $0.category == categoryName })
+            cards = container.appState.cards.filter({ $0.category == categoryName })
         }
     }
     

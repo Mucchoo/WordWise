@@ -12,13 +12,13 @@ import StoreKit
 struct CardView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject private var viewModel: CardViewModel
+    @StateObject private var viewModel: CardViewModel
     @Binding private var showingCardView: Bool
     private let gridSize = (UIScreen.main.bounds.width - 21) / 2
 
-    init(showingCardView: Binding<Bool>, studyingCards: [Card]) {
+    init(container: DIContainer, showingCardView: Binding<Bool>, studyingCards: [Card]) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
         _showingCardView = showingCardView
-        self.viewModel = CardViewModel(studyingCards: studyingCards)
     }
 
     var body: some View {
@@ -348,7 +348,7 @@ struct CardView: View {
     }
 }
 
-#Preview {
-    CardView(showingCardView: .constant(true), studyingCards: [])
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    CardView(showingCardView: .constant(true), studyingCards: [])
+//        .injectMockDataViewModelForPreview()
+//}

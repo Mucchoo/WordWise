@@ -1,5 +1,5 @@
 //
-//  DataViewModel.swift
+//  CoreDataService.swift
 //  WordWize
 //
 //  Created by Musa Yazuju on 7/2/23.
@@ -9,39 +9,30 @@ import CoreData
 import SwiftUI
 import Combine
 
-class DataViewModel: ObservableObject {
-    @Published var cards: [Card] = []
-    @Published var categories: [CardCategory] = []
-    @Published var studyingCards: [Card] = []
-    @Published var todaysCards: [Card] = []
-    @Published var upcomingCards: [Card] = []
-    @Published var isDataLoaded = false
-    
-    private var isAddingDefaultCategory = false
-    var cancellables = Set<AnyCancellable>()
-    let cardService: CardService
+class CoreDataService {
+    private var cancellables = Set<AnyCancellable>()
     let persistence: Persistence
-    let viewContext: NSManagedObjectContext
+    let networkService: NetworkService
+    let appState: AppState
     
-    init(cardService: CardService, persistence: Persistence) {
-        self.cardService = cardService
+    init(persistence: Persistence, networkService: NetworkService, appState: AppState) {
         self.persistence = persistence
-        self.viewContext = persistence.viewContext
-        loadData()
+        self.networkService = networkService
+        self.appState = appState
     }
 
     func loadData() {
         fetchCards()
         fetchCategories()
-        isDataLoaded = true
+        appState.isDataLoaded = true
     }
 
     private func fetchCards() {
         let cardFetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
         do {
-            let fetchedCards = try viewContext.fetch(cardFetchRequest)
+            let fetchedCards = try persistence.viewContext.fetch(cardFetchRequest)
             DispatchQueue.main.async {
-                self.cards = fetchedCards
+                self.appState.cards = fetchedCards
             }
         } catch let error as NSError {
             print("Could not fetch Cards. \(error), \(error.userInfo)")
@@ -51,12 +42,12 @@ class DataViewModel: ObservableObject {
     private func fetchCategories() {
         let categoryFetchRequest: NSFetchRequest<CardCategory> = CardCategory.fetchRequest()
         do {
-            let fetchedCategories = try viewContext.fetch(categoryFetchRequest)
+            let fetchedCategories = try persistence.viewContext.fetch(categoryFetchRequest)
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                self.categories = fetchedCategories
-                if self.categories.isEmpty {
+                self.appState.categories = fetchedCategories
+                if self.appState.categories.isEmpty {
                     self.addDefaultCategory()
                 }
                 self.deleteDuplicatedCategory()
@@ -67,11 +58,11 @@ class DataViewModel: ObservableObject {
     }
 
     func retryFetchingImages() {
-        let cardsFailedFetchingImages = cards.filter { $0.shouldRetryFetchingImages }
+        let cardsFailedFetchingImages = appState.cards.filter { $0.shouldRetryFetchingImages }
         
         let fetchPublishers = cardsFailedFetchingImages.publisher
             .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<Void, Never> in
-                return self.cardService.retryFetchingImages(card: card, context: self.viewContext)
+                return self.networkService.retryFetchingImages(card: card, context: self.persistence.viewContext)
                     .catch { _ in Empty<Void, Never>() }
                     .eraseToAnyPublisher()
             }
@@ -89,7 +80,7 @@ class DataViewModel: ObservableObject {
     }
     
     func addDefaultCategoryIfNeeded(completion: (() -> ())? = nil) {
-        if categories.isEmpty {
+        if appState.categories.isEmpty {
             addDefaultCategory(completion: completion)
         }
     }
@@ -100,12 +91,12 @@ class DataViewModel: ObservableObject {
         fetchRequest.predicate = NSPredicate(format: "name == %@", defaultCategoryName)
 
         do {
-            let existingCategories = try viewContext.fetch(fetchRequest)
+            let existingCategories = try persistence.viewContext.fetch(fetchRequest)
             guard existingCategories.isEmpty else { return }
             
-            let newCategory = CardCategory(context: viewContext)
+            let newCategory = CardCategory(context: persistence.viewContext)
             newCategory.name = defaultCategoryName
-            categories.append(newCategory)
+            appState.categories.append(newCategory)
             
             persistence.saveContext()
             completion?()
@@ -116,7 +107,7 @@ class DataViewModel: ObservableObject {
     }
     
     private func deleteDuplicatedCategory() {
-        let groupedCategories = Dictionary(grouping: categories) { (category: CardCategory) in
+        let groupedCategories = Dictionary(grouping: appState.categories) { (category: CardCategory) in
             return category.name ?? ""
         }
         
@@ -128,8 +119,8 @@ class DataViewModel: ObservableObject {
             let categoriesToDelete = duplicateCategories.dropFirst()
             
             for category in categoriesToDelete {
-                viewContext.delete(category)
-                categories.removeAll { $0 == category }
+                persistence.viewContext.delete(category)
+                appState.categories.removeAll { $0 == category }
             }
         }
         

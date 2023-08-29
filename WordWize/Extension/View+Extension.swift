@@ -9,20 +9,20 @@ import SwiftUI
 
 extension View {
     func injectMockDataViewModelForPreview() -> some View {
-        let isRunningForPreviews: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-        
-        if isRunningForPreviews {
-            let mockModel = DataViewModel(cardService: MockCardService(), persistence: .init(inMemory: true))
-            let card = Card(context: mockModel.viewContext)
-            card.text = "test"
-            card.category = mockModel.categories.first?.name
-            card.id = UUID()
-            mockModel.cards.append(card)
-            mockModel.persistence.saveContext()
-            mockModel.loadData()
-            return AnyView(self.environmentObject(mockModel))
-        } else {
+//        let isRunningForPreviews: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+//        
+//        if isRunningForPreviews {
+//            let mockModel = DataViewModel(cardService: MockCardService(), persistence: .init(inMemory: true))
+//            let card = Card(context: mockModel.viewContext)
+//            card.text = "test"
+//            card.category = mockModel.categories.first?.name
+//            card.id = UUID()
+//            mockModel.cards.append(card)
+//            mockModel.persistence.saveContext()
+//            mockModel.loadData()
+//            return AnyView(self.environmentObject(mockModel))
+//        } else {
             return AnyView(self)
-        }
+//        }
     }
 }

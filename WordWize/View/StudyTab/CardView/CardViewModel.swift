@@ -8,6 +8,7 @@
 import SwiftUI
 import AVFoundation
 import StoreKit
+import Combine
 
 struct LearningCard {
     let card: Card
@@ -15,7 +16,7 @@ struct LearningCard {
 }
 
 class CardViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
+    let container: DIContainer
 
     @Published var isDefinitionVisible = false
     @Published var isWordVisible = true
@@ -27,13 +28,14 @@ class CardViewModel: ObservableObject {
     @Published var translating = false
     @Published var isButtonEnabled = true
     @Published var showReviewAlert = false
-
     
     private var audioPlayer: AVAudioPlayer?
     private var synthesizer = AVSpeechSynthesizer()
-    
-    init(studyingCards: [Card]) {
-        self.learningCards = studyingCards.map { LearningCard(card: $0) }.shuffled()
+    private var cancellables = Set<AnyCancellable>()
+
+    init(container: DIContainer) {
+        self.container = container
+        self.learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
     }
     
     var currentCard: LearningCard {
@@ -87,8 +89,7 @@ class CardViewModel: ObservableObject {
             let card = currentCard.card
             card.lastHardDate = Date()
             card.masteryRate = 0
-            dataViewModel.persistence.saveContext()
-            dataViewModel.loadData()
+            container.coreDataService.saveAndReload()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.speechText(card.text)
@@ -153,8 +154,7 @@ class CardViewModel: ObservableObject {
             currentCard.card.masteryRate += 1
         }
         
-        dataViewModel.persistence.saveContext()
-        dataViewModel.loadData()
+        container.coreDataService.saveAndReload()
     }
 
     func requestReviewIfNeeded(shouldRequest: Bool) {
@@ -187,7 +187,7 @@ class CardViewModel: ObservableObject {
             }
         }
         
-        dataViewModel.cardService.fetchTranslations(definitions)
+        container.networkService.fetchTranslations(definitions)
             .receive(on: DispatchQueue.main)
             .sink { _ in
                 completion()
@@ -202,8 +202,8 @@ class CardViewModel: ObservableObject {
                     }
                 }
                 
-                self.dataViewModel.saveAndReload()
+                self.container.coreDataService.saveAndReload()
             }
-            .store(in: &dataViewModel.cancellables)
+            .store(in: &cancellables)
     }
 }

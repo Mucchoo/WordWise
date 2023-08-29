@@ -8,18 +8,20 @@
 import SwiftUI
 
 class CardsViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
-
+    enum ViewType {
+        case todays, upcoming
+    }
+    
     @Published var cards: [Card] = []
     var title: String = ""
 
-    init(type: CardsView.ViewType) {
+    init(container: DIContainer, type: ViewType) {
         switch type {
         case .todays:
-            cards = dataViewModel.todaysCards
+            cards = container.appState.todaysCards
             title = "Todays Cards"
         case .upcoming:
-            cards = dataViewModel.upcomingCards
+            cards = container.appState.upcomingCards
             title = "Upcoming Cards"
         }
     }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import CoreData
 
-class MockCardService: CardService {    
+class MockNetworkService: NetworkService {
     func fetchAndPopulateCard(word: String, card: Card, context: NSManagedObjectContext, onFetched: @escaping () -> Void) -> AnyPublisher<Card, Error> {
         DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
             let newMeaning = Meaning(context: context)

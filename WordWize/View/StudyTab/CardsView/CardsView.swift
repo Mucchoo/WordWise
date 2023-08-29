@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct CardsView: View {
-    enum ViewType {
-        case todays, upcoming
-    }
-
     @StateObject var viewModel: CardsViewModel
     
-    init(type: ViewType) {
-        _viewModel = StateObject(wrappedValue: CardsViewModel(type: type))
+    init(container: DIContainer, type: CardsViewModel.ViewType) {
+        _viewModel = StateObject(wrappedValue: .init(container: container, type: type))
     }
 
     var body: some View {
@@ -68,7 +64,7 @@ struct CardsView: View {
     }
 }
 
-#Preview {
-    CardsView(type: .todays)
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    CardsView(type: .todays)
+//        .injectMockDataViewModelForPreview()
+//}

@@ -9,16 +9,20 @@ import SwiftUI
 
 struct CategoryListView: View {
     @Environment(\.colorScheme) private var colorScheme
-    @StateObject private var viewModel = CategoryListViewModel()
+    @StateObject private var viewModel: CategoryListViewModel
+    
+    init(container: DIContainer) {
+        _viewModel = StateObject(wrappedValue: .init(container: container))
+    }
     
     var body: some View {
-        if viewModel.dataViewModel.categories.isEmpty {
+        if viewModel.container.appState.categories.isEmpty {
             NoCardView(image: "BoyRight")
         } else {
             NavigationView {
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(viewModel.dataViewModel.categories) { category in
+                        ForEach(viewModel.container.appState.categories) { category in
                             categoryRow(category)
                         }
                     }
@@ -50,7 +54,7 @@ struct CategoryListView: View {
     
     private func categoryRow(_ category: CardCategory) -> some View {
         ZStack() {
-            NavigationLink(destination: CardListView(categoryName: category.name ?? "")) {
+            NavigationLink(destination: CardListView(container: viewModel.container, categoryName: category.name ?? "")) {
                 VStack {
                     HStack(alignment: .top) {
                         Text(category.name ?? "")
@@ -66,7 +70,7 @@ struct CategoryListView: View {
                             .frame(width: 35, height: 35)
                     }
                     
-                    MasteryRateBars(categoryName: category.name ?? "nil")
+                    MasteryRateBars(container: viewModel.container, categoryName: category.name ?? "nil")
                 }
                 .padding(10)
                 .blurBackground()
@@ -110,7 +114,7 @@ struct CategoryListView: View {
     }
 }
 
-#Preview {
-    CategoryListView()
-        .injectMockDataViewModelForPreview()
-}
+//#Preview {
+//    CategoryListView()
+//        .injectMockDataViewModelForPreview()
+//}

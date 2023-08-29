@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoCardView: View {
-    @StateObject var viewModel: NoCardViewModel = NoCardViewModel()
+    @StateObject var viewModel = NoCardViewModel()
     @Environment(\.colorScheme) private var colorScheme
     let image: String
     

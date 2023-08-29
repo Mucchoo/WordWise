@@ -9,37 +9,42 @@ import SwiftUI
 import Combine
 
 class ContentViewModel: ObservableObject {
-    @EnvironmentObject var dataViewModel: DataViewModel
+    let container: DIContainer
+    
     @Published var selectedTab = TabType.study.rawValue
     @Published var showTabBar = true
     @Published var tabPoints: [CGFloat] = Array(repeating: 0, count: TabType.allCases.count)
+    
+    init(container: DIContainer) {
+        self.container = container
+    }
 
     func onAppear() {
-        dataViewModel.retryFetchingImages()
+        container.coreDataService.retryFetchingImages()
         
         guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
         print("SETUP_DATA_FOR_TESTING")
         
-        dataViewModel.addDefaultCategoryIfNeeded { [weak self] in
+        container.coreDataService.addDefaultCategoryIfNeeded { [weak self] in
             self?.populateRandomTestData()
         }
     }
 
     private func populateRandomTestData() {
         for i in 0..<Int.random(in: 1..<100) {
-            let card = Card(context: dataViewModel.viewContext)
+            let card = Card(context: container.persistence.viewContext)
             card.text = "test card \(i)"
-            card.category = dataViewModel.categories.first?.name
+            card.category = container.appState.categories.first?.name
             card.id = UUID()
             print("add card: \(i)")
         }
 
-        dataViewModel.saveAndReload()
+        container.coreDataService.saveAndReload()
 
-        dataViewModel.cards.forEach { card in
+        container.appState.cards.forEach { card in
             if card.category == nil {
-                card.category = dataViewModel.categories.first?.name
-                dataViewModel.persistence.saveContext()
+                card.category = container.appState.categories.first?.name
+                container.persistence.saveContext()
             }
         }
     }
