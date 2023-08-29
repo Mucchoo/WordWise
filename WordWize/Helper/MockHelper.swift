@@ -12,6 +12,19 @@ struct MockHelper {
     static let shared = MockHelper()
     
     func createAndSaveMockCards(persistence: Persistence, appState: AppState) {
+        let cards = createMockCards(persistence: persistence)
+        persistence.saveContext()
+        appState.cards = cards
+    }
+    
+    func createAndSaveMockCategory(persistence: Persistence, appState: AppState) {
+        let category = CardCategory(context: persistence.viewContext)
+        category.name = "Mock Category"
+        persistence.saveContext()
+        appState.categories.append(category)
+    }
+    
+    func createMockCards(persistence: Persistence) -> [Card] {
         var cards = [Card]()
         
         for i in 0...100 {
@@ -23,20 +36,6 @@ struct MockHelper {
             cards.append(card)
         }
         
-        persistence.saveContext()
-        
-        DispatchQueue.main.async {
-            appState.cards = cards
-        }
-    }
-    
-    func createAndSaveMockCategory(persistence: Persistence, appState: AppState) {
-        let category = CardCategory(context: persistence.viewContext)
-        category.name = "Mock Category"
-        persistence.saveContext()
-        
-        DispatchQueue.main.async {
-            appState.categories.append(category)
-        }
+        return cards
     }
 }

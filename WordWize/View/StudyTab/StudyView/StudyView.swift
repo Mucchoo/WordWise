@@ -118,8 +118,7 @@ struct StudyView: View {
         .accessibilityIdentifier("studyCardsButton")
         .fullScreenCover(isPresented: $viewModel.showingCardView) {
             CardView(viewModel: .init(container: viewModel.container),
-                     showingCardView: $viewModel.showingCardView,
-                     studyingCards: viewModel.container.appState.studyingCards)
+                     showingCardView: $viewModel.showingCardView)
                 .accessibilityIdentifier("CardView")
         }
     }

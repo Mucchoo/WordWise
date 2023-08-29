@@ -9,14 +9,6 @@ import SwiftUI
 
 @main
 struct WordWizeApp: App {
-//    private static var isRunningForPreviews: Bool {
-//        ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-//    }
-//
-//    private static var shouldUseInMemory: Bool {
-//        isRunningForPreviews || CommandLine.arguments.contains("FOR_TESTING")
-//    }
-
     var body: some Scene {
         let container = DIContainer(
             appState: AppState(),
@@ -27,4 +19,10 @@ struct WordWizeApp: App {
             ContentView(container: container)
         }
     }
+}
+
+// MARK: - Global variables
+
+var isPreview: Bool {
+    ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
 }

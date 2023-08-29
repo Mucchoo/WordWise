@@ -35,12 +35,18 @@ class CardViewModel: ObservableObject {
 
     init(container: DIContainer) {
         self.container = container
-        self.learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
+        learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
+        
+        setCategoryToPlayback()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+            speechText(learningCards[safe: 0]?.card.text)
+        }
     }
     
     var currentCard: LearningCard {
         get {
-            return learningCards[index]
+            return learningCards[safe: index] ?? .init(card: .init(context: container.persistence.viewContext))
         }
         set (newCard) {
             learningCards[index] = newCard
@@ -48,7 +54,7 @@ class CardViewModel: ObservableObject {
     }
     
     func speechText(_ text: String?) {
-        guard let text = text else { return }
+        guard !isPreview, let text else { return }
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.volume = 0.5
@@ -58,6 +64,8 @@ class CardViewModel: ObservableObject {
     }
     
     func setCategoryToPlayback() {
+        guard !isPreview else { return }
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, options: .allowBluetooth)
             try AVAudioSession.sharedInstance().setActive(true)

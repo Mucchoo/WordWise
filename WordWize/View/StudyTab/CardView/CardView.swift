@@ -16,7 +16,7 @@ struct CardView: View {
     @Binding private var showingCardView: Bool
     private let gridSize = (UIScreen.main.bounds.width - 21) / 2
 
-    init(viewModel: CardViewModel, showingCardView: Binding<Bool>, studyingCards: [Card]) {
+    init(viewModel: CardViewModel, showingCardView: Binding<Bool>) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _showingCardView = showingCardView
     }
@@ -32,12 +32,6 @@ struct CardView: View {
         .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
         .onTapGesture {
             viewModel.isDefinitionVisible = true
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                viewModel.speechText(viewModel.learningCards[0].card.text)
-            }
-            viewModel.setCategoryToPlayback()
         }
     }
     
@@ -86,11 +80,21 @@ struct CardView: View {
                     VStack {
                         Spacer().frame(height: 20).id("TopSpacer")
                         
-                        wordSection
-                        definitionSection
-                        
-                        if viewModel.currentCard.card.imageDatasArray.count > 0 {
-                            imageSection
+                        ZStack {
+                            VStack {
+                                wordSection
+                                definitionSection
+                                
+                                if viewModel.currentCard.card.imageDatasArray.count > 0 {
+                                    imageSection
+                                }
+                            }
+                            
+                            Rectangle()
+                                .fill(Color(UIColor.systemBackground))
+                                .opacity(viewModel.isDefinitionVisible ? 0 : 1)
+                                .animation(.easeIn(duration: 0.3), value: viewModel.isDefinitionVisible)
+                                .zIndex(1)
                         }
                         
                         Spacer().frame(height: 20)
@@ -178,31 +182,23 @@ struct CardView: View {
     }
     
     private var definitionSection: some View {
-        ZStack {
-            VStack {
-                ForEach(viewModel.currentCard.card.meaningsArray.indices, id: \.self) { idx in
-                    if idx != 0 {
-                        Group {
-                            Divider()
-                            Spacer().frame(height: 20)
-                        }
+        VStack {
+            ForEach(viewModel.currentCard.card.meaningsArray.indices, id: \.self) { idx in
+                if idx != 0 {
+                    Group {
+                        Divider()
+                        Spacer().frame(height: 20)
                     }
-                    definitionDetailView(index: idx)
                 }
-                
-                Spacer().frame(height: 20)
+                definitionDetailView(index: idx)
             }
             
-            Rectangle()
-                .fill(Color(UIColor.systemBackground))
-                .opacity(viewModel.isDefinitionVisible ? 0 : 1)
-                .animation(.easeIn(duration: 0.3), value: viewModel.isDefinitionVisible)
-                .zIndex(1)
+            Spacer().frame(height: 20)
         }
     }
     
     private var imageSection: some View {
-        Group {
+        VStack {
             VStack(spacing: 2) {
                 HStack(spacing: 2) {
                     gridImage(card: viewModel.currentCard.card, index: 0, size: gridSize)
@@ -215,11 +211,13 @@ struct CardView: View {
                     }
                 }
             }
-            .frame(height: gridSize * 2 + 2)
+            .frame(height: viewModel.currentCard.card.imageDatasArray.count > 2 ?
+                   gridSize * 2 + 2 : gridSize)
             
             Text("Powered by Pixabay")
                 .font(.caption2)
                 .foregroundColor(.secondary)
+                .padding(.top, 5)
         }
     }
     
@@ -348,7 +346,10 @@ struct CardView: View {
     }
 }
 
-//#Preview {
-//    CardView(showingCardView: .constant(true), studyingCards: [])
-//        .injectMockDataViewModelForPreview()
-//}
+#Preview {
+    let container: DIContainer = .mock()
+    container.appState.studyingCards = container.appState.cards
+    
+    return CardView(viewModel: .init(container: container),
+                    showingCardView: .constant(true))
+}
