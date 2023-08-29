@@ -11,30 +11,13 @@ import CoreData
 
 class MockNetworkService: NetworkService {
     func fetchAndPopulateCard(word: String, card: Card, context: NSManagedObjectContext, onFetched: @escaping () -> Void) -> AnyPublisher<Card, Error> {
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
-            let newMeaning = Meaning(context: context)
-            newMeaning.partOfSpeech = "Noun"
-            newMeaning.createdAt = Date()
-            
-            let newDefinition = Definition(context: context)
-            newDefinition.definition = "This is a mock definition"
-            newDefinition.example = "This is a mock example"
-            newDefinition.createdAt = Date()
-            
-            newMeaning.addToDefinitions(newDefinition)
-            card.addToMeanings(newMeaning)
-            
-            let newPhonetic = Phonetic(context: context)
-            newPhonetic.text = "mockText"
-            newPhonetic.audio = "mockAudioUrl"
-            card.addToPhonetics(newPhonetic)
-            
+        return Future<Card, Error> { promise in
+            print("Mocking card for \(word)")
+            card.setMockData(context: context)
             onFetched()
+            promise(.success(card))
         }
-        
-        return Just(card)
-            .setFailureType(to: Error.self)
-            .eraseToAnyPublisher()
+        .eraseToAnyPublisher()
     }
     
     func retryFetchingImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Void, Error> {

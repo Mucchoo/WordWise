@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 // Dependency Injection Container
 struct DIContainer {
@@ -23,5 +24,17 @@ struct DIContainer {
             persistence: persistence,
             networkService: networkService,
             appState: appState)
+    }
+    
+    static func mock(withMockCards: Bool = true) -> DIContainer {
+        let mockAppState = AppState()
+        let mockPersistence = Persistence(isMock: true)
+        
+        if withMockCards {
+            mockAppState.isDataLoaded = true
+            MockHelper.shared.createAndSaveMockCards(persistence: mockPersistence, appState: mockAppState)
+        }
+        
+        return .init(appState: mockAppState, networkService: MockNetworkService(), persistence: mockPersistence)
     }
 }

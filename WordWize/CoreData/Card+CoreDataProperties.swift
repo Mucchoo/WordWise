@@ -80,6 +80,31 @@ extension Card {
         return false
     }
 
+    public func setMockData(context: NSManagedObjectContext) {
+        let newMeaning = Meaning(context: context)
+        newMeaning.partOfSpeech = "Noun"
+        newMeaning.createdAt = Date()
+        
+        let newDefinition = Definition(context: context)
+        newDefinition.definition = "A mock definition"
+        newDefinition.example = "An example using the mock definition."
+        newDefinition.antonyms = "opposite"
+        newDefinition.synonyms = "similar"
+        newDefinition.createdAt = Date()
+        
+        newMeaning.addToDefinitions(newDefinition)
+        self.addToMeanings(newMeaning)
+        
+        let newPhonetic = Phonetic(context: context)
+        newPhonetic.text = "/mɒk/"
+        self.addToPhonetics(newPhonetic)
+                
+        let imageData = ImageData(context: context)
+        imageData.data = Data()
+        imageData.priority = 0
+        imageData.retryFlag = false
+        self.addToImageDatas(imageData)
+    }
 }
 
 // MARK: Generated accessors for imageData

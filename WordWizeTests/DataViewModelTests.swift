@@ -19,7 +19,7 @@ class DataViewModelTests: XCTestCase {
         super.setUp()
 
         mockCardService = MockCardService()
-        let persistence = Persistence(inMemory: true)
+        let persistence = Persistence(isMock: true)
         dataViewModel = DataViewModel(cardService: mockCardService, persistence: persistence)
     }
 

@@ -12,10 +12,9 @@ class StudyViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     let container: DIContainer
     
-    @Published var selectedCategory: String = ""
-    @Published var maximumCards: Int = 1000
-    @Published var showingCardView: Bool = false
-    @Published var isDataLoaded = false
+    @Published var selectedCategory = ""
+    @Published var maximumCards = 1000
+    @Published var showingCardView = false
     
     enum FilterType {
         case studying, today, upcoming

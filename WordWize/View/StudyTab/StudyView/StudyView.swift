@@ -10,13 +10,13 @@ import SwiftUI
 struct StudyView: View {
     @StateObject private var viewModel: StudyViewModel
     
-    init(container: DIContainer) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+    init(viewModel: StudyViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
-        if !viewModel.isDataLoaded {
-            Text("")
+        if !viewModel.container.appState.isDataLoaded {
+            Text("Loading...")
         } else if viewModel.container.appState.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
@@ -175,7 +175,9 @@ struct StudyView: View {
     }
 }
 
-//#Preview {
-//    StudyView()
-//        .injectMockDataViewModelForPreview()
-//}
+#Preview {
+    let viewModel = StudyViewModel(container: .mock())
+    viewModel.selectedCategory = "Category 1"
+    
+    return StudyView(viewModel: viewModel)
+}

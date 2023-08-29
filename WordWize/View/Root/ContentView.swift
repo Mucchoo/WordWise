@@ -24,7 +24,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                StudyView(container: viewModel.container)
+                StudyView(viewModel: .init(container: viewModel.container))
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
                 AddCardView(container: viewModel.container, showTabBar: $viewModel.showTabBar)

@@ -21,7 +21,7 @@ struct WordWizeApp: App {
         let container = DIContainer(
             appState: AppState(),
             networkService: RealNetworkService(),
-            persistence: Persistence(inMemory: false))
+            persistence: Persistence(isMock: false))
         
         WindowGroup {
             ContentView(container: container)

@@ -15,10 +15,10 @@ class Persistence: ObservableObject {
         return container.viewContext
     }
 
-    init(inMemory: Bool) {
+    init(isMock: Bool) {
         container = NSPersistentCloudKitContainer(name: "Card")
 
-        if inMemory {
+        if isMock {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
 

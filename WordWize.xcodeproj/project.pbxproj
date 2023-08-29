@@ -31,12 +31,12 @@
 		2A737B3B2A6DFE9C002814E2 /* Definition+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A737B392A6DFE9C002814E2 /* Definition+CoreDataClass.swift */; };
 		2A73CE362A9B2F1C003D9A23 /* AddCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A73CE352A9B2F1C003D9A23 /* AddCardViewModel.swift */; };
 		2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A73CE372A9B4046003D9A23 /* AccountViewModel.swift */; };
-		2A7901A32A95F99D00E13110 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7901A22A95F99D00E13110 /* View+Extension.swift */; };
 		2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */; };
 		2A7B0B602A92F9DF0009F28E /* ImageData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B0B5E2A92F9DF0009F28E /* ImageData+CoreDataClass.swift */; };
 		2A7B0B612A92F9DF0009F28E /* ImageData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7B0B5F2A92F9DF0009F28E /* ImageData+CoreDataProperties.swift */; };
 		2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8054992A64640B0092A886 /* StudyViewUITests.swift */; };
 		2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8250ED2A922B4000ADD88E /* CardsView.swift */; };
+		2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */; };
 		2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A881D222A8375C2003329E1 /* MasteryRate.swift */; };
 		2A8B04872A645C2600E19304 /* WordWizeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B04862A645C2600E19304 /* WordWizeUITestsLaunchTests.swift */; };
 		2AAC04B42A68F6B70021B1B4 /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAC04B32A68F6B70021B1B4 /* UITestHelper.swift */; };
@@ -117,12 +117,12 @@
 		2A737B392A6DFE9C002814E2 /* Definition+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Definition+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2A73CE352A9B2F1C003D9A23 /* AddCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewModel.swift; sourceTree = "<group>"; };
 		2A73CE372A9B4046003D9A23 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
-		2A7901A22A95F99D00E13110 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMasteryRateView.swift; sourceTree = "<group>"; };
 		2A7B0B5E2A92F9DF0009F28E /* ImageData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		2A7B0B5F2A92F9DF0009F28E /* ImageData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		2A8054992A64640B0092A886 /* StudyViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewUITests.swift; sourceTree = "<group>"; };
 		2A8250ED2A922B4000ADD88E /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelper.swift; sourceTree = "<group>"; };
 		2A881D222A8375C2003329E1 /* MasteryRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRate.swift; sourceTree = "<group>"; };
 		2A8B04822A645C2600E19304 /* WordWizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A8B04862A645C2600E19304 /* WordWizeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWizeUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -221,7 +221,6 @@
 			children = (
 				2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */,
 				2AB76B002A63998600C2C260 /* Array+Extension.swift */,
-				2A7901A22A95F99D00E13110 /* View+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -440,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				2AB7C9612A51240100A703FA /* Global.swift */,
+				2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */,
 				2A442B8E2A7010420083A476 /* Keys.swift */,
 			);
 			path = Helper;
@@ -625,6 +625,7 @@
 				2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */,
 				2ABD50282A40F461000459BC /* Persistence.swift in Sources */,
 				2AB6262B2A636DEC00C168E1 /* CardCategory+CoreDataClass.swift in Sources */,
+				2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
 				2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */,
 				2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */,
@@ -653,7 +654,6 @@
 				2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */,
 				2AB7C9622A51240100A703FA /* Global.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
-				2A7901A32A95F99D00E13110 /* View+Extension.swift in Sources */,
 				2A2015C62A63F42300C67716 /* RealNetworkService.swift in Sources */,
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,

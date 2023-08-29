@@ -92,6 +92,5 @@ struct WhatIsMasteryRateView: View {
 #Preview {
     NavigationView {
         WhatIsMasteryRateView()
-            .injectMockDataViewModelForPreview()
     }
 }
