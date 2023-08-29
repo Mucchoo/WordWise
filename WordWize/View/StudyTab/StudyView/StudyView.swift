@@ -117,7 +117,7 @@ struct StudyView: View {
         .padding()
         .accessibilityIdentifier("studyCardsButton")
         .fullScreenCover(isPresented: $viewModel.showingCardView) {
-            CardView(container: viewModel.container,
+            CardView(viewModel: .init(container: viewModel.container),
                      showingCardView: $viewModel.showingCardView,
                      studyingCards: viewModel.container.appState.studyingCards)
                 .accessibilityIdentifier("CardView")
@@ -163,13 +163,15 @@ struct StudyView: View {
     }
     
     private var todaysCardsButton: some View {
-        return NavigationLink(destination: CardsView(container: viewModel.container, type: .todays)) {
+        return NavigationLink(destination: CardsView(viewModel: .init(
+            container: viewModel.container, type: .todays))) {
             Text("Todays Cards: \(viewModel.container.appState.todaysCards.count) Cards")
         }.padding(.top, 20)
     }
     
     private var upcomingCardsButton: some View {
-        return NavigationLink(destination: CardsView(container: viewModel.container, type: .upcoming)) {
+        return NavigationLink(destination: CardsView(
+            viewModel: .init(container: viewModel.container, type: .upcoming))) {
             Text("Upcoming Cards: \(viewModel.container.appState.upcomingCards.count) Cards")
         }.padding(.top, 20)
     }

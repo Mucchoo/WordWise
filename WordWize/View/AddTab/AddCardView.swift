@@ -15,8 +15,8 @@ struct AddCardView: View {
     @FocusState private var isFocused: Bool
     @Binding var showTabBar: Bool
     
-    init(container: DIContainer, showTabBar: Binding<Bool>) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+    init(viewModel: AddCardViewModel, showTabBar: Binding<Bool>) {
+        _viewModel = StateObject(wrappedValue: viewModel)
         _showTabBar = showTabBar
     }
         

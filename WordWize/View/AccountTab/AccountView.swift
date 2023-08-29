@@ -12,15 +12,15 @@ import MessageUI
 struct AccountView: View {
     @StateObject private var viewModel: AccountViewModel
     
-    init(container: DIContainer) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+    init(viewModel: AccountViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    MasteryRateBars(container: viewModel.container, categoryName: "")
+                    MasteryRateBars(viewModel: .init(container: viewModel.container, categoryName: ""))
                         .blurBackground()
                     
                     VStack {

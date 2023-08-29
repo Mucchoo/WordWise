@@ -11,8 +11,8 @@ struct CategoryListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var viewModel: CategoryListViewModel
     
-    init(container: DIContainer) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+    init(viewModel: CategoryListViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
@@ -54,7 +54,7 @@ struct CategoryListView: View {
     
     private func categoryRow(_ category: CardCategory) -> some View {
         ZStack() {
-            NavigationLink(destination: CardListView(container: viewModel.container, categoryName: category.name ?? "")) {
+            NavigationLink(destination: CardListView(viewModel: .init(container: viewModel.container, categoryName: category.name ?? ""))) {
                 VStack {
                     HStack(alignment: .top) {
                         Text(category.name ?? "")
@@ -70,7 +70,7 @@ struct CategoryListView: View {
                             .frame(width: 35, height: 35)
                     }
                     
-                    MasteryRateBars(container: viewModel.container, categoryName: category.name ?? "nil")
+                    MasteryRateBars(viewModel: .init(container: viewModel.container, categoryName: category.name ?? ""))
                 }
                 .padding(10)
                 .blurBackground()

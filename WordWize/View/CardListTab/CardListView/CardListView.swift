@@ -11,8 +11,8 @@ import UIKit
 struct CardListView: View {
     @StateObject private var viewModel: CardListViewModel
     
-    init(container: DIContainer, categoryName: String) {
-        _viewModel = StateObject(wrappedValue: .init(container: container, categoryName: categoryName))
+    init(viewModel: CardListViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

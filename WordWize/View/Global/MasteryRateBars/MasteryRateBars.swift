@@ -10,8 +10,8 @@ import SwiftUI
 struct MasteryRateBars: View {
     @StateObject private var viewModel: MasteryRateBarsViewModel
     
-    init(container: DIContainer, categoryName: String) {
-        _viewModel = StateObject(wrappedValue: .init(container: container, categoryName: categoryName))
+    init(viewModel: MasteryRateBarsViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

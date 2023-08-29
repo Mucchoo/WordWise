@@ -10,8 +10,8 @@ import SwiftUI
 struct CardsView: View {
     @StateObject var viewModel: CardsViewModel
     
-    init(container: DIContainer, type: CardsViewModel.ViewType) {
-        _viewModel = StateObject(wrappedValue: .init(container: container, type: type))
+    init(viewModel: CardsViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {

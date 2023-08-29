@@ -16,8 +16,8 @@ struct CardView: View {
     @Binding private var showingCardView: Bool
     private let gridSize = (UIScreen.main.bounds.width - 21) / 2
 
-    init(container: DIContainer, showingCardView: Binding<Bool>, studyingCards: [Card]) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+    init(viewModel: CardViewModel, showingCardView: Binding<Bool>, studyingCards: [Card]) {
+        _viewModel = StateObject(wrappedValue: viewModel)
         _showingCardView = showingCardView
     }
 
