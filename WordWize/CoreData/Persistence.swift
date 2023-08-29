@@ -31,22 +31,7 @@ class Persistence: ObservableObject {
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
-        setupCloudKitSubscription()
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleDataChange(notification:)), name: .NSPersistentStoreRemoteChange, object: nil)
-    }
-
-    private func setupCloudKitSubscription() {
-        let subscription = CKDatabaseSubscription(subscriptionID: "all-data-changed")
-        let notificationInfo = CKSubscription.NotificationInfo()
-        notificationInfo.shouldSendContentAvailable = true
-        subscription.notificationInfo = notificationInfo
-
-        let privateDatabase = CKContainer.default().privateCloudDatabase
-        privateDatabase.save(subscription) { (result, error) in
-            if let error = error {
-                print("Failed to set up CloudKit subscription: \(error.localizedDescription)")
-            }
-        }
     }
 
     @objc func handleDataChange(notification: Notification) {
