@@ -17,14 +17,12 @@ struct CardsView: View {
     var body: some View {
         VStack {
             ScrollView {
-                VStack {
-                    LazyVStack {
-                        ForEach(viewModel.cards, id: \.id) { card in
-                            cardRow(card)
-                        }
+                LazyVStack {
+                    ForEach(viewModel.cards, id: \.id) { card in
+                        cardRow(card)
                     }
-                    .blurBackground()
                 }
+                .blurBackground()
             }
         }
         .gradientBackground()
@@ -64,7 +62,9 @@ struct CardsView: View {
     }
 }
 
-//#Preview {
-//    CardsView(type: .todays)
-//        .injectMockDataViewModelForPreview()
-//}
+#Preview {
+    let container: DIContainer = .mock()
+    container.appState.upcomingCards = container.appState.cards
+    
+    return CardsView(viewModel: .init(container: container, type: .upcoming))
+}

@@ -33,6 +33,7 @@ struct MockHelper {
             card.setMockData(context: persistence.viewContext)
             card.masteryRate = Int16.random(in: 0...4)
             card.category = "Mock Category"
+            card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date())
             cards.append(card)
         }
         

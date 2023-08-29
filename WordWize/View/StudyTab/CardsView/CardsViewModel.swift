@@ -13,7 +13,7 @@ class CardsViewModel: ObservableObject {
     }
     
     @Published var cards: [Card] = []
-    var title: String = ""
+    var title = ""
 
     init(container: DIContainer, type: ViewType) {
         switch type {
