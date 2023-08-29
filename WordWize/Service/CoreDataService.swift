@@ -19,12 +19,12 @@ class CoreDataService {
         self.persistence = persistence
         self.networkService = networkService
         self.appState = appState
+        loadData()
     }
 
     func loadData() {
-        fetchCards()
         fetchCategories()
-        appState.isDataLoaded = true
+        fetchCards()
     }
 
     private func fetchCards() {
@@ -33,6 +33,7 @@ class CoreDataService {
             let fetchedCards = try persistence.viewContext.fetch(cardFetchRequest)
             DispatchQueue.main.async {
                 self.appState.cards = fetchedCards
+                self.appState.isDataLoaded = true
             }
         } catch let error as NSError {
             print("Could not fetch Cards. \(error), \(error.userInfo)")
