@@ -178,8 +178,5 @@ struct StudyView: View {
 }
 
 #Preview {
-    let viewModel = StudyViewModel(container: .mock())
-    viewModel.selectedCategory = "Category 1"
-    
-    return StudyView(viewModel: viewModel)
+    StudyView(viewModel: .init(container: .mock()))
 }

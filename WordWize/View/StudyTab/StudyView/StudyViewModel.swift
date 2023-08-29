@@ -28,6 +28,10 @@ class StudyViewModel: ObservableObject {
     init(container: DIContainer) {
         self.container = container
         observeCards()
+        
+        DispatchQueue.main.async {
+            self.selectedCategory = container.appState.categories.first?.name ?? ""
+        }
     }
     
     private func observeCards() {
