@@ -19,7 +19,7 @@ struct MockHelper {
             card.text = "mock \(i)"
             card.setMockData(context: persistence.viewContext)
             card.masteryRate = Int16.random(in: 0...4)
-            card.category = "Category 1"
+            card.category = "Mock Category"
             cards.append(card)
         }
         
@@ -27,6 +27,16 @@ struct MockHelper {
         
         DispatchQueue.main.async {
             appState.cards = cards
+        }
+    }
+    
+    func createAndSaveMockCategory(persistence: Persistence, appState: AppState) {
+        let category = CardCategory(context: persistence.viewContext)
+        category.name = "Mock Category"
+        persistence.saveContext()
+        
+        DispatchQueue.main.async {
+            appState.categories.append(category)
         }
     }
 }
