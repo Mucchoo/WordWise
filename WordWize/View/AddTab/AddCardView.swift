@@ -23,33 +23,23 @@ struct AddCardView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                VStack(spacing: 0) {
-                    if !isFocused {
+                GeometryReader { geometry in
+                    VStack(spacing: 0) {
                         categoryPicker
+                        textEditorView(baseHeight: geometry.size.height)
+                        Spacer()
+                        generateButton
                     }
-                    
-                    textEditorView
-                    generateButton
-                }
-                .padding(.bottom, 90)
-                .gradientBackground()
-                .navigationBarTitle("Add Cards", displayMode: .large)
-                .navigationBarHidden(isFocused)
-                .ignoresSafeArea(edges: .bottom)
-                
-                if isFocused {
-                    doneButton
+                    .padding(.bottom, 90)
+                    .gradientBackground()
+                    .navigationBarTitle("Add Cards", displayMode: .large)
+                    .ignoresSafeArea(edges: .bottom)
                 }
                 
                 generatingCardsOverlay
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear {
-            if let defaultCategory = viewModel.container.appState.categories.first?.name {
-                viewModel.selectedCategory = defaultCategory
-            }
-        }
     }
     
     private var categoryPicker: some View {
@@ -63,19 +53,30 @@ struct AddCardView: View {
             .frame(maxWidth: .infinity, maxHeight: 26)
             .blurBackground()
             .accessibilityIdentifier("addCardViewCategoryPicker")
+            .opacity(isFocused ? 0 : 1)
             
             addCategoryButton
         }
         .padding(.trailing)
+        .animation(.default, value: isFocused)
+        .frame(height: 80)
     }
     
     private var addCategoryButton: some View {
         Button(action: {
-            viewModel.showingAddCategoryAlert = true
+            if isFocused {
+                withAnimation {
+                    isFocused = false
+                }
+            } else {
+                viewModel.showingAddCategoryAlert = true
+            }
         }) {
-            Text("Add Category")
+            Text(isFocused ? "Done" : "Add Category")
+                .bold()
                 .padding(.vertical, 12)
                 .padding(.horizontal)
+                .frame(width: 150)
                 .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                 .foregroundColor(.white)
                 .cornerRadius(10)
@@ -107,7 +108,7 @@ struct AddCardView: View {
         }
     }
     
-    private var textEditorView: some View {
+    private func textEditorView(baseHeight: CGFloat) -> some View {
         TextEditor(text: Binding(
             get: { viewModel.displayText },
             set: { viewModel.cardText = $0 }
@@ -123,15 +124,17 @@ struct AddCardView: View {
         }
         .blurBackground()
         .accessibilityIdentifier("addCardViewTextEditor")
-        
-        .padding(.bottom, keyboardResponder.currentHeight == 0 ? 0 : keyboardResponder.currentHeight - 90)
+        .frame(height: baseHeight - (isFocused ? 80 : 180))
     }
     
     private var generateButton: some View {
         Button(action: {
             viewModel.generateCards()
-            isFocused = false
             showTabBar = false
+            
+            withAnimation {
+                isFocused = false
+            }
         }) {
             Text("Add \(viewModel.cardText.split(separator: "\n").count) Cards")
                 .padding()
@@ -144,24 +147,6 @@ struct AddCardView: View {
         .accessibilityIdentifier("addCardsButton")
         .disabled(viewModel.shouldDisableAddCardButton())
         .padding([.horizontal, .bottom])
-    }
-    
-    private var doneButton: some View {
-        VStack {
-            Spacer()
-            Button(action: {
-                isFocused = false
-            }) {
-                Text("Done")
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .bold()
-                    .background(LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-            }
-            .padding()
-        }
     }
 }
 
@@ -178,7 +163,11 @@ private class KeyboardResponder: ObservableObject {
             .map { _ in CGFloat(0) }
 
         cancellable = Publishers.Merge(keyboardWillShow, keyboardWillHide)
-            .assign(to: \.currentHeight, on: self)
+            .sink { newHeight in
+                withAnimation {
+                    self.currentHeight = newHeight
+                }
+            }
     }
 }
 

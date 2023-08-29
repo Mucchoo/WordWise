@@ -32,6 +32,10 @@ class AddCardViewModel: ObservableObject {
     
     init(container: DIContainer) {
         self.container = container
+        
+        if let defaultCategory = container.appState.categories.first?.name {
+            selectedCategory = defaultCategory
+        }
     }
     
     func addCardPublisher() -> AnyCancellable {
