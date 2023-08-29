@@ -165,11 +165,6 @@ struct AddCardView: View {
     }
 }
 
-//#Preview {
-//    AddCardView(showTabBar: .constant(true))
-//        .injectMockDataViewModelForPreview()
-//}
-
 private class KeyboardResponder: ObservableObject {
     @Published private(set) var currentHeight: CGFloat = 0
 
@@ -190,5 +185,11 @@ private class KeyboardResponder: ObservableObject {
 private extension Notification {
     var keyboardHeight: CGFloat {
         return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
+    }
+}
+
+#Preview {
+    NavigationView {
+        AddCardView(viewModel: .init(container: .mock()), showTabBar: .constant(true))
     }
 }
