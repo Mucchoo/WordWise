@@ -23,6 +23,7 @@ class AddCardViewModel: ObservableObject {
     @Published var requestedWordCount = 0
     @Published var fetchedWordCount = 0
     @Published var addedCardCount = 0
+    @Published var textFieldInput = ""
         
     private let placeHolder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
 
@@ -107,18 +108,18 @@ class AddCardViewModel: ObservableObject {
         return fetchPublishers.eraseToAnyPublisher()
     }
     
-    func addCategory(name: String) {
-        if !container.appState.categories.contains(where: { $0.name == name }) {
-            let category = CardCategory(context: container.persistence.viewContext)
-            category.name = name
-            container.persistence.saveContext()
-            
-            DispatchQueue.main.async {
-                self.container.appState.categories.append(category)
-            }
-        }
+    func addCategory() {
+        guard !textFieldInput.isEmpty,
+              !container.appState.categories.contains(where: { $0.name == textFieldInput }) else { return }
         
-        selectedCategory = name
+        let category = CardCategory(context: container.persistence.viewContext)
+        category.name = textFieldInput
+        container.coreDataService.saveAndReload()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+            selectedCategory = textFieldInput
+            textFieldInput = ""
+        }
     }
     
     func shouldDisableAddCardButton() -> Bool {

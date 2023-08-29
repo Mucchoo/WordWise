@@ -47,6 +47,7 @@ class CoreDataService {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
+                print("updated categories: \(fetchedCategories)")
                 self.appState.categories = fetchedCategories
                 if self.appState.categories.isEmpty {
                     self.addDefaultCategory()

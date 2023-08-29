@@ -45,7 +45,7 @@ struct AddCardView: View {
     private var categoryPicker: some View {
         HStack(spacing: 0) {
             Picker("", selection: $viewModel.selectedCategory) {
-                ForEach(viewModel.container.appState.categories) { category in
+                ForEach(viewModel.container.appState.categories, id: \.self) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -82,6 +82,15 @@ struct AddCardView: View {
                 .cornerRadius(10)
         }
         .accessibilityIdentifier("addCategoryButton")
+        .alert("Add Category", isPresented: $viewModel.showingAddCategoryAlert) {
+            TextField("category name", text: $viewModel.textFieldInput)
+            Button("Add", role: .none) {
+                viewModel.addCategory()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Please enter the new category name.")
+        }
     }
     
     private var generatingCardsOverlay: some View {
@@ -147,6 +156,17 @@ struct AddCardView: View {
         .accessibilityIdentifier("addCardsButton")
         .disabled(viewModel.shouldDisableAddCardButton())
         .padding([.horizontal, .bottom])
+        .alert("Failed to add cards", isPresented: $viewModel.showingFetchFailedAlert) {
+            Button("OK", role: .none) {}
+        } message: {
+            Text("Failed to find these wards on the dictionary.\n\n\(viewModel.fetchFailedWords.joined(separator: "\n"))")
+        }
+        
+        .alert("Added Cards", isPresented: $viewModel.showingFetchSucceededAlert) {
+            Button("OK", role: .none) {}
+        } message: {
+            Text("Added \(viewModel.addedCardCount) cards successfully.")
+        }
     }
 }
 
