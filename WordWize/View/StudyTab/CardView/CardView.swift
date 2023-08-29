@@ -61,14 +61,14 @@ struct CardView: View {
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: geometry.size.width , height: geometry.size.height)
-                    .foregroundColor(colorScheme == .dark ? .navy : .teal)
+                    .foregroundColor(colorScheme == .dark ? .navy : .sky)
 
                 let completedCards = viewModel.learningCards.filter { !$0.isLearning }.count
                 let totalCards = viewModel.learningCards.count
                 let progressBarWidth = min(CGFloat(Float(completedCards) / Float(totalCards)) * geometry.size.width, geometry.size.width)
 
                 Rectangle()
-                    .fill(LinearGradient(colors: colorScheme == .dark ? [.teal, .mint] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                    .fill(LinearGradient(colors: colorScheme == .dark ? [.sky, .cyan] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                     .frame(width: progressBarWidth, height: 10)
                     .animation(.spring(), value: completedCards)
             }
@@ -110,17 +110,17 @@ struct CardView: View {
                 Text("Finished!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(colorScheme == .dark ? Color.teal : Color.ocean)
+                    .foregroundColor(colorScheme == .dark ? Color.sky : Color.ocean)
                 Image(systemName: "checkmark.circle")
                     .resizable()
                     .fontWeight(.bold)
-                    .foregroundColor(colorScheme == .dark ? Color.teal : Color.ocean)
+                    .foregroundColor(colorScheme == .dark ? Color.sky : Color.ocean)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120, height: 120)
                 Text("You've learned \(viewModel.learningCards.count) cards")
                     .font(.callout)
                     .fontWeight(.bold)
-                    .foregroundColor(colorScheme == .dark ? Color.teal : Color.ocean)
+                    .foregroundColor(colorScheme == .dark ? Color.sky : Color.ocean)
                     .padding(.top)
             }
             .scaleEffect(viewModel.isFinished ? 1 : 0.1)
@@ -312,7 +312,7 @@ struct CardView: View {
                 Text("Go to Top Page")
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .teal] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
+                    .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .sky] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                     .foregroundColor(.white)
                     .cornerRadius(10)
             }.opacity(viewModel.isFinished ? 1 : 0)

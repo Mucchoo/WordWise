@@ -74,7 +74,7 @@ class StudyViewModel: ObservableObject {
         case .fifty:
             return [.navy, .ocean]
         case .seventyFive:
-            return [.ocean, .teal]
+            return [.ocean, .sky]
         case .oneHundred:
             return []
         }

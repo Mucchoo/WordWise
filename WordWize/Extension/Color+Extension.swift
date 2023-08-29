@@ -10,7 +10,7 @@ import SwiftUI
 extension Color {
     static let navy = Color("Navy")
     static let ocean = Color("Ocean")
-    static let teal = Color("Teal")
-    static let mint = Color("Mint")
+    static let sky = Color("Sky")
+    static let mint = Color("Cyan")
     static let deepL = Color("DeepLColor")
 }

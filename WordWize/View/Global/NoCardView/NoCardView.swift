@@ -39,7 +39,7 @@ struct NoCardView: View {
     
     private var slimeAnimationView: some View {
         Rectangle()
-            .fill(.linearGradient(colors: colorScheme == .dark ? [.navy, .ocean] : [.teal, .mint], startPoint: .top, endPoint: .bottom))
+            .fill(.linearGradient(colors: colorScheme == .dark ? [.navy, .ocean] : [.sky, .cyan], startPoint: .top, endPoint: .bottom))
             .mask {
                 ZStack {
                     Canvas { context, size in

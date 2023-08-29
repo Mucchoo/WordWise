@@ -71,9 +71,9 @@ class MasteryRateBarsViewModel: ObservableObject {
         case .fifty:
             return [.navy, .ocean, .ocean]
         case .seventyFive:
-            return [.ocean, .ocean, .teal]
+            return [.ocean, .ocean, .sky]
         case .oneHundred:
-            return [.ocean, .teal, .teal]
+            return [.ocean, .sky, .sky]
         }
     }
     
