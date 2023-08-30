@@ -44,7 +44,6 @@ class RealNetworkService: NetworkService {
                 
                 cardResponse.phonetics?.forEach { phonetic in
                     let newPhonetic = Phonetic(context: context)
-                    newPhonetic.audio = phonetic.audio
                     newPhonetic.text = phonetic.text
                     card.addToPhonetics(newPhonetic)
                 }
