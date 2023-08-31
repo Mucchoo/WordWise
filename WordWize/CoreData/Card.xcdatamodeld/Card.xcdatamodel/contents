@@ -6,6 +6,7 @@
         <attribute name="lastHardDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="masteryRate" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="nextLearningDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="retryFetchImages" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="imageDatas" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ImageData" inverseName="card" inverseEntity="ImageData"/>
         <relationship name="meanings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="card" inverseEntity="Meaning"/>
@@ -26,7 +27,6 @@
     <entity name="ImageData" representedClassName="ImageData" syncable="YES">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="retryFlag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageDatas" inverseEntity="Card"/>
     </entity>
     <entity name="Meaning" representedClassName="Meaning" syncable="YES">

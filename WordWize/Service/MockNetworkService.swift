@@ -25,7 +25,6 @@ class MockNetworkService: NetworkService {
             let imageData = ImageData(context: context)
             imageData.data = Data([0x11, 0x22, 0x33])
             imageData.priority = 0
-            imageData.retryFlag = false
             card.addToImageDatas(imageData)
         }
         

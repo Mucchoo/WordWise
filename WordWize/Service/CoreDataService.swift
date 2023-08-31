@@ -47,7 +47,6 @@ class CoreDataService {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 
-                print("updated categories: \(fetchedCategories)")
                 self.appState.categories = fetchedCategories
                 if self.appState.categories.isEmpty {
                     self.addDefaultCategory()
@@ -60,7 +59,7 @@ class CoreDataService {
     }
 
     func retryFetchingImages() {
-        let cardsFailedFetchingImages = appState.cards.filter { $0.shouldRetryFetchingImages }
+        let cardsFailedFetchingImages = appState.cards.filter { $0.retryFetchImages }
         
         let fetchPublishers = cardsFailedFetchingImages.publisher
             .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<Void, Never> in

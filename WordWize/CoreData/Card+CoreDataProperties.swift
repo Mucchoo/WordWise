@@ -21,6 +21,7 @@ extension Card {
     @NSManaged public var masteryRate: Int16
     @NSManaged public var nextLearningDate: Date?
     @NSManaged public var text: String?
+    @NSManaged public var retryFetchImages: Bool
     @NSManaged public var imageDatas: NSSet?
     @NSManaged public var meanings: NSSet?
     @NSManaged public var phonetics: NSSet?
@@ -70,15 +71,6 @@ extension Card {
     public var rate: MasteryRate {
         return MasteryRate(rawValue: masteryRate) ?? .zero
     }
-    
-    public var shouldRetryFetchingImages: Bool {
-        if let imageDatas = self.imageDatas as? Set<ImageData> {
-            return imageDatas.contains { (imageData: ImageData) in
-                return imageData.retryFlag
-            }
-        }
-        return false
-    }
 
     public func setMockData(context: NSManagedObjectContext) {
         let newMeaning = Meaning(context: context)
@@ -102,7 +94,6 @@ extension Card {
         let imageData = ImageData(context: context)
         imageData.data = Data()
         imageData.priority = 0
-        imageData.retryFlag = false
         self.addToImageDatas(imageData)
     }
 }

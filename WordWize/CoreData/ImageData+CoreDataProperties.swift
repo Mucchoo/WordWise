@@ -18,7 +18,6 @@ extension ImageData {
 
     @NSManaged public var priority: Int64
     @NSManaged public var data: Data?
-    @NSManaged public var retryFlag: Bool
     @NSManaged public var card: Card?
 
 }
