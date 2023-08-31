@@ -16,24 +16,32 @@ enum TabType: String, CaseIterable {
 
 struct ContentView: View {
     @StateObject private var viewModel: ContentViewModel
+    let studyViewModel: StudyViewModel
+    let addCardViewModel: AddCardViewModel
+    let categoryListViewModel: CategoryListViewModel
+    let accountViewModel: AccountViewModel
     
     init(container: DIContainer) {
         _viewModel = StateObject(wrappedValue: .init(container: container))
+        self.studyViewModel = StudyViewModel(container: container)
+        self.addCardViewModel = AddCardViewModel(container: container)
+        self.categoryListViewModel = CategoryListViewModel(container: container)
+        self.accountViewModel = AccountViewModel(container: container)
     }
     
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                StudyView(viewModel: .init(container: viewModel.container))
+                StudyView(viewModel: studyViewModel)
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(viewModel: .init(container: viewModel.container), showTabBar: $viewModel.showTabBar)
+                AddCardView(viewModel: addCardViewModel)
                     .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
-                CategoryListView(viewModel: .init(container: viewModel.container))
+                CategoryListView(viewModel: categoryListViewModel)
                     .tag(TabType.categoryList.rawValue)
                     .accessibilityIdentifier("CategoryListView")
-                AccountView(viewModel: .init(container: viewModel.container))
+                AccountView(viewModel: accountViewModel)
                     .tag(TabType.account.rawValue)
                     .accessibilityIdentifier("AccountView")
             }
@@ -41,10 +49,8 @@ struct ContentView: View {
             
             VStack {
                 Spacer()
-                if viewModel.showTabBar {
-                    customTabBar
-                    Spacer().frame(height: 20)
-                }
+                customTabBar
+                Spacer().frame(height: 20)
             }
         }
         .ignoresSafeArea(edges: .bottom)
