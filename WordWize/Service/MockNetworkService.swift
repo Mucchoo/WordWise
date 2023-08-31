@@ -10,11 +10,11 @@ import Combine
 import CoreData
 
 class MockNetworkService: NetworkService {
-    func fetchAndPopulateCard(word: String, card: Card, context: NSManagedObjectContext, onFetched: @escaping () -> Void) -> AnyPublisher<Card, Error> {
+    func fetchDefinitionsAndImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Card, Error> {
         return Future<Card, Error> { promise in
-            print("Mocking card for \(word)")
+            print("Mocking card for \(card.text ?? "nil")")
             card.setMockData(context: context)
-            onFetched()
+            sleep(5)
             promise(.success(card))
         }
         .eraseToAnyPublisher()

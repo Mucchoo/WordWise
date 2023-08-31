@@ -13,33 +13,30 @@ struct AddCardView: View {
     @StateObject private var keyboardResponder = KeyboardResponder()
     @StateObject private var viewModel: AddCardViewModel
     @FocusState private var isFocused: Bool
-    @Binding var showTabBar: Bool
     
-    init(viewModel: AddCardViewModel, showTabBar: Binding<Bool>) {
+    init(viewModel: AddCardViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        _showTabBar = showTabBar
     }
         
     var body: some View {
         NavigationView {
-            ZStack {
-                GeometryReader { geometry in
-                    VStack(spacing: 0) {
-                        categoryPicker
-                        textEditorView(baseHeight: geometry.size.height)
-                        Spacer()
-                        generateButton
-                    }
-                    .padding(.bottom, 90)
-                    .gradientBackground()
-                    .navigationBarTitle("Add Cards", displayMode: .large)
-                    .ignoresSafeArea(edges: .bottom)
+            GeometryReader { geometry in
+                VStack(spacing: 0) {
+                    categoryPicker
+                    textEditorView(baseHeight: geometry.size.height)
+                    Spacer()
+                    generateButton
                 }
-                
-                generatingCardsOverlay
+                .padding(.bottom, 90)
+                .gradientBackground()
+                .navigationBarTitle("Add Cards", displayMode: .large)
+                .ignoresSafeArea(edges: .bottom)
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onAppear {
+            viewModel.setDefaultCategory()
+        }
     }
     
     private var categoryPicker: some View {
@@ -93,30 +90,6 @@ struct AddCardView: View {
         }
     }
     
-    private var generatingCardsOverlay: some View {
-        ZStack {
-            if viewModel.generatingCards {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.thickMaterial)
-                    .frame(width: 250, height: 100)
-                    .transition(.scale)
-                VStack {
-                    Text("Generating Cards...")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                    Text("\(viewModel.fetchedWordCount) / \(viewModel.requestedWordCount) Completed")
-                        .font(.footnote)
-                        .padding(.bottom)
-                    ProgressView(value: Float(viewModel.fetchedWordCount), total: Float(viewModel.requestedWordCount))
-                }
-                .frame(width: 210)
-                .transition(.scale)
-            }
-        }
-    }
-    
     private func textEditorView(baseHeight: CGFloat) -> some View {
         TextEditor(text: Binding(
             get: { viewModel.displayText },
@@ -139,7 +112,6 @@ struct AddCardView: View {
     private var generateButton: some View {
         Button(action: {
             viewModel.generateCards()
-            showTabBar = false
             
             withAnimation {
                 isFocused = false
@@ -167,6 +139,7 @@ struct AddCardView: View {
         } message: {
             Text("Added \(viewModel.addedCardCount) cards successfully.")
         }
+        .background(ProgressAlert(viewModel: viewModel, isPresented: $viewModel.generatingCards))
     }
 }
 
@@ -197,8 +170,57 @@ private extension Notification {
     }
 }
 
+private struct ProgressAlertContent: View {
+    @StateObject var viewModel: AddCardViewModel
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Text("Generating Cards...")
+                .font(.headline)
+                .bold()
+                .padding(.bottom)
+            Text("\(viewModel.fetchedWordCount) / \(viewModel.requestedWordCount) Completed")
+                .font(.footnote)
+                .padding(.bottom)
+            ProgressView(value: Float(viewModel.fetchedWordCount), total: Float(viewModel.requestedWordCount))
+                .padding(.horizontal)
+        }
+    }
+}
+
+private struct ProgressAlert: UIViewControllerRepresentable {
+    @ObservedObject var viewModel: AddCardViewModel
+    @Binding var isPresented: Bool
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ProgressAlert>) -> UIViewController {
+        return UIViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<ProgressAlert>) {
+        guard isPresented else {
+            uiViewController.dismiss(animated: true)
+            return
+        }
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
+        let progressContentView = ProgressAlertContent(viewModel: viewModel)
+        let hostingController = UIHostingController(rootView: progressContentView)
+        
+        hostingController.view.backgroundColor = .clear
+        hostingController.preferredContentSize = CGSize(width: 250, height: 100)
+        alert.setValue(hostingController, forKey: "contentViewController")
+
+        DispatchQueue.main.async {
+            if uiViewController.presentedViewController == nil {
+                uiViewController.present(alert, animated: true)
+            }
+        }
+    }
+}
+
 #Preview {
     NavigationView {
-        AddCardView(viewModel: .init(container: .mock()), showTabBar: .constant(true))
+        AddCardView(viewModel: .init(container: .mock()))
     }
 }

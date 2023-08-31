@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+enum MyError: Error {
+    case textNotFound
+    case imageNotFound
+    case merriamWebsterConversionFailed
+}

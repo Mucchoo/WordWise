@@ -65,6 +65,7 @@
 		2ABD50282A40F461000459BC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* Persistence.swift */; };
 		2ABDB1E62A88E80F0036A4DB /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */; };
 		2ACC40CD2A69EC1C0097D3FE /* AddCardViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */; };
+		2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD30C802A9EF76900BCEF04 /* MyError.swift */; };
 		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
 		2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
@@ -153,6 +154,7 @@
 		2ABD50272A40F461000459BC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewUITests.swift; sourceTree = "<group>"; };
+		2AD30C802A9EF76900BCEF04 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewUITests.swift; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 				2AB7C9612A51240100A703FA /* Global.swift */,
 				2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */,
 				2A442B8E2A7010420083A476 /* Keys.swift */,
+				2AD30C802A9EF76900BCEF04 /* MyError.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */,
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AB626202A636B8100C168E1 /* Meaning+CoreDataProperties.swift in Sources */,
+				2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */,
 				2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */,
 				2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */,
 				2A73CE362A9B2F1C003D9A23 /* AddCardViewModel.swift in Sources */,

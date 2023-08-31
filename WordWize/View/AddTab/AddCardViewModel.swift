@@ -9,18 +9,18 @@ import Combine
 import SwiftUI
 
 class AddCardViewModel: ObservableObject {
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     let container: DIContainer
     
-    @Published var cardText: String = ""
-    @Published var selectedCategory: String = ""
-    @Published var generatingCards: Bool = false
+    @Published var cardText = ""
+    @Published var selectedCategory = ""
+    @Published var generatingCards = false
     @Published var showingFetchFailedAlert = false
-    @Published var showingAddCategoryAlert = false
     @Published var showingFetchSucceededAlert = false
+    @Published var showingAddCategoryAlert = false
     @Published var showPlaceholder = true
     @Published var fetchFailedWords: [String] = []
-    @Published var requestedWordCount = 0
+    @Published var requestedWordCount = 1
     @Published var fetchedWordCount = 0
     @Published var addedCardCount = 0
     @Published var textFieldInput = ""
@@ -32,18 +32,17 @@ class AddCardViewModel: ObservableObject {
     }
     
     init(container: DIContainer) {
+        print("init AddCardViewModel categories: \(container.appState.categories)")
         self.container = container
-        
-        if let defaultCategory = container.appState.categories.first?.name {
-            selectedCategory = defaultCategory
-        }
     }
     
-    func addCardPublisher() -> AnyCancellable {
-        return generateCards()
+    func generateCards() {
+        let cancellable = generateCards()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 guard let self = self else { return }
                 self.generatingCards = false
+                print("generateCards completed failedWords: \(fetchFailedWords)")
                 
                 if self.fetchFailedWords.isEmpty == true {
                     self.showingFetchSucceededAlert = true
@@ -51,10 +50,7 @@ class AddCardViewModel: ObservableObject {
                     self.showingFetchFailedAlert = true
                 }
             }
-    }
-    
-    func generateCards() {
-        let cancellable = addCardPublisher()
+        
         cancellable.store(in: &cancellables)
 
         cardText = ""
@@ -63,22 +59,31 @@ class AddCardViewModel: ObservableObject {
     
     private func generateCards() -> AnyPublisher<Void, Never> {
         fetchFailedWords = []
-        
         return Deferred {
             Future<Void, Never> { promise in
                 let words = self.cardText.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
                 self.requestedWordCount = words.count
                 self.fetchedWordCount = 0
-                
-                self.fetchCards(words: words, category: self.selectedCategory)
+
+                let fetchPublishers = words.publisher
+                    .flatMap(maxPublishers: .max(10)) { word -> AnyPublisher<Result<Card, Error>, Never> in
+                        return self.fetchCard(word: word, category: self.selectedCategory)
+                    }
+
+                fetchPublishers
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
                         self.addedCardCount = words.count
                         self.container.persistence.saveContext()
                         self.container.coreDataService.retryFetchingImages()
                         promise(.success(()))
-                    } receiveValue: { card in
-                        self.container.appState.cards.append(card)
+                    } receiveValue: { result in
+                        switch result {
+                        case .success(let card):
+                            self.container.appState.cards.append(card)
+                        case .failure(let error):
+                            print("fetch definitions failed: \(error.localizedDescription)")
+                        }
                     }
                     .store(in: &self.cancellables)
             }
@@ -86,26 +91,30 @@ class AddCardViewModel: ObservableObject {
         .eraseToAnyPublisher()
     }
     
-    private func fetchCards(words: [String], category: String) -> AnyPublisher<Card, Never> {
-        let fetchPublishers = words.publisher
-            .flatMap(maxPublishers: .max(10)) { word -> AnyPublisher<Card, Never> in
-                let card = Card(context: self.container.persistence.viewContext)
-                card.id = UUID()
-                card.text = word
-                card.category = category
-                
-                return self.container.networkService.fetchAndPopulateCard(
-                    word: word, card: card, context: self.container.persistence.viewContext) {
-                    self.fetchedWordCount += 1
-                }
-                    .catch { error -> AnyPublisher<Card, Never> in
-                        self.fetchFailedWords.append(word)
-                        self.fetchedWordCount += 1
-                        return Just(card).setFailureType(to: Never.self).eraseToAnyPublisher()
-                    }
-                    .eraseToAnyPublisher()
+    private func fetchCard(word: String, category: String) -> AnyPublisher<Result<Card, Error>, Never> {
+        let card = Card(context: container.persistence.viewContext)
+        card.id = UUID()
+        card.text = word
+        card.category = category
+        
+        return container.networkService.fetchDefinitionsAndImages(card: card, context: container.persistence.viewContext)
+            .map { .success($0) }
+            .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
+                return Just(.failure(error)).eraseToAnyPublisher()
             }
-        return fetchPublishers.eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .handleEvents(receiveOutput: { output in
+                self.fetchedWordCount += 1
+                switch output {
+                case .success(let card):
+                    print("fetchCard receiveOutput success: \(card.text ?? "")")
+                case .failure(let error):
+                    print("fetchCard receiveOutput failure: \(error.localizedDescription)")
+                    self.fetchFailedWords.append(word)
+                }
+                print("count: \(self.fetchedWordCount)")
+            })
+            .eraseToAnyPublisher()
     }
     
     func addCategory() {
@@ -135,5 +144,12 @@ class AddCardViewModel: ObservableObject {
     
     func togglePlaceHolder(_ isFocused: Bool) {
         showPlaceholder = !isFocused && (cardText.isEmpty || cardText == placeHolder)
+    }
+    
+    func setDefaultCategory() {
+        guard let defaultCategory = container.appState.categories.first?.name,
+              selectedCategory.isEmpty else { return }
+        
+        selectedCategory = defaultCategory
     }
 }

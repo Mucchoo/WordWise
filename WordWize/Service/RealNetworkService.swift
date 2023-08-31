@@ -15,68 +15,77 @@ class RealNetworkService: NetworkService {
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
     private let deepLAPIURLString = "https://api-free.deepl.com/v2/translate"
     
-    func fetchAndPopulateCard(word: String, card: Card, context: NSManagedObjectContext, onFetched: @escaping () -> Void) -> AnyPublisher<Card, Error> {
-        let fetchCardData = fetchDefinitions(word: word)
-        let fetchImagesData = fetchImages(word: word)
+    func fetchDefinitionsAndImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Card, Error> {
+        guard let text = card.text else {
+            return Fail(error: MyError.textNotFound).eraseToAnyPublisher()
+        }
+        
+        let fetchCardData = fetchDefinitions(word: text).catch { error -> AnyPublisher<WordDefinition, Error> in
+            return Fail(error: error).eraseToAnyPublisher()
+        }
+        
+        let fetchImagesData = fetchImages(word: text).catch { error -> AnyPublisher<[String], Error> in
+            card.retryFetchImages = true
+            return Fail(error: error).eraseToAnyPublisher()
+        }
 
         return Publishers.Zip(fetchCardData, fetchImagesData)
-            .flatMap { cardResponse, imageUrls -> AnyPublisher<Card, Error> in
-                print("got result of \(cardResponse.word)")
-                
-                cardResponse.meanings?.forEach { meaning in
-                    let newMeaning = Meaning(context: context)
-                    newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
-                    newMeaning.createdAt = Date()
-                    
-                    meaning.definitions?.forEach { definition in
-                        let newDefinition = Definition(context: context)
-                        newDefinition.definition = definition.definition
-                        newDefinition.example = definition.example
-                        newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
-                        newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
-                        newDefinition.createdAt = Date()
-                        
-                        newMeaning.addToDefinitions(newDefinition)
-                    }
-                    
-                    card.addToMeanings(newMeaning)
-                }
-                
-                cardResponse.phonetics?.forEach { phonetic in
-                    let newPhonetic = Phonetic(context: context)
-                    newPhonetic.text = phonetic.text
-                    card.addToPhonetics(newPhonetic)
-                }
-                
-                onFetched()
-                
-                let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
-                    guard let urlObj = URL(string: url) else { return nil }
-                    return URLSession.shared.dataTaskPublisher(for: urlObj)
-                        .map(\.data)
-                        .mapError { $0 as Error }
-                        .eraseToAnyPublisher()
-                }
-                
-                return Publishers.MergeMany(downloadImages)
-                    .collect()
-                    .flatMap { (imagesData: [Data]) -> AnyPublisher<Card, Error> in
-                        for (index, data) in imagesData.enumerated() {
-                            let imageData = ImageData(context: context) // Assuming context is accessible
-                            imageData.data = data
-                            imageData.priority = Int64(index)
-                            imageData.retryFlag = imageUrls[index] == "error"
-                            card.addToImageDatas(imageData)
-                        }
-                        
-                        return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
-                    }
-                    .catch { _ in
-                        return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
-                    }
-                    .eraseToAnyPublisher()
+            .flatMap { definition, imageUrls -> AnyPublisher<Card, Error> in
+                self.setDefinitionData(card: card, context: context, data: definition)
+                return self.setImageData(card: card, context: context, imageUrls: imageUrls)
             }
             .eraseToAnyPublisher()
+    }
+
+    private func setImageData(card: Card, context: NSManagedObjectContext, imageUrls: [String]) -> AnyPublisher<Card, Error> {
+        let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
+            guard let urlObj = URL(string: url) else { return nil }
+            return URLSession.shared.dataTaskPublisher(for: urlObj)
+                .map(\.data)
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+        }
+        
+        return Publishers.MergeMany(downloadImages)
+            .collect()
+            .flatMap { (imagesData: [Data]) -> AnyPublisher<Card, Error> in
+                for (index, data) in imagesData.enumerated() {
+                    let imageData = ImageData(context: context)
+                    imageData.data = data
+                    imageData.priority = Int64(index)
+                    card.addToImageDatas(imageData)
+                }
+                
+                return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
+        data.meanings?.forEach { meaning in
+            let newMeaning = Meaning(context: context)
+            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+            newMeaning.createdAt = Date()
+            
+            meaning.definitions?.forEach { definition in
+                let newDefinition = Definition(context: context)
+                newDefinition.definition = definition.definition
+                newDefinition.example = definition.example
+                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                newDefinition.createdAt = Date()
+                
+                newMeaning.addToDefinitions(newDefinition)
+            }
+            
+            card.addToMeanings(newMeaning)
+        }
+        
+        data.phonetics?.forEach { phonetic in
+            let newPhonetic = Phonetic(context: context)
+            newPhonetic.text = phonetic.text
+            card.addToPhonetics(newPhonetic)
+        }
     }
     
     func retryFetchingImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Void, Error> {
@@ -98,7 +107,6 @@ class RealNetworkService: NetworkService {
                             let imageData = ImageData(context: context)
                             imageData.data = data
                             imageData.priority = Int64(index)
-                            imageData.retryFlag = imageUrls[index] == "error" // Replace "error" with appropriate condition
                             card.addToImageDatas(imageData)
                         }
                     }
@@ -177,7 +185,9 @@ class RealNetworkService: NetworkService {
             }
             .decode(type: ImageResponse.self, decoder: JSONDecoder())
             .map { $0.hits.map { $0.webformatURL } }
-            .catch { _ in Result.Publisher(["error"]) }
+            .catch { _ in
+                return Fail(error: MyError.imageNotFound)
+            }
             .eraseToAnyPublisher()
     }
 
@@ -187,18 +197,27 @@ class RealNetworkService: NetworkService {
             .catch { [weak self] _ in
                 self?.fetchDefinitionsFromMerriamWebsterAPI(word: word)
                     .tryMap { merriamWebsterDefinitions in
-                        guard let convertedDefinition = self?.convertMerriamWebsterDefinition(word: word, data: merriamWebsterDefinitions) else {
-                            print("Cannot convert merriamWebster response of: \(word)0")
+                        print("Got merriamWebsterDefinitions of: \(word)")
+                        switch self?.convertMerriamWebsterDefinition(word: word, data: merriamWebsterDefinitions) {
+                        case .success(let convertedDefinition):
+                            return convertedDefinition
+                        case .failure(let error):
+                            print("Cannot convert merriamWebster response of: \(word)")
+                            throw error
+                        case .none:
                             throw URLError(.cannotParseResponse)
                         }
-                        return convertedDefinition
                     }
                     .eraseToAnyPublisher() ?? Fail(error: URLError(.unknown)).eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
     }
     
-    private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> WordDefinition {
+    private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> Result<WordDefinition, Error> {
+        guard !data.isEmpty else {
+            return .failure(MyError.merriamWebsterConversionFailed)
+        }
+        
         let meanings: [WordDefinition.Meaning] = data.map { data in
             let definitions: [WordDefinition.Meaning.Definition] = data.shortdef.map { ref in
                 return .init(definition: ref, example: nil, synonyms: nil, antonyms: nil)
@@ -206,7 +225,8 @@ class RealNetworkService: NetworkService {
             return .init(partOfSpeech: data.fl, definitions: definitions)
         }
         
-        return .init(word: word, phonetic: nil, phonetics: [], origin: nil, meanings: meanings)
+        let wordDefinition = WordDefinition(word: word, phonetic: nil, phonetics: [], origin: nil, meanings: meanings)
+        return .success(wordDefinition)
     }
     
     func fetchTranslations(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
