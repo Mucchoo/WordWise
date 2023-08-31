@@ -9,39 +9,39 @@ import SwiftUI
 
 struct CategoryListView: View {
     @Environment(\.colorScheme) private var colorScheme
-    @StateObject private var viewModel: CategoryListViewModel
+    @StateObject private var vm: CategoryListViewModel
     
-    init(viewModel: CategoryListViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: CategoryListViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
     
     var body: some View {
-        if viewModel.container.appState.categories.isEmpty {
+        if vm.container.appState.categories.isEmpty {
             NoCardView(image: "BoyRight")
         } else {
             NavigationView {
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(viewModel.container.appState.categories) { category in
+                        ForEach(vm.container.appState.categories) { category in
                             categoryRow(category)
                         }
                     }
                 }
                 .gradientBackground()
                 .navigationBarTitle("Categories", displayMode: .large)
-                .alert("Rename Category", isPresented: $viewModel.showingRenameAlert) {
-                    TextField("category name", text: $viewModel.categoryNameTextFieldInput)
+                .alert("Rename Category", isPresented: $vm.showingRenameAlert) {
+                    TextField("category name", text: $vm.categoryNameTextFieldInput)
                     Button("Rename", role: .none) {
-                        viewModel.renameCategory()
+                        vm.renameCategory()
                     }
-                    .disabled(viewModel.categoryNameTextFieldInput.isEmpty)
+                    .disabled(vm.categoryNameTextFieldInput.isEmpty)
                     Button("Cancel", role: .cancel) {}
                 } message: {
                     Text("Please enter the new category name.")
                 }
-                .alert("Do you want to delete \(viewModel.targetCategoryName) and it's cards?", isPresented: $viewModel.showingDeleteAlert) {
+                .alert("Do you want to delete \(vm.targetCategoryName) and it's cards?", isPresented: $vm.showingDeleteAlert) {
                     Button("Delete", role: .destructive) {
-                        viewModel.deleteCategory()
+                        vm.deleteCategory()
                     }
                     Button("Cancel", role: .cancel) {}
                 } message: {
@@ -54,7 +54,7 @@ struct CategoryListView: View {
     
     private func categoryRow(_ category: CardCategory) -> some View {
         ZStack() {
-            NavigationLink(destination: CardListView(viewModel: .init(container: viewModel.container, categoryName: category.name ?? ""))) {
+            NavigationLink(destination: CardListView(vm: .init(container: vm.container, categoryName: category.name ?? ""))) {
                 VStack {
                     HStack(alignment: .top) {
                         Text(category.name ?? "")
@@ -70,7 +70,7 @@ struct CategoryListView: View {
                             .frame(width: 35, height: 35)
                     }
                     
-                    MasteryRateBars(viewModel: .init(container: viewModel.container, categoryName: category.name ?? ""))
+                    MasteryRateBars(vm: .init(container: vm.container, categoryName: category.name ?? ""))
                 }
                 .padding(10)
                 .blurBackground()
@@ -85,16 +85,16 @@ struct CategoryListView: View {
                     
                     Menu {
                         Button(action: {
-                            viewModel.targetCategoryName = category.name ?? ""
-                            viewModel.categoryNameTextFieldInput = category.name ?? ""
-                            viewModel.showingRenameAlert = true
+                            vm.targetCategoryName = category.name ?? ""
+                            vm.categoryNameTextFieldInput = category.name ?? ""
+                            vm.showingRenameAlert = true
                         }) {
                             Label("Rename", systemImage: "pencil")
                         }
 
                         Button(action: {
-                            viewModel.targetCategoryName = category.name ?? ""
-                            viewModel.showingDeleteAlert = true
+                            vm.targetCategoryName = category.name ?? ""
+                            vm.showingDeleteAlert = true
                         }) {
                             Label("Delete", systemImage: "trash")
                         }

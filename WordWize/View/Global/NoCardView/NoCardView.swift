@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoCardView: View {
-    @StateObject var viewModel = NoCardViewModel()
+    @StateObject var vm = NoCardViewModel()
     @Environment(\.colorScheme) private var colorScheme
     let image: String
     
@@ -81,7 +81,7 @@ struct NoCardView: View {
             .contentShape(Rectangle())
             .onAppear {
                 DispatchQueue.main.async {
-                    self.viewModel.animate = true
+                    self.vm.animate = true
                 }
             }
     }
@@ -91,8 +91,8 @@ struct NoCardView: View {
         RoundedRectangle(cornerRadius: corner, style: .continuous)
             .fill(.white)
             .frame(width: width, height: height)
-            .offset(x: viewModel.animate ? offset.width : offset.width, y: viewModel.animate ? offset.height : offset.height)
-            .animation(.easeInOut(duration: 20), value: viewModel.animate)
+            .offset(x: vm.animate ? offset.width : offset.width, y: vm.animate ? offset.height : offset.height)
+            .animation(.easeInOut(duration: 20), value: vm.animate)
     }
 }
 

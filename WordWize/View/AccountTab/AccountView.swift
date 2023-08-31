@@ -10,17 +10,17 @@ import UIKit
 import MessageUI
 
 struct AccountView: View {
-    @StateObject private var viewModel: AccountViewModel
+    @StateObject private var vm: AccountViewModel
     
-    init(viewModel: AccountViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: AccountViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
 
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    MasteryRateBars(viewModel: .init(container: viewModel.container, categoryName: ""))
+                    MasteryRateBars(vm: .init(container: vm.container, categoryName: ""))
                         .blurBackground()
                     
                     VStack {
@@ -48,7 +48,7 @@ struct AccountView: View {
         HStack {
             Text("Native Language")
             Spacer()
-            Picker(selection: $viewModel.nativeLanguage, label: EmptyView(), content: {
+            Picker(selection: $vm.nativeLanguage, label: EmptyView(), content: {
                     ForEach(PickerOptions.language, id: \.self) { language in
                         Text(language.name).tag(language.code)
                     }
@@ -68,7 +68,7 @@ struct AccountView: View {
     }
     
     private var shareAppView: some View {
-        Button(action: viewModel.showShareSheet) {
+        Button(action: vm.showShareSheet) {
             HStack {
                 Text("\(Image(systemName: "square.and.arrow.up")) Share App")
                 Spacer()
@@ -76,13 +76,13 @@ struct AccountView: View {
         }
         .accessibilityIdentifier("shareButton")
         .padding(.vertical, 8)
-        .sheet(isPresented: $viewModel.isShowingShareSheet) {
-            ActivityViewController(shareItems: [viewModel.productURL])
+        .sheet(isPresented: $vm.isShowingShareSheet) {
+            ActivityViewController(shareItems: [vm.productURL])
         }
     }
     
     private var feedbackView: some View {
-        Button(action: viewModel.showMail) {
+        Button(action: vm.showMail) {
             HStack {
                 Text("\(Image(systemName: "envelope")) Feedback")
                 Spacer()
@@ -90,21 +90,21 @@ struct AccountView: View {
         }
         .accessibilityIdentifier("feedbackButton")
         .padding(.vertical, 8)
-        .sheet(isPresented: $viewModel.isShowingMail) {
+        .sheet(isPresented: $vm.isShowingMail) {
             MailView() { result in }
         }
     }
     
     private var resetLearningDataView: some View {
         HStack {
-            Button(action: viewModel.showResetAlert) {
+            Button(action: vm.showResetAlert) {
                 Text("\(Image(systemName: "trash")) Reset Learning Data")
                     .foregroundColor(.red)
                     .cornerRadius(10)
             }
             .accessibilityIdentifier("resetLearningDataButton")
-            .alert("Are you sure to reset all the learning data?", isPresented: $viewModel.showingResetAlert) {
-                Button("Reset", role: .destructive, action: viewModel.resetLearningData)
+            .alert("Are you sure to reset all the learning data?", isPresented: $vm.showingResetAlert) {
+                Button("Reset", role: .destructive, action: vm.resetLearningData)
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("Failed times and the status of all cards will be reset.")

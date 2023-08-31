@@ -15,14 +15,14 @@ enum TabType: String, CaseIterable {
 }
 
 struct ContentView: View {
-    @StateObject private var viewModel: ContentViewModel
+    @StateObject private var vm: ContentViewModel
     let studyViewModel: StudyViewModel
     let addCardViewModel: AddCardViewModel
     let categoryListViewModel: CategoryListViewModel
     let accountViewModel: AccountViewModel
     
     init(container: DIContainer) {
-        _viewModel = StateObject(wrappedValue: .init(container: container))
+        _vm = StateObject(wrappedValue: .init(container: container))
         self.studyViewModel = StudyViewModel(container: container)
         self.addCardViewModel = AddCardViewModel(container: container)
         self.categoryListViewModel = CategoryListViewModel(container: container)
@@ -31,17 +31,17 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            TabView(selection: $viewModel.selectedTab) {
-                StudyView(viewModel: studyViewModel)
+            TabView(selection: $vm.selectedTab) {
+                StudyView(vm: studyViewModel)
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(viewModel: addCardViewModel)
+                AddCardView(vm: addCardViewModel)
                     .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
-                CategoryListView(viewModel: categoryListViewModel)
+                CategoryListView(vm: categoryListViewModel)
                     .tag(TabType.categoryList.rawValue)
                     .accessibilityIdentifier("CategoryListView")
-                AccountView(viewModel: accountViewModel)
+                AccountView(vm: accountViewModel)
                     .tag(TabType.account.rawValue)
                     .accessibilityIdentifier("AccountView")
             }
@@ -54,11 +54,11 @@ struct ContentView: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onAppear { viewModel.onAppear() }
+        .onAppear { vm.onAppear() }
     }
     
     private var curvePoint: CGFloat {
-        return viewModel.tabPoints[tabIndex(for: viewModel.selectedTab) ?? 0]
+        return vm.tabPoints[tabIndex(for: vm.selectedTab) ?? 0]
     }
     
     private func tabIndex(for tab: String) -> Int? {
@@ -91,19 +91,19 @@ struct ContentView: View {
             let midX = reader.frame(in: .global).midX
 
             DispatchQueue.main.async {
-                viewModel.tabPoints[index] = midX
+                vm.tabPoints[index] = midX
             }
 
             return AnyView(
                 Button {
                     withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5)) {
-                        viewModel.selectedTab = image
+                        vm.selectedTab = image
                     }
                 } label: {
-                    Image(systemName: "\(image)\(viewModel.selectedTab == image ? ".fill" : "")")
+                    Image(systemName: "\(image)\(vm.selectedTab == image ? ".fill" : "")")
                         .font(.system(size: 25, weight: .semibold))
                         .foregroundColor(.white)
-                        .offset(y: viewModel.selectedTab == image ? -10 : 0)
+                        .offset(y: vm.selectedTab == image ? -10 : 0)
                         .accessibility(identifier: "\(image)")
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -12,12 +12,12 @@ import StoreKit
 struct CardView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel: CardViewModel
+    @StateObject private var vm: CardViewModel
     @Binding private var showingCardView: Bool
     private let gridSize = (UIScreen.main.bounds.width - 21) / 2
 
-    init(viewModel: CardViewModel, showingCardView: Binding<Bool>) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: CardViewModel, showingCardView: Binding<Bool>) {
+        _vm = StateObject(wrappedValue: vm)
         _showingCardView = showingCardView
     }
 
@@ -31,7 +31,7 @@ struct CardView: View {
         .padding([.leading, .trailing], 10)
         .background(Color(UIColor.systemBackground).ignoresSafeArea(.all, edges: .top))
         .onTapGesture {
-            viewModel.isDefinitionVisible = true
+            vm.isDefinitionVisible = true
         }
     }
     
@@ -57,8 +57,8 @@ struct CardView: View {
                     .frame(width: geometry.size.width , height: geometry.size.height)
                     .foregroundColor(colorScheme == .dark ? .navy : .sky)
 
-                let completedCards = viewModel.learningCards.filter { !$0.isLearning }.count
-                let totalCards = viewModel.learningCards.count
+                let completedCards = vm.learningCards.filter { !$0.isLearning }.count
+                let totalCards = vm.learningCards.count
                 let progressBarWidth = min(CGFloat(Float(completedCards) / Float(totalCards)) * geometry.size.width, geometry.size.width)
 
                 Rectangle()
@@ -85,26 +85,26 @@ struct CardView: View {
                                 wordSection
                                 definitionSection
                                 
-                                if viewModel.currentCard.card.imageDatasArray.count > 0 {
+                                if vm.currentCard.card.imageDatasArray.count > 0 {
                                     imageSection
                                 }
                             }
                             
                             Rectangle()
                                 .fill(Color(UIColor.systemBackground))
-                                .opacity(viewModel.isDefinitionVisible ? 0 : 1)
-                                .animation(.easeIn(duration: 0.3), value: viewModel.isDefinitionVisible)
+                                .opacity(vm.isDefinitionVisible ? 0 : 1)
+                                .animation(.easeIn(duration: 0.3), value: vm.isDefinitionVisible)
                                 .zIndex(1)
                         }
                         
                         Spacer().frame(height: 20)
                     }
-                    .onChange(of: viewModel.shouldScrollToTop) { _ in
+                    .onChange(of: vm.shouldScrollToTop) { _ in
                         value.scrollTo("TopSpacer", anchor: .top)
-                        viewModel.shouldScrollToTop = false
+                        vm.shouldScrollToTop = false
                     }
                 }
-            }.opacity(viewModel.isFinished ? 0 : 1)
+            }.opacity(vm.isFinished ? 0 : 1)
         }
     }
     
@@ -121,15 +121,15 @@ struct CardView: View {
                     .foregroundColor(colorScheme == .dark ? Color.sky : Color.ocean)
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120, height: 120)
-                Text("You've learned \(viewModel.learningCards.count) cards")
+                Text("You've learned \(vm.learningCards.count) cards")
                     .font(.callout)
                     .fontWeight(.bold)
                     .foregroundColor(colorScheme == .dark ? Color.sky : Color.ocean)
                     .padding(.top)
             }
-            .scaleEffect(viewModel.isFinished ? 1 : 0.1)
-            .opacity(viewModel.isFinished ? 1 : 0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0), value: viewModel.isFinished)
+            .scaleEffect(vm.isFinished ? 1 : 0.1)
+            .opacity(vm.isFinished ? 1 : 0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0), value: vm.isFinished)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
     }
@@ -141,25 +141,25 @@ struct CardView: View {
             Spacer()
             
             VStack {
-                Text(viewModel.currentCard.card.text ?? "")
+                Text(vm.currentCard.card.text ?? "")
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                Text(viewModel.currentCard.card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? viewModel.currentCard.card.phoneticsArray.first?.text ?? "")
+                Text(vm.currentCard.card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? vm.currentCard.card.phoneticsArray.first?.text ?? "")
                     .foregroundColor(.primary)
             }
-            .opacity(viewModel.isWordVisible ? 1 : 0)
-            .animation(.easeIn(duration: 0.3), value: viewModel.isWordVisible)
+            .opacity(vm.isWordVisible ? 1 : 0)
+            .animation(.easeIn(duration: 0.3), value: vm.isWordVisible)
             .onTapGesture {
-                viewModel.speechText(viewModel.currentCard.card.text)
+                vm.speechText(vm.currentCard.card.text)
             }
             
             Spacer()
             
             Button {
-                viewModel.onTranslateButton()
+                vm.onTranslateButton()
             } label: {
-                if viewModel.translating {
+                if vm.translating {
                     ProgressView()
                         .scaleEffect(1, anchor: .center)
                         .progressViewStyle(CircularProgressViewStyle(tint: Color.deepL))
@@ -168,22 +168,22 @@ struct CardView: View {
                     Image("DeepL")
                         .resizable()
                         .frame(width: 25, height: 25, alignment: .center)
-                        .tint(viewModel.showTranslations ? Color.white : Color.deepL)
+                        .tint(vm.showTranslations ? Color.white : Color.deepL)
                 }
             }
             .frame(width: 40, height: 40)
-            .background(viewModel.showTranslations ? Color.deepL : Color.white)
+            .background(vm.showTranslations ? Color.deepL : Color.white)
             .cornerRadius(20)
             .shadow(radius: 5)
-            .opacity(viewModel.isDefinitionVisible ? 1 : 0)
+            .opacity(vm.isDefinitionVisible ? 1 : 0)
             .padding(.trailing, 10)
-            .animation(.easeIn(duration: 0.3), value: viewModel.isDefinitionVisible)
+            .animation(.easeIn(duration: 0.3), value: vm.isDefinitionVisible)
         }
     }
     
     private var definitionSection: some View {
         VStack {
-            ForEach(viewModel.currentCard.card.meaningsArray.indices, id: \.self) { idx in
+            ForEach(vm.currentCard.card.meaningsArray.indices, id: \.self) { idx in
                 if idx != 0 {
                     Group {
                         Divider()
@@ -201,17 +201,17 @@ struct CardView: View {
         VStack {
             VStack(spacing: 2) {
                 HStack(spacing: 2) {
-                    gridImage(card: viewModel.currentCard.card, index: 0, size: gridSize)
-                    gridImage(card: viewModel.currentCard.card, index: 1, size: gridSize)
+                    gridImage(card: vm.currentCard.card, index: 0, size: gridSize)
+                    gridImage(card: vm.currentCard.card, index: 1, size: gridSize)
                 }
-                if viewModel.currentCard.card.imageDatasArray.count > 2 {
+                if vm.currentCard.card.imageDatasArray.count > 2 {
                     HStack(spacing: 2) {
-                        gridImage(card: viewModel.currentCard.card, index: 2, size: gridSize)
-                        gridImage(card: viewModel.currentCard.card, index: 3, size: gridSize)
+                        gridImage(card: vm.currentCard.card, index: 2, size: gridSize)
+                        gridImage(card: vm.currentCard.card, index: 3, size: gridSize)
                     }
                 }
             }
-            .frame(height: viewModel.currentCard.card.imageDatasArray.count > 2 ?
+            .frame(height: vm.currentCard.card.imageDatasArray.count > 2 ?
                    gridSize * 2 + 2 : gridSize)
             
             Text("Powered by Pixabay")
@@ -253,7 +253,7 @@ struct CardView: View {
     private func definitionDetailView(index: Int) -> some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                Text(viewModel.currentCard.card.meaningsArray[index].partOfSpeech ?? "")
+                Text(vm.currentCard.card.meaningsArray[index].partOfSpeech ?? "")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(Color(UIColor.systemBackground))
@@ -265,15 +265,15 @@ struct CardView: View {
                 Spacer()
             }
             
-            ForEach(viewModel.currentCard.card.meaningsArray[index].definitionsArray.indices, id: \.self) { idx in
+            ForEach(vm.currentCard.card.meaningsArray[index].definitionsArray.indices, id: \.self) { idx in
                 if idx != 0 {
                     Spacer().frame(height: 24)
                 }
                 
-                let definition = viewModel.currentCard.card.meaningsArray[index].definitionsArray[idx]
+                let definition = vm.currentCard.card.meaningsArray[index].definitionsArray[idx]
                 
                 VStack(alignment: .leading) {
-                    Text("\(idx + 1). \(viewModel.showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
+                    Text("\(idx + 1). \(vm.showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
                         .font(.subheadline)
                         .foregroundColor(.primary)
                     
@@ -313,11 +313,11 @@ struct CardView: View {
                     .background(LinearGradient(colors: colorScheme == .dark ? [.ocean, .sky] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                     .foregroundColor(.white)
                     .cornerRadius(10)
-            }.opacity(viewModel.isFinished ? 1 : 0)
+            }.opacity(vm.isFinished ? 1 : 0)
             
             HStack {
                 Button(action: {
-                    viewModel.hardButtonPressed()
+                    vm.hardButtonPressed()
                 }) {
                     Text("Hard")
                         .padding()
@@ -328,7 +328,7 @@ struct CardView: View {
                 }
                 
                 Button(action: {
-                    viewModel.easyButtonPressed()
+                    vm.easyButtonPressed()
                 }) {
                     Text("Easy")
                         .padding()
@@ -338,9 +338,9 @@ struct CardView: View {
                         .cornerRadius(10)
                 }
             }
-            .opacity(viewModel.isFinished ? 0 : 1)
-            .onChange(of: viewModel.showReviewAlert) { newValue in
-                viewModel.requestReviewIfNeeded(shouldRequest: newValue)
+            .opacity(vm.isFinished ? 0 : 1)
+            .onChange(of: vm.showReviewAlert) { newValue in
+                vm.requestReviewIfNeeded(shouldRequest: newValue)
             }
         }
     }
@@ -350,6 +350,6 @@ struct CardView: View {
     let container: DIContainer = .mock()
     container.appState.studyingCards = container.appState.cards
     
-    return CardView(viewModel: .init(container: container),
+    return CardView(vm: .init(container: container),
                     showingCardView: .constant(true))
 }

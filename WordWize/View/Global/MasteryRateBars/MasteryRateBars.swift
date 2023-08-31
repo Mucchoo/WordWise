@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MasteryRateBars: View {
-    @StateObject private var viewModel: MasteryRateBarsViewModel
+    @StateObject private var vm: MasteryRateBarsViewModel
     
-    init(viewModel: MasteryRateBarsViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: MasteryRateBarsViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
     
     var body: some View {
@@ -35,16 +35,16 @@ struct MasteryRateBars: View {
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
-                        LinearGradient(colors: viewModel.getColors(rate), startPoint: .leading, endPoint: .trailing)
+                        LinearGradient(colors: vm.getColors(rate), startPoint: .leading, endPoint: .trailing)
                     )
                     .frame(width: 45, height: 30)
                     .animation(.easeInOut(duration: 1), value: 45)
                     .onAppear {
-                        viewModel.updateCards()
+                        vm.updateCards()
 
                         isLoaded = false
-                        countText = "\(viewModel.cards.filter { $0.rate == rate }.count)"
-                        ratio = viewModel.getRatio(rate)
+                        countText = "\(vm.cards.filter { $0.rate == rate }.count)"
+                        ratio = vm.getRatio(rate)
                         barWidth = 90 + (geometry.size.width - 90) * ratio
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -52,7 +52,7 @@ struct MasteryRateBars: View {
                         }
                     }
                 HStack(spacing: 2) {
-                    Text(viewModel.getRateText(rate))
+                    Text(vm.getRateText(rate))
                         .foregroundStyle(.white)
                         .fontWeight(.bold)
                         .font(.footnote)
@@ -75,9 +75,9 @@ struct MasteryRateBars: View {
         }
         .frame(height: 30)
         .accessibilityIdentifier("chartBar\(rate)")
-        .onReceive(viewModel.container.appState.$cards) { _ in
+        .onReceive(vm.container.appState.$cards) { _ in
             DispatchQueue.main.async {
-                self.viewModel.updateCards()
+                self.vm.updateCards()
             }
         }
     }

@@ -9,10 +9,10 @@ import SwiftUI
 import UIKit
 
 struct CardListView: View {
-    @StateObject private var viewModel: CardListViewModel
+    @StateObject private var vm: CardListViewModel
     
-    init(viewModel: CardListViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: CardListViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
     
     var body: some View {
@@ -20,7 +20,7 @@ struct CardListView: View {
         ScrollView {
             VStack {
                 LazyVStack {
-                    ForEach(viewModel.cardList, id: \.id) { card in
+                    ForEach(vm.cardList, id: \.id) { card in
                         cardRow(card)
                     }
                 }
@@ -28,22 +28,22 @@ struct CardListView: View {
             }
         }
         .gradientBackground()
-        .background(PickerAlert(viewModel: viewModel, type: .category))
-        .background(PickerAlert(viewModel: viewModel, type: .masteryRate))
-        .navigationBarTitle(viewModel.categoryName, displayMode: .large)
+        .background(PickerAlert(vm: vm, type: .category))
+        .background(PickerAlert(vm: vm, type: .masteryRate))
+        .navigationBarTitle(vm.categoryName, displayMode: .large)
         .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
-        .onChange(of: viewModel.container.appState.cards) { _ in
-            viewModel.updateCardList()
+        .onChange(of: vm.container.appState.cards) { _ in
+            vm.updateCardList()
         }
-        .onChange(of: viewModel.searchBarText) { _ in
-            viewModel.updateCardList()
+        .onChange(of: vm.searchBarText) { _ in
+            vm.updateCardList()
         }
     }
     
     private var navigationLeadingItems: some View {
         Group {
-            if viewModel.selectMode {
-                if viewModel.selectedCards.count == 0 {
+            if vm.selectMode {
+                if vm.selectedCards.count == 0 {
                     Text("Select Cards")
                         .foregroundStyle(Color.white)
                         .font(.footnote)
@@ -53,19 +53,19 @@ struct CardListView: View {
                 } else {
                     Menu("Actions...") {
                         Button(action: {
-                            viewModel.showingPickerAlert = true
+                            vm.showingPickerAlert = true
                         }) {
                             Label("Change Category", systemImage: "folder.fill")
                         }
                         
                         Button(action: {
-                            viewModel.showingChangeMasteryRateView = true
+                            vm.showingChangeMasteryRateView = true
                         }) {
                             Label("Change Mastery Rate", systemImage: "chart.bar.fill")
                         }
                         
                         Button(action: {
-                            viewModel.showingDeleteCardsAlert = true
+                            vm.showingDeleteCardsAlert = true
                         }) {
                             Label("Delete Cards", systemImage: "trash.fill")
                                 .foregroundColor(Color.red)
@@ -79,9 +79,9 @@ struct CardListView: View {
                         RoundedRectangle(cornerRadius: 15)
                             .foregroundStyle(Color.blue)
                     )
-                    .alert("Do you want to delete the \(viewModel.selectedCards.count) cards?", isPresented: $viewModel.showingDeleteCardsAlert) {
+                    .alert("Do you want to delete the \(vm.selectedCards.count) cards?", isPresented: $vm.showingDeleteCardsAlert) {
                         Button("Delete", role: .destructive) {
-                            viewModel.deleteSelectedCards()
+                            vm.deleteSelectedCards()
                         }
                         Button("Cancel", role: .cancel) {}
                     } message: {
@@ -96,9 +96,9 @@ struct CardListView: View {
     
     private var selectModeButton: some View {
         Button(action: {
-            viewModel.selectMode.toggle()
+            vm.selectMode.toggle()
         }) {
-            Text(viewModel.selectMode ? "Cancel" : "Select")
+            Text(vm.selectMode ? "Cancel" : "Select")
                 .foregroundStyle(Color.white)
                 .font(.footnote)
                 .fontWeight(.bold)
@@ -109,9 +109,9 @@ struct CardListView: View {
     
     private var searchBar: some View {
         HStack {
-            TextField("Search...", text: $viewModel.searchBarText)
-                .onChange(of: viewModel.searchBarText) { newValue in
-                    viewModel.searchBarText = newValue.lowercased()
+            TextField("Search...", text: $vm.searchBarText)
+                .onChange(of: vm.searchBarText) { newValue in
+                    vm.searchBarText = newValue.lowercased()
                 }
                 .padding(7)
                 .blurBackground()
@@ -123,18 +123,18 @@ struct CardListView: View {
     private func cardRow(_ card: Card) -> some View {
         VStack {
             Button(action: {
-                if viewModel.selectMode {
-                    viewModel.selectCard(card)
+                if vm.selectMode {
+                    vm.selectCard(card)
                 } else {
-                    viewModel.setupDetailView(card)
+                    vm.setupDetailView(card)
                 }
             }) {
                 HStack {
-                    if viewModel.selectMode {
-                        Image(systemName: viewModel.selectedCards.contains(where: { $0 == card }) ? "checkmark.circle.fill" : "circle")
+                    if vm.selectMode {
+                        Image(systemName: vm.selectedCards.contains(where: { $0 == card }) ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(.blue)
                             .font(.system(size: 16))
-                            .fontWeight(viewModel.selectedCards.contains(where: { $0 == card }) ? .black : .regular)
+                            .fontWeight(vm.selectedCards.contains(where: { $0 == card }) ? .black : .regular)
                             .frame(width: 20, height: 20, alignment: .center)
                     }
                     
@@ -151,16 +151,16 @@ struct CardListView: View {
                 }
                 .padding(.top, 2)
             }
-            if card.id != viewModel.lastCardId {
+            if card.id != vm.lastCardId {
                 Divider()
             }
         }
-        .sheet(isPresented: $viewModel.navigateToCardDetail) {
+        .sheet(isPresented: $vm.navigateToCardDetail) {
             cardDetailSheet(card)
         }
-        .onChange(of: viewModel.navigateToCardDetail) { newValue in
+        .onChange(of: vm.navigateToCardDetail) { newValue in
             guard !newValue else { return }
-            viewModel.updateCard(card)
+            vm.updateCard(card)
         }
     }
     
@@ -170,7 +170,7 @@ struct CardListView: View {
                 HStack {
                     Text("Name")
                     Spacer()
-                    Text(viewModel.cardText)
+                    Text(vm.cardText)
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 10)
@@ -180,8 +180,8 @@ struct CardListView: View {
                 HStack {
                     Text("Category")
                     Spacer()
-                    Picker("Category", selection: $viewModel.categoryName) {
-                        ForEach(viewModel.container.appState.categories) { category in
+                    Picker("Category", selection: $vm.categoryName) {
+                        ForEach(vm.container.appState.categories) { category in
                             let name = category.name ?? ""
                             Text(name).tag(name)
                         }
@@ -195,7 +195,7 @@ struct CardListView: View {
                 HStack {
                     Text("Mastery Rate")
                     Spacer()
-                    Picker("Mastery Rate", selection: $viewModel.masteryRate) {
+                    Picker("Mastery Rate", selection: $vm.masteryRate) {
                         ForEach(MasteryRate.allValues, id: \.self) { rate in
                             Text(rate.stringValue() + "%").tag(rate.rawValue)
                         }
@@ -207,7 +207,7 @@ struct CardListView: View {
             .padding(.top)
             
             Button {
-                viewModel.deleteCard(card)
+                vm.deleteCard(card)
             } label: {
                 Text("Delete Card")
                     .fontWeight(.bold)
@@ -223,7 +223,7 @@ struct CardListView: View {
         }
         .presentationDetents([.medium])
         .onDisappear {
-            viewModel.updateCard(card)
+            vm.updateCard(card)
         }
     }
 }
@@ -238,25 +238,25 @@ private struct PickerAlert: UIViewControllerRepresentable {
         case category, masteryRate
     }
     
-    @ObservedObject var viewModel: CardListViewModel
+    @ObservedObject var vm: CardListViewModel
     var title: String?
     var message: String?
     var options: [String] = []
     var onConfirm: (() -> ())?
     
-    init(viewModel: CardListViewModel, type: ViewType) {
-        self.viewModel = viewModel
+    init(vm: CardListViewModel, type: ViewType) {
+        self.vm = vm
         
         if type == .category {
             title = "Change Category"
-            message = "Select new category for the \(viewModel.selectedCards.count) cards."
-            options = viewModel.container.appState.categories.map { $0.name ?? "" }
-            onConfirm = viewModel.changeCategory
+            message = "Select new category for the \(vm.selectedCards.count) cards."
+            options = vm.container.appState.categories.map { $0.name ?? "" }
+            onConfirm = vm.changeCategory
         } else {
             title = "Change Mastery Rate"
-            message = "Select Mastery Rate for the \(viewModel.selectedCards.count) cards."
+            message = "Select Mastery Rate for the \(vm.selectedCards.count) cards."
             options = MasteryRate.allValues.map { $0.stringValue() + "%" }
-            onConfirm = viewModel.changeMasteryRate
+            onConfirm = vm.changeMasteryRate
         }
     }
     
@@ -265,7 +265,7 @@ private struct PickerAlert: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if viewModel.showingPickerAlert, context.coordinator.alertController == nil {
+        if vm.showingPickerAlert, context.coordinator.alertController == nil {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             
             let pickerView = UIPickerView()
@@ -279,13 +279,13 @@ private struct PickerAlert: UIViewControllerRepresentable {
             alert.setValue(pickerViewController, forKey: "contentViewController")
             
             alert.addAction(UIAlertAction(title: "Confirm", style: .default) { _ in
-                viewModel.showingPickerAlert = false
+                vm.showingPickerAlert = false
                 context.coordinator.alertController = nil
                 onConfirm?()
             })
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                viewModel.showingPickerAlert = false
+                vm.showingPickerAlert = false
                 context.coordinator.alertController = nil
             })
             
@@ -293,7 +293,7 @@ private struct PickerAlert: UIViewControllerRepresentable {
             uiViewController.present(alert, animated: true) {
                 context.coordinator.alertController = nil
             }
-        } else if !viewModel.showingPickerAlert, let alertController = context.coordinator.alertController, alertController.isBeingPresented {
+        } else if !vm.showingPickerAlert, let alertController = context.coordinator.alertController, alertController.isBeingPresented {
             alertController.dismiss(animated: true) {
                 context.coordinator.alertController = nil
             }
@@ -326,7 +326,7 @@ private struct PickerAlert: UIViewControllerRepresentable {
         }
         
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            parent.viewModel.pickerAlertValue = parent.options[row]
+            parent.vm.pickerAlertValue = parent.options[row]
         }
     }
 }

@@ -11,12 +11,12 @@ import SwiftUI
 
 struct AddCardView: View {
     @StateObject private var keyboardResponder = KeyboardResponder()
-    @StateObject private var viewModel: AddCardViewModel
+    @StateObject private var vm: AddCardViewModel
     @FocusState private var isFocused: Bool
     
-    init(viewModel: AddCardViewModel) {
+    init(vm: AddCardViewModel) {
         print("AddCardView init")
-        _viewModel = StateObject(wrappedValue: viewModel)
+        _vm = StateObject(wrappedValue: vm)
     }
         
     var body: some View {
@@ -36,14 +36,14 @@ struct AddCardView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            viewModel.setDefaultCategory()
+            vm.setDefaultCategory()
         }
     }
     
     private var categoryPicker: some View {
         HStack(spacing: 0) {
-            Picker("", selection: $viewModel.selectedCategory) {
-                ForEach(viewModel.container.appState.categories, id: \.self) { category in
+            Picker("", selection: $vm.selectedCategory) {
+                ForEach(vm.container.appState.categories, id: \.self) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -67,7 +67,7 @@ struct AddCardView: View {
                     isFocused = false
                 }
             } else {
-                viewModel.showingAddCategoryAlert = true
+                vm.showingAddCategoryAlert = true
             }
         }) {
             Text(isFocused ? "Done" : "Add Category")
@@ -80,10 +80,10 @@ struct AddCardView: View {
                 .cornerRadius(10)
         }
         .accessibilityIdentifier("addCategoryButton")
-        .alert("Add Category", isPresented: $viewModel.showingAddCategoryAlert) {
-            TextField("category name", text: $viewModel.textFieldInput)
+        .alert("Add Category", isPresented: $vm.showingAddCategoryAlert) {
+            TextField("category name", text: $vm.textFieldInput)
             Button("Add", role: .none) {
-                viewModel.addCategory()
+                vm.addCategory()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
@@ -93,17 +93,17 @@ struct AddCardView: View {
     
     private func textEditorView(baseHeight: CGFloat) -> some View {
         TextEditor(text: Binding(
-            get: { viewModel.displayText },
-            set: { viewModel.cardText = $0 }
+            get: { vm.displayText },
+            set: { vm.cardText = $0 }
         ))
         .scrollContentBackground(.hidden)
         .focused($isFocused)
-        .foregroundColor(viewModel.showPlaceholder ? .secondary : .primary)
-        .onChange(of: viewModel.cardText) { newValue in
-            viewModel.updateTextEditor(text: newValue, isFocused: isFocused)
+        .foregroundColor(vm.showPlaceholder ? .secondary : .primary)
+        .onChange(of: vm.cardText) { newValue in
+            vm.updateTextEditor(text: newValue, isFocused: isFocused)
         }
         .onChange(of: isFocused) { newValue in
-            viewModel.togglePlaceHolder(isFocused)
+            vm.togglePlaceHolder(isFocused)
         }
         .blurBackground()
         .accessibilityIdentifier("addCardViewTextEditor")
@@ -112,13 +112,13 @@ struct AddCardView: View {
     
     private var generateButton: some View {
         Button(action: {
-            viewModel.generateCards()
+            vm.generateCards()
             
             withAnimation {
                 isFocused = false
             }
         }) {
-            Text("Add \(viewModel.cardText.split(separator: "\n").count) Cards")
+            Text("Add \(vm.cardText.split(separator: "\n").count) Cards")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .bold()
@@ -127,20 +127,20 @@ struct AddCardView: View {
                 .cornerRadius(10)
         }
         .accessibilityIdentifier("addCardsButton")
-        .disabled(viewModel.shouldDisableAddCardButton())
+        .disabled(vm.shouldDisableAddCardButton())
         .padding([.horizontal, .bottom])
-        .alert("Failed to add cards", isPresented: $viewModel.showingFetchFailedAlert) {
+        .alert("Failed to add cards", isPresented: $vm.showingFetchFailedAlert) {
             Button("OK", role: .none) {}
         } message: {
-            Text("Failed to find these wards on the dictionary.\n\n\(viewModel.fetchFailedWords.joined(separator: "\n"))")
+            Text("Failed to find these wards on the dictionary.\n\n\(vm.fetchFailedWords.joined(separator: "\n"))")
         }
         
-        .alert("Added Cards", isPresented: $viewModel.showingFetchSucceededAlert) {
+        .alert("Added Cards", isPresented: $vm.showingFetchSucceededAlert) {
             Button("OK", role: .none) {}
         } message: {
-            Text("Added \(viewModel.addedCardCount) cards successfully.")
+            Text("Added \(vm.addedCardCount) cards successfully.")
         }
-        .background(ProgressAlert(viewModel: viewModel, isPresented: $viewModel.generatingCards))
+        .background(ProgressAlert(vm: vm, isPresented: $vm.generatingCards))
     }
 }
 
@@ -172,7 +172,7 @@ private extension Notification {
 }
 
 private struct ProgressAlertContent: View {
-    @StateObject var viewModel: AddCardViewModel
+    @StateObject var vm: AddCardViewModel
     
     var body: some View {
         VStack(spacing: 0) {
@@ -180,17 +180,17 @@ private struct ProgressAlertContent: View {
                 .font(.headline)
                 .bold()
                 .padding(.bottom)
-            Text("\(viewModel.fetchedWordCount) / \(viewModel.requestedWordCount) Completed")
+            Text("\(vm.fetchedWordCount) / \(vm.requestedWordCount) Completed")
                 .font(.footnote)
                 .padding(.bottom)
-            ProgressView(value: Float(viewModel.fetchedWordCount), total: Float(viewModel.requestedWordCount))
+            ProgressView(value: Float(vm.fetchedWordCount), total: Float(vm.requestedWordCount))
                 .padding(.horizontal)
         }
     }
 }
 
 private struct ProgressAlert: UIViewControllerRepresentable {
-    @ObservedObject var viewModel: AddCardViewModel
+    @ObservedObject var vm: AddCardViewModel
     @Binding var isPresented: Bool
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ProgressAlert>) -> UIViewController {
@@ -205,7 +205,7 @@ private struct ProgressAlert: UIViewControllerRepresentable {
 
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
-        let progressContentView = ProgressAlertContent(viewModel: viewModel)
+        let progressContentView = ProgressAlertContent(vm: vm)
         let hostingController = UIHostingController(rootView: progressContentView)
         
         hostingController.view.backgroundColor = .clear
@@ -222,6 +222,6 @@ private struct ProgressAlert: UIViewControllerRepresentable {
 
 #Preview {
     NavigationView {
-        AddCardView(viewModel: .init(container: .mock()))
+        AddCardView(vm: .init(container: .mock()))
     }
 }

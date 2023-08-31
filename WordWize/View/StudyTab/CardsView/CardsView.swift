@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct CardsView: View {
-    @StateObject var viewModel: CardsViewModel
+    @StateObject var vm: CardsViewModel
     
-    init(viewModel: CardsViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: CardsViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
 
     var body: some View {
         VStack {
             ScrollView {
                 LazyVStack {
-                    ForEach(viewModel.cards, id: \.id) { card in
+                    ForEach(vm.cards, id: \.id) { card in
                         cardRow(card)
                     }
                 }
@@ -26,7 +26,7 @@ struct CardsView: View {
             }
         }
         .gradientBackground()
-        .navigationBarTitle(viewModel.title, displayMode: .large)
+        .navigationBarTitle(vm.title, displayMode: .large)
     }
     
     private func cardRow(_ card: Card) -> some View {
@@ -36,8 +36,8 @@ struct CardsView: View {
                     .foregroundColor(.primary)
                 Spacer()
 
-                if viewModel.title == "Upcoming Cards" {
-                    Text(viewModel.getRemainingDays(card.nextLearningDate))
+                if vm.title == "Upcoming Cards" {
+                    Text(vm.getRemainingDays(card.nextLearningDate))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 2)
                         .background(Color.navy)
@@ -55,7 +55,7 @@ struct CardsView: View {
                     .cornerRadius(8)
             }
 
-            if card.id != viewModel.cards.last?.id {
+            if card.id != vm.cards.last?.id {
                 Divider()
             }
         }
@@ -66,5 +66,5 @@ struct CardsView: View {
     let container: DIContainer = .mock()
     container.appState.upcomingCards = container.appState.cards
     
-    return CardsView(viewModel: .init(container: container, type: .upcoming))
+    return CardsView(vm: .init(container: container, type: .upcoming))
 }

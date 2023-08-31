@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct StudyView: View {
-    @StateObject private var viewModel: StudyViewModel
+    @StateObject private var vm: StudyViewModel
     
-    init(viewModel: StudyViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+    init(vm: StudyViewModel) {
+        _vm = StateObject(wrappedValue: vm)
     }
 
     var body: some View {
-        if !viewModel.container.appState.isDataLoaded {
+        if !vm.container.appState.isDataLoaded {
             Text("Loading...")
-        } else if viewModel.container.appState.cards.isEmpty {
+        } else if vm.container.appState.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
@@ -33,11 +33,11 @@ struct StudyView: View {
                         masteryRateCounts
                         studyButton
                         
-                        if !viewModel.container.appState.todaysCards.isEmpty {
+                        if !vm.container.appState.todaysCards.isEmpty {
                             todaysCardsButton
                         }
                         
-                        if !viewModel.container.appState.upcomingCards.isEmpty {
+                        if !vm.container.appState.upcomingCards.isEmpty {
                             upcomingCardsButton
                         }
                     }
@@ -56,7 +56,7 @@ struct StudyView: View {
             HStack {
                 Text("Maximum Cards")
                 Spacer()
-                Picker("", selection: $viewModel.maximumCards) {
+                Picker("", selection: $vm.maximumCards) {
                     ForEach(PickerOptions.maximumCard, id: \.self) { i in
                         Text("\(i) cards").tag(i)
                     }
@@ -74,8 +74,8 @@ struct StudyView: View {
         HStack {
             Text("Category")
             Spacer()
-            Picker("Options", selection: $viewModel.selectedCategory) {
-                ForEach(viewModel.container.appState.categories) { category in
+            Picker("Options", selection: $vm.selectedCategory) {
+                ForEach(vm.container.appState.categories) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -99,26 +99,26 @@ struct StudyView: View {
     
     private var studyButton: some View {
         Button {
-            viewModel.updateCards()
-            viewModel.showingCardView = true
+            vm.updateCards()
+            vm.showingCardView = true
         } label: {
-            Text(viewModel.studyButtonTitle)
+            Text(vm.studyButtonTitle)
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(viewModel.container.appState.studyingCards.count > 0 ?
+                .background(vm.container.appState.studyingCards.count > 0 ?
                             LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) :
                             LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .accessibilityIdentifier("StudyCardsButton")
         }
-        .disabled(viewModel.container.appState.studyingCards.count == 0)
+        .disabled(vm.container.appState.studyingCards.count == 0)
         .padding()
         .accessibilityIdentifier("studyCardsButton")
-        .fullScreenCover(isPresented: $viewModel.showingCardView) {
-            CardView(viewModel: .init(container: viewModel.container),
-                     showingCardView: $viewModel.showingCardView)
+        .fullScreenCover(isPresented: $vm.showingCardView) {
+            CardView(vm: .init(container: vm.container),
+                     showingCardView: $vm.showingCardView)
                 .accessibilityIdentifier("CardView")
         }
     }
@@ -146,7 +146,7 @@ struct StudyView: View {
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .padding(.top, 2)
-            Text("\(viewModel.rateBarCardCount(rate: rate))")
+            Text("\(vm.rateBarCardCount(rate: rate))")
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
@@ -158,24 +158,22 @@ struct StudyView: View {
         }
         .frame(height: 60)
         .frame(maxWidth: .infinity)
-        .background(LinearGradient(colors: viewModel.getRateBarColors(rate: rate), startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(LinearGradient(colors: vm.getRateBarColors(rate: rate), startPoint: .topLeading, endPoint: .bottomTrailing))
     }
     
     private var todaysCardsButton: some View {
-        return NavigationLink(destination: CardsView(viewModel: .init(
-            container: viewModel.container, type: .todays))) {
-            Text("Todays Cards: \(viewModel.container.appState.todaysCards.count) Cards")
+        return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .todays))) {
+            Text("Todays Cards: \(vm.container.appState.todaysCards.count) Cards")
         }.padding(.top, 20)
     }
     
     private var upcomingCardsButton: some View {
-        return NavigationLink(destination: CardsView(
-            viewModel: .init(container: viewModel.container, type: .upcoming))) {
-            Text("Upcoming Cards: \(viewModel.container.appState.upcomingCards.count) Cards")
+        return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .upcoming))) {
+            Text("Upcoming Cards: \(vm.container.appState.upcomingCards.count) Cards")
         }.padding(.top, 20)
     }
 }
 
 #Preview {
-    StudyView(viewModel: .init(container: .mock()))
+    StudyView(vm: .init(container: .mock()))
 }
