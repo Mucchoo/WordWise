@@ -15,6 +15,7 @@ struct AddCardView: View {
     @FocusState private var isFocused: Bool
     
     init(viewModel: AddCardViewModel) {
+        print("AddCardView init")
         _viewModel = StateObject(wrappedValue: viewModel)
     }
         

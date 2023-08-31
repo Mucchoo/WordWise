@@ -108,11 +108,12 @@ class CoreDataService {
     }
     
     private func deleteDuplicatedCategory() {
-        let groupedCategories = Dictionary(grouping: appState.categories) { (category: CardCategory) in
+        let groupedCategories = Dictionary(grouping: appState.categories) { category in
             return category.name ?? ""
         }
         
         let duplicateGroups = groupedCategories.filter { $1.count > 1 }
+        guard !duplicateGroups.isEmpty else { return }
         
         for (name, duplicateCategories) in duplicateGroups {
             print("Found \(duplicateCategories.count) duplicates for category named: \(name)")
