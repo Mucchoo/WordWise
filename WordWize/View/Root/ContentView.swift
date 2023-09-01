@@ -16,32 +16,24 @@ enum TabType: String, CaseIterable {
 
 struct ContentView: View {
     @StateObject private var vm: ContentViewModel
-    let studyViewModel: StudyViewModel
-    let addCardViewModel: AddCardViewModel
-    let categoryListViewModel: CategoryListViewModel
-    let accountViewModel: AccountViewModel
     
     init(container: DIContainer) {
         _vm = StateObject(wrappedValue: .init(container: container))
-        self.studyViewModel = StudyViewModel(container: container)
-        self.addCardViewModel = AddCardViewModel(container: container)
-        self.categoryListViewModel = CategoryListViewModel(container: container)
-        self.accountViewModel = AccountViewModel(container: container)
     }
     
     var body: some View {
         ZStack {
             TabView(selection: $vm.selectedTab) {
-                StudyView(vm: studyViewModel)
+                StudyView(vm: .init(container: vm.container))
                     .tag(TabType.study.rawValue)
                     .accessibilityIdentifier("StudyView")
-                AddCardView(vm: addCardViewModel)
+                AddCardView(vm: .init(container: vm.container))
                     .tag(TabType.addCard.rawValue)
                     .accessibilityIdentifier("AddCardView")
-                CategoryListView(vm: categoryListViewModel)
+                CategoryListView(vm: .init(container: vm.container))
                     .tag(TabType.categoryList.rawValue)
                     .accessibilityIdentifier("CategoryListView")
-                AccountView(vm: accountViewModel)
+                AccountView(vm: .init(container: vm.container))
                     .tag(TabType.account.rawValue)
                     .accessibilityIdentifier("AccountView")
             }
@@ -87,35 +79,27 @@ struct ContentView: View {
     }
     
     private func tabBarButton(index: Int, image: String) -> some View {
-        return GeometryReader { reader -> AnyView in
-            let midX = reader.frame(in: .global).midX
-
-            DispatchQueue.main.async {
+        Button {
+            withAnimation {
+                vm.selectedTab = image
+            }
+        } label: {
+            Image(systemName: "\(image)\(vm.selectedTab == image ? ".fill" : "")")
+                .font(.system(size: 25, weight: .semibold))
+                .foregroundColor(.white)
+                .offset(y: vm.selectedTab == image ? -10 : 0)
+                .accessibility(identifier: "\(image)")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(GeometryReader { geometry in
+            Color.clear.onAppear {
+                let midX = geometry.frame(in: .global).midX
                 vm.tabPoints[index] = midX
             }
-
-            return AnyView(
-                Button {
-                    withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5)) {
-                        vm.selectedTab = image
-                    }
-                } label: {
-                    Image(systemName: "\(image)\(vm.selectedTab == image ? ".fill" : "")")
-                        .font(.system(size: 25, weight: .semibold))
-                        .foregroundColor(.white)
-                        .offset(y: vm.selectedTab == image ? -10 : 0)
-                        .accessibility(identifier: "\(image)")
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            )
-        }
+        })
         .frame(height: 40)
     }
 }
-
-//#Preview {
-//    ContentView()
-//}
 
 private struct TabCurve: Shape {
     var tabPoint: CGFloat
@@ -147,4 +131,8 @@ private struct TabCurve: Shape {
             path.addCurve(to: to1, control1: control3, control2: control4)
         }
     }
+}
+
+#Preview {
+    ContentView(container: .mock())
 }
