@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MockHelper {
     static let shared = MockHelper()
+    let mockCategory = "Mock Category"
     
     func createAndSaveMockCards(persistence: Persistence, appState: AppState) {
         let cards = createMockCards(persistence: persistence)
@@ -19,7 +20,7 @@ struct MockHelper {
     
     func createAndSaveMockCategory(persistence: Persistence, appState: AppState) {
         let category = CardCategory(context: persistence.viewContext)
-        category.name = "Mock Category"
+        category.name = mockCategory
         persistence.saveContext()
         appState.categories.append(category)
     }
@@ -32,7 +33,7 @@ struct MockHelper {
             card.text = "mock \(i)"
             card.setMockData(context: persistence.viewContext)
             card.masteryRate = Int16.random(in: 0...4)
-            card.category = "Mock Category"
+            card.category = mockCategory
             card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date())
             cards.append(card)
         }

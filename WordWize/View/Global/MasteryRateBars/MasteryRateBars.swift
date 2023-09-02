@@ -83,6 +83,6 @@ struct MasteryRateBars: View {
     }
 }
 
-//#Preview {
-//    MasteryRateBars(categoryName: "")
-//}
+#Preview {
+    MasteryRateBars(vm: .init(container: .mock(), categoryName: MockHelper.shared.mockCategory))
+}

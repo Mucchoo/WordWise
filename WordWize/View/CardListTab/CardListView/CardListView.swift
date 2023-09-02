@@ -327,5 +327,5 @@ private struct PickerAlert: UIViewControllerRepresentable {
 }
 
 #Preview {
-    CardListView(vm: .init(container: .mock(), categoryName: "Mock Category"))
+    CardListView(vm: .init(container: .mock(), categoryName: MockHelper.shared.mockCategory))
 }
