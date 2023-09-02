@@ -114,7 +114,6 @@ struct CategoryListView: View {
     }
 }
 
-//#Preview {
-//    CategoryListView()
-//        .injectMockDataViewModelForPreview()
-//}
+#Preview {
+    CategoryListView(vm: .init(container: .mock()))
+}
