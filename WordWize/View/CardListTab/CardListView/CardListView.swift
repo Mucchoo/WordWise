@@ -228,11 +228,6 @@ struct CardListView: View {
     }
 }
 
-//#Preview {
-//    CardListView(categoryName: "")
-//        .injectMockDataViewModelForPreview()
-//}
-
 private struct PickerAlert: UIViewControllerRepresentable {
     enum ViewType {
         case category, masteryRate
@@ -329,4 +324,8 @@ private struct PickerAlert: UIViewControllerRepresentable {
             parent.vm.pickerAlertValue = parent.options[row]
         }
     }
+}
+
+#Preview {
+    CardListView(vm: .init(container: .mock(), categoryName: "Mock Category"))
 }
