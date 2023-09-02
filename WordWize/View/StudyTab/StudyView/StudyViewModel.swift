@@ -45,7 +45,7 @@ class StudyViewModel: ObservableObject {
     }
 
     func filterCards(for type: FilterType) -> [Card] {
-        return Array(container.appState.cards.filter { card in
+        return container.appState.cards.filter { card in
             guard selectedCategory == card.category, card.rate != .oneHundred else {
                 return false
             }
@@ -56,11 +56,11 @@ class StudyViewModel: ObservableObject {
             case .upcoming:
                 return card.isUpcoming
             }
-        }.prefix(maximumCards))
+        }
     }
 
     func updateCards() {
-        container.appState.studyingCards = filterCards(for: .studying)
+        container.appState.studyingCards = Array(filterCards(for: .studying).prefix(maximumCards))
         container.appState.todaysCards = filterCards(for: .today)
         container.appState.upcomingCards = filterCards(for: .upcoming)
     }
