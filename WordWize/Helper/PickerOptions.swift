@@ -42,8 +42,3 @@ struct PickerOptions {
         .init(code: "ZH", name: "Chinese")
     ]
 }
-
-struct Language: Hashable {
-    let code: String
-    let name: String
-}
