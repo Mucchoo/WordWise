@@ -16,7 +16,6 @@ extension Card {
     }
 
     @NSManaged public var category: String?
-    @NSManaged public var id: UUID?
     @NSManaged public var lastHardDate: Date?
     @NSManaged public var masteryRate: Int16
     @NSManaged public var nextLearningDate: Date?

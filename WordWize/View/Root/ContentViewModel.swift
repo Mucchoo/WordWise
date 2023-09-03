@@ -35,7 +35,6 @@ class ContentViewModel: ObservableObject {
             let card = Card(context: container.persistence.viewContext)
             card.text = "test card \(i)"
             card.category = container.appState.categories.first?.name
-            card.id = UUID()
             print("add card: \(i)")
         }
 

@@ -26,7 +26,7 @@ class CardListViewModel: ObservableObject {
     @Published var cardCategory = ""
     @Published var navigateToCardDetail = false
     @Published var categoryName: String
-    @Published var lastCardId: UUID?
+    @Published var lastCardId: ObjectIdentifier?
 
     @Published var selectMode = false {
         didSet {
@@ -136,7 +136,6 @@ class CardListViewModel: ObservableObject {
     }
     
     func setupDetailView(_ card: Card) {
-        cardId = card.id
         cardText = card.text ?? ""
         cardCategory = card.category ?? ""
         navigateToCardDetail = true

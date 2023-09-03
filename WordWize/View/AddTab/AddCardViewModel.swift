@@ -93,7 +93,6 @@ class AddCardViewModel: ObservableObject {
     
     private func fetchCard(word: String, category: String) -> AnyPublisher<Result<Card, Error>, Never> {
         let card = Card(context: container.persistence.viewContext)
-        card.id = UUID()
         card.text = word
         card.category = category
         
