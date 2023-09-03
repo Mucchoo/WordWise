@@ -290,6 +290,8 @@
 				2A737B322A6DA3B1002814E2 /* translationResponse.swift */,
 				2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */,
 				C62C2ECE2AA4F68C0065DA91 /* Language.swift */,
+				2AD30C802A9EF76900BCEF04 /* MyError.swift */,
+				2AB7C9612A51240100A703FA /* PickerOptions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -443,10 +445,8 @@
 		2AD20E332A6372E4000C3822 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				2AB7C9612A51240100A703FA /* PickerOptions.swift */,
 				2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */,
 				2A442B8E2A7010420083A476 /* Keys.swift */,
-				2AD30C802A9EF76900BCEF04 /* MyError.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
