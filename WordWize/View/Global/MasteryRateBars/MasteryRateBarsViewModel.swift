@@ -10,8 +10,24 @@ import Combine
 
 class MasteryRateBarsViewModel: ObservableObject {
     let container: DIContainer
-    @Published var cards: [Card] = []
     var categoryName: String
+    @Published var isLoaded = false
+    
+    @Published var countTexts: [MasteryRate : String] = [
+        .zero : "",
+        .twentyFive : "",
+        .fifty : "",
+        .seventyFive : "",
+        .oneHundred : ""
+    ]
+    
+    @Published var barWidths: [MasteryRate : CGFloat] = [
+        .zero : 45,
+        .twentyFive : 45,
+        .fifty : 45,
+        .seventyFive : 45,
+        .oneHundred : 45
+    ]
     
     var maxCount: Int {
         let counts = MasteryRate.allValues.map { rate -> Int in
@@ -20,6 +36,14 @@ class MasteryRateBarsViewModel: ObservableObject {
         
         let maxCount = counts.max() ?? 0
         return maxCount > 0 ? maxCount : 1
+    }
+    
+    var cards: [Card] {
+        if categoryName.isEmpty {
+            return container.appState.cards
+        } else {
+            return container.appState.cards.filter({ $0.category == categoryName })
+        }
     }
     
     init(container: DIContainer, categoryName: String) {
@@ -37,14 +61,6 @@ class MasteryRateBarsViewModel: ObservableObject {
     
     func getCount(_ rate: MasteryRate) -> String {
         return "\(cards.filter { $0.masteryRate == rate.rawValue }.count)"
-    }
-    
-    func updateCards() {
-        if categoryName.isEmpty {
-            cards = container.appState.cards
-        } else {
-            cards = container.appState.cards.filter({ $0.category == categoryName })
-        }
     }
     
     func getRateText(_ rate: MasteryRate) -> String {
@@ -80,5 +96,12 @@ class MasteryRateBarsViewModel: ObservableObject {
     func getRatio(_ rate: MasteryRate) -> CGFloat {
         let count = cards.filter { $0.masteryRate == rate.rawValue }.count
         return CGFloat(count) / CGFloat(maxCount)
+    }
+    
+    func setWidthAndCountText(geometryWidth: CGFloat) {
+        MasteryRate.allValues.forEach { rate in
+            barWidths[rate] = 90 + (geometryWidth - 90) * getRatio(rate)
+            countTexts[rate] = "\(cards.filter { $0.rate == rate }.count)"
+        }
     }
 }

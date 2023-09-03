@@ -15,70 +15,56 @@ struct MasteryRateBars: View {
     }
     
     var body: some View {
-        VStack(spacing: 8) {
-            masteryRateBar(.oneHundred)
-            masteryRateBar(.seventyFive)
-            masteryRateBar(.fifty)
-            masteryRateBar(.twentyFive)
-            masteryRateBar(.zero)
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            
+            VStack(spacing: 8) {
+                masteryRateBar(.oneHundred, width: width)
+                masteryRateBar(.seventyFive, width: width)
+                masteryRateBar(.fifty, width: width)
+                masteryRateBar(.twentyFive, width: width)
+                masteryRateBar(.zero, width: width)
+            }
+            .onAppear {
+                vm.isLoaded = false
+                vm.setWidthAndCountText(geometryWidth: width)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    vm.isLoaded = true
+                }
+            }
         }
+        .frame(height: 182)
     }
     
-    private func masteryRateBar(_ rate: MasteryRate) -> some View {
-        @State var barWidth: CGFloat = 45
-        @State var ratio: CGFloat = 0
-        @State var isLoaded = false
-        @State var countText = ""
-        @State var filteredCards: [Card] = []
-        
-        return GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(
-                        LinearGradient(colors: vm.getColors(rate), startPoint: .leading, endPoint: .trailing)
-                    )
-                    .frame(width: 45, height: 30)
-                    .animation(.easeInOut(duration: 1), value: 45)
-                    .onAppear {
-                        vm.updateCards()
-
-                        isLoaded = false
-                        countText = "\(vm.cards.filter { $0.rate == rate }.count)"
-                        ratio = vm.getRatio(rate)
-                        barWidth = 90 + (geometry.size.width - 90) * ratio
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            isLoaded = true
-                        }
-                    }
-                HStack(spacing: 2) {
-                    Text(vm.getRateText(rate))
-                        .foregroundStyle(.white)
-                        .fontWeight(.bold)
-                        .font(.footnote)
-                        .padding(.leading, 8)
-                    
-                    Spacer()
-                    
-                    Text(isLoaded ? countText : "")
-                        .font(.system(size: 14))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .animation(isLoaded ? .easeInOut(duration: 1) : .none)
-                    
-                    Spacer()
-                        .frame(width: 6)
-                }
-                .frame(width: 85 + ratio * (geometry.size.width - 85), height: 30)
-                .animation(isLoaded ? .easeInOut(duration: 1) : .none, value: isLoaded)
+    private func masteryRateBar(_ rate: MasteryRate, width: CGFloat) -> some View {
+        return ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(
+                    LinearGradient(colors: vm.getColors(rate), startPoint: .leading, endPoint: .trailing)
+                )
+                .frame(width: vm.barWidths[rate], height: 30)
+                .animation(.easeInOut(duration: 1), value: vm.barWidths[rate])
+            HStack(spacing: 2) {
+                Text(vm.getRateText(rate))
+                    .foregroundStyle(.white)
+                    .fontWeight(.bold)
+                    .font(.footnote)
+                    .padding(.leading, 8)
+                
+                Spacer()
+                
+                Text(vm.isLoaded ? vm.countTexts[rate] ?? "" : "")
+                    .font(.system(size: 14))
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .animation(vm.isLoaded ? .easeInOut(duration: 1) : .none)
+                
+                Spacer()
+                    .frame(width: 6)
             }
-        }
-        .frame(height: 30)
-        .accessibilityIdentifier("chartBar\(rate)")
-        .onReceive(vm.container.appState.$cards) { _ in
-            DispatchQueue.main.async {
-                self.vm.updateCards()
-            }
+            .frame(width: 85 + vm.getRatio(rate) * (width - 85), height: 30)
+            .animation(vm.isLoaded ? .easeInOut(duration: 1) : .none, value: vm.isLoaded)
         }
     }
 }
