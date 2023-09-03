@@ -100,6 +100,7 @@ class AddCardViewModel: ObservableObject {
         return container.networkService.fetchDefinitionsAndImages(card: card, context: container.persistence.viewContext)
             .map { .success($0) }
             .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
+                self.container.persistence.viewContext.delete(card)
                 return Just(.failure(error)).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
