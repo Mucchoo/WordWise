@@ -19,7 +19,7 @@ struct AccountView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
+                VStack(alignment: .leading) {
                     MasteryRateBars(vm: .init(container: vm.container, categoryName: ""))
                         .blurBackground()
                     
@@ -180,7 +180,6 @@ private struct ActivityViewController: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ActivityViewController>) {}
 }
 
-//#Preview {
-//    AccountView()
-//        .injectMockDataViewModelForPreview()
-//}
+#Preview {
+    AccountView(vm: .init(container: .mock()))
+}

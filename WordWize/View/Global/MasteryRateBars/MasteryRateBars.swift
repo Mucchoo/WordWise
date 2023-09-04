@@ -18,7 +18,7 @@ struct MasteryRateBars: View {
         GeometryReader { geometry in
             let width = geometry.size.width
             
-            VStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
                 masteryRateBar(.oneHundred, width: width)
                 masteryRateBar(.seventyFive, width: width)
                 masteryRateBar(.fifty, width: width)
