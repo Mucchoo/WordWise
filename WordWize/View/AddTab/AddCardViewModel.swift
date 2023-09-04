@@ -126,6 +126,7 @@ class AddCardViewModel: ObservableObject {
         let card = Card(context: container.persistence.viewContext)
         card.text = word
         card.category = category
+        card.nextLearningDate = Date()
         
         return container.networkService.fetchDefinitionsAndImages(card: card, context: container.persistence.viewContext)
             .map { .success($0) }
