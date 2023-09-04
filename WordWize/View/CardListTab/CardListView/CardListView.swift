@@ -16,9 +16,9 @@ struct CardListView: View {
     }
     
     var body: some View {
-        searchBar
         ScrollView {
             VStack {
+                searchBar
                 LazyVStack {
                     ForEach(vm.cardList, id: \.id) { card in
                         cardRow(card)
@@ -151,7 +151,7 @@ struct CardListView: View {
                 }
                 .padding(.top, 2)
             }
-            if card.id != vm.lastCardId {
+            if card.id != vm.cardList.last?.id {
                 Divider()
             }
         }
