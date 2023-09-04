@@ -37,8 +37,21 @@ struct AddCardView: View {
         .onAppear {
             vm.setDefaultCategory()
         }
+        .alert(vm.alertTitle, isPresented: $vm.showingAlert) {
+            if vm.currentAlert == .addCategory {
+                TextField("category name", text: $vm.textFieldInput)
+                Button("Add", role: .none) {
+                    vm.addCategory()
+                }
+                Button("Cancel", role: .cancel) {}
+            } else {
+                Button("OK", role: .none) {}
+            }
+        } message: {
+            Text(vm.alertMessage)
+        }
     }
-    
+
     private var categoryPicker: some View {
         HStack(spacing: 0) {
             Picker("", selection: $vm.selectedCategory) {
@@ -66,7 +79,7 @@ struct AddCardView: View {
                     isFocused = false
                 }
             } else {
-                vm.showingAddCategoryAlert = true
+                vm.currentAlert = .addCategory
             }
         }) {
             Text(isFocused ? "Done" : "Add Category")
@@ -79,15 +92,6 @@ struct AddCardView: View {
                 .cornerRadius(10)
         }
         .accessibilityIdentifier("addCategoryButton")
-        .alert("Add Category", isPresented: $vm.showingAddCategoryAlert) {
-            TextField("category name", text: $vm.textFieldInput)
-            Button("Add", role: .none) {
-                vm.addCategory()
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Please enter the new category name.")
-        }
     }
     
     private func textEditorView(baseHeight: CGFloat) -> some View {
@@ -128,17 +132,6 @@ struct AddCardView: View {
         .accessibilityIdentifier("addCardsButton")
         .disabled(vm.shouldDisableAddCardButton())
         .padding([.horizontal, .bottom])
-        .alert("Failed to add cards", isPresented: $vm.showingFetchFailedAlert) {
-            Button("OK", role: .none) {}
-        } message: {
-            Text("Failed to find these wards on the dictionary.\n\n\(vm.fetchFailedWords.joined(separator: "\n"))")
-        }
-        
-        .alert("Added Cards", isPresented: $vm.showingFetchSucceededAlert) {
-            Button("OK", role: .none) {}
-        } message: {
-            Text("Added \(vm.addedCardCount) cards successfully.")
-        }
         .background(ProgressAlert(vm: vm, isPresented: $vm.generatingCards))
     }
 }

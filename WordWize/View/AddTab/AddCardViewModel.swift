@@ -9,26 +9,67 @@ import Combine
 import SwiftUI
 
 class AddCardViewModel: ObservableObject {
+    
+    enum AlertType {
+        case addCategory
+        case fetchFailed
+        case fetchSucceeded
+    }
+    
     var cancellables = Set<AnyCancellable>()
     let container: DIContainer
     
     @Published var cardText = ""
     @Published var selectedCategory = ""
     @Published var generatingCards = false
-    @Published var showingFetchFailedAlert = false
-    @Published var showingFetchSucceededAlert = false
-    @Published var showingAddCategoryAlert = false
     @Published var showPlaceholder = true
     @Published var fetchFailedWords: [String] = []
     @Published var requestedWordCount = 1
     @Published var fetchedWordCount = 0
     @Published var addedCardCount = 0
     @Published var textFieldInput = ""
+    @Published var showingAlert = false {
+        didSet {
+            print("showingAlert: \(showingAlert)")
+        }
+    }
+    
+    @Published var currentAlert: AlertType? {
+        didSet {
+            showingAlert = true
+        }
+    }
         
     private let placeHolder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
 
     var displayText: String {
         showPlaceholder ? placeHolder : cardText
+    }
+    
+    var alertTitle: String {
+        switch currentAlert {
+        case .addCategory:
+            "Add Category"
+        case .fetchFailed:
+            "Failed to add cards"
+        case .fetchSucceeded:
+            "Added Cards"
+        case nil:
+            ""
+        }
+    }
+    
+    var alertMessage: String {
+        switch currentAlert {
+        case .addCategory:
+            "Please enter the new category name."
+        case .fetchFailed:
+            "Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))"
+        case .fetchSucceeded:
+            "Added \(addedCardCount) cards successfully."
+        case nil:
+            ""
+        }
     }
     
     init(container: DIContainer) {
@@ -43,12 +84,7 @@ class AddCardViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.generatingCards = false
                 print("generateCards completed failedWords: \(fetchFailedWords)")
-                
-                if self.fetchFailedWords.isEmpty == true {
-                    self.showingFetchSucceededAlert = true
-                } else {
-                    self.showingFetchFailedAlert = true
-                }
+                self.currentAlert = self.fetchFailedWords.isEmpty == true ? .fetchSucceeded : .fetchFailed
             }
         
         cancellable.store(in: &cancellables)
