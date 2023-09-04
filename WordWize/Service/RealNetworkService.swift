@@ -26,7 +26,7 @@ class RealNetworkService: NetworkService {
         
         let fetchImagesData = fetchImages(word: text).catch { error -> AnyPublisher<[String], Error> in
             card.retryFetchImages = true
-            return Fail(error: error).eraseToAnyPublisher()
+            return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         return Publishers.Zip(fetchCardData, fetchImagesData)
