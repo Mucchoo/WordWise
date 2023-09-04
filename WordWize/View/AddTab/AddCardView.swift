@@ -190,16 +190,19 @@ private struct ProgressAlert: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<ProgressAlert>) {
-        guard isPresented else {
-            uiViewController.dismiss(animated: true)
+        if !isPresented {
+            if let shownAlert = uiViewController.presentedViewController as? UIAlertController,
+               shownAlert.title == nil {
+                shownAlert.dismiss(animated: true)
+            }
+            
             return
         }
-
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         let progressContentView = ProgressAlertContent(vm: vm)
         let hostingController = UIHostingController(rootView: progressContentView)
-        
+
         hostingController.view.backgroundColor = .clear
         hostingController.preferredContentSize = CGSize(width: 250, height: 100)
         alert.setValue(hostingController, forKey: "contentViewController")

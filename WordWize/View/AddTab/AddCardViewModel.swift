@@ -28,12 +28,7 @@ class AddCardViewModel: ObservableObject {
     @Published var fetchedWordCount = 0
     @Published var addedCardCount = 0
     @Published var textFieldInput = ""
-    @Published var showingAlert = false {
-        didSet {
-            print("showingAlert: \(showingAlert)")
-        }
-    }
-    
+    @Published var showingAlert = false
     @Published var currentAlert: AlertType? {
         didSet {
             showingAlert = true
