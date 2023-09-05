@@ -46,7 +46,9 @@ struct ContentView: View {
             }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onAppear { vm.onAppear() }
+        .onAppear {
+            vm.container.coreDataService.retryFetchingImages()
+        }
     }
     
     private var curvePoint: CGFloat {

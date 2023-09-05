@@ -18,33 +18,4 @@ class ContentViewModel: ObservableObject {
     init(container: DIContainer) {
         self.container = container
     }
-
-    func onAppear() {
-        container.coreDataService.retryFetchingImages()
-        
-        guard CommandLine.arguments.contains("SETUP_DATA_FOR_TESTING") else { return }
-        print("SETUP_DATA_FOR_TESTING")
-        
-        container.coreDataService.addDefaultCategoryIfNeeded { [weak self] in
-            self?.populateRandomTestData()
-        }
-    }
-
-    private func populateRandomTestData() {
-        for i in 0..<Int.random(in: 1..<100) {
-            let card = Card(context: container.persistence.viewContext)
-            card.text = "test card \(i)"
-            card.category = container.appState.categories.first?.name
-            print("add card: \(i)")
-        }
-
-        container.coreDataService.saveAndReload()
-
-        container.appState.cards.forEach { card in
-            if card.category == nil {
-                card.category = container.appState.categories.first?.name
-                container.persistence.saveContext()
-            }
-        }
-    }
 }
