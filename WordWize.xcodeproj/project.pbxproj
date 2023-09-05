@@ -10,7 +10,6 @@
 		2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA102A4C84F400C7C1CE /* WordWizeApp.swift */; };
 		2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */; };
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
-		2A2015BC2A63D9EA00C67716 /* WordWizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */; };
 		2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */; };
 		2A2015C62A63F42300C67716 /* RealNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* RealNetworkService.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
@@ -98,7 +97,6 @@
 		2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
 		2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWizeTests.swift; sourceTree = "<group>"; };
 		2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewModelTests.swift; sourceTree = "<group>"; };
 		2A2015C52A63F42300C67716 /* RealNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkService.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 		2A2015BA2A63D9EA00C67716 /* WordWizeTests */ = {
 			isa = PBXGroup;
 			children = (
-				2A2015BB2A63D9EA00C67716 /* WordWizeTests.swift */,
 				2A2015C22A63DB4200C67716 /* DataViewModelTests.swift */,
 			);
 			path = WordWizeTests;
@@ -595,7 +592,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A2015C32A63DB4200C67716 /* DataViewModelTests.swift in Sources */,
-				2A2015BC2A63D9EA00C67716 /* WordWizeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
