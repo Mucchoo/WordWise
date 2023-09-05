@@ -8,6 +8,10 @@
 import SwiftUI
 import Combine
 
+enum CardFilterType {
+    case studying, today, upcoming
+}
+
 class StudyViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     let container: DIContainer
@@ -15,10 +19,6 @@ class StudyViewModel: ObservableObject {
     @Published var selectedCategory = ""
     @Published var maximumCards = 1000
     @Published var showingCardView = false
-    
-    enum FilterType {
-        case studying, today, upcoming
-    }
     
     var studyButtonTitle: String {
         container.appState.studyingCards.count > 0 ?
@@ -51,7 +51,7 @@ class StudyViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    func filterCards(for type: FilterType) -> [Card] {
+    func filterCards(for type: CardFilterType) -> [Card] {
         return container.appState.cards.filter { card in
             guard selectedCategory == card.category, card.rate != .oneHundred else {
                 return false

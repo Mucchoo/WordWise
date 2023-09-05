@@ -30,9 +30,10 @@ class CardViewModel: ObservableObject {
     @Published var showReviewAlert = false
     
     private var audioPlayer: AVAudioPlayer?
-    private var synthesizer = AVSpeechSynthesizer()
     private var cancellables = Set<AnyCancellable>()
-
+    var synthesizer = AVSpeechSynthesizer()
+    var reviewController: ReviewControllerProtocol = SKStoreReviewController()
+    
     init(container: DIContainer) {
         self.container = container
         learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
@@ -63,12 +64,12 @@ class CardViewModel: ObservableObject {
         synthesizer.speak(utterance)
     }
     
-    func setCategoryToPlayback() {
+    func setCategoryToPlayback(session: AudioSessionProtocol = AVAudioSession.sharedInstance()) {
         guard !isPreview else { return }
         
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, options: .allowBluetooth)
-            try AVAudioSession.sharedInstance().setActive(true)
+            try session.setCategory(.playback, options: .allowBluetooth)
+            try session.setActive(true, options: [])
         } catch {
             print("failed setCategoryToPlayback: \(error.localizedDescription)")
         }
@@ -165,13 +166,11 @@ class CardViewModel: ObservableObject {
         container.coreDataService.saveAndReload()
     }
 
-    func requestReviewIfNeeded(shouldRequest: Bool) {
-        if shouldRequest, let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-            DispatchQueue.main.async {
-                SKStoreReviewController.requestReview(in: scene)
-            }
+    func requestReviewIfNeeded(shouldRequest: Bool, in scene: WindowSceneProviding?) {
+        if shouldRequest, let scene {
+            reviewController.requestReview(in: scene)
         }
-        self.showReviewAlert = false
+        showReviewAlert = false
     }
     
     func onTranslateButton() {

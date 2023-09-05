@@ -340,7 +340,8 @@ struct CardView: View {
             }
             .opacity(vm.isFinished ? 0 : 1)
             .onChange(of: vm.showReviewAlert) { newValue in
-                vm.requestReviewIfNeeded(shouldRequest: newValue)
+                let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
+                vm.requestReviewIfNeeded(shouldRequest: newValue, in: scene)
             }
         }
     }

@@ -32,8 +32,7 @@ struct DIContainer {
         
         if withMockCards {
             mockAppState.isDataLoaded = true
-            MockHelper.shared.createAndSaveMockCards(persistence: mockPersistence, appState: mockAppState)
-            MockHelper.shared.createAndSaveMockCategory(persistence: mockPersistence, appState: mockAppState)
+            MockHelper.shared.setupMockData(persistence: mockPersistence, appState: mockAppState)
         }
         
         return .init(appState: mockAppState, networkService: MockNetworkService(), persistence: mockPersistence)
