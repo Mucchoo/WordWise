@@ -16,21 +16,20 @@ class CardListViewModel: ObservableObject {
     @Published var selectedCards: [Card] = []
     @Published var searchBarText = ""
     @Published var pickerAlertValue = ""
-    @Published var selectedRate = ""
     @Published var showingPickerAlert = false
     @Published var showingChangeMasteryRateView = false
     @Published var showingDeleteCardsAlert = false
-    @Published var cardText = ""
-    @Published var cardId: UUID?
-    @Published var masteryRate: Int16 = 0
     @Published var cardCategory = ""
     @Published var navigateToCardDetail = false
     @Published var categoryName: String
-    @Published var lastCardId: ObjectIdentifier?
+    
+    @Published var selectedCard: Card?
+    @Published var selectedRate: Int16 = 0
+    @Published var selectedRateString = ""
 
-    @Published var selectMode = false {
+    @Published var multipleSelectionMode = false {
         didSet {
-            if !selectMode {
+            if !multipleSelectionMode {
                 selectedCards = []
             }
         }
@@ -62,13 +61,13 @@ class CardListViewModel: ObservableObject {
             card.category = pickerAlertValue
         }
         container.coreDataService.saveAndReload()
-        selectMode = false
+        multipleSelectionMode = false
         updateCardList()
     }
     
     func changeMasteryRate() {
         var masteryRate: Int16 = 0
-        switch selectedRate {
+        switch selectedRateString {
         case "25%":
             masteryRate = 1
         case "50%":
@@ -86,7 +85,7 @@ class CardListViewModel: ObservableObject {
         }
         
         container.coreDataService.saveAndReload()
-        selectMode = false
+        multipleSelectionMode = false
         updateCardList()
     }
     
@@ -97,25 +96,27 @@ class CardListViewModel: ObservableObject {
             let searchTextFilter = cardText.contains(searchBarText) || searchBarText.isEmpty
             return categoryFilter && searchTextFilter
         }
-        cardList = filteredCards
+        cardList = filteredCards.sorted(by: { $0.id > $1.id } )
     }
     
-    func deleteCard(_ card: Card) {
+    func deleteCard() {
+        guard let card = selectedCard else { return }
         container.persistence.viewContext.delete(card)
         container.coreDataService.saveAndReload()
         navigateToCardDetail = false
         updateCardList()
     }
     
-    func updateCard(_ card: Card) {
-        card.text = cardText
+    func updateCard() {
+        guard let card = selectedCard else { return }
+        print("selectedMasteryRate: \(selectedRate)")
         card.category = cardCategory
-        card.masteryRate = masteryRate
+        card.masteryRate = selectedRate
         
         var nextLearningDate: Int
         switch card.masteryRate {
         case 0:
-            nextLearningDate = 1
+            nextLearningDate = 0
         case 1:
             nextLearningDate = 2
         case 2:
@@ -128,15 +129,12 @@ class CardListViewModel: ObservableObject {
             return
         }
         
-        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
-        card.masteryRate += 1
-        
+        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())        
         container.coreDataService.saveAndReload()
         updateCardList()
     }
     
-    func setupDetailView(_ card: Card) {
-        cardText = card.text ?? ""
+    func showCardDetail(_ card: Card) {
         cardCategory = card.category ?? ""
         navigateToCardDetail = true
     }
@@ -154,6 +152,6 @@ class CardListViewModel: ObservableObject {
             container.persistence.viewContext.delete(card)
         }
         container.coreDataService.saveAndReload()
-        selectMode = false
+        multipleSelectionMode = false
     }
 }

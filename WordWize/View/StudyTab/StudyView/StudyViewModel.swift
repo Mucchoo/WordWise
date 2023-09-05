@@ -28,10 +28,7 @@ class StudyViewModel: ObservableObject {
     init(container: DIContainer) {
         self.container = container
         observeCards()
-        
-        DispatchQueue.main.async {
-            self.selectedCategory = container.appState.categories.first?.name ?? ""
-        }
+        observeCategories()
     }
     
     private func observeCards() {
@@ -39,6 +36,16 @@ class StudyViewModel: ObservableObject {
             .sink { [weak self] _ in
                 DispatchQueue.main.async {
                     self?.updateCards()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func observeCategories() {
+        container.appState.$categories
+            .sink { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.selectedCategory = self?.container.appState.categories.first?.name ?? ""
                 }
             }
             .store(in: &cancellables)

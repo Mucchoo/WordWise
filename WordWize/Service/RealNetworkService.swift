@@ -26,18 +26,19 @@ class RealNetworkService: NetworkService {
         
         let fetchImagesData = fetchImages(word: text).catch { error -> AnyPublisher<[String], Error> in
             card.retryFetchImages = true
-            return Fail(error: error).eraseToAnyPublisher()
+            return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         return Publishers.Zip(fetchCardData, fetchImagesData)
-            .flatMap { definition, imageUrls -> AnyPublisher<Card, Error> in
+            .flatMap({ definition, imageUrls in
                 self.setDefinitionData(card: card, context: context, data: definition)
-                return self.setImageData(card: card, context: context, imageUrls: imageUrls)
-            }
+                self.downloadAndSetImages(card: card, context: context, imageUrls: imageUrls)
+                return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
+            })
             .eraseToAnyPublisher()
     }
-
-    private func setImageData(card: Card, context: NSManagedObjectContext, imageUrls: [String]) -> AnyPublisher<Card, Error> {
+    
+    private func downloadAndSetImages(card: Card, context: NSManagedObjectContext, imageUrls: [String]) {
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
             guard let urlObj = URL(string: url) else { return nil }
             return URLSession.shared.dataTaskPublisher(for: urlObj)
@@ -46,19 +47,19 @@ class RealNetworkService: NetworkService {
                 .eraseToAnyPublisher()
         }
         
-        return Publishers.MergeMany(downloadImages)
+        _ = Publishers.MergeMany(downloadImages)
             .collect()
-            .flatMap { (imagesData: [Data]) -> AnyPublisher<Card, Error> in
-                for (index, data) in imagesData.enumerated() {
-                    let imageData = ImageData(context: context)
-                    imageData.data = data
-                    imageData.priority = Int64(index)
-                    card.addToImageDatas(imageData)
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { imagesData in
+                    for (index, data) in imagesData.enumerated() {
+                        let imageData = ImageData(context: context)
+                        imageData.data = data
+                        imageData.priority = Int64(index)
+                        card.addToImageDatas(imageData)
+                    }
                 }
-                
-                return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
+            )
     }
     
     private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {

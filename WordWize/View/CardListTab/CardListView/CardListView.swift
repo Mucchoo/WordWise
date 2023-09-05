@@ -16,9 +16,9 @@ struct CardListView: View {
     }
     
     var body: some View {
-        searchBar
         ScrollView {
             VStack {
+                searchBar
                 LazyVStack {
                     ForEach(vm.cardList, id: \.id) { card in
                         cardRow(card)
@@ -38,11 +38,14 @@ struct CardListView: View {
         .onChange(of: vm.searchBarText) { _ in
             vm.updateCardList()
         }
+        .sheet(isPresented: $vm.navigateToCardDetail) {
+            cardDetailSheet
+        }
     }
     
     private var navigationLeadingItems: some View {
         Group {
-            if vm.selectMode {
+            if vm.multipleSelectionMode {
                 if vm.selectedCards.count == 0 {
                     Text("Select Cards")
                         .foregroundStyle(Color.white)
@@ -96,9 +99,9 @@ struct CardListView: View {
     
     private var selectModeButton: some View {
         Button(action: {
-            vm.selectMode.toggle()
+            vm.multipleSelectionMode.toggle()
         }) {
-            Text(vm.selectMode ? "Cancel" : "Select")
+            Text(vm.multipleSelectionMode ? "Cancel" : "Select")
                 .foregroundStyle(Color.white)
                 .font(.footnote)
                 .fontWeight(.bold)
@@ -123,14 +126,16 @@ struct CardListView: View {
     private func cardRow(_ card: Card) -> some View {
         VStack {
             Button(action: {
-                if vm.selectMode {
+                if vm.multipleSelectionMode {
                     vm.selectCard(card)
                 } else {
-                    vm.setupDetailView(card)
+                    vm.selectedCard = card
+                    vm.selectedRate = card.masteryRate
+                    vm.showCardDetail(card)
                 }
             }) {
                 HStack {
-                    if vm.selectMode {
+                    if vm.multipleSelectionMode {
                         Image(systemName: vm.selectedCards.contains(where: { $0 == card }) ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(.blue)
                             .font(.system(size: 16))
@@ -151,26 +156,19 @@ struct CardListView: View {
                 }
                 .padding(.top, 2)
             }
-            if card.id != vm.lastCardId {
+            if card.id != vm.cardList.last?.id {
                 Divider()
             }
         }
-        .sheet(isPresented: $vm.navigateToCardDetail) {
-            cardDetailSheet(card)
-        }
-        .onChange(of: vm.navigateToCardDetail) { newValue in
-            guard !newValue else { return }
-            vm.updateCard(card)
-        }
     }
     
-    private func cardDetailSheet(_ card: Card) -> some View {
+    private var cardDetailSheet: some View {
         VStack {
             VStack(spacing: 4) {
                 HStack {
                     Text("Name")
                     Spacer()
-                    Text(vm.cardText)
+                    Text(vm.selectedCard?.text ?? "")
                 }
                 .padding(.horizontal)
                 .padding(.vertical, 10)
@@ -195,7 +193,7 @@ struct CardListView: View {
                 HStack {
                     Text("Mastery Rate")
                     Spacer()
-                    Picker("Mastery Rate", selection: $vm.masteryRate) {
+                    Picker("Mastery Rate", selection: $vm.selectedRate) {
                         ForEach(MasteryRate.allValues, id: \.self) { rate in
                             Text(rate.stringValue() + "%").tag(rate.rawValue)
                         }
@@ -207,7 +205,7 @@ struct CardListView: View {
             .padding(.top)
             
             Button {
-                vm.deleteCard(card)
+                vm.deleteCard()
             } label: {
                 Text("Delete Card")
                     .fontWeight(.bold)
@@ -223,7 +221,9 @@ struct CardListView: View {
         }
         .presentationDetents([.medium])
         .onDisappear {
-            vm.updateCard(card)
+            print("onDisappear")
+            vm.updateCard()
+            vm.updateCardList()
         }
     }
 }
