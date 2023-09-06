@@ -60,11 +60,12 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .fifty, context: context)
         ]
 
-        DispatchQueue.main.async { [self] in
-            vm.container.appState.cards = cards
-            vm.container.coreDataService.saveAndReload()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.vm.container.appState.cards = cards
+            self.vm.container.coreDataService.saveAndReload()
             
-            XCTAssertEqual(vm.getCount(.twentyFive), "2", "Count for rate twentyFive should be 2")
+            XCTAssertEqual(self.vm.getCount(.twentyFive), "2", "Count for rate twentyFive should be 2")
         }
     }
     
