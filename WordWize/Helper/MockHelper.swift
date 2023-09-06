@@ -34,7 +34,7 @@ struct MockHelper {
     private func createMockCards(persistence: Persistence) -> [Card] {
         var cards = [Card]()
         
-        for i in 0...100 {
+        for i in 0..<100 {
             let card = Card(context: persistence.viewContext)
             card.text = "mock \(i)"
             card.setMockData(context: persistence.viewContext)
