@@ -63,4 +63,10 @@ struct MockHelper {
         appState.todaysCards = filterCards(for: .today, appState: appState)
         appState.upcomingCards = filterCards(for: .upcoming, appState: appState)
     }
+    
+    func mockCard(rate: MasteryRate, context: NSManagedObjectContext) -> Card {
+        let card = Card(context: context)
+        card.masteryRate = rate.rawValue
+        return card
+    }
 }
