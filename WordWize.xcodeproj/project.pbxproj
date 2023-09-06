@@ -81,6 +81,7 @@
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
 		C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */; };
 		C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */; };
+		C6DE56E82AA8F6CD00C30AFF /* NoCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,6 +181,7 @@
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
+		C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +228,7 @@
 				2A682AC72AA8752500C5DB70 /* CardListViewModelTests.swift */,
 				C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */,
 				C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */,
+				C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */,
 			);
 			path = WordWizeTests;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */,
 				2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */,
 				2AE1F85E2AA6C1FD00EE8AD9 /* CardViewModelTests.swift in Sources */,
+				C6DE56E82AA8F6CD00C30AFF /* NoCardViewTests.swift in Sources */,
 				C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */,
 				2A682AC82AA8752500C5DB70 /* CardListViewModelTests.swift in Sources */,
 			);
