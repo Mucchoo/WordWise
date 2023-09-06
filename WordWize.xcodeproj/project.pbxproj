@@ -79,6 +79,7 @@
 		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
+		C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,7 @@
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				2AE1F85D2AA6C1FD00EE8AD9 /* CardViewModelTests.swift */,
 				2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */,
 				2A682AC72AA8752500C5DB70 /* CardListViewModelTests.swift */,
+				C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */,
 			);
 			path = WordWizeTests;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				2AE1F85A2AA6BCCE00EE8AD9 /* StudyViewModelTests.swift in Sources */,
 				2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */,
 				2AE1F85E2AA6C1FD00EE8AD9 /* CardViewModelTests.swift in Sources */,
+				C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */,
 				2A682AC82AA8752500C5DB70 /* CardListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

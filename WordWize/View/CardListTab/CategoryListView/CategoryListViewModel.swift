@@ -24,14 +24,12 @@ class CategoryListViewModel: ObservableObject {
     func renameCategory() {
         guard let category = container.appState.categories.first(where: { $0.name == targetCategoryName }) else { return }
         
-        DispatchQueue.main.async { [self] in
-            container.appState.cards.filter({ $0.category == category.name }).forEach { card in
-                card.category = categoryNameTextFieldInput
-            }
-            
-            category.name = categoryNameTextFieldInput
-            container.coreDataService.saveAndReload()
+        container.appState.cards.filter({ $0.category == category.name }).forEach { card in
+            card.category = categoryNameTextFieldInput
         }
+        
+        category.name = categoryNameTextFieldInput
+        container.coreDataService.saveAndReload()
     }
     
     func deleteCategory() {
