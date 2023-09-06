@@ -18,7 +18,7 @@ class MasteryRateBarsViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), categoryName: helper.mockCategory)
+        vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), categoryName: "")
         context = vm.container.persistence.viewContext
     }
     
@@ -43,13 +43,11 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .seventyFive, context: context),
             helper.mockCard(rate: .seventyFive, context: context)
         ]
-
-        DispatchQueue.main.async { [self] in
-            vm.container.appState.cards = cards
-            vm.container.coreDataService.saveAndReload()
-            
-            XCTAssertEqual(vm.maxCount, 3, "MaxCount should be 3")
-        }
+        
+        vm.container.appState.cards = cards
+        vm.container.coreDataService.saveAndReload()
+        
+        XCTAssertEqual(vm.maxCount, 3, "MaxCount should be 3")
     }
     
     func testCountForRate() {
@@ -59,15 +57,11 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .twentyFive, context: context),
             helper.mockCard(rate: .fifty, context: context)
         ]
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.vm.container.appState.cards = cards
-            self.vm.container.coreDataService.saveAndReload()
-            
-            XCTAssertEqual(self.vm.getCount(.twentyFive), "2", "Count for rate twentyFive should be 2")
-        }
+        vm.container.appState.cards = cards
+        
+        XCTAssertEqual(self.vm.getCount(.twentyFive), "2", "Count for rate twentyFive should be 2")
     }
+
     
     func testSetWidthAndCountText() {
         let cards = [
@@ -80,13 +74,11 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .seventyFive, context: context)
         ]
         
-        DispatchQueue.main.async { [self] in
-            vm.container.appState.cards = cards
-            vm.setWidthAndCountText(geometryWidth: 100)
-            vm.container.coreDataService.saveAndReload()
-            
-            XCTAssertEqual(vm.barWidths[.zero], 90 + (100 - 90) * 1 / 3, "Bar width for .zero should be updated correctly")
-            XCTAssertEqual(vm.countTexts[.zero], "1", "Count text for .zero should be '1'")
-        }
+        vm.container.appState.cards = cards
+        vm.setWidthAndCountText(geometryWidth: 100)
+        vm.container.coreDataService.saveAndReload()
+        
+        XCTAssertEqual(vm.barWidths[.zero], 90 + (100 - 90) * 1 / 3, "Bar width for .zero should be updated correctly")
+        XCTAssertEqual(vm.countTexts[.zero], "1", "Count text for .zero should be '1'")
     }
 }
