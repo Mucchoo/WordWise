@@ -14,7 +14,6 @@ class MockNetworkService: NetworkService {
         return Future<Card, Error> { promise in
             print("Mocking card for \(card.text ?? "nil")")
             card.setMockData(context: context)
-            sleep(5)
             promise(.success(card))
         }
         .eraseToAnyPublisher()

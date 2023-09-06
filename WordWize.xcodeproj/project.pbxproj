@@ -11,6 +11,7 @@
 		2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */; };
 		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
 		2A2015C62A63F42300C67716 /* RealNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* RealNetworkService.swift */; };
+		2A2583D62AA8328F00B64531 /* AddCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
 		2A442B8F2A7010420083A476 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A442B8E2A7010420083A476 /* Keys.swift */; };
 		2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */; };
@@ -103,6 +104,7 @@
 		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
 		2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A2015C52A63F42300C67716 /* RealNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkService.swift; sourceTree = "<group>"; };
+		2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewModelTests.swift; sourceTree = "<group>"; };
 		2A3C1E072A3944E4001B6E0E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2A442B8E2A7010420083A476 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		2A46C39D2A88B1BC0020FE22 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				2AE1F8572AA6BAC000EE8AD9 /* ContentViewModelTests.swift */,
 				2AE1F8592AA6BCCE00EE8AD9 /* StudyViewModelTests.swift */,
 				2AE1F85D2AA6C1FD00EE8AD9 /* CardViewModelTests.swift */,
+				2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */,
 			);
 			path = WordWizeTests;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A2583D62AA8328F00B64531 /* AddCardViewModelTests.swift in Sources */,
 				2AE1F85A2AA6BCCE00EE8AD9 /* StudyViewModelTests.swift in Sources */,
 				2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */,
 				2AE1F85E2AA6C1FD00EE8AD9 /* CardViewModelTests.swift in Sources */,

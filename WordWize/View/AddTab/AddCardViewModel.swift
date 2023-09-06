@@ -35,7 +35,7 @@ class AddCardViewModel: ObservableObject {
         }
     }
         
-    private let placeHolder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
+    let placeHolder = "pineapple\nstrawberry\ncherry\nblueberry\npeach"
 
     var displayText: String {
         showPlaceholder ? placeHolder : cardText
