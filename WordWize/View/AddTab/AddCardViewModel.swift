@@ -44,26 +44,26 @@ class AddCardViewModel: ObservableObject {
     var alertTitle: String {
         switch currentAlert {
         case .addCategory:
-            "Add Category"
+            return "Add Category"
         case .fetchFailed:
-            "Failed to add cards"
+            return "Failed to add cards"
         case .fetchSucceeded:
-            "Added Cards"
+            return "Added Cards"
         case nil:
-            ""
+            return ""
         }
     }
     
     var alertMessage: String {
         switch currentAlert {
         case .addCategory:
-            "Please enter the new category name."
+            return "Please enter the new category name."
         case .fetchFailed:
-            "Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))"
+            return "Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))"
         case .fetchSucceeded:
-            "Added \(addedCardCount) cards successfully."
+            return "Added \(addedCardCount) cards successfully."
         case nil:
-            ""
+            return ""
         }
     }
     
