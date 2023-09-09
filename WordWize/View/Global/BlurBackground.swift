@@ -27,11 +27,7 @@ struct BlurBackground: ViewModifier {
 
 extension View {
     func blurBackground() -> some View {
-        if NSClassFromString("XCTest") != nil {
-            return AnyView(self)
-        } else {
-            return AnyView(self.modifier(BlurBackground()))
-        }
+        modifier(BlurBackground())
     }
 }
 
