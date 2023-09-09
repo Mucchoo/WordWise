@@ -11,10 +11,10 @@
         <relationship name="meanings" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="card" inverseEntity="Meaning"/>
         <relationship name="phonetics" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Phonetic" inverseName="card" inverseEntity="Phonetic"/>
     </entity>
-    <entity name="CardCategory" representedClassName="CardCategory" syncable="YES">
+    <entity name="CardCategory" representedClassName="CardCategory" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="Definition" representedClassName="Definition" syncable="YES">
+    <entity name="Definition" representedClassName="Definition" syncable="YES" codeGenerationType="class">
         <attribute name="antonyms" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="definition" optional="YES" attributeType="String"/>
@@ -23,7 +23,7 @@
         <attribute name="translatedDefinition" optional="YES" attributeType="String"/>
         <relationship name="meaning" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Meaning" inverseName="definitions" inverseEntity="Meaning"/>
     </entity>
-    <entity name="ImageData" representedClassName="ImageData" syncable="YES">
+    <entity name="ImageData" representedClassName="ImageData" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary"/>
         <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageDatas" inverseEntity="Card"/>
@@ -34,7 +34,7 @@
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="meanings" inverseEntity="Card"/>
         <relationship name="definitions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Definition" inverseName="meaning" inverseEntity="Definition"/>
     </entity>
-    <entity name="Phonetic" representedClassName="Phonetic" syncable="YES">
+    <entity name="Phonetic" representedClassName="Phonetic" syncable="YES" codeGenerationType="class">
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="phonetics" inverseEntity="Card"/>
     </entity>

@@ -145,7 +145,7 @@ struct CardView: View {
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                Text(vm.currentCard.card.phoneticsArray.first(where: { $0.audio?.contains("us.mp3") ?? false })?.text ?? vm.currentCard.card.phoneticsArray.first?.text ?? "")
+                Text(vm.currentCard.card.phoneticsArray.first?.text ?? "")
                     .foregroundColor(.primary)
             }
             .opacity(vm.isWordVisible ? 1 : 0)

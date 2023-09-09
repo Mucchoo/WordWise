@@ -33,7 +33,7 @@ extension Card {
         let phoneticSet = phonetics as? Set<Phonetic> ?? []
         
         return phoneticSet.sorted {
-            $0.unwrappedText < $1.unwrappedText
+            ($0.text ?? "") < ($1.text ?? "")
         }
     }
     
