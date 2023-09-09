@@ -74,7 +74,7 @@ struct AccountView: View {
                 Spacer()
             }
         }
-        .accessibilityIdentifier("shareButton")
+        .accessibilityIdentifier("shareAppButton")
         .padding(.vertical, 8)
         .sheet(isPresented: $vm.isShowingShareSheet) {
             ActivityViewController(shareItems: [vm.productURL])
@@ -102,10 +102,12 @@ struct AccountView: View {
                     .foregroundColor(.red)
                     .cornerRadius(10)
             }
-            .accessibilityIdentifier("resetLearningDataButton")
+            .accessibilityIdentifier("resetButton")
             .alert("Are you sure to reset all the learning data?", isPresented: $vm.showingResetAlert) {
                 Button("Reset", role: .destructive, action: vm.resetLearningData)
+                    .accessibilityIdentifier("alertResetButton")
                 Button("Cancel", role: .cancel) {}
+                    .accessibilityIdentifier("alertCancelButton")
             } message: {
                 Text("Failed times and the status of all cards will be reset.")
             }
