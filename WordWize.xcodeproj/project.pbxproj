@@ -80,11 +80,11 @@
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C60942EB2AAB782A000C43F9 /* ViewInspector */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
+		C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */; };
 		C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69314622AA9D844000A0F4F /* AccountViewTests.swift */; };
-		C6D77F6C2AA91FE4007C6EA8 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C6D77F6B2AA91FE4007C6EA8 /* ViewInspector */; };
 		C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */; };
 		C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */; };
-		C6DE56E82AA8F6CD00C30AFF /* NoCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */; };
+		C6DE56E82AA8F6CD00C30AFF /* NoCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */; };
 		C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,10 +183,11 @@
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewTests.swift; sourceTree = "<group>"; };
 		C69314622AA9D844000A0F4F /* AccountViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewTests.swift; sourceTree = "<group>"; };
 		C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
-		C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewTests.swift; sourceTree = "<group>"; };
+		C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,7 +211,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6D77F6C2AA91FE4007C6EA8 /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,7 +507,7 @@
 				2A682AC72AA8752500C5DB70 /* CardListViewModelTests.swift */,
 				C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */,
 				C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */,
-				C6DE56E72AA8F6CD00C30AFF /* NoCardViewTests.swift */,
+				C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */,
 				C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */,
 			);
 			path = ViewModel;
@@ -517,6 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				C69314622AA9D844000A0F4F /* AccountViewTests.swift */,
+				C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -577,7 +578,6 @@
 			);
 			name = WordWize;
 			packageProductDependencies = (
-				C6D77F6B2AA91FE4007C6EA8 /* ViewInspector */,
 			);
 			productName = WordWize;
 			productReference = 2ABC635A2A38147900718C90 /* WordWize.app */;
@@ -661,13 +661,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */,
 				C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */,
 				2A2583D62AA8328F00B64531 /* AddCardViewModelTests.swift in Sources */,
 				2AE1F85A2AA6BCCE00EE8AD9 /* StudyViewModelTests.swift in Sources */,
 				C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */,
 				2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */,
 				2AE1F85E2AA6C1FD00EE8AD9 /* CardViewModelTests.swift in Sources */,
-				C6DE56E82AA8F6CD00C30AFF /* NoCardViewTests.swift in Sources */,
+				C6DE56E82AA8F6CD00C30AFF /* NoCardViewModelTests.swift in Sources */,
 				C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */,
 				2A682AC82AA8752500C5DB70 /* CardListViewModelTests.swift in Sources */,
 				C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */,
@@ -1124,11 +1125,6 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		C60942EB2AAB782A000C43F9 /* ViewInspector */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C6D77F6A2AA91FE4007C6EA8 /* XCRemoteSwiftPackageReference "ViewInspector" */;
-			productName = ViewInspector;
-		};
-		C6D77F6B2AA91FE4007C6EA8 /* ViewInspector */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C6D77F6A2AA91FE4007C6EA8 /* XCRemoteSwiftPackageReference "ViewInspector" */;
 			productName = ViewInspector;

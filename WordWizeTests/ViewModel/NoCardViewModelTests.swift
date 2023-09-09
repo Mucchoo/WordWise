@@ -1,5 +1,5 @@
 //
-//  NoCardViewTests.swift
+//  NoCardViewModelTests.swift
 //  WordWizeTests
 //
 //  Created by Musa Yazici on 9/7/23.
