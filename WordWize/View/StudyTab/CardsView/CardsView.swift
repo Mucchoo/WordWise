@@ -29,7 +29,7 @@ struct CardsView: View {
         .navigationBarTitle(vm.title, displayMode: .large)
     }
     
-    private func cardRow(_ card: Card) -> some View {
+    func cardRow(_ card: Card) -> some View {
         return VStack {
             HStack {
                 Text(card.text ?? "")
