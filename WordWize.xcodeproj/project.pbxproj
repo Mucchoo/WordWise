@@ -84,6 +84,7 @@
 		C6FA61672AAE42BA00DE1B5C /* ProgressAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61662AAE42BA00DE1B5C /* ProgressAlert.swift */; };
 		C6FA61692AAE42DB00DE1B5C /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61682AAE42DB00DE1B5C /* KeyboardResponder.swift */; };
 		C6FA616C2AAE445500DE1B5C /* CardDetailSheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA616B2AAE445500DE1B5C /* CardDetailSheetTests.swift */; };
+		C6FA616F2AAE4B1900DE1B5C /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA616E2AAE4B1900DE1B5C /* MailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +179,7 @@
 		C6FA61662AAE42BA00DE1B5C /* ProgressAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressAlert.swift; sourceTree = "<group>"; };
 		C6FA61682AAE42DB00DE1B5C /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 		C6FA616B2AAE445500DE1B5C /* CardDetailSheetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailSheetTests.swift; sourceTree = "<group>"; };
+		C6FA616E2AAE4B1900DE1B5C /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 			children = (
 				2ABC636C2A38167800718C90 /* AccountView.swift */,
 				2A73CE372A9B4046003D9A23 /* AccountViewModel.swift */,
+				C6FA61702AAE4B2A00DE1B5C /* Components */,
 			);
 			path = AccountTab;
 			sourceTree = "<group>";
@@ -526,6 +529,14 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		C6FA61702AAE4B2A00DE1B5C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C6FA616E2AAE4B1900DE1B5C /* MailView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -700,6 +711,7 @@
 				2ABDB1E62A88E80F0036A4DB /* MockNetworkService.swift in Sources */,
 				2A71E43F2A48500E005B897C /* CardListView.swift in Sources */,
 				2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */,
+				C6FA616F2AAE4B1900DE1B5C /* MailView.swift in Sources */,
 				2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
