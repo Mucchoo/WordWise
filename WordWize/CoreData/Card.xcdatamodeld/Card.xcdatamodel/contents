@@ -28,7 +28,7 @@
         <attribute name="priority" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="imageDatas" inverseEntity="Card"/>
     </entity>
-    <entity name="Meaning" representedClassName="Meaning" syncable="YES">
+    <entity name="Meaning" representedClassName="Meaning" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="partOfSpeech" optional="YES" attributeType="String"/>
         <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="meanings" inverseEntity="Card"/>

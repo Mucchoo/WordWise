@@ -62,33 +62,6 @@ class RealNetworkService: NetworkService {
             )
     }
     
-    private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
-        data.meanings?.forEach { meaning in
-            let newMeaning = Meaning(context: context)
-            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
-            newMeaning.createdAt = Date()
-            
-            meaning.definitions?.forEach { definition in
-                let newDefinition = Definition(context: context)
-                newDefinition.definition = definition.definition
-                newDefinition.example = definition.example
-                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
-                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
-                newDefinition.createdAt = Date()
-                
-                newMeaning.addToDefinitions(newDefinition)
-            }
-            
-            card.addToMeanings(newMeaning)
-        }
-        
-        data.phonetics?.forEach { phonetic in
-            let newPhonetic = Phonetic(context: context)
-            newPhonetic.text = phonetic.text
-            card.addToPhonetics(newPhonetic)
-        }
-    }
-    
     func retryFetchingImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Void, Error> {
         return fetchImages(word: card.unwrappedText)
             .flatMap { imageUrls -> AnyPublisher<Void, Error> in
@@ -214,22 +187,6 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> Result<WordDefinition, Error> {
-        guard !data.isEmpty else {
-            return .failure(MyError.merriamWebsterConversionFailed)
-        }
-        
-        let meanings: [WordDefinition.Meaning] = data.map { data in
-            let definitions: [WordDefinition.Meaning.Definition] = data.shortdef.map { ref in
-                return .init(definition: ref, example: nil, synonyms: nil, antonyms: nil)
-            }
-            return .init(partOfSpeech: data.fl, definitions: definitions)
-        }
-        
-        let wordDefinition = WordDefinition(word: word, phonetic: nil, phonetics: [], origin: nil, meanings: meanings)
-        return .success(wordDefinition)
-    }
-    
     func fetchTranslations(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
         let url = URL(string: deepLAPIURLString)!
         var request = URLRequest(url: url)
@@ -252,5 +209,48 @@ class RealNetworkService: NetworkService {
             .tryMap { data, _ in data }
             .decode(type: TranslationResponse.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
+    }
+    
+    private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> Result<WordDefinition, Error> {
+        guard !data.isEmpty else {
+            return .failure(MyError.merriamWebsterConversionFailed)
+        }
+        
+        let meanings: [WordDefinition.Meaning] = data.map { data in
+            let definitions: [WordDefinition.Meaning.Definition] = data.shortdef.map { ref in
+                return .init(definition: ref, example: nil, synonyms: nil, antonyms: nil)
+            }
+            return .init(partOfSpeech: data.fl, definitions: definitions)
+        }
+        
+        let wordDefinition = WordDefinition(word: word, phonetic: nil, phonetics: [], origin: nil, meanings: meanings)
+        return .success(wordDefinition)
+    }
+    
+    private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
+        data.meanings?.forEach { meaning in
+            let newMeaning = Meaning(context: context)
+            newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
+            newMeaning.createdAt = Date()
+            
+            meaning.definitions?.forEach { definition in
+                let newDefinition = Definition(context: context)
+                newDefinition.definition = definition.definition
+                newDefinition.example = definition.example
+                newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
+                newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
+                newDefinition.createdAt = Date()
+                
+                newMeaning.addToDefinitions(newDefinition)
+            }
+            
+            card.addToMeanings(newMeaning)
+        }
+        
+        data.phonetics?.forEach { phonetic in
+            let newPhonetic = Phonetic(context: context)
+            newPhonetic.text = phonetic.text
+            card.addToPhonetics(newPhonetic)
+        }
     }
 }
