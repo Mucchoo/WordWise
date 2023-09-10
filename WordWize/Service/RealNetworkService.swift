@@ -90,7 +90,7 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
+    private func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
         guard let url = URL(string: merriamWebsterAPIURLString + word + "?key=" + Keys.merriamWebsterApiKey) else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
@@ -111,7 +111,7 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
+    private func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
         guard let url = URL(string: freeDictionaryAPIURLString + word) else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
@@ -140,7 +140,7 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
+    private func fetchImages(word: String) -> AnyPublisher<[String], Error> {
         guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
@@ -165,8 +165,7 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    
-    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
+    private func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
         fetchDefinitionsFromFreeAPI(word: word)
             .catch { [weak self] _ in
                 self?.fetchDefinitionsFromMerriamWebsterAPI(word: word)
