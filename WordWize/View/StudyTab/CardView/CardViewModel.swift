@@ -214,3 +214,14 @@ class CardViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 }
+
+protocol ReviewControllerProtocol {
+    func requestReview(in scene: WindowSceneProviding?)
+}
+
+extension SKStoreReviewController: ReviewControllerProtocol {
+    func requestReview(in scene: WindowSceneProviding?) {
+        guard let uiWindowScene = scene as? UIWindowScene else { return }
+        SKStoreReviewController.requestReview(in: uiWindowScene)
+    }
+}
