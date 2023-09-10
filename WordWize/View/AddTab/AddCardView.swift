@@ -163,7 +163,7 @@ private extension Notification {
     }
 }
 
-private struct ProgressAlertContent: View {
+struct ProgressAlertContent: View {
     @StateObject var vm: AddCardViewModel
     
     var body: some View {
@@ -181,7 +181,7 @@ private struct ProgressAlertContent: View {
     }
 }
 
-private struct ProgressAlert: UIViewControllerRepresentable {
+struct ProgressAlert: UIViewControllerRepresentable {
     @ObservedObject var vm: AddCardViewModel
     @Binding var isPresented: Bool
     

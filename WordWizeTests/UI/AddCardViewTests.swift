@@ -12,21 +12,21 @@ import ViewInspector
 
 class AddCardViewTests: XCTestCase {
 
-    var viewModel: AddCardViewModel!
+    var vm: AddCardViewModel!
     var sut: AddCardView!
     
     override func setUp() {
         super.setUp()
-        viewModel = AddCardViewModel(container: .mock())
-        sut = AddCardView(vm: viewModel)
+        vm = AddCardViewModel(container: .mock())
+        sut = AddCardView(vm: vm)
     }
     
     override func tearDown() {
-        viewModel = nil
+        vm = nil
         sut = nil
         super.tearDown()
     }
-    
+        
     func testCategoryPickerIsVisible() throws {
         XCTAssertNoThrow(try sut.inspect().find(ViewType.Picker.self))
     }
@@ -45,6 +45,24 @@ class AddCardViewTests: XCTestCase {
     
     func testCategoryPickerShowsCategories() throws {
         let picker = try sut.inspect().find(ViewType.Picker.self).find(ViewType.ForEach.self)
-        XCTAssertEqual(picker.count, viewModel.container.appState.categories.count)
+        XCTAssertEqual(picker.count, vm.container.appState.categories.count)
+    }
+    
+    func testProgressAlertContentDisplaysGeneratingCards() throws {
+        vm.fetchedWordCount = 5
+        vm.requestedWordCount = 10
+        
+        let progressAlertContent = ProgressAlertContent(vm: self.vm)
+        let text = try progressAlertContent.inspect().vStack().text(0).string()
+        XCTAssertEqual(text, "Generating Cards...")
+    }
+
+    func testProgressAlertContentDisplaysCorrectProgressCount() throws {
+        vm.fetchedWordCount = 5
+        vm.requestedWordCount = 10
+        
+        let progressAlertContent = ProgressAlertContent(vm: self.vm)
+        let text = try progressAlertContent.inspect().vStack().text(1).string()
+        XCTAssertEqual(text, "5 / 10 Completed")
     }
 }
