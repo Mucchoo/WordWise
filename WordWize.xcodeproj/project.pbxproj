@@ -156,6 +156,7 @@
 		C67328F02AAD0A35008D06C8 /* CategoryListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewTests.swift; sourceTree = "<group>"; };
 		C676D74E2AADCE0D00982CB1 /* Meaning+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+Extensions.swift"; sourceTree = "<group>"; };
 		C676D7502AADD07E00982CB1 /* Card+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+Extensions.swift"; sourceTree = "<group>"; };
+		C676D7542AADD81800982CB1 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		C69314622AA9D844000A0F4F /* AccountViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewTests.swift; sourceTree = "<group>"; };
 		C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 			children = (
 				C69314612AA9D803000A0F4F /* UI */,
 				C69314602AA9D7CE000A0F4F /* ViewModel */,
+				C676D7542AADD81800982CB1 /* TestPlan.xctestplan */,
 			);
 			path = WordWizeTests;
 			sourceTree = "<group>";

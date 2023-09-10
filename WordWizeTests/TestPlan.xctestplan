@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "90326158-3B24-46C1-996C-12CFAD800FFA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:WordWize.xcodeproj",
+        "identifier" : "2A2015B82A63D9EA00C67716",
+        "name" : "WordWizeTests"
+      }
+    }
+  ],
+  "version" : 1
+}
