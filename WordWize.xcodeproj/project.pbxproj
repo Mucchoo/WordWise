@@ -77,6 +77,7 @@
 		C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */; };
 		C6DE56E82AA8F6CD00C30AFF /* NoCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */; };
 		C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */; };
+		C6FA61562AAE0C9C00DE1B5C /* CoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +165,7 @@
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModelTests.swift; sourceTree = "<group>"; };
+		C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +199,7 @@
 		2A2015BA2A63D9EA00C67716 /* WordWizeTests */ = {
 			isa = PBXGroup;
 			children = (
+				C6FA61542AAE0C8000DE1B5C /* Service */,
 				C69314612AA9D803000A0F4F /* UI */,
 				C69314602AA9D7CE000A0F4F /* ViewModel */,
 				C676D7542AADD81800982CB1 /* TestPlan.xctestplan */,
@@ -473,6 +476,14 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		C6FA61542AAE0C8000DE1B5C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -590,6 +601,7 @@
 				C67328ED2AACFE9C008D06C8 /* MasteryRateBarsTests.swift in Sources */,
 				C67328E72AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift in Sources */,
 				C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */,
+				C6FA61562AAE0C9C00DE1B5C /* CoreDataServiceTests.swift in Sources */,
 				C67328E92AACEE59008D06C8 /* CardListViewTests.swift in Sources */,
 				2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */,
 				C67328EB2AACFD64008D06C8 /* AddCardViewTests.swift in Sources */,
