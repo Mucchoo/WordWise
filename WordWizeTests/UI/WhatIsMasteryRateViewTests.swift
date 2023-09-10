@@ -33,7 +33,7 @@ final class WhatIsMasteryRateViewTests: XCTestCase {
     }
     
     func testImageExists() throws {
-        _ = try sut.inspect().scrollView().vStack().vStack(0).image(1)
+        XCTAssertNoThrow(try sut.inspect().scrollView().vStack().vStack(0).image(1))
     }
     
     func testTableHasCorrectData() throws {
@@ -52,7 +52,7 @@ final class WhatIsMasteryRateViewTests: XCTestCase {
     
     func testGradientColorsOnButton() throws {
         let hStack = try sut.inspect().scrollView().vStack().vStack(0).hStack(3)
-        let hardButton = try hStack.text(0)
-        let easyButton = try hStack.text(1)
+        XCTAssertNoThrow(try hStack.text(0))
+        XCTAssertNoThrow(try hStack.text(1))
     }
 }

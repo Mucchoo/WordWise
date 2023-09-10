@@ -28,23 +28,19 @@ class AddCardViewTests: XCTestCase {
     }
     
     func testCategoryPickerIsVisible() throws {
-        let picker = try sut.inspect().find(ViewType.Picker.self)
-        XCTAssertNotNil(picker)
+        XCTAssertNoThrow(try sut.inspect().find(ViewType.Picker.self))
     }
 
     func testAddCategoryButtonIsVisible() throws {
-        let button = try sut.inspect().find(button: "Add Category")
-        XCTAssertNotNil(button)
+        XCTAssertNoThrow(try sut.inspect().find(button: "Add Category"))
     }
     
     func testTextEditorIsVisible() throws {
-        let textEditor = try sut.inspect().find(ViewType.TextEditor.self)
-        XCTAssertNotNil(textEditor)
+        XCTAssertNoThrow(try sut.inspect().find(ViewType.TextEditor.self))
     }
     
     func testGenerateButtonIsVisible() throws {
-        let button = try sut.inspect().find(button: "Add 0 Cards")
-        XCTAssertNotNil(button)
+        XCTAssertNoThrow(try sut.inspect().find(button: "Add 0 Cards"))
     }
     
     func testCategoryPickerShowsCategories() throws {

@@ -33,14 +33,13 @@ class AccountViewTests: XCTestCase {
     }
     
     func testNativeLanguagePicker() throws {
-        let picker = try sut.inspect().find(ViewType.Picker.self)
-        XCTAssertNotNil(picker)
+        XCTAssertNoThrow(try sut.inspect().find(ViewType.Picker.self))
     }
     
     func testFindButton() throws {
-        _ = try sut.inspect().find(viewWithAccessibilityIdentifier: "shareAppButton")
-        _ = try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackButton")
-        _ = try sut.inspect().find(viewWithAccessibilityIdentifier: "resetButton")
+        XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "shareAppButton"))
+        XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackButton"))
+        XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "resetButton"))
     }
     
     func testPickerOptions() throws {

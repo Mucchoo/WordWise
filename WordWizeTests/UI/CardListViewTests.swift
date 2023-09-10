@@ -39,7 +39,7 @@ class CardListViewTests: XCTestCase {
 
     func testSelectModeButtonToggle() throws {
         XCTAssertEqual(vm.multipleSelectionMode, false)
-        let button = try sut.inspect().find(button: "Select")
+        XCTAssertNoThrow(try sut.inspect().find(button: "Select"))
     }
 
     func testTextFieldIsLowerCase() throws {
@@ -49,7 +49,7 @@ class CardListViewTests: XCTestCase {
 
     func testMenuActionsVisibility() throws {
         vm.multipleSelectionMode = true
-        let _ = try sut.inspect().find(text: "Select Cards")
+        XCTAssertNoThrow(try sut.inspect().find(text: "Select Cards"))
 
         vm.selectedCards = vm.container.appState.cards
         let labelCount = try sut.inspect().findAll(ViewType.Label.self).count
@@ -65,8 +65,7 @@ class CardListViewTests: XCTestCase {
         vm.multipleSelectionMode = false
         let button = try sut.inspect().find(button: "Select")
         try button.tap()
-        let newButton = try sut.inspect().find(button: "Cancel")
-        XCTAssertNotNil(newButton)
+        XCTAssertNoThrow(try sut.inspect().find(button: "Cancel"))
     }
 
     func testCardRowsHaveDividers() throws {

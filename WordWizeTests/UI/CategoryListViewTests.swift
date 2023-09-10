@@ -29,7 +29,7 @@ class CategoryListViewTests: XCTestCase {
 
     func testEmptyState() throws {
         vm.container.appState.categories = []
-        let _ = try sut.inspect().find(NoCardView.self)
+        XCTAssertNoThrow(try sut.inspect().find(NoCardView.self))
     }
     
     func testCategoryRowCount() throws {
@@ -41,9 +41,9 @@ class CategoryListViewTests: XCTestCase {
         let categoryRow = try sut.inspect().navigationView().scrollView().vStack().forEach(0)[0]
                 
         let menu = try categoryRow.zStack().hStack(1).vStack(1).menu(1)
-        let _ = try menu.labelView().image(0)
-        let _ = try menu.button(0)
-        let _ = try menu.button(1)
+        XCTAssertNoThrow(try menu.labelView().image(0))
+        XCTAssertNoThrow(try menu.button(0))
+        XCTAssertNoThrow(try menu.button(1))
 
         let displayedName = try categoryRow.zStack().navigationLink(0).labelView().vStack(0).hStack(0).text(0).string()
         XCTAssertEqual(displayedName, MockHelper.shared.mockCategory)
