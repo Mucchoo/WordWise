@@ -48,6 +48,7 @@ struct CardView: View {
                         }
                     }
             )
+            .accessibilityIdentifier("dismissBar")
     }
     
     private var progressBar: some View {
@@ -56,6 +57,7 @@ struct CardView: View {
                 Rectangle()
                     .frame(width: geometry.size.width , height: geometry.size.height)
                     .foregroundColor(colorScheme == .dark ? .navy : .sky)
+                    .accessibilityIdentifier("progressBarBackgroundRectangle")
 
                 let completedCards = vm.learningCards.filter { !$0.isLearning }.count
                 let totalCards = vm.learningCards.count
@@ -65,6 +67,7 @@ struct CardView: View {
                     .fill(LinearGradient(colors: colorScheme == .dark ? [.sky, .cyan] : [.navy, .ocean], startPoint: .leading, endPoint: .trailing))
                     .frame(width: progressBarWidth, height: 10)
                     .animation(.spring(), value: completedCards)
+                    .accessibilityIdentifier("progressBarForegroundRectangle")
             }
         }
         .cornerRadius(5)
@@ -95,6 +98,7 @@ struct CardView: View {
                                 .opacity(vm.isDefinitionVisible ? 0 : 1)
                                 .animation(.easeIn(duration: 0.3), value: vm.isDefinitionVisible)
                                 .zIndex(1)
+                                .accessibilityIdentifier("coverRectangle")
                         }
                         
                         Spacer().frame(height: 20)

@@ -72,6 +72,7 @@
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C60942EB2AAB782A000C43F9 /* ViewInspector */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
+		C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66750C52AAD191300C19343 /* CardViewTests.swift */; };
 		C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */; };
 		C67328E72AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E62AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift */; };
 		C67328E92AACEE59008D06C8 /* CardListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E82AACEE59008D06C8 /* CardListViewTests.swift */; };
@@ -173,6 +174,7 @@
 		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		C66750C52AAD191300C19343 /* CardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewTests.swift; sourceTree = "<group>"; };
 		C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewTests.swift; sourceTree = "<group>"; };
 		C67328E62AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMasteryRateViewTests.swift; sourceTree = "<group>"; };
 		C67328E82AACEE59008D06C8 /* CardListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewTests.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				C67328EC2AACFE9C008D06C8 /* MasteryRateBarsTests.swift */,
 				C67328EE2AACFFA3008D06C8 /* CardsViewTests.swift */,
 				C67328F02AAD0A35008D06C8 /* CategoryListViewTests.swift */,
+				C66750C52AAD191300C19343 /* CardViewTests.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 			files = (
 				C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */,
 				C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */,
+				C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */,
 				2A2583D62AA8328F00B64531 /* AddCardViewModelTests.swift in Sources */,
 				2AE1F85A2AA6BCCE00EE8AD9 /* StudyViewModelTests.swift in Sources */,
 				C67328ED2AACFE9C008D06C8 /* MasteryRateBarsTests.swift in Sources */,

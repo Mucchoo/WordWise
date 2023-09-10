@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 extension Card {
 
@@ -72,9 +73,15 @@ extension Card {
     }
 
     public func setMockData(context: NSManagedObjectContext) {
-        let newMeaning = Meaning(context: context)
-        newMeaning.partOfSpeech = "Noun"
-        newMeaning.createdAt = Date()
+        let newMeaning1 = Meaning(context: context)
+        newMeaning1.partOfSpeech = "Noun"
+        newMeaning1.createdAt = Date()
+        self.addToMeanings(newMeaning1)
+        
+        let newMeaning2 = Meaning(context: context)
+        newMeaning2.partOfSpeech = "Noun"
+        newMeaning2.createdAt = Date()
+        self.addToMeanings(newMeaning2)
         
         let newDefinition = Definition(context: context)
         newDefinition.definition = "A mock definition"
@@ -82,18 +89,21 @@ extension Card {
         newDefinition.antonyms = "opposite"
         newDefinition.synonyms = "similar"
         newDefinition.createdAt = Date()
-        
-        newMeaning.addToDefinitions(newDefinition)
-        self.addToMeanings(newMeaning)
-        
+        newMeaning1.addToDefinitions(newDefinition)
+
         let newPhonetic = Phonetic(context: context)
         newPhonetic.text = "/mɒk/"
         self.addToPhonetics(newPhonetic)
                 
-        let imageData = ImageData(context: context)
-        imageData.data = Data()
-        imageData.priority = 0
-        self.addToImageDatas(imageData)
+        let invalidImageData = ImageData(context: context)
+        invalidImageData.data = Data()
+        invalidImageData.priority = 0
+        self.addToImageDatas(invalidImageData)
+        
+        let validImageData = ImageData(context: context)
+        validImageData.data = UIImage(systemName: "circle")?.pngData()
+        validImageData.priority = 1
+        self.addToImageDatas(validImageData)
     }
 }
 
