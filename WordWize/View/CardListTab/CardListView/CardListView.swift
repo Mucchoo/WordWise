@@ -228,7 +228,7 @@ struct CardListView: View {
     }
 }
 
-private struct PickerAlert: UIViewControllerRepresentable {
+struct PickerAlert: UIViewControllerRepresentable {
     enum ViewType {
         case category, masteryRate
     }
