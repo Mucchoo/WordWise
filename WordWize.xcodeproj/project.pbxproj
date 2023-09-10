@@ -254,7 +254,7 @@
 				2A3C1DFB2A390F0D001B6E0E /* AddTab */,
 				2A71E43D2A484FFA005B897C /* CardListTab */,
 				2A3C1DF92A390ECB001B6E0E /* AccountTab */,
-				2A3C1DFE2A390F44001B6E0E /* Global */,
+				2A3C1DFE2A390F44001B6E0E /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -279,7 +279,7 @@
 			path = StudyTab;
 			sourceTree = "<group>";
 		};
-		2A3C1DFE2A390F44001B6E0E /* Global */ = {
+		2A3C1DFE2A390F44001B6E0E /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				2A68022B2A9BB94200AADB8C /* NoCardView */,
@@ -288,7 +288,7 @@
 				2A4F009F2A5132510000928E /* BlurBackground.swift */,
 				2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */,
 			);
-			path = Global;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		2A3C1DFF2A3924FC001B6E0E /* Model */ = {
@@ -478,12 +478,11 @@
 				C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */,
 				C67328E62AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift */,
 				C67328E82AACEE59008D06C8 /* CardListViewTests.swift */,
-				C676D7562AADE23400982CB1 /* PickerAlertTests.swift */,
 				C67328EA2AACFD64008D06C8 /* AddCardViewTests.swift */,
-				C67328EC2AACFE9C008D06C8 /* MasteryRateBarsTests.swift */,
 				C67328EE2AACFFA3008D06C8 /* CardsViewTests.swift */,
 				C67328F02AAD0A35008D06C8 /* CategoryListViewTests.swift */,
 				C66750C52AAD191300C19343 /* CardViewTests.swift */,
+				C6FA616A2AAE43D900DE1B5C /* Components */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -511,6 +510,15 @@
 			children = (
 				C6FA61662AAE42BA00DE1B5C /* ProgressAlert.swift */,
 				C6FA61682AAE42DB00DE1B5C /* KeyboardResponder.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C6FA616A2AAE43D900DE1B5C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C67328EC2AACFE9C008D06C8 /* MasteryRateBarsTests.swift */,
+				C676D7562AADE23400982CB1 /* PickerAlertTests.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
