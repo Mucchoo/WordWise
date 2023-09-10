@@ -15,6 +15,12 @@ class RealNetworkService: NetworkService {
     private let merriamWebsterAPIURLString = "https://dictionaryapi.com/api/v3/references/collegiate/json/"
     private let deepLAPIURLString = "https://api-free.deepl.com/v2/translate"
     
+    let session: URLSession
+
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+    
     func fetchDefinitionsAndImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Card, Error> {
         guard let text = card.text else {
             return Fail(error: MyError.textNotFound).eraseToAnyPublisher()
@@ -38,10 +44,10 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    private func downloadAndSetImages(card: Card, context: NSManagedObjectContext, imageUrls: [String]) {
+    func downloadAndSetImages(card: Card, context: NSManagedObjectContext, imageUrls: [String]) {
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
             guard let urlObj = URL(string: url) else { return nil }
-            return URLSession.shared.dataTaskPublisher(for: urlObj)
+            return session.dataTaskPublisher(for: urlObj)
                 .map(\.data)
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
@@ -68,7 +74,7 @@ class RealNetworkService: NetworkService {
                 card.imageDatas = nil
                 
                 let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
-                    return URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
+                    return self.session.dataTaskPublisher(for: URL(string: url)!)
                         .map(\.data)
                         .mapError { $0 as Error }
                         .eraseToAnyPublisher()
@@ -90,13 +96,13 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
     
-    private func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
+    func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
         guard let url = URL(string: merriamWebsterAPIURLString + word + "?key=" + Keys.merriamWebsterApiKey) else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
         
-        return URLSession.shared.dataTaskPublisher(for: url)
+        return session.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
@@ -111,13 +117,13 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    private func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
+    func fetchDefinitionsFromFreeAPI(word: String) -> AnyPublisher<WordDefinition, Error> {
         guard let url = URL(string: freeDictionaryAPIURLString + word) else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
         
-        return URLSession.shared.dataTaskPublisher(for: url)
+        return session.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
@@ -140,13 +146,13 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    private func fetchImages(word: String) -> AnyPublisher<[String], Error> {
+    func fetchImages(word: String) -> AnyPublisher<[String], Error> {
         guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
             print("Invalid URL for: \(word)")
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
         
-        return URLSession.shared.dataTaskPublisher(for: url)
+        return session.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw URLError(.badServerResponse)
@@ -165,7 +171,7 @@ class RealNetworkService: NetworkService {
             .eraseToAnyPublisher()
     }
 
-    private func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
+    func fetchDefinitions(word: String) -> AnyPublisher<WordDefinition, Error> {
         fetchDefinitionsFromFreeAPI(word: word)
             .catch { [weak self] _ in
                 self?.fetchDefinitionsFromMerriamWebsterAPI(word: word)
@@ -204,13 +210,13 @@ class RealNetworkService: NetworkService {
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        return URLSession.shared.dataTaskPublisher(for: request)
+        return session.dataTaskPublisher(for: request)
             .tryMap { data, _ in data }
             .decode(type: TranslationResponse.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
     
-    private func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> Result<WordDefinition, Error> {
+    func convertMerriamWebsterDefinition(word: String, data: [MerriamWebsterDefinition]) -> Result<WordDefinition, Error> {
         guard !data.isEmpty else {
             return .failure(MyError.merriamWebsterConversionFailed)
         }
@@ -226,7 +232,7 @@ class RealNetworkService: NetworkService {
         return .success(wordDefinition)
     }
     
-    private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
+    func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
         data.meanings?.forEach { meaning in
             let newMeaning = Meaning(context: context)
             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"

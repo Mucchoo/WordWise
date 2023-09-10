@@ -78,6 +78,7 @@
 		C6DE56E82AA8F6CD00C30AFF /* NoCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */; };
 		C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */; };
 		C6FA61562AAE0C9C00DE1B5C /* CoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */; };
+		C6FA61582AAE189700DE1B5C /* RealNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +167,7 @@
 		C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModelTests.swift; sourceTree = "<group>"; };
 		C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceTests.swift; sourceTree = "<group>"; };
+		C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -480,6 +482,7 @@
 			isa = PBXGroup;
 			children = (
 				C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */,
+				C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6FA61582AAE189700DE1B5C /* RealNetworkServiceTests.swift in Sources */,
 				C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */,
 				C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */,
 				C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */,
