@@ -39,7 +39,14 @@ struct CardListView: View {
             vm.updateCardList()
         }
         .sheet(isPresented: $vm.navigateToCardDetail) {
-            cardDetailSheet
+            CardDetailSheet(
+                selectedCard: $vm.selectedCard,
+                categoryName: $vm.categoryName,
+                selectedRate: $vm.selectedRate,
+                container: vm.container,
+                updateCard: vm.updateCard,
+                deleteCard: vm.deleteCard
+            )
         }
     }
     
@@ -159,169 +166,6 @@ struct CardListView: View {
             if card.id != vm.cardList.last?.id {
                 Divider()
             }
-        }
-    }
-    
-    private var cardDetailSheet: some View {
-        VStack {
-            VStack(spacing: 4) {
-                HStack {
-                    Text("Name")
-                    Spacer()
-                    Text(vm.selectedCard?.text ?? "")
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 10)
-                
-                Divider()
-                
-                HStack {
-                    Text("Category")
-                    Spacer()
-                    Picker("Category", selection: $vm.categoryName) {
-                        ForEach(vm.container.appState.categories) { category in
-                            let name = category.name ?? ""
-                            Text(name).tag(name)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                }
-                .padding(.leading)
-                
-                Divider()
-                
-                HStack {
-                    Text("Mastery Rate")
-                    Spacer()
-                    Picker("Mastery Rate", selection: $vm.selectedRate) {
-                        ForEach(MasteryRate.allValues, id: \.self) { rate in
-                            Text(rate.stringValue() + "%").tag(rate.rawValue)
-                        }
-                    }
-                }
-                .padding(.leading)
-            }
-            .padding()
-            .padding(.top)
-            
-            Button {
-                vm.deleteCard()
-            } label: {
-                Text("Delete Card")
-                    .fontWeight(.bold)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding()
-            }
-            
-            Spacer()
-        }
-        .presentationDetents([.medium])
-        .onDisappear {
-            print("onDisappear")
-            vm.updateCard()
-            vm.updateCardList()
-        }
-    }
-}
-
-struct PickerAlert: UIViewControllerRepresentable {
-    enum ViewType {
-        case category, masteryRate
-    }
-    
-    @ObservedObject var vm: CardListViewModel
-    var title: String?
-    var message: String?
-    var options: [String] = []
-    var onConfirm: (() -> ())?
-    
-    init(vm: CardListViewModel, type: ViewType) {
-        self.vm = vm
-        
-        if type == .category {
-            title = "Change Category"
-            message = "Select new category for the \(vm.selectedCards.count) cards."
-            options = vm.container.appState.categories.map { $0.name ?? "" }
-            onConfirm = vm.changeCategory
-        } else {
-            title = "Change Mastery Rate"
-            message = "Select Mastery Rate for the \(vm.selectedCards.count) cards."
-            options = MasteryRate.allValues.map { $0.stringValue() + "%" }
-            onConfirm = vm.changeMasteryRate
-        }
-    }
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        UIViewController()
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if vm.showingPickerAlert, context.coordinator.alertController == nil {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
-            let pickerView = UIPickerView()
-            pickerView.dataSource = context.coordinator
-            pickerView.delegate = context.coordinator
-            
-            let pickerViewController = UIViewController()
-            pickerViewController.view = pickerView
-            pickerViewController.preferredContentSize = CGSize(width: 250, height: 150)
-            
-            alert.setValue(pickerViewController, forKey: "contentViewController")
-            
-            alert.addAction(UIAlertAction(title: "Confirm", style: .default) { _ in
-                vm.showingPickerAlert = false
-                context.coordinator.alertController = nil
-                onConfirm?()
-            })
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                vm.showingPickerAlert = false
-                context.coordinator.alertController = nil
-            })
-            
-            context.coordinator.alertController = alert
-            uiViewController.present(alert, animated: true) {
-                context.coordinator.alertController = nil
-            }
-        } else if !vm.showingPickerAlert, let alertController = context.coordinator.alertController, alertController.isBeingPresented {
-            alertController.dismiss(animated: true) {
-                context.coordinator.alertController = nil
-            }
-        }
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    class Coordinator: NSObject, UIPickerViewDataSource, UIPickerViewDelegate {
-        var parent: PickerAlert
-        var alertController: UIAlertController?
-        var pickerView: UIPickerView?
-        
-        init(_ parent: PickerAlert) {
-            self.parent = parent
-        }
-        
-        func numberOfComponents(in pickerView: UIPickerView) -> Int {
-            1
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-            parent.options.count
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-            parent.options[row]
-        }
-        
-        func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-            parent.vm.pickerAlertValue = parent.options[row]
         }
     }
 }

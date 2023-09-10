@@ -79,6 +79,8 @@
 		C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */; };
 		C6FA61562AAE0C9C00DE1B5C /* CoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */; };
 		C6FA61582AAE189700DE1B5C /* RealNetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */; };
+		C6FA61622AAE421E00DE1B5C /* PickerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61612AAE421E00DE1B5C /* PickerAlert.swift */; };
+		C6FA61642AAE423800DE1B5C /* CardDetailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61632AAE423800DE1B5C /* CardDetailSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +170,8 @@
 		C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModelTests.swift; sourceTree = "<group>"; };
 		C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceTests.swift; sourceTree = "<group>"; };
 		C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealNetworkServiceTests.swift; sourceTree = "<group>"; };
+		C6FA61612AAE421E00DE1B5C /* PickerAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlert.swift; sourceTree = "<group>"; };
+		C6FA61632AAE423800DE1B5C /* CardDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +382,7 @@
 			children = (
 				2A71E43E2A48500E005B897C /* CardListView.swift */,
 				2AB6B8762A9B060F00645F08 /* CardListViewModel.swift */,
+				C6FA61602AAE41FC00DE1B5C /* Components */,
 			);
 			path = CardListView;
 			sourceTree = "<group>";
@@ -485,6 +490,15 @@
 				C6FA61572AAE189700DE1B5C /* RealNetworkServiceTests.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		C6FA61602AAE41FC00DE1B5C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C6FA61612AAE421E00DE1B5C /* PickerAlert.swift */,
+				C6FA61632AAE423800DE1B5C /* CardDetailSheet.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -625,6 +639,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */,
+				C6FA61622AAE421E00DE1B5C /* PickerAlert.swift in Sources */,
 				2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */,
 				2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */,
 				2A4804AD2A714ED6003AC26E /* NetworkService.swift in Sources */,
@@ -637,6 +652,7 @@
 				2ABD50282A40F461000459BC /* Persistence.swift in Sources */,
 				2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
+				C6FA61642AAE423800DE1B5C /* CardDetailSheet.swift in Sources */,
 				2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */,
 				2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */,
 				2A6802302A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift in Sources */,
