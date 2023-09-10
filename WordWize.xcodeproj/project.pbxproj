@@ -30,12 +30,9 @@
 		2A73CE362A9B2F1C003D9A23 /* AddCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A73CE352A9B2F1C003D9A23 /* AddCardViewModel.swift */; };
 		2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A73CE372A9B4046003D9A23 /* AccountViewModel.swift */; };
 		2A7A12742A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */; };
-		2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8054992A64640B0092A886 /* StudyViewUITests.swift */; };
 		2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8250ED2A922B4000ADD88E /* CardsView.swift */; };
 		2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */; };
 		2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A881D222A8375C2003329E1 /* MasteryRate.swift */; };
-		2A8B04872A645C2600E19304 /* WordWizeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8B04862A645C2600E19304 /* WordWizeUITestsLaunchTests.swift */; };
-		2AAC04B42A68F6B70021B1B4 /* UITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAC04B32A68F6B70021B1B4 /* UITestHelper.swift */; };
 		2AB6B86C2A9A511A00645F08 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B86B2A9A511A00645F08 /* ContentViewModel.swift */; };
 		2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B86E2A9A5D8000645F08 /* StudyViewModel.swift */; };
 		2AB6B8722A9A738C00645F08 /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB6B8712A9A738C00645F08 /* CardViewModel.swift */; };
@@ -52,9 +49,7 @@
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2ABD50282A40F461000459BC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* Persistence.swift */; };
 		2ABDB1E62A88E80F0036A4DB /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */; };
-		2ACC40CD2A69EC1C0097D3FE /* AddCardViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */; };
 		2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD30C802A9EF76900BCEF04 /* MyError.swift */; };
-		2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */; };
 		2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1F8572AA6BAC000EE8AD9 /* ContentViewModelTests.swift */; };
@@ -63,7 +58,6 @@
 		2AE1F8622AA6CDE000EE8AD9 /* WindowScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1F8612AA6CDE000EE8AD9 /* WindowScene.swift */; };
 		2AE1F8642AA6CEA100EE8AD9 /* AudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1F8632AA6CEA100EE8AD9 /* AudioSession.swift */; };
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
-		2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */; };
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C60942EB2AAB782A000C43F9 /* ViewInspector */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
@@ -86,13 +80,6 @@
 
 /* Begin PBXContainerItemProxy section */
 		2A2015BD2A63D9EA00C67716 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2ABC63522A38147900718C90 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2ABC63592A38147900718C90;
-			remoteInfo = WordWize;
-		};
-		2A8B04882A645C2600E19304 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2ABC63522A38147900718C90 /* Project object */;
 			proxyType = 1;
@@ -127,13 +114,9 @@
 		2A73CE352A9B2F1C003D9A23 /* AddCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewModel.swift; sourceTree = "<group>"; };
 		2A73CE372A9B4046003D9A23 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		2A7A12732A8C5C9700DC44B7 /* WhatIsMasteryRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMasteryRateView.swift; sourceTree = "<group>"; };
-		2A8054992A64640B0092A886 /* StudyViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewUITests.swift; sourceTree = "<group>"; };
 		2A8250ED2A922B4000ADD88E /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		2A86C5F82A9E27EA002F0AA3 /* MockHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHelper.swift; sourceTree = "<group>"; };
 		2A881D222A8375C2003329E1 /* MasteryRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRate.swift; sourceTree = "<group>"; };
-		2A8B04822A645C2600E19304 /* WordWizeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A8B04862A645C2600E19304 /* WordWizeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordWizeUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		2AAC04B32A68F6B70021B1B4 /* UITestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestHelper.swift; sourceTree = "<group>"; };
 		2AB6B86B2A9A511A00645F08 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		2AB6B86E2A9A5D8000645F08 /* StudyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewModel.swift; sourceTree = "<group>"; };
 		2AB6B8712A9A738C00645F08 /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
@@ -151,10 +134,8 @@
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2ABD50272A40F461000459BC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2ABDB1E52A88E80F0036A4DB /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
-		2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewUITests.swift; sourceTree = "<group>"; };
 		2AD30C802A9EF76900BCEF04 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewUITests.swift; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2AE1F8572AA6BAC000EE8AD9 /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
@@ -163,7 +144,6 @@
 		2AE1F8612AA6CDE000EE8AD9 /* WindowScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowScene.swift; sourceTree = "<group>"; };
 		2AE1F8632AA6CEA100EE8AD9 /* AudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
-		2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewUITests.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		C66750C52AAD191300C19343 /* CardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewTests.swift; sourceTree = "<group>"; };
@@ -189,13 +169,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2A8B047F2A645C2600E19304 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,19 +337,6 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		2A8B04832A645C2600E19304 /* WordWizeUITests */ = {
-			isa = PBXGroup;
-			children = (
-				2AAC04B32A68F6B70021B1B4 /* UITestHelper.swift */,
-				2A8B04862A645C2600E19304 /* WordWizeUITestsLaunchTests.swift */,
-				2A8054992A64640B0092A886 /* StudyViewUITests.swift */,
-				2ACC40CC2A69EC1C0097D3FE /* AddCardViewUITests.swift */,
-				2ADBB04B2A6A08140026867C /* CardListViewUITests.swift */,
-				2AF163DD2A6A282800264D3A /* AccountViewUITests.swift */,
-			);
-			path = WordWizeUITests;
-			sourceTree = "<group>";
-		};
 		2AB6B86D2A9A5D6900645F08 /* StudyView */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,7 +378,6 @@
 			children = (
 				2ABC635C2A38147900718C90 /* WordWize */,
 				2A2015BA2A63D9EA00C67716 /* WordWizeTests */,
-				2A8B04832A645C2600E19304 /* WordWizeUITests */,
 				2ABC635B2A38147900718C90 /* Products */,
 				C60942EA2AAB782A000C43F9 /* Frameworks */,
 			);
@@ -429,7 +388,6 @@
 			children = (
 				2ABC635A2A38147900718C90 /* WordWize.app */,
 				2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */,
-				2A8B04822A645C2600E19304 /* WordWizeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -534,24 +492,6 @@
 			productReference = 2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2A8B04812A645C2600E19304 /* WordWizeUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2A8B048A2A645C2600E19304 /* Build configuration list for PBXNativeTarget "WordWizeUITests" */;
-			buildPhases = (
-				2A8B047E2A645C2600E19304 /* Sources */,
-				2A8B047F2A645C2600E19304 /* Frameworks */,
-				2A8B04802A645C2600E19304 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2A8B04892A645C2600E19304 /* PBXTargetDependency */,
-			);
-			name = WordWizeUITests;
-			productName = WordWizeUITests;
-			productReference = 2A8B04822A645C2600E19304 /* WordWizeUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		2ABC63592A38147900718C90 /* WordWize */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2ABC63692A38147900718C90 /* Build configuration list for PBXNativeTarget "WordWize" */;
@@ -586,10 +526,6 @@
 						LastSwiftMigration = 1500;
 						TestTargetID = 2ABC63592A38147900718C90;
 					};
-					2A8B04812A645C2600E19304 = {
-						CreatedOnToolsVersion = 15.0;
-						TestTargetID = 2ABC63592A38147900718C90;
-					};
 					2ABC63592A38147900718C90 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -613,20 +549,12 @@
 			targets = (
 				2ABC63592A38147900718C90 /* WordWize */,
 				2A2015B82A63D9EA00C67716 /* WordWizeTests */,
-				2A8B04812A645C2600E19304 /* WordWizeUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2A2015B72A63D9EA00C67716 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2A8B04802A645C2600E19304 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -667,19 +595,6 @@
 				2A682AC82AA8752500C5DB70 /* CardListViewModelTests.swift in Sources */,
 				C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */,
 				C67328F12AAD0A35008D06C8 /* CategoryListViewTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2A8B047E2A645C2600E19304 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2ACC40CD2A69EC1C0097D3FE /* AddCardViewUITests.swift in Sources */,
-				2A8B04872A645C2600E19304 /* WordWizeUITestsLaunchTests.swift in Sources */,
-				2A80549A2A64640B0092A886 /* StudyViewUITests.swift in Sources */,
-				2ADBB04C2A6A08140026867C /* CardListViewUITests.swift in Sources */,
-				2AF163DE2A6A282800264D3A /* AccountViewUITests.swift in Sources */,
-				2AAC04B42A68F6B70021B1B4 /* UITestHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,11 +661,6 @@
 			target = 2ABC63592A38147900718C90 /* WordWize */;
 			targetProxy = 2A2015BD2A63D9EA00C67716 /* PBXContainerItemProxy */;
 		};
-		2A8B04892A645C2600E19304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2ABC63592A38147900718C90 /* WordWize */;
-			targetProxy = 2A8B04882A645C2600E19304 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -804,54 +714,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WordWize.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WordWize";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		2A8B048B2A645C2600E19304 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4WXTDSDQPZ;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.musayazici.wordwizeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = WordWize;
-			};
-			name = Debug;
-		};
-		2A8B048C2A645C2600E19304 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4WXTDSDQPZ;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.musayazici.wordwizeUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = WordWize;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1063,15 +925,6 @@
 			buildConfigurations = (
 				2A2015BF2A63D9EA00C67716 /* Debug */,
 				2A2015C02A63D9EA00C67716 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		2A8B048A2A645C2600E19304 /* Build configuration list for PBXNativeTarget "WordWizeUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2A8B048B2A645C2600E19304 /* Debug */,
-				2A8B048C2A645C2600E19304 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
