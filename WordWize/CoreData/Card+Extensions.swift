@@ -1,31 +1,14 @@
 //
-//  Card+CoreDataProperties.swift
+//  Card+Extensions.swift
 //  WordWize
 //
-//  Created by Musa Yazuju on 7/16/23.
-//
+//  Created by Musa Yazici on 9/10/23.
 //
 
-import Foundation
 import CoreData
 import UIKit
 
 extension Card {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Card> {
-        return NSFetchRequest<Card>(entityName: "Card")
-    }
-
-    @NSManaged public var category: String?
-    @NSManaged public var lastHardDate: Date?
-    @NSManaged public var masteryRate: Int16
-    @NSManaged public var nextLearningDate: Date?
-    @NSManaged public var text: String?
-    @NSManaged public var retryFetchImages: Bool
-    @NSManaged public var imageDatas: NSSet?
-    @NSManaged public var meanings: NSSet?
-    @NSManaged public var phonetics: NSSet?
-    
     public var unwrappedText: String {
         text ?? "Unknown"
     }
@@ -105,59 +88,4 @@ extension Card {
         validImageData.priority = 1
         self.addToImageDatas(validImageData)
     }
-}
-
-// MARK: Generated accessors for imageData
-extension Card {
-
-    @objc(addImageDatasObject:)
-    @NSManaged public func addToImageDatas(_ value: ImageData)
-
-    @objc(removeImageDatasObject:)
-    @NSManaged public func removeFromImageDatas(_ value: ImageData)
-
-    @objc(addImageDatas:)
-    @NSManaged public func addToImageDatas(_ values: NSSet)
-
-    @objc(removeImageDatas:)
-    @NSManaged public func removeFromImageDatas(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for meanings
-extension Card {
-
-    @objc(addMeaningsObject:)
-    @NSManaged public func addToMeanings(_ value: Meaning)
-
-    @objc(removeMeaningsObject:)
-    @NSManaged public func removeFromMeanings(_ value: Meaning)
-
-    @objc(addMeanings:)
-    @NSManaged public func addToMeanings(_ values: NSSet)
-
-    @objc(removeMeanings:)
-    @NSManaged public func removeFromMeanings(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for phonetics
-extension Card {
-
-    @objc(addPhoneticsObject:)
-    @NSManaged public func addToPhonetics(_ value: Phonetic)
-
-    @objc(removePhoneticsObject:)
-    @NSManaged public func removeFromPhonetics(_ value: Phonetic)
-
-    @objc(addPhonetics:)
-    @NSManaged public func addToPhonetics(_ values: NSSet)
-
-    @objc(removePhonetics:)
-    @NSManaged public func removeFromPhonetics(_ values: NSSet)
-
-}
-
-extension Card : Identifiable {
-
 }
