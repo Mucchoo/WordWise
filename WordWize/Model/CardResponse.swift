@@ -21,7 +21,6 @@ struct WordDefinition: Codable, Identifiable {
 
     struct Phonetic: Codable {
         let text: String?
-        let audio: String?
     }
 
     struct Meaning: Codable, Identifiable {

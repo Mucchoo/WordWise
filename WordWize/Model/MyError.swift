@@ -11,4 +11,6 @@ enum MyError: Error {
     case textNotFound
     case imageNotFound
     case merriamWebsterConversionFailed
+    case network
+    case parsing
 }

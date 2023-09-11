@@ -8,6 +8,6 @@
 import Foundation
 
 struct MerriamWebsterDefinition: Codable {
-    let fl: String
-    let shortdef: [String]
+    let fl: String?
+    let shortdef: [String]?
 }

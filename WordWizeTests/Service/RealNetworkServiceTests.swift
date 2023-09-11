@@ -17,7 +17,7 @@ class RealNetworkServiceTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        mockSession = .mockedResponsesOnly
+        mockSession = .mock
         sut = RealNetworkService(session: mockSession)
         cancellables = []
     }
@@ -29,87 +29,87 @@ class RealNetworkServiceTests: XCTestCase {
         super.tearDown()
     }
     
-    func testFetchTranslations() {
-        let mockTexts = ["hello", "world"]
-        XCTAssertNoThrow(
-            sut.fetchTranslations(mockTexts)
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testFetchDefinitionsAndImages() {
-        let mockContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let card = Card(context: mockContext)
+    func testFetchDefinitionsAndImages_FreeAPI_Success() {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        let card = Card(context: context)
+        card.text = "example"
         
-        XCTAssertNoThrow(
-            sut.fetchDefinitionsAndImages(card: card, context: mockContext)
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testDownloadAndSetImages() {
-        let mockContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let card = Card(context: mockContext)
-        
-        XCTAssertNoThrow(sut.downloadAndSetImages(card: card, context: mockContext, imageUrls: []))
-    }
-    
-    func testRetryFetchingImages() {
-        let mockContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let mockCard = Card(context: mockContext)
-        
-        XCTAssertNoThrow(
-            sut.retryFetchingImages(card: mockCard, context: mockContext)
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testFetchDefinitionsFromMerriamWebsterAPI() {
-        XCTAssertNoThrow(
-            sut.fetchDefinitionsFromMerriamWebsterAPI(word: "")
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testFetchDefinitionsFromFreeAPI() {
-        XCTAssertNoThrow(
-            sut.fetchDefinitionsFromFreeAPI(word: "")
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testFetchImages() {
-        XCTAssertNoThrow(
-            sut.fetchImages(word: "")
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-        )
-    }
-    
-    func testConvertMerriamWebsterDefinition() {
-        let mockData: [MerriamWebsterDefinition] = []
-        XCTAssertNoThrow(_ = sut.convertMerriamWebsterDefinition(word: "", data: mockData))
-    }
-    
-    func testSetDefinitionData() {
-        let mockContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        let card = Card(context: mockContext)
-        let mockData: WordDefinition = .init(word: "", phonetic: "", phonetics: [], origin: "", meanings: [])
+        var output: Card?
+        var outputError: Error?
 
-        XCTAssertNoThrow(sut.setDefinitionData(card: card, context: mockContext, data: mockData))
-    }
-}
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            var data: Data?
+            
+            if request.url!.absoluteString.contains("dictionaryapi.dev") {
+                data = try encoder.encode([self.mockWordDefinition()])
+            } else if request.url!.absoluteString.contains("pixabay.com") {
+                data = try encoder.encode(self.mockImageResponse())
+            }
+            
+            return (response, data!)
+        }
 
-extension URLSession {
-    static var mockedResponsesOnly: URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 1
-        configuration.timeoutIntervalForResource = 1
-        return URLSession(configuration: configuration)
+        let publisher = sut.fetchDefinitionsAndImages(card: card, context: context)
+        let expectation = XCTestExpectation(description: "Network call succeeds.")
+
+        publisher.sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Test: Finished without error.")
+                case .failure(let error):
+                    print("Test: Finished with error: \(error)")
+                    outputError = error
+                }
+                expectation.fulfill()
+            },
+            receiveValue: { card in
+                print("Test: Received card: \(card)")
+                output = card
+            }
+        )
+        .store(in: &cancellables)
+
+        wait(for: [expectation], timeout: 3)
+        XCTAssertNotNil(output)
+        XCTAssertNil(outputError)
+    }
+    
+    private func mockWordDefinition() -> WordDefinition {
+        return WordDefinition(
+            word: "example",
+            phonetic: "/ɪgˈzam.pəl/",
+            phonetics: [
+                .init(text: "phonetics 1"),
+                .init(text: "phonetics 2")
+            ],
+            origin: "origin",
+            meanings: [
+                .init(
+                partOfSpeech: "test",
+                definitions: [
+                    .init(
+                        definition: "definition1",
+                        example: "example1",
+                        synonyms: ["synonyms1", "synonyms2"],
+                        antonyms: ["antonyms1", "antonyms2"]),
+                    .init(
+                        definition: "definition2",
+                        example: "example2",
+                        synonyms: ["synonyms1", "synonyms2"],
+                        antonyms: ["antonyms1", "antonyms2"])
+                ])])
+    }
+    
+    private func mockImageResponse() -> ImageResponse {
+        return ImageResponse(hits: [
+            .init(webformatURL: "https://mock.com"),
+            .init(webformatURL: "https://mock.com"),
+            .init(webformatURL: "https://mock.com"),
+            .init(webformatURL: "https://mock.com")
+        ])
     }
 }
