@@ -78,11 +78,8 @@ class RealNetworkService: NetworkService {
         
         return session.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    throw URLError(.badServerResponse)
-                }
-                guard httpResponse.statusCode == 200 else {
-                    print("Merriam Webster API request for word: \(word) failed with status code: \(httpResponse.statusCode)")
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
                     throw URLError(.badServerResponse)
                 }
                 return data
@@ -113,31 +110,6 @@ class RealNetworkService: NetworkService {
                     throw URLError(.badServerResponse)
                 }
                 return response
-            }
-            .eraseToAnyPublisher()
-    }
-
-    private func fetchImages(word: String) -> AnyPublisher<[String], Error> {
-        guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
-            print("Invalid URL for: \(word)")
-            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
-        }
-        
-        return session.dataTaskPublisher(for: url)
-            .tryMap { data, response -> Data in
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    throw URLError(.badServerResponse)
-                }
-                guard httpResponse.statusCode == 200 else {
-                    print("Pixabay API request for word: \(word) images failed with status code: \(httpResponse.statusCode)")
-                    throw URLError(.badServerResponse)
-                }
-                return data
-            }
-            .decode(type: ImageResponse.self, decoder: JSONDecoder())
-            .map { $0.hits.map { $0.webformatURL } }
-            .catch { _ in
-                return Fail(error: MyError.imageNotFound)
             }
             .eraseToAnyPublisher()
     }
@@ -261,5 +233,26 @@ class RealNetworkService: NetworkService {
             }
             .eraseToAnyPublisher()
     }
-
+    
+    private func fetchImages(word: String) -> AnyPublisher<[String], Error> {
+        guard let url = URL(string: pixabayAPIURLString + "?key=\(Keys.pixabayApiKey)&q=\(word)") else {
+            print("Invalid URL for: \(word)")
+            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+        }
+        
+        return session.dataTaskPublisher(for: url)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return data
+            }
+            .decode(type: ImageResponse.self, decoder: JSONDecoder())
+            .map { $0.hits.map { $0.webformatURL } }
+            .catch { _ in
+                return Fail(error: MyError.imageNotFound)
+            }
+            .eraseToAnyPublisher()
+    }
 }

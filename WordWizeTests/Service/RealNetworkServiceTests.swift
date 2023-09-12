@@ -33,9 +33,6 @@ class RealNetworkServiceTests: XCTestCase {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         let card = Card(context: context)
         card.text = "example"
-        
-        var output: Card?
-        var outputError: Error?
 
         MockURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -62,29 +59,24 @@ class RealNetworkServiceTests: XCTestCase {
                     print("Test: Finished without error.")
                 case .failure(let error):
                     print("Test: Finished with error: \(error)")
-                    outputError = error
+                    XCTAssertNil(error)
                 }
                 expectation.fulfill()
             },
             receiveValue: { card in
                 print("Test: Received card: \(card)")
-                output = card
+                XCTAssertNotNil(card)
             }
         )
         .store(in: &cancellables)
 
         wait(for: [expectation], timeout: 3)
-        XCTAssertNotNil(output)
-        XCTAssertNil(outputError)
     }
     
     func testFetchDefinitionsAndImages_MerriamWebster_Success() {
         let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         let card = Card(context: context)
         card.text = "example"
-        
-        var output: Card?
-        var outputError: Error?
 
         MockURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -111,26 +103,21 @@ class RealNetworkServiceTests: XCTestCase {
                     print("Test: Finished without error.")
                 case .failure(let error):
                     print("Test: Finished with error: \(error)")
-                    outputError = error
+                    XCTAssertNil(error)
                 }
                 expectation.fulfill()
             },
             receiveValue: { card in
                 print("Test: Received card: \(card)")
-                output = card
+                XCTAssertNotNil(card)
             }
         )
         .store(in: &cancellables)
 
         wait(for: [expectation], timeout: 3)
-        XCTAssertNotNil(output)
-        XCTAssertNil(outputError)
     }
     
     func testFetchTranslations_Success() {
-        var output: TranslationResponse?
-        var outputError: Error?
-
         MockURLProtocol.requestHandler = { request in
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             let encoder = JSONEncoder()
@@ -149,21 +136,55 @@ class RealNetworkServiceTests: XCTestCase {
                     print("Test: Finished without error.")
                 case .failure(let error):
                     print("Test: Finished with error: \(error)")
-                    outputError = error
+                    XCTAssertNil(error)
                 }
                 expectation.fulfill()
             },
             receiveValue: { card in
                 print("Test: Received card: \(card)")
-                output = card
+                XCTAssertNotNil(card)
             }
         )
         .store(in: &cancellables)
 
         wait(for: [expectation], timeout: 3)
-        XCTAssertNotNil(output)
-        XCTAssertNil(outputError)
+    }
+    
+    func testRetryFetchingImages_Success() {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        let card = Card(context: context)
+        card.text = "example"
         
+        XCTAssertNil(card.imageDatasArray.first?.data)
+        
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(self.mockImageResponse())
+            
+            return (response, data)
+        }
+
+        let publisher = sut.retryFetchingImages(card: card, context: context)
+        let expectation = XCTestExpectation(description: "Network call succeeds.")
+
+        publisher.sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Test: Finished without error.")
+                case .failure(let error):
+                    print("Test: Finished with error: \(error)")
+                    XCTAssertNil(error)
+                }
+                expectation.fulfill()
+            },
+            receiveValue: { _ in }
+        )
+        .store(in: &cancellables)
+
+        wait(for: [expectation], timeout: 3)
+        XCTAssertNotNil(card.imageDatasArray.first?.data)
     }
 
     // MARK: - Mock Data
