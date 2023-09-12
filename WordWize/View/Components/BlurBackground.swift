@@ -15,7 +15,7 @@ struct BlurBackground: ViewModifier {
             .padding(.horizontal)
             .padding(.vertical, 10)
             .background {
-                TransparentBlurView(removeAllLayers: true)
+                TransparentBlurView()
                     .blur(radius: 9, opaque: true)
                     .background(Color.init(white: colorScheme == .dark ? 0.25 : 1)).opacity(0.5)
             }
@@ -32,38 +32,25 @@ extension View {
 }
 
 private struct TransparentBlurView: UIViewRepresentable {
-    var removeAllLayers = false
     func makeUIView(context: Context) -> TransparentBlurViewHelper {
-        return TransparentBlurViewHelper(removeAllFilters: removeAllLayers)
+        return TransparentBlurViewHelper()
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
         DispatchQueue.main.async {
             if let backdropLayer = uiView.layer.sublayers?.first {
-                if removeAllLayers {
-                    backdropLayer.filters = []
-                } else {
-                    backdropLayer.filters?.removeAll(where: { filter in
-                        String(describing: filter) != "gaussianBlur"
-                    })
-                }
+                backdropLayer.filters = []
             }
         }
     }
 }
 
 private class TransparentBlurViewHelper: UIVisualEffectView {
-    init(removeAllFilters: Bool) {
+    init() {
         super.init(effect: UIBlurEffect(style: .systemUltraThinMaterial))
         
         if let backdropLayer = layer.sublayers?.first {
-            if removeAllFilters {
-                backdropLayer.filters = []
-            } else {
-                backdropLayer.filters?.removeAll(where: { filter in
-                    String(describing: filter) != "gaussianBlur"
-                })
-            }
+            backdropLayer.filters = []
         }
     }
     
