@@ -42,24 +42,30 @@ class CardListViewModelTests: XCTestCase {
     }
 
     func testChangeMasteryRate() {
-        let card = Card(context: vm.container.persistence.viewContext)
-        vm.selectedCards.append(card)
-        vm.selectedRateString = "50%"
-        
-        vm.changeMasteryRate()
-        
-        XCTAssertEqual(card.masteryRate, 2)
+        let rates: [(String, Int16)] = [("0%", 0), ("25%", 1), ("50%", 2), ("75%", 3), ("100%", 4)]
+
+        rates.forEach { string, int in
+            let card = Card(context: vm.container.persistence.viewContext)
+            vm.selectedCards.append(card)
+            
+            vm.selectedRateString = string
+            vm.changeMasteryRate()
+            
+            XCTAssertEqual(card.masteryRate, int)
+        }
     }
     
     func testUpdateCard() {
-        let card = Card(context: vm.container.persistence.viewContext)
-        vm.selectedCard = card
-        vm.cardCategory = "Vegetables"
-        vm.selectedRate = 3
-        vm.updateCard()
+        let rates: [Int16] = [0, 1, 2, 3, 4]
         
-        XCTAssertEqual(card.category, "Vegetables")
-        XCTAssertEqual(card.masteryRate, 3)
+        rates.forEach { rate in
+            let card = Card(context: vm.container.persistence.viewContext)
+            vm.selectedCard = card
+            vm.selectedRate = rate
+            vm.updateCard()
+            
+            XCTAssertEqual(card.masteryRate, rate)
+        }
     }
     
     func testShowCardDetail() {
@@ -71,10 +77,21 @@ class CardListViewModelTests: XCTestCase {
         XCTAssertTrue(vm.navigateToCardDetail)
     }
     
+    func testShowCardDetailWithNilCategory() {
+        let card = Card(context: vm.container.persistence.viewContext)
+        card.category = nil
+        vm.showCardDetail(card)
+        
+        XCTAssertEqual(vm.cardCategory, "")
+        XCTAssertTrue(vm.navigateToCardDetail)
+    }
+    
     func testSelectCard() {
         let card = Card(context: vm.container.persistence.viewContext)
         vm.selectCard(card)
         XCTAssertTrue(vm.selectedCards.contains(where: { $0 == card }))
+        vm.selectCard(card)
+        XCTAssertFalse(vm.selectedCards.contains(where: { $0 == card }))
     }
     
     func testDeleteSelectedCards() {

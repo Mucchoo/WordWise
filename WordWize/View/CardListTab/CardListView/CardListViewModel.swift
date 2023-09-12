@@ -42,6 +42,69 @@ class CardListViewModel: ObservableObject {
         observeChanges()
     }
     
+    func changeMasteryRate() {
+        var masteryRate: Int16 {
+            switch selectedRateString {
+            case "0%":
+                return 0
+            case "25%":
+                return 1
+            case "50%":
+                return 2
+            case "75%":
+                return 3
+            default:
+                return 4
+            }
+        }
+        
+        selectedCards.forEach { card in
+            card.masteryRate = masteryRate
+        }
+        
+        container.coreDataService.saveAndReload()
+        multipleSelectionMode = false
+        updateCardList()
+    }
+    
+    func updateCard() {
+        guard let card = selectedCard else { return }
+        print("selectedMasteryRate: \(selectedRate)")
+        card.category = cardCategory
+        card.masteryRate = selectedRate
+        
+        var nextLearningDate: Int
+        switch card.masteryRate {
+        case 0:
+            nextLearningDate = 0
+        case 1:
+            nextLearningDate = 2
+        case 2:
+            nextLearningDate = 4
+        case 3:
+            nextLearningDate = 7
+        default:
+            nextLearningDate = 14
+        }
+        
+        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
+        container.coreDataService.saveAndReload()
+        updateCardList()
+    }
+    
+    func showCardDetail(_ card: Card) {
+        cardCategory = card.category ?? ""
+        navigateToCardDetail = true
+    }
+    
+    func selectCard(_ card: Card) {
+        if !selectedCards.contains(where: { $0 == card }) {
+            selectedCards.append(card)
+        } else {
+            selectedCards.removeAll(where: { $0 == card })
+        }
+    }
+    
     private func observeChanges() {
         container.appState.$cards
             .sink { [weak self] _ in
@@ -65,30 +128,6 @@ class CardListViewModel: ObservableObject {
         updateCardList()
     }
     
-    func changeMasteryRate() {
-        var masteryRate: Int16 = 0
-        switch selectedRateString {
-        case "25%":
-            masteryRate = 1
-        case "50%":
-            masteryRate = 2
-        case "75%":
-            masteryRate = 3
-        case "100%":
-            masteryRate = 4
-        default:
-            return
-        }
-        
-        selectedCards.forEach { card in
-            card.masteryRate = masteryRate
-        }
-        
-        container.coreDataService.saveAndReload()
-        multipleSelectionMode = false
-        updateCardList()
-    }
-    
     func updateCardList() {
         let filteredCards = container.appState.cards.filter { card in
             let categoryFilter = card.category == categoryName
@@ -105,46 +144,6 @@ class CardListViewModel: ObservableObject {
         container.coreDataService.saveAndReload()
         navigateToCardDetail = false
         updateCardList()
-    }
-    
-    func updateCard() {
-        guard let card = selectedCard else { return }
-        print("selectedMasteryRate: \(selectedRate)")
-        card.category = cardCategory
-        card.masteryRate = selectedRate
-        
-        var nextLearningDate: Int
-        switch card.masteryRate {
-        case 0:
-            nextLearningDate = 0
-        case 1:
-            nextLearningDate = 2
-        case 2:
-            nextLearningDate = 4
-        case 3:
-            nextLearningDate = 7
-        case 4:
-            nextLearningDate = 14
-        default:
-            return
-        }
-        
-        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())        
-        container.coreDataService.saveAndReload()
-        updateCardList()
-    }
-    
-    func showCardDetail(_ card: Card) {
-        cardCategory = card.category ?? ""
-        navigateToCardDetail = true
-    }
-    
-    func selectCard(_ card: Card) {
-        if !selectedCards.contains(where: { $0 == card }) {
-            selectedCards.append(card)
-        } else {
-            selectedCards.removeAll(where: { $0 == card })
-        }
     }
     
     func deleteSelectedCards() {
