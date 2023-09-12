@@ -13,7 +13,7 @@ import Combine
 class CoreDataServiceTests: XCTestCase {
     
     var persistence: Persistence!
-    var networkService: MockNetworkService!
+    var networkService: NetworkService!
     var appState: AppState!
     var sut: CoreDataService!
     var cancellables: Set<AnyCancellable>!
@@ -21,7 +21,7 @@ class CoreDataServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         persistence = .init(isMock: true)
-        networkService = .init()
+        networkService = .init(session: .mock)
         appState = .init()
         sut = .init(persistence: persistence, networkService: networkService, appState: appState)
         cancellables = []

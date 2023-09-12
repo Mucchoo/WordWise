@@ -35,6 +35,9 @@ struct DIContainer {
             MockHelper.shared.setupMockData(persistence: mockPersistence, appState: mockAppState)
         }
         
-        return .init(appState: mockAppState, networkService: MockNetworkService(), persistence: mockPersistence)
+        return .init(
+            appState: mockAppState,
+            networkService: NetworkService(session: .mock),
+            persistence: mockPersistence)
     }
 }

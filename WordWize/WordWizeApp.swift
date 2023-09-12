@@ -12,7 +12,7 @@ struct WordWizeApp: App {
     var body: some Scene {
         let container = DIContainer(
             appState: AppState(),
-            networkService: RealNetworkService(),
+            networkService: NetworkService(session: .shared),
             persistence: Persistence(isMock: false))
         
         WindowGroup {
