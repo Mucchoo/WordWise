@@ -78,6 +78,57 @@ class RealNetworkServiceTests: XCTestCase {
         XCTAssertNil(outputError)
     }
     
+    func testFetchDefinitionsAndImages_MerriamWebster_Success() {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        let card = Card(context: context)
+        card.text = "example"
+        
+        var output: Card?
+        var outputError: Error?
+
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let encoder = JSONEncoder()
+            encoder.keyEncodingStrategy = .convertToSnakeCase
+            var data: Data?
+            
+            if request.url!.absoluteString.contains("dictionaryapi.com") {
+                data = try encoder.encode([self.mockMerriamWebsterResponse()])
+            } else if request.url!.absoluteString.contains("pixabay.com") {
+                data = try encoder.encode(self.mockImageResponse())
+            }
+            
+            return (response, data ?? Data())
+        }
+
+        let publisher = sut.fetchDefinitionsAndImages(card: card, context: context)
+        let expectation = XCTestExpectation(description: "Network call succeeds.")
+
+        publisher.sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Test: Finished without error.")
+                case .failure(let error):
+                    print("Test: Finished with error: \(error)")
+                    outputError = error
+                }
+                expectation.fulfill()
+            },
+            receiveValue: { card in
+                print("Test: Received card: \(card)")
+                output = card
+            }
+        )
+        .store(in: &cancellables)
+
+        wait(for: [expectation], timeout: 3)
+        XCTAssertNotNil(output)
+        XCTAssertNil(outputError)
+    }
+
+    // MARK: - Mock Data
+    
     private func mockWordDefinition() -> WordDefinition {
         return WordDefinition(
             word: "example",
@@ -102,6 +153,14 @@ class RealNetworkServiceTests: XCTestCase {
                         synonyms: ["synonyms1", "synonyms2"],
                         antonyms: ["antonyms1", "antonyms2"])
                 ])])
+    }
+    
+    private func mockMerriamWebsterResponse() -> MerriamWebsterDefinition {
+        return MerriamWebsterDefinition(
+            fl: "fl", shortdef: [
+                "shortdef1",
+                "shortdef2"
+            ])
     }
     
     private func mockImageResponse() -> ImageResponse {
