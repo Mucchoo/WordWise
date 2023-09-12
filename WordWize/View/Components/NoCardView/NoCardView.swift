@@ -96,7 +96,7 @@ struct NoCardView: View {
     }
 }
 
-private extension CGSize {
+extension CGSize {
     static func randomOffset() -> CGSize {
         let horizontalRange = UIScreen.main.bounds.width / 2 + 100
         let verticalRange = UIScreen.main.bounds.height / 2 + 100

@@ -32,4 +32,18 @@ final class NoCardViewTests: XCTestCase {
     func testFindText() throws {
         XCTAssertNoThrow(try sut.inspect().vStack().zStack(1).vStack(1).text(1).string())
     }
+    
+    func testRandomOffsetWithinBounds() {
+        for _ in 1...100 {
+            let offset = CGSize.randomOffset()
+            let horizontalRange = UIScreen.main.bounds.width / 2 + 100
+            let verticalRange = UIScreen.main.bounds.height / 2 + 100
+
+            XCTAssertGreaterThanOrEqual(offset.width, -horizontalRange)
+            XCTAssertLessThanOrEqual(offset.width, horizontalRange)
+
+            XCTAssertGreaterThanOrEqual(offset.height, -verticalRange)
+            XCTAssertLessThanOrEqual(offset.height, verticalRange)
+        }
+    }
 }
