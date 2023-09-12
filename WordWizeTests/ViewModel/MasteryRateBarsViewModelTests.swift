@@ -50,6 +50,11 @@ class MasteryRateBarsViewModelTests: XCTestCase {
         XCTAssertEqual(vm.maxCount, 3, "MaxCount should be 3")
     }
     
+    func testMaxCountWithNoCards() {
+        vm.container.appState.cards = []
+        XCTAssertEqual(vm.maxCount, 1)
+    }
+    
     func testCountForRate() {
         let cards = [
             helper.mockCard(rate: .zero, context: context),

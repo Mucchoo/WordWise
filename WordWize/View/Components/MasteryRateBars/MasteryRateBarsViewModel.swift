@@ -34,7 +34,7 @@ class MasteryRateBarsViewModel: ObservableObject {
             return cards.filter { $0.masteryRate == rate.rawValue }.count
         }
         
-        let maxCount = counts.max() ?? 0
+        let maxCount = counts.max()!
         return maxCount > 0 ? maxCount : 1
     }
     
@@ -49,14 +49,6 @@ class MasteryRateBarsViewModel: ObservableObject {
     init(container: DIContainer, categoryName: String) {
         self.container = container
         self.categoryName = categoryName
-    }
-    
-    func updateCards(for categoryName: String) -> [Card] {
-        if categoryName.isEmpty {
-            return cards
-        } else {
-            return cards.filter({ $0.category == categoryName })
-        }
     }
     
     func getCount(_ rate: MasteryRate) -> String {
