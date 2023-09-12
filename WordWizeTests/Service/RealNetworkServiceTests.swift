@@ -14,23 +14,25 @@ class RealNetworkServiceTests: XCTestCase {
     var sut: RealNetworkService!
     var mockSession: URLSession!
     var cancellables: Set<AnyCancellable>!
+    var context: NSManagedObjectContext!
     
     override func setUp() {
         super.setUp()
         mockSession = .mock
         sut = RealNetworkService(session: mockSession)
         cancellables = []
+        context = Persistence(isMock: true).viewContext
     }
     
     override func tearDown() {
         sut = nil
         mockSession = nil
         cancellables = nil
+        context = nil
         super.tearDown()
     }
     
     func testFetchDefinitionsAndImages_FreeAPI_Success() {
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         let card = Card(context: context)
         card.text = "example"
 
@@ -74,7 +76,6 @@ class RealNetworkServiceTests: XCTestCase {
     }
     
     func testFetchDefinitionsAndImages_MerriamWebster_Success() {
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         let card = Card(context: context)
         card.text = "example"
 
@@ -151,7 +152,6 @@ class RealNetworkServiceTests: XCTestCase {
     }
     
     func testRetryFetchingImages_Success() {
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         let card = Card(context: context)
         card.text = "example"
         
