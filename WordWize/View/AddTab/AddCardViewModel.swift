@@ -47,10 +47,8 @@ class AddCardViewModel: ObservableObject {
             return "Add Category"
         case .fetchFailed:
             return "Failed to add cards"
-        case .fetchSucceeded:
+        default:
             return "Added Cards"
-        case nil:
-            return ""
         }
     }
     
@@ -60,15 +58,12 @@ class AddCardViewModel: ObservableObject {
             return "Please enter the new category name."
         case .fetchFailed:
             return "Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))"
-        case .fetchSucceeded:
+        default:
             return "Added \(addedCardCount) cards successfully."
-        case nil:
-            return ""
         }
     }
     
     init(container: DIContainer) {
-        print("init AddCardViewModel categories: \(container.appState.categories)")
         self.container = container
     }
     
@@ -76,10 +71,8 @@ class AddCardViewModel: ObservableObject {
         let cancellable = generateCards()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                guard let self = self else { return }
-                self.generatingCards = false
-                print("generateCards completed failedWords: \(fetchFailedWords)")
-                self.currentAlert = self.fetchFailedWords.isEmpty == true ? .fetchSucceeded : .fetchFailed
+                self?.generatingCards = false
+                self?.currentAlert = self?.fetchFailedWords.isEmpty == true ? .fetchSucceeded : .fetchFailed
             }
         
         cancellable.store(in: &cancellables)
@@ -179,9 +172,9 @@ class AddCardViewModel: ObservableObject {
     }
     
     func setDefaultCategory() {
-        guard let defaultCategory = container.appState.categories.first?.name,
-              selectedCategory.isEmpty else { return }
-        
-        selectedCategory = defaultCategory
+        if let defaultCategory = container.appState.categories.first?.name,
+           selectedCategory.isEmpty {
+            selectedCategory = defaultCategory
+        }
     }
 }

@@ -23,6 +23,7 @@ class AddCardViewModelTests: XCTestCase {
     override func tearDown() {
         vm = nil
         cancellables = nil
+        MockURLProtocol.shouldFailUrls = []
         super.tearDown()
     }
     
@@ -47,7 +48,7 @@ class AddCardViewModelTests: XCTestCase {
         vm.cardText = "apple\norange"
         
         vm.$currentAlert.sink { alertType in
-            if let alertType = alertType {
+            if let alertType {
                 XCTAssertEqual(alertType, .fetchSucceeded)
                 expectation.fulfill()
             }
@@ -55,7 +56,7 @@ class AddCardViewModelTests: XCTestCase {
         
         vm.generateCards()
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testFetchSucceeded() {
@@ -70,7 +71,7 @@ class AddCardViewModelTests: XCTestCase {
         
         vm.generateCards()
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testDisplayText() {
@@ -89,9 +90,11 @@ class AddCardViewModelTests: XCTestCase {
         
         vm.currentAlert = .fetchFailed
         XCTAssertEqual(vm.alertTitle, "Failed to add cards")
+        XCTAssertTrue(vm.alertMessage.contains("Failed to find these wards on the dictionary"))
         
         vm.currentAlert = .fetchSucceeded
         XCTAssertEqual(vm.alertTitle, "Added Cards")
+        XCTAssertTrue(vm.alertMessage.contains("Added"))
     }
     
     func testShouldDisableAddCardButton() {
@@ -133,12 +136,12 @@ class AddCardViewModelTests: XCTestCase {
         vm.textFieldInput = "Fruits"
         vm.addCategory()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             XCTAssertTrue(self.vm.container.appState.categories.contains { $0.name == "Fruits" })
             expectation.fulfill()
         }
         
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: 1)
     }
     
     func testRequestedAndFetchedWordCount() {
@@ -154,28 +157,38 @@ class AddCardViewModelTests: XCTestCase {
         
         vm.generateCards()
         
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
         
         XCTAssertEqual(vm.requestedWordCount, 2)
         XCTAssertEqual(vm.fetchedWordCount, 2)
     }
     
-    func testAlertAfterGenerateCards() {
-        let expectation = XCTestExpectation(description: "Alert after generating cards")
+    func testGenerateCardsFail() {
+        let expectation = XCTestExpectation(description: "generating cards")
+
+        vm.cardText = "test"
+        MockURLProtocol.shouldFailUrls = [APIURL.freeDictionary, APIURL.merriamWebster]
+        vm.generateCards()
         
-        vm.cardText = "apple\norange"
-        
-        vm.$showingAlert.sink { isShowing in
-            if isShowing {
-                DispatchQueue.main.async {
-                    XCTAssertTrue(self.vm.showingAlert)
-                    expectation.fulfill()
-                }
+        vm.$showingAlert.sink { value in
+            if value {
+                XCTAssertEqual(self.vm.currentAlert, .fetchFailed)
+                XCTAssertEqual(self.vm.fetchFailedWords, ["test"])
+                expectation.fulfill()
             }
         }.store(in: &cancellables)
         
-        vm.generateCards()
-        
-        wait(for: [expectation], timeout: 5)
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testUpdateTextEditorShowPlaceholder() {
+        vm.updateTextEditor(text: "", isFocused: false)
+        XCTAssertTrue(vm.showPlaceholder)
+    }
+    
+    func testTogglePlaceHolderShouldBeTrue() {
+        vm.cardText = vm.placeHolder
+        vm.togglePlaceHolder(false)
+        XCTAssertTrue(vm.showPlaceholder)
     }
 }

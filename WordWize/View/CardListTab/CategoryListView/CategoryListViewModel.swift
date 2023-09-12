@@ -34,20 +34,22 @@ class CategoryListViewModel: ObservableObject {
     
     func deleteCategory() {
         guard let category = container.appState.categories.first(where: { $0.name == targetCategoryName }) else { return }
-        container.persistence.viewContext.delete(category)
-        container.appState.categories.removeAll(where: { $0.name == category.name })
         
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = Card.fetchRequest()
+        let fetchRequest: NSFetchRequest<Card> = Card.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "category == %@", targetCategoryName)
         
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
         do {
-            try container.persistence.viewContext.execute(batchDeleteRequest)
+            let cardsToDelete = try container.persistence.viewContext.fetch(fetchRequest)
+            
+            for card in cardsToDelete {
+                container.persistence.viewContext.delete(card)
+            }
         } catch {
-            print("Failed to execute batch delete: \(error)")
+            print("Failed to fetch cards for deletion: \(error)")
         }
         
+        container.persistence.viewContext.delete(category)
+        container.appState.categories.removeAll(where: { $0.name == category.name })
         container.coreDataService.saveAndReload()
     }
 }

@@ -16,7 +16,7 @@ extension URLSession {
 }
 
 class MockURLProtocol: URLProtocol {
-    static var shouldFailUrl: String?
+    static var shouldFailUrls: [String] = []
     
     override class func canInit(with request: URLRequest) -> Bool {
         return true
@@ -44,10 +44,8 @@ class MockURLProtocol: URLProtocol {
         let urlString = request.url!.absoluteString
         
         var data: Data?
-        
-        if let url = MockURLProtocol.shouldFailUrl, urlString.contains(url) {
-            MockURLProtocol.shouldFailUrl = nil
-        } else if urlString.contains(APIURL.pixabay) {
+                
+        if urlString.contains(APIURL.pixabay) {
             data = mockImageResponse
         } else if urlString.contains(APIURL.freeDictionary) {
             data = mockWordDefinition
@@ -55,6 +53,12 @@ class MockURLProtocol: URLProtocol {
             data = mockMerriamWebsterResponse
         } else if urlString.contains(APIURL.deepL) {
             data = mockTranslationResponse
+        }
+        
+        MockURLProtocol.shouldFailUrls.forEach { shouldFailUrlString in
+            if urlString.contains(shouldFailUrlString) {
+                data = nil
+            }
         }
         
         return (response, data)

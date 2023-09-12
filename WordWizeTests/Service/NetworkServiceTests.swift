@@ -29,6 +29,7 @@ class NetworkServiceTests: XCTestCase {
         mockSession = nil
         cancellables = nil
         context = nil
+        MockURLProtocol.shouldFailUrls = []
         super.tearDown()
     }
     
@@ -64,7 +65,7 @@ class NetworkServiceTests: XCTestCase {
         let card = Card(context: context)
         card.text = "example"
         
-        MockURLProtocol.shouldFailUrl = APIURL.freeDictionary
+        MockURLProtocol.shouldFailUrls.append(APIURL.freeDictionary)
         let publisher = sut.fetchDefinitionsAndImages(card: card, context: context)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 

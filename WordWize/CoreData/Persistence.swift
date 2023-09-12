@@ -17,17 +17,19 @@ class Persistence: ObservableObject {
 
     init(isMock: Bool) {
         container = NSPersistentCloudKitContainer(name: "Card")
-
+        
         if isMock {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            let description = NSPersistentStoreDescription()
+            description.type = NSInMemoryStoreType
+            container.persistentStoreDescriptions = [description]
         }
-
-        container.loadPersistentStores { storeDescription, error in
+        
+        container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 print("Unresolved error \(error.localizedDescription), \(error.userInfo)")
             }
         }
-
+        
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         
@@ -42,7 +44,7 @@ class Persistence: ObservableObject {
 
     func saveContext() {
         let context = container.viewContext
-
+        
         if context.hasChanges {
             do {
                 try context.save()
@@ -52,4 +54,3 @@ class Persistence: ObservableObject {
         }
     }
 }
-
