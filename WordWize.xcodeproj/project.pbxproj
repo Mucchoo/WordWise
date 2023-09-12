@@ -61,6 +61,7 @@
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
 		C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66750C52AAD191300C19343 /* CardViewTests.swift */; };
 		C66F29952AAFE8EE00A73967 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */; };
+		C66F29992AB1260F00A73967 /* CardsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66F29982AB1260F00A73967 /* CardsViewModelTests.swift */; };
 		C67328E52AACDEE5008D06C8 /* NoCardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */; };
 		C67328E72AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E62AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift */; };
 		C67328E92AACEE59008D06C8 /* CardListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328E82AACEE59008D06C8 /* CardListViewTests.swift */; };
@@ -154,6 +155,7 @@
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		C66750C52AAD191300C19343 /* CardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewTests.swift; sourceTree = "<group>"; };
 		C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		C66F29982AB1260F00A73967 /* CardsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModelTests.swift; sourceTree = "<group>"; };
 		C67328E42AACDEE5008D06C8 /* NoCardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewTests.swift; sourceTree = "<group>"; };
 		C67328E62AACE905008D06C8 /* WhatIsMasteryRateViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatIsMasteryRateViewTests.swift; sourceTree = "<group>"; };
 		C67328E82AACEE59008D06C8 /* CardListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListViewTests.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */,
 				C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */,
 				C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */,
+				C66F29982AB1260F00A73967 /* CardsViewModelTests.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */,
 				C676D7572AADE23400982CB1 /* PickerAlertTests.swift in Sources */,
 				C67328F12AAD0A35008D06C8 /* CategoryListViewTests.swift in Sources */,
+				C66F29992AB1260F00A73967 /* CardsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

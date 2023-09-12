@@ -28,17 +28,14 @@ class CardsViewModel: ObservableObject {
 
     func getRemainingDays(_ nextLearningDate: Date?) -> String {
         guard let nextLearningDate = nextLearningDate else { return "" }
-
+        
         let components = Calendar.current.dateComponents([.day], from: Date(), to: nextLearningDate)
-
-        if let remainingDays = components.day {
-            if remainingDays == 0 {
-                return "1 day left"
-            } else {
-                return "\(remainingDays + 1) days left"
-            }
+        let remainingDays = components.day!
+        
+        if remainingDays == 0 {
+            return "1 day left"
+        } else {
+            return "\(remainingDays + 1) days left"
         }
-
-        return ""
     }
 }
