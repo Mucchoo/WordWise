@@ -126,6 +126,45 @@ class RealNetworkServiceTests: XCTestCase {
         XCTAssertNotNil(output)
         XCTAssertNil(outputError)
     }
+    
+    func testFetchTranslations_Success() {
+        var output: TranslationResponse?
+        var outputError: Error?
+
+        MockURLProtocol.requestHandler = { request in
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let encoder = JSONEncoder()
+            let data = try encoder.encode(self.mockTranslationResponse())
+            
+            return (response, data)
+        }
+
+        let publisher = sut.fetchTranslations(["text1", "text2"])
+        let expectation = XCTestExpectation(description: "Network call succeeds.")
+
+        publisher.sink(
+            receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("Test: Finished without error.")
+                case .failure(let error):
+                    print("Test: Finished with error: \(error)")
+                    outputError = error
+                }
+                expectation.fulfill()
+            },
+            receiveValue: { card in
+                print("Test: Received card: \(card)")
+                output = card
+            }
+        )
+        .store(in: &cancellables)
+
+        wait(for: [expectation], timeout: 3)
+        XCTAssertNotNil(output)
+        XCTAssertNil(outputError)
+        
+    }
 
     // MARK: - Mock Data
     
@@ -166,9 +205,14 @@ class RealNetworkServiceTests: XCTestCase {
     private func mockImageResponse() -> ImageResponse {
         return ImageResponse(hits: [
             .init(webformatURL: "https://mock.com"),
-            .init(webformatURL: "https://mock.com"),
-            .init(webformatURL: "https://mock.com"),
             .init(webformatURL: "https://mock.com")
+        ])
+    }
+    
+    private func mockTranslationResponse() -> TranslationResponse {
+        return TranslationResponse(translations: [
+            .init(detected_source_language: "mock", text: "mock text"),
+            .init(detected_source_language: "mock", text: "mock text")
         ])
     }
 }
