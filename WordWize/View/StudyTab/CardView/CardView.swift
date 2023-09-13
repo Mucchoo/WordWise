@@ -25,6 +25,7 @@ struct CardView: View {
         VStack {
             dismissBar
             progressBar
+            wordSection
             wordInfoSection
             bottomButtons
         }
@@ -85,7 +86,6 @@ struct CardView: View {
                         
                         ZStack {
                             VStack {
-                                wordSection
                                 definitionSection
                                 
                                 if vm.currentCard.card.imageDatasArray.count > 0 {
@@ -108,7 +108,8 @@ struct CardView: View {
                         vm.shouldScrollToTop = false
                     }
                 }
-            }.opacity(vm.isFinished ? 0 : 1)
+            }
+            .opacity(vm.isFinished ? 0 : 1)
         }
     }
     
