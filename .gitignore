@@ -41,7 +41,3 @@ playground.xcworkspace
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
-
-# Confidential files
-#
-WordWize/Helper/Keys.swift
