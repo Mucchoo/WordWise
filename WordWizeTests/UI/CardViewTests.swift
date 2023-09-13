@@ -45,7 +45,7 @@ final class CardViewTests: XCTestCase {
     }
     
     func testWordInfoSection() throws {
-        let section = try sut.inspect().vStack().zStack(2)
+        let section = try sut.inspect().vStack().zStack(3)
         
         let rectangle = try section.find(viewWithAccessibilityIdentifier: "coverRectangle")
         XCTAssertEqual(try rectangle.opacity(), vm.isDefinitionVisible ? 0 : 1)
@@ -55,7 +55,7 @@ final class CardViewTests: XCTestCase {
     }
     
     func testCompletionView() throws {
-        let view = try sut.inspect().vStack().zStack(2).geometryReader(0)
+        let view = try sut.inspect().vStack().zStack(3).geometryReader(0)
         
         XCTAssertEqual(try view.vStack().text(0).string(), "Finished!")
         XCTAssertEqual(try view.vStack().image(1).actualImage().name(), "checkmark.circle")
@@ -70,7 +70,7 @@ final class CardViewTests: XCTestCase {
     }
     
     func testWordSection() throws {
-        let section = try sut.inspect().vStack().zStack(2).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).hStack(0)
+        let section = try sut.inspect().vStack().hStack(2)
         
         XCTAssertEqual(try section.vStack(2).text(0).string(), vm.currentCard.card.text ?? "")
         XCTAssertEqual(try section.vStack(2).text(1).string(), vm.currentCard.card.phoneticsArray.first?.text ?? "")
@@ -92,13 +92,13 @@ final class CardViewTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
         sut = CardView(vm: vm, showingCardView: .constant(true))
             
-        let section = try sut.inspect().vStack().zStack(2).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).hStack(0)
+        let section = try sut.inspect().vStack().hStack(2)
         let deepLButton = try section.button(4)
         XCTAssertNoThrow(try deepLButton.labelView().progressView())
     }
     
     func testDefinitionSection() throws {
-        let section = try sut.inspect().vStack().zStack(2).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(1)
+        let section = try sut.inspect().vStack().zStack(3).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(0)
                 
         let meaningsCount = vm.currentCard.card.meaningsArray.count
         
@@ -113,7 +113,7 @@ final class CardViewTests: XCTestCase {
     
     func testImageSection() throws {
         let gridSize = (UIScreen.main.bounds.width - 21) / 2
-        let section = try sut.inspect().vStack().zStack(2).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(2)
+        let section = try sut.inspect().vStack().zStack(3).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(1)
         
         let innerVStack = try section.vStack(0)
         let firstHStack = try innerVStack.hStack(0)
@@ -147,7 +147,7 @@ final class CardViewTests: XCTestCase {
     }
     
     func testDefinitionDetailView() throws {
-        let definitionSection = try sut.inspect().vStack().zStack(2).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(1)
+        let definitionSection = try sut.inspect().vStack().zStack(3).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(0)
         
         for index in vm.currentCard.card.meaningsArray.indices {
               let detailView = try definitionSection.forEach(0).tupleView(0).vStack(1)
@@ -185,7 +185,7 @@ final class CardViewTests: XCTestCase {
     }
     
     func testBottomButtons() throws {
-        let view = try sut.inspect().vStack().zStack(3)
+        let view = try sut.inspect().vStack().zStack(4)
         
         let goToTopPageButton = try view.button(0)
         XCTAssertEqual(try goToTopPageButton.opacity(), vm.isFinished ? 1.0 : 0.0)
