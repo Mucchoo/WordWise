@@ -31,9 +31,6 @@ struct AccountView: View {
                         feedbackView
                     }
                     .blurBackground()
-                    
-                    resetLearningDataView
-                        .blurBackground()
                 }
             }
             .gradientBackground()
@@ -90,27 +87,6 @@ struct AccountView: View {
         .padding(.vertical, 8)
         .sheet(isPresented: $vm.isShowingMail) {
             MailView() { result in }
-        }
-    }
-    
-    private var resetLearningDataView: some View {
-        HStack {
-            Button(action: vm.showResetAlert) {
-                Text("\(Image(systemName: "trash")) Reset Learning Data")
-                    .foregroundColor(.red)
-                    .cornerRadius(10)
-            }
-            .accessibilityIdentifier("resetButton")
-            .alert("Are you sure to reset all the learning data?", isPresented: $vm.showingResetAlert) {
-                Button("Reset", role: .destructive, action: vm.resetLearningData)
-                    .accessibilityIdentifier("alertResetButton")
-                Button("Cancel", role: .cancel) {}
-                    .accessibilityIdentifier("alertCancelButton")
-            } message: {
-                Text("Failed times and the status of all cards will be reset.")
-            }
-            
-            Spacer()
         }
     }
 }
