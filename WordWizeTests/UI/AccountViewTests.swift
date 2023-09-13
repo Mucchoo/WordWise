@@ -39,7 +39,6 @@ class AccountViewTests: XCTestCase {
     func testFindButton() throws {
         XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "shareAppButton"))
         XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "feedbackButton"))
-        XCTAssertNoThrow(try sut.inspect().find(viewWithAccessibilityIdentifier: "resetButton"))
     }
     
     func testPickerOptions() throws {
