@@ -184,6 +184,7 @@ struct CardView: View {
             .padding(.trailing, 10)
             .animation(.easeIn(duration: 0.3), value: vm.isDefinitionVisible)
         }
+        .padding(.top, 10)
     }
     
     private var definitionSection: some View {
