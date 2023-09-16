@@ -13,7 +13,6 @@ import ViewInspector
 class PickerAlertTests: XCTestCase {
     
     var vm: CardListViewModel!
-    var sut: PickerAlert!
     
     override func setUp() {
         super.setUp()
@@ -22,12 +21,12 @@ class PickerAlertTests: XCTestCase {
     
     override func tearDown() {
         vm = nil
-        sut = nil
         super.tearDown()
     }
     
     func testPickerAlertInitWithCategory() {
-        sut = PickerAlert(vm: vm, type: .category)
+        vm.pickerAlertType = .category
+        let sut = PickerAlert(vm: vm)
         
         XCTAssertEqual(sut.title, "Change Category")
         XCTAssertEqual(sut.message, "Select new category for the 0 cards.")
@@ -35,16 +34,18 @@ class PickerAlertTests: XCTestCase {
     }
     
     func testPickerAlertInitWithMasteryRate() {
-        sut = PickerAlert(vm: vm, type: .masteryRate)
+        vm.pickerAlertType = .masteryRate
+        let sut = PickerAlert(vm: vm)
+
         let options: [String] = MasteryRate.allValues.map { $0.stringValue() + "%" }
-        
         XCTAssertEqual(sut.title, "Change Mastery Rate")
         XCTAssertEqual(sut.message, "Select Mastery Rate for the 0 cards.")
         XCTAssertEqual(sut.options, options)
     }
     
     func testAlertConfigurationForCategory() throws {
-        sut = PickerAlert(vm: vm, type: .category)
+        vm.pickerAlertType = .category
+        let sut = PickerAlert(vm: vm)
         
         XCTAssertEqual(sut.title, "Change Category")
         XCTAssertEqual(sut.message, "Select new category for the \(vm.selectedCards.count) cards.")
@@ -54,8 +55,9 @@ class PickerAlertTests: XCTestCase {
     }
     
     func testAlertConfigurationForMasteryRate() throws {
-        sut = PickerAlert(vm: vm, type: .masteryRate)
-        
+        vm.pickerAlertType = .masteryRate
+        let sut = PickerAlert(vm: vm)
+
         XCTAssertEqual(sut.title, "Change Mastery Rate")
         XCTAssertEqual(sut.message, "Select Mastery Rate for the \(vm.selectedCards.count) cards.")
         

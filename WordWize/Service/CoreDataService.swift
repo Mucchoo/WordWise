@@ -34,6 +34,7 @@ class CoreDataService {
             DispatchQueue.main.async {
                 self.appState.cards = fetchedCards
                 self.appState.isDataLoaded = true
+                self.createMissingCategoryIfNeeded()
             }
         } catch let error as NSError {
             print("Could not fetch Cards. \(error), \(error.userInfo)")
@@ -126,6 +127,23 @@ class CoreDataService {
             }
         }
         
+        saveAndReload()
+    }
+    
+    private func createMissingCategoryIfNeeded() {
+        var missingCategoryName = ""
+        
+        appState.cards.forEach { card in
+            if !appState.categories.contains(where: { $0.name == card.category }) {
+                missingCategoryName = card.category ?? ""
+            }
+        }
+        
+        guard !missingCategoryName.isEmpty else { return }
+        
+        let missingCategory = CardCategory(context: persistence.viewContext)
+        missingCategory.name = missingCategoryName
+        appState.categories.append(missingCategory)
         saveAndReload()
     }
 }
