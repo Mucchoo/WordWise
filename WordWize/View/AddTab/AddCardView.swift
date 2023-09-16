@@ -10,7 +10,6 @@ import Combine
 import SwiftUI
 
 struct AddCardView: View {
-    @StateObject private var keyboardResponder = KeyboardResponder()
     @StateObject private var vm: AddCardViewModel
     @FocusState private var isFocused: Bool
     
@@ -20,18 +19,21 @@ struct AddCardView: View {
         
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
+            ZStack {
                 VStack(spacing: 0) {
                     categoryPicker
-                    textEditorView(baseHeight: geometry.size.height)
+                    textEditorView
+                }
+                
+                VStack {
                     Spacer()
                     generateButton
+                        .padding(.bottom, 100)
                 }
-                .padding(.bottom, 90)
-                .gradientBackground()
-                .navigationBarTitle("Add Cards", displayMode: .large)
                 .ignoresSafeArea(edges: .bottom)
             }
+            .gradientBackground()
+            .navigationBarTitle("Add Cards", displayMode: .large)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -94,7 +96,7 @@ struct AddCardView: View {
         .accessibilityIdentifier("addCategoryButton")
     }
     
-    private func textEditorView(baseHeight: CGFloat) -> some View {
+    private var textEditorView: some View {
         TextEditor(text: Binding(
             get: { vm.displayText },
             set: { vm.cardText = $0 }
@@ -110,7 +112,7 @@ struct AddCardView: View {
         }
         .blurBackground()
         .accessibilityIdentifier("addCardViewTextEditor")
-        .frame(height: baseHeight - (isFocused ? 80 : 180))
+        .padding(.bottom, isFocused ? 0 : 90)
     }
     
     private var generateButton: some View {
