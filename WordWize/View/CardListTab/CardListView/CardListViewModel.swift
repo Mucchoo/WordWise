@@ -16,8 +16,8 @@ class CardListViewModel: ObservableObject {
     @Published var selectedCards: [Card] = []
     @Published var searchBarText = ""
     @Published var pickerAlertValue = ""
-    @Published var showingPickerAlert = false
-    @Published var showingChangeMasteryRateView = false
+    @Published var pickerAlertType: PickerAlert.ViewType?
+    
     @Published var showingDeleteCardsAlert = false
     @Published var cardCategory = ""
     @Published var navigateToCardDetail = false

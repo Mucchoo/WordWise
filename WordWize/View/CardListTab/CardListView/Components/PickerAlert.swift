@@ -18,8 +18,10 @@ struct PickerAlert: UIViewControllerRepresentable {
     var options: [String] = []
     var onConfirm: (() -> ())?
     
-    init(vm: CardListViewModel, type: ViewType) {
+    init(vm: CardListViewModel) {
         self.vm = vm
+        
+        guard let type = vm.pickerAlertType else { return }
         
         if type == .category {
             title = "Change Category"
@@ -39,12 +41,21 @@ struct PickerAlert: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        if vm.showingPickerAlert, context.coordinator.alertController == nil {
+        if let type = vm.pickerAlertType, context.coordinator.alertController == nil {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             
             let pickerView = UIPickerView()
             pickerView.dataSource = context.coordinator
             pickerView.delegate = context.coordinator
+            
+            var newOptions: [String] = []
+            if type == .category {
+                newOptions = vm.container.appState.categories.map { $0.name ?? "" }
+            } else {
+                newOptions = MasteryRate.allValues.map { $0.stringValue() + "%" }
+            }
+            
+            context.coordinator.optionsChanged(newOptions: newOptions)
             
             let pickerViewController = UIViewController()
             pickerViewController.view = pickerView
@@ -53,13 +64,13 @@ struct PickerAlert: UIViewControllerRepresentable {
             alert.setValue(pickerViewController, forKey: "contentViewController")
             
             alert.addAction(UIAlertAction(title: "Confirm", style: .default) { _ in
-                vm.showingPickerAlert = false
+                vm.pickerAlertType = nil
                 context.coordinator.alertController = nil
                 onConfirm?()
             })
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
-                vm.showingPickerAlert = false
+                vm.pickerAlertType = nil
                 context.coordinator.alertController = nil
             })
             
@@ -67,7 +78,7 @@ struct PickerAlert: UIViewControllerRepresentable {
             uiViewController.present(alert, animated: true) {
                 context.coordinator.alertController = nil
             }
-        } else if !vm.showingPickerAlert, let alertController = context.coordinator.alertController, alertController.isBeingPresented {
+        } else if vm.pickerAlertType == nil, let alertController = context.coordinator.alertController, alertController.isBeingPresented {
             alertController.dismiss(animated: true) {
                 context.coordinator.alertController = nil
             }
@@ -101,6 +112,11 @@ struct PickerAlert: UIViewControllerRepresentable {
         
         func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
             parent.vm.pickerAlertValue = parent.options[row]
+        }
+        
+        func optionsChanged(newOptions: [String]) {
+            parent.options = newOptions
+            pickerView?.reloadAllComponents()
         }
     }
 }

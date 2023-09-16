@@ -28,8 +28,7 @@ struct CardListView: View {
             }
         }
         .gradientBackground()
-        .background(PickerAlert(vm: vm, type: .category))
-        .background(PickerAlert(vm: vm, type: .masteryRate))
+        .background(PickerAlert(vm: vm))
         .navigationBarTitle(vm.categoryName, displayMode: .large)
         .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
         .onChange(of: vm.container.appState.cards) { _ in
@@ -63,13 +62,13 @@ struct CardListView: View {
                 } else {
                     Menu("Actions...") {
                         Button(action: {
-                            vm.showingPickerAlert = true
+                            vm.pickerAlertType = .category
                         }) {
                             Label("Change Category", systemImage: "folder.fill")
                         }
                         
                         Button(action: {
-                            vm.showingChangeMasteryRateView = true
+                            vm.pickerAlertType = .masteryRate
                         }) {
                             Label("Change Mastery Rate", systemImage: "chart.bar.fill")
                         }
