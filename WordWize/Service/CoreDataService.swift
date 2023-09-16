@@ -58,7 +58,7 @@ class CoreDataService {
         }
     }
 
-    func retryFetchingImages() {
+    func retryFetchingImagesIfNeeded() {
         let cardsFailedFetchingImages = appState.cards.filter { $0.retryFetchImages }
         
         let fetchPublishers = cardsFailedFetchingImages.publisher

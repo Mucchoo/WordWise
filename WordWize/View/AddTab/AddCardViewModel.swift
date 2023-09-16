@@ -99,7 +99,7 @@ class AddCardViewModel: ObservableObject {
                     .sink { completion in
                         self.addedCardCount = words.count
                         self.container.persistence.saveContext()
-                        self.container.coreDataService.retryFetchingImages()
+                        self.container.coreDataService.retryFetchingImagesIfNeeded()
                         promise(.success(()))
                     } receiveValue: { result in
                         switch result {

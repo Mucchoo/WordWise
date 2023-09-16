@@ -40,7 +40,7 @@ class CoreDataServiceTests: XCTestCase {
         let card = Card(context: persistence.viewContext)
         card.retryFetchImages = true
         appState.cards = [card]
-        sut.retryFetchingImages()
+        sut.retryFetchingImagesIfNeeded()
     }
     
     func testAddDefaultCategoryIfNeeded() {
