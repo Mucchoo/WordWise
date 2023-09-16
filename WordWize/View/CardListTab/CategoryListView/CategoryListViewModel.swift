@@ -22,13 +22,11 @@ class CategoryListViewModel: ObservableObject {
     }
     
     func renameCategory() {
-        guard let category = container.appState.categories.first(where: { $0.name == targetCategoryName }) else { return }
-        
-        container.appState.cards.filter({ $0.category == category.name }).forEach { card in
+        container.appState.cards.filter({ $0.category == targetCategoryName }).forEach { card in
             card.category = categoryNameTextFieldInput
         }
         
-        category.name = categoryNameTextFieldInput
+        container.appState.categories.first(where: { $0.name == targetCategoryName })?.name = categoryNameTextFieldInput
         container.coreDataService.saveAndReload()
     }
     
