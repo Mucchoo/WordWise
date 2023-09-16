@@ -18,6 +18,7 @@ struct APIURL {
 
 class NetworkService {
     let session: URLSession
+    private var cancellables = Set<AnyCancellable>()
 
     init(session: URLSession) {
         self.session = session
@@ -49,27 +50,43 @@ class NetworkService {
     }
     
     private func downloadAndSetImages(card: Card, context: NSManagedObjectContext, imageUrls: [String]) {
+        print("downloadAndSetImages card: \(card.text ?? "") imageUrls: \(imageUrls.count)")
+        
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
-            guard let urlObj = URL(string: url) else { return nil }
+            guard let urlObj = URL(string: url) else {
+                print("downloadAndSetImages url is invalid: \(url)")
+                return nil
+            }
             return session.dataTaskPublisher(for: urlObj)
                 .map(\.data)
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
         }
         
-        _ = Publishers.MergeMany(downloadImages)
+        print("downloadImages: \(downloadImages.count)")
+                
+        Publishers.MergeMany(downloadImages)
             .collect()
             .sink(
-                receiveCompletion: { _ in },
+                receiveCompletion: { completion in
+                    switch completion {
+                    case .finished:
+                        print("All downloads finished.")
+                    case .failure(let error):
+                        print("Received error: \(error)")
+                    }
+                },
                 receiveValue: { imagesData in
                     for (index, data) in imagesData.enumerated() {
                         let imageData = ImageData(context: context)
                         imageData.data = data
                         imageData.priority = Int64(index)
+                        print("set image: \(index) data: \(data)")
                         card.addToImageDatas(imageData)
                     }
                 }
             )
+            .store(in: &cancellables)
     }
         
     private func fetchDefinitionsFromMerriamWebsterAPI(word: String) -> AnyPublisher<[MerriamWebsterDefinition], Error> {
@@ -242,6 +259,8 @@ class NetworkService {
             return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
         }
         
+        print("fetchImages request: \(url)")
+        
         return session.dataTaskPublisher(for: url)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse,
@@ -251,6 +270,9 @@ class NetworkService {
                 return data
             }
             .decode(type: ImageResponse.self, decoder: JSONDecoder())
+            .handleEvents(receiveOutput: { decodedResponse in
+                print("fetchImages response: \(decodedResponse)")
+            })
             .map { $0.hits.map { $0.webformatURL } }
             .eraseToAnyPublisher()
     }

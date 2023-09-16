@@ -225,6 +225,10 @@ struct CardView: View {
                 .foregroundColor(.secondary)
                 .padding(.top, 5)
         }
+        .onAppear {
+            print("card images: \(vm.currentCard.card.imageDatasArray)")
+            
+        }
     }
     
     private func gridImage(card: Card, index: Int, size: CGFloat) -> some View {

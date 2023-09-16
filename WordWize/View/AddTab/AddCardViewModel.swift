@@ -137,7 +137,7 @@ class AddCardViewModel: ObservableObject {
                     print("fetchCard receiveOutput failure: \(error.localizedDescription)")
                     self.fetchFailedWords.append(word)
                 }
-                print("count: \(self.fetchedWordCount)")
+                print("fetchCard fetchedWordCount: \(self.fetchedWordCount)")
             })
             .eraseToAnyPublisher()
     }
