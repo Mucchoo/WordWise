@@ -90,7 +90,7 @@ class AddCardViewModel: ObservableObject {
                 self.fetchedWordCount = 0
 
                 let fetchPublishers = words.publisher
-                    .flatMap(maxPublishers: .max(10)) { word -> AnyPublisher<Result<Card, Error>, Never> in
+                    .flatMap(maxPublishers: .max(5)) { word -> AnyPublisher<Result<Card, Error>, Never> in
                         return self.fetchCard(word: word, category: self.selectedCategory)
                     }
 
