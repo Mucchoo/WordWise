@@ -65,9 +65,3 @@ UITestを書くことが困難なSwiftUIを[ViewInspector Library](https://githu
 リポジトリをクローンすればそのままビルドできます。
 ほとんどの機能が問題なく使えますが、API Keyが空になっているためDeepLボタンが機能しない、カード生成時対応単語数減少、画像生成不能など一部の情報が動作しません。
 完全な状態で使用したい場合は[App Store](https://apps.apple.com/us/app/wordwize-vocabulary-builder/id6452391290)からのダウンロードをお願いします。
-
-```swift
-    static let pixabayApiKey = ""
-    static let deepLApiKey = ""
-    static let merriamWebsterApiKey = ""
-```
