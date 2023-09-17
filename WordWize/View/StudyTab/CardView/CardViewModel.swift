@@ -39,10 +39,6 @@ class CardViewModel: ObservableObject {
         learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
         
         setCategoryToPlayback()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
-            speechText(learningCards[safe: 0]?.card.text)
-        }
     }
     
     var currentCard: LearningCard {

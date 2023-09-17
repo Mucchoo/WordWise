@@ -34,6 +34,11 @@ struct CardView: View {
         .onTapGesture {
             vm.isDefinitionVisible = true
         }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+                vm.speechText(vm.learningCards[safe: 0]?.card.text)
+            }
+        }
     }
     
     private var dismissBar: some View {
