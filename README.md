@@ -2,6 +2,8 @@
 <img width="1178" alt="Screenshot 2023-09-17 at 7 48 49 AM" src="https://github.com/yazuju-musa/WordWize/assets/97211329/fa474070-a782-44b2-bdc1-d6fad48b4eac">
 <br><br>
 
+アプリの全体を簡単に理解するため、こちらに[1分程度のアプリ使用動画](https://www.youtube.com/shorts/xcPiUi_p98o)をアップロードしましたので、ぜひご覧ください。
+
 - 辞書APIや画像APIによって定義、例文、関連画像などを含んだ単語カードを自動生成
 - 忘却曲線に従って効果的な間隔でカードを復習
 - 英単語を英英辞典の情報で学習ができる
