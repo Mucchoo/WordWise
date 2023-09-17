@@ -7,7 +7,7 @@
 import Foundation
 
 struct Keys {
-    static let pixabayApiKey = ProcessInfo.processInfo.environment["pixabayApiKey"] ?? ""
-    static let deepLApiKey = ProcessInfo.processInfo.environment["deepLApiKey"] ?? ""
-    static let merriamWebsterApiKey = ProcessInfo.processInfo.environment["merriamWebsterApiKey"] ?? ""
+    static let pixabayApiKey = ""
+    static let deepLApiKey = ""
+    static let merriamWebsterApiKey = ""
 }
