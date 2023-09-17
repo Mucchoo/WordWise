@@ -72,7 +72,6 @@
 		C676D74F2AADCE0D00982CB1 /* Meaning+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D74E2AADCE0D00982CB1 /* Meaning+Extensions.swift */; };
 		C676D7512AADD07E00982CB1 /* Card+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D7502AADD07E00982CB1 /* Card+Extensions.swift */; };
 		C676D7572AADE23400982CB1 /* PickerAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D7562AADE23400982CB1 /* PickerAlertTests.swift */; };
-		C680F1332AB6B9C2006F3F55 /* Keys.env in Resources */ = {isa = PBXBuildFile; fileRef = C680F1322AB6B9C2006F3F55 /* Keys.env */; };
 		C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69314622AA9D844000A0F4F /* AccountViewTests.swift */; };
 		C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */; };
 		C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */; };
@@ -167,7 +166,6 @@
 		C676D7502AADD07E00982CB1 /* Card+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+Extensions.swift"; sourceTree = "<group>"; };
 		C676D7542AADD81800982CB1 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		C676D7562AADE23400982CB1 /* PickerAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlertTests.swift; sourceTree = "<group>"; };
-		C680F1322AB6B9C2006F3F55 /* Keys.env */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Keys.env; sourceTree = "<group>"; };
 		C69314622AA9D844000A0F4F /* AccountViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewTests.swift; sourceTree = "<group>"; };
 		C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
@@ -419,7 +417,6 @@
 			children = (
 				2AD373E52A6D83FB006DD2FB /* Info.plist */,
 				2A01FA0F2A4C84E900C7C1CE /* WordWize.entitlements */,
-				C680F1322AB6B9C2006F3F55 /* Keys.env */,
 				2A01FA102A4C84F400C7C1CE /* WordWizeApp.swift */,
 				2ABC63612A38147900718C90 /* Assets.xcassets */,
 				2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */,
@@ -635,7 +632,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */,
-				C680F1332AB6B9C2006F3F55 /* Keys.env in Resources */,
 				2ABC63622A38147900718C90 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

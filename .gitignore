@@ -43,4 +43,4 @@ playground.xcworkspace
 # Carthage/Checkouts
 
 # Confidential files
-*.env
+WordWize/Helper/Keys.swift
