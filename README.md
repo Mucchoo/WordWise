@@ -33,7 +33,7 @@ ViewにMock用のDependency Injection Containerをセットすることで簡単
 }
 ```
 
-### URLSessionのMockUp
+### 3. URLSessionのMockUp
 全てのNetwork処理をNetworkServiceクラスに切り分け、そこへセットするURLSessionをMock用に切り替えることで簡単にネットワーク関連のPreview・Testを行うことが可能に。
 [MockURLProtocol.swift](https://github.com/yazuju-musa/WordWize/blob/main/WordWize/Helper/MockURLProtocol.swift)
 
@@ -44,7 +44,7 @@ NetworkService(session: .shared)
 NetworkService(session: .mock)
 ```
 
-### 4.ViewInspector
+### 4. ViewInspector
 UITestを書くことが困難なSwiftUIを[ViewInspector Library](https://github.com/nalexn/ViewInspector)によって徹底的にUnitTestを記述することに成功。
 
 # カード自動生成ロジック
@@ -60,3 +60,8 @@ UITestを書くことが困難なSwiftUIを[ViewInspector Library](https://githu
 覚えていた場合は徐々に習得率が上昇し、覚えていない場合は習得率がリセットされます。
 
 <img width="618" alt="Screenshot 2023-09-13 at 10 31 54 AM" src="https://github.com/yazuju-musa/WordWize/assets/97211329/5a5cc374-732a-406e-8c26-61a5e6e676a7">
+
+# 実行方法
+リポジトリをクローンすればそのままビルドできます。
+ほとんどの機能が問題なく使えますが、API Keyが空になっているためDeepLボタンが機能しない、カード生成時対応単語数減少、画像生成不能など一部の情報が動作しません。
+完全な状態で使用したい場合は[App Store](https://apps.apple.com/us/app/wordwize-vocabulary-builder/id6452391290)からのダウンロードをお願いします。
