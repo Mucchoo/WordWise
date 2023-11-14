@@ -5,7 +5,7 @@
 //  Created by Musa Yazuju on 6/13/23.
 //
 
-import CoreData
+import SwiftData
 import Combine
 import SwiftUI
 

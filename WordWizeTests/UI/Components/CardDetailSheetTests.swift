@@ -20,7 +20,7 @@ class CardDetailSheetTests: XCTestCase {
         super.setUp()
         
         let container: DIContainer = .mock()
-        let card = Card(context: container.persistence.viewContext)
+        let card = Card(context: container.context)
         card.text = "Card Text"
         card.masteryRate = 0
         card.category = MockHelper.shared.mockCategory

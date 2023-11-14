@@ -93,7 +93,7 @@ struct CardView: View {
                             VStack {
                                 definitionSection
                                 
-                                if vm.currentCard.card.imageDatasArray.count > 0 {
+                                if vm.currentCard.card.imageDatas.count > 0 {
                                     imageSection
                                 }
                             }
@@ -151,11 +151,11 @@ struct CardView: View {
             Spacer()
             
             VStack {
-                Text(vm.currentCard.card.text ?? "")
+                Text(vm.currentCard.card.text)
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
-                Text(vm.currentCard.card.phoneticsArray.first?.text ?? "")
+                Text(vm.currentCard.card.phonetics.first?.text ?? "")
                     .foregroundColor(.primary)
             }
             .opacity(vm.isWordVisible ? 1 : 0)
@@ -194,7 +194,7 @@ struct CardView: View {
     
     private var definitionSection: some View {
         VStack {
-            ForEach(vm.currentCard.card.meaningsArray.indices, id: \.self) { idx in
+            ForEach(vm.currentCard.card.meanings.indices, id: \.self) { idx in
                 if idx != 0 {
                     Group {
                         Divider()
@@ -215,14 +215,14 @@ struct CardView: View {
                     gridImage(card: vm.currentCard.card, index: 0, size: gridSize)
                     gridImage(card: vm.currentCard.card, index: 1, size: gridSize)
                 }
-                if vm.currentCard.card.imageDatasArray.count > 2 {
+                if vm.currentCard.card.imageDatas.count > 2 {
                     HStack(spacing: 2) {
                         gridImage(card: vm.currentCard.card, index: 2, size: gridSize)
                         gridImage(card: vm.currentCard.card, index: 3, size: gridSize)
                     }
                 }
             }
-            .frame(height: vm.currentCard.card.imageDatasArray.count > 2 ?
+            .frame(height: vm.currentCard.card.imageDatas.count > 2 ?
                    gridSize * 2 + 2 : gridSize)
             
             Text("Powered by Pixabay")
@@ -231,14 +231,14 @@ struct CardView: View {
                 .padding(.top, 5)
         }
         .onAppear {
-            print("card images: \(vm.currentCard.card.imageDatasArray)")
+            print("card images: \(vm.currentCard.card.imageDatas)")
             
         }
     }
     
     private func gridImage(card: Card, index: Int, size: CGFloat) -> some View {
         Group {
-            if let imageData = card.imageDatasArray[safe: index]?.data,
+            if let imageData = card.imageDatas[safe: index]?.data,
                let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()
@@ -268,7 +268,7 @@ struct CardView: View {
     private func definitionDetailView(index: Int) -> some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-                Text(vm.currentCard.card.meaningsArray[index].partOfSpeech ?? "")
+                Text(vm.currentCard.card.meanings[index].partOfSpeech)
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(Color(UIColor.systemBackground))
@@ -280,15 +280,15 @@ struct CardView: View {
                 Spacer()
             }
             
-            ForEach(vm.currentCard.card.meaningsArray[index].definitionsArray.indices, id: \.self) { idx in
+            ForEach(vm.currentCard.card.meanings[index].definitions.indices, id: \.self) { idx in
                 if idx != 0 {
                     Spacer().frame(height: 24)
                 }
                 
-                let definition = vm.currentCard.card.meaningsArray[index].definitionsArray[idx]
+                let definition = vm.currentCard.card.meanings[index].definitions[idx]
                 
                 VStack(alignment: .leading) {
-                    Text("\(idx + 1). \(vm.showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
+                    Text("\(idx + 1). \(vm.showTranslations ? definition.translatedDefinition : definition.definition)")
                         .font(.subheadline)
                         .foregroundColor(.primary)
                     

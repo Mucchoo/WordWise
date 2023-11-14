@@ -32,7 +32,7 @@ class CardListViewModelTests: XCTestCase {
     }
     
     func testChangeCategory() {
-        let card = Card(context: vm.container.persistence.viewContext)
+        let card = Card(context: vm.container.context)
         vm.selectedCards.append(card)
         vm.pickerAlertValue = "Vegetables"
         
@@ -45,7 +45,7 @@ class CardListViewModelTests: XCTestCase {
         let rates: [(String, Int16)] = [("0%", 0), ("25%", 1), ("50%", 2), ("75%", 3), ("100%", 4)]
 
         rates.forEach { string, int in
-            let card = Card(context: vm.container.persistence.viewContext)
+            let card = Card(context: vm.container.context)
             vm.selectedCards.append(card)
             
             vm.selectedRateString = string
@@ -59,7 +59,7 @@ class CardListViewModelTests: XCTestCase {
         let rates: [Int16] = [0, 1, 2, 3, 4]
         
         rates.forEach { rate in
-            let card = Card(context: vm.container.persistence.viewContext)
+            let card = Card(context: vm.container.context)
             vm.selectedCard = card
             vm.selectedRate = rate
             vm.updateCard()
@@ -69,7 +69,7 @@ class CardListViewModelTests: XCTestCase {
     }
     
     func testShowCardDetail() {
-        let card = Card(context: vm.container.persistence.viewContext)
+        let card = Card(context: vm.container.context)
         card.category = "Fruits"
         vm.showCardDetail(card)
         
@@ -78,7 +78,7 @@ class CardListViewModelTests: XCTestCase {
     }
     
     func testShowCardDetailWithNilCategory() {
-        let card = Card(context: vm.container.persistence.viewContext)
+        let card = Card(context: vm.container.context)
         card.category = nil
         vm.showCardDetail(card)
         
@@ -87,7 +87,7 @@ class CardListViewModelTests: XCTestCase {
     }
     
     func testSelectCard() {
-        let card = Card(context: vm.container.persistence.viewContext)
+        let card = Card(context: vm.container.context)
         vm.selectCard(card)
         XCTAssertTrue(vm.selectedCards.contains(where: { $0 == card }))
         vm.selectCard(card)
@@ -95,8 +95,8 @@ class CardListViewModelTests: XCTestCase {
     }
     
     func testDeleteSelectedCards() {
-        let card1 = Card(context: vm.container.persistence.viewContext)
-        let card2 = Card(context: vm.container.persistence.viewContext)
+        let card1 = Card(context: vm.container.context)
+        let card2 = Card(context: vm.container.context)
         
         vm.selectedCards.append(contentsOf: [card1, card2])
         vm.deleteSelectedCards()
@@ -145,7 +145,7 @@ class CardListViewModelTests: XCTestCase {
     func testDeleteCard() {
         let expectation = XCTestExpectation(description: "Delete card")
         
-        let card = Card(context: vm.container.persistence.viewContext)
+        let card = Card(context: vm.container.context)
         vm.container.appState.cards.append(card)
         vm.selectedCard = card
         vm.deleteCard()
@@ -160,11 +160,11 @@ class CardListViewModelTests: XCTestCase {
     }
 
     func testUpdateCardList() {
-        let card1 = Card(context: vm.container.persistence.viewContext)
+        let card1 = Card(context: vm.container.context)
         card1.category = MockHelper.shared.mockCategory
-        let card2 = Card(context: vm.container.persistence.viewContext)
+        let card2 = Card(context: vm.container.context)
         card2.category = MockHelper.shared.mockCategory
-        let card3 = Card(context: vm.container.persistence.viewContext)
+        let card3 = Card(context: vm.container.context)
         card3.category = MockHelper.shared.mockCategory
         
         vm.container.appState.cards.append(contentsOf: [card1, card2, card3])
@@ -175,11 +175,11 @@ class CardListViewModelTests: XCTestCase {
     }
 
     func testSearchBarFiltering() {
-        let card1 = Card(context: vm.container.persistence.viewContext)
+        let card1 = Card(context: vm.container.context)
         card1.category = MockHelper.shared.mockCategory
-        let card2 = Card(context: vm.container.persistence.viewContext)
+        let card2 = Card(context: vm.container.context)
         card2.category = MockHelper.shared.mockCategory
-        let card3 = Card(context: vm.container.persistence.viewContext)
+        let card3 = Card(context: vm.container.context)
         card3.category = MockHelper.shared.mockCategory
         
         card1.text = "Apple"

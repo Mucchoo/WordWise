@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A01FA102A4C84F400C7C1CE /* WordWizeApp.swift */; };
 		2A0CC6D02A5BBE9C00657BA4 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */; };
-		2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */; };
 		2A2015C62A63F42300C67716 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2015C52A63F42300C67716 /* NetworkService.swift */; };
 		2A2583D62AA8328F00B64531 /* AddCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */; };
 		2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3C1E072A3944E4001B6E0E /* CardView.swift */; };
@@ -46,7 +45,6 @@
 		2ABC636D2A38167800718C90 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC636C2A38167800718C90 /* AccountView.swift */; };
 		2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddCardView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
-		2ABD50282A40F461000459BC /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABD50272A40F461000459BC /* Persistence.swift */; };
 		2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD30C802A9EF76900BCEF04 /* MyError.swift */; };
 		2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
@@ -58,6 +56,12 @@
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C60942EB2AAB782A000C43F9 /* ViewInspector */; };
+		C60BE4222B02D61C00F07CC8 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41C2B02D61C00F07CC8 /* ImageData.swift */; };
+		C60BE4232B02D61C00F07CC8 /* Meaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41D2B02D61C00F07CC8 /* Meaning.swift */; };
+		C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41E2B02D61C00F07CC8 /* Definition.swift */; };
+		C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */; };
+		C60BE4262B02D61C00F07CC8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE4202B02D61C00F07CC8 /* Card.swift */; };
+		C60BE4272B02D61C00F07CC8 /* CardCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE4212B02D61C00F07CC8 /* CardCategory.swift */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
 		C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66750C52AAD191300C19343 /* CardViewTests.swift */; };
 		C66F29952AAFE8EE00A73967 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */; };
@@ -69,8 +73,6 @@
 		C67328ED2AACFE9C008D06C8 /* MasteryRateBarsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328EC2AACFE9C008D06C8 /* MasteryRateBarsTests.swift */; };
 		C67328EF2AACFFA3008D06C8 /* CardsViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328EE2AACFFA3008D06C8 /* CardsViewTests.swift */; };
 		C67328F12AAD0A35008D06C8 /* CategoryListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67328F02AAD0A35008D06C8 /* CategoryListViewTests.swift */; };
-		C676D74F2AADCE0D00982CB1 /* Meaning+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D74E2AADCE0D00982CB1 /* Meaning+Extensions.swift */; };
-		C676D7512AADD07E00982CB1 /* Card+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D7502AADD07E00982CB1 /* Card+Extensions.swift */; };
 		C676D7572AADE23400982CB1 /* PickerAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C676D7562AADE23400982CB1 /* PickerAlertTests.swift */; };
 		C69314632AA9D844000A0F4F /* AccountViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69314622AA9D844000A0F4F /* AccountViewTests.swift */; };
 		C6DE56E42AA8DE7E00C30AFF /* CategoryListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E32AA8DE7E00C30AFF /* CategoryListViewModelTests.swift */; };
@@ -100,7 +102,6 @@
 		2A01FA0F2A4C84E900C7C1CE /* WordWize.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = WordWize.entitlements; sourceTree = "<group>"; };
 		2A01FA102A4C84F400C7C1CE /* WordWizeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WordWizeApp.swift; sourceTree = "<group>"; };
 		2A0CC6CF2A5BBE9C00657BA4 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Card.xcdatamodel; sourceTree = "<group>"; };
 		2A2015B92A63D9EA00C67716 /* WordWizeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WordWizeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A2015C52A63F42300C67716 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		2A2583D52AA8328F00B64531 /* AddCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardViewModelTests.swift; sourceTree = "<group>"; };
@@ -139,7 +140,6 @@
 		2ABC636C2A38167800718C90 /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		2ABC637C2A38194300718C90 /* AddCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardView.swift; sourceTree = "<group>"; };
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
-		2ABD50272A40F461000459BC /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2AD30C802A9EF76900BCEF04 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
@@ -151,6 +151,12 @@
 		2AE1F8632AA6CEA100EE8AD9 /* AudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
+		C60BE41C2B02D61C00F07CC8 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
+		C60BE41D2B02D61C00F07CC8 /* Meaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meaning.swift; sourceTree = "<group>"; };
+		C60BE41E2B02D61C00F07CC8 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
+		C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phonetic.swift; sourceTree = "<group>"; };
+		C60BE4202B02D61C00F07CC8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		C60BE4212B02D61C00F07CC8 /* CardCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCategory.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		C66750C52AAD191300C19343 /* CardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewTests.swift; sourceTree = "<group>"; };
 		C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -162,8 +168,6 @@
 		C67328EC2AACFE9C008D06C8 /* MasteryRateBarsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsTests.swift; sourceTree = "<group>"; };
 		C67328EE2AACFFA3008D06C8 /* CardsViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewTests.swift; sourceTree = "<group>"; };
 		C67328F02AAD0A35008D06C8 /* CategoryListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewTests.swift; sourceTree = "<group>"; };
-		C676D74E2AADCE0D00982CB1 /* Meaning+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Meaning+Extensions.swift"; sourceTree = "<group>"; };
-		C676D7502AADD07E00982CB1 /* Card+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Card+Extensions.swift"; sourceTree = "<group>"; };
 		C676D7542AADD81800982CB1 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		C676D7562AADE23400982CB1 /* PickerAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerAlertTests.swift; sourceTree = "<group>"; };
 		C69314622AA9D844000A0F4F /* AccountViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewTests.swift; sourceTree = "<group>"; };
@@ -347,11 +351,13 @@
 		2A894F8A2A3FB60700163F92 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */,
-				2ABD50272A40F461000459BC /* Persistence.swift */,
 				2A881D222A8375C2003329E1 /* MasteryRate.swift */,
-				C676D74E2AADCE0D00982CB1 /* Meaning+Extensions.swift */,
-				C676D7502AADD07E00982CB1 /* Card+Extensions.swift */,
+				C60BE41C2B02D61C00F07CC8 /* ImageData.swift */,
+				C60BE41D2B02D61C00F07CC8 /* Meaning.swift */,
+				C60BE41E2B02D61C00F07CC8 /* Definition.swift */,
+				C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */,
+				C60BE4202B02D61C00F07CC8 /* Card.swift */,
+				C60BE4212B02D61C00F07CC8 /* CardCategory.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -684,10 +690,10 @@
 				2AE1F8622AA6CDE000EE8AD9 /* WindowScene.swift in Sources */,
 				2AB6B8772A9B060F00645F08 /* CardListViewModel.swift in Sources */,
 				2A46C39E2A88B1BC0020FE22 /* CategoryListView.swift in Sources */,
-				2ABD50282A40F461000459BC /* Persistence.swift in Sources */,
 				2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
 				C6FA61642AAE423800DE1B5C /* CardDetailSheet.swift in Sources */,
+				C60BE4222B02D61C00F07CC8 /* ImageData.swift in Sources */,
 				2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */,
 				2A01FA112A4C84F400C7C1CE /* WordWizeApp.swift in Sources */,
 				2A6802302A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift in Sources */,
@@ -695,13 +701,17 @@
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2AB7C9682A512BD600A703FA /* GradientBackground.swift in Sources */,
 				2AB6B86C2A9A511A00645F08 /* ContentViewModel.swift in Sources */,
+				C60BE4262B02D61C00F07CC8 /* Card.swift in Sources */,
 				2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */,
-				C676D7512AADD07E00982CB1 /* Card+Extensions.swift in Sources */,
 				2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */,
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */,
+				C60BE4272B02D61C00F07CC8 /* CardCategory.swift in Sources */,
+				C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */,
+				C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */,
 				2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */,
 				2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */,
+				C60BE4232B02D61C00F07CC8 /* Meaning.swift in Sources */,
 				2AE1F8642AA6CEA100EE8AD9 /* AudioSession.swift in Sources */,
 				2A73CE362A9B2F1C003D9A23 /* AddCardViewModel.swift in Sources */,
 				C66F29952AAFE8EE00A73967 /* MockURLProtocol.swift in Sources */,
@@ -712,14 +722,12 @@
 				2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
-				C676D74F2AADCE0D00982CB1 /* Meaning+Extensions.swift in Sources */,
 				2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */,
 				2AB7C9622A51240100A703FA /* PickerOptions.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */,
 				2A2015C62A63F42300C67716 /* NetworkService.swift in Sources */,
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
-				2A1787C22A3EFAD400773FD6 /* Card.xcdatamodeld in Sources */,
 				2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */,
 				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
 				2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */,
@@ -750,7 +758,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D TESTING";
@@ -778,7 +786,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.musayazici.wordwizeTests;
@@ -914,7 +922,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4WXTDSDQPZ;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WordWize/Info.plist;
@@ -931,7 +939,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -957,7 +965,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4WXTDSDQPZ;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WordWize/Info.plist;
@@ -974,7 +982,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
@@ -1041,19 +1049,6 @@
 			productName = ViewInspector;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		2A1787C02A3EFAD400773FD6 /* Card.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */,
-			);
-			currentVersion = 2A1787C12A3EFAD400773FD6 /* Card.xcdatamodel */;
-			path = Card.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 2ABC63522A38147900718C90 /* Project object */;
 }

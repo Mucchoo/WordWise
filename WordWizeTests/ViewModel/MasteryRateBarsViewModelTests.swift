@@ -7,19 +7,19 @@
 
 import XCTest
 @testable import WordWize
-import CoreData
+import SwiftData
 
 class MasteryRateBarsViewModelTests: XCTestCase {
     
     var vm: MasteryRateBarsViewModel!
-    var context: NSManagedObjectContext!
+    var context: ModelContext!
     let helper = MockHelper.shared
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         
         vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), categoryName: "")
-        context = vm.container.persistence.viewContext
+        context = vm.container.context
     }
     
     override func tearDown() {
@@ -45,8 +45,6 @@ class MasteryRateBarsViewModelTests: XCTestCase {
         ]
         
         vm.container.appState.cards = cards
-        vm.container.coreDataService.saveAndReload()
-        
         XCTAssertEqual(vm.maxCount, 3, "MaxCount should be 3")
     }
     
@@ -81,7 +79,6 @@ class MasteryRateBarsViewModelTests: XCTestCase {
         
         vm.container.appState.cards = cards
         vm.setWidthAndCountText(geometryWidth: 100)
-        vm.container.coreDataService.saveAndReload()
         
         XCTAssertEqual(vm.barWidths[.zero], 90 + (100 - 90) * 1 / 3, "Bar width for .zero should be updated correctly")
         XCTAssertEqual(vm.countTexts[.zero], "1", "Count text for .zero should be '1'")

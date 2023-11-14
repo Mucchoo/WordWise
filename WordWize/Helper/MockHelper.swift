@@ -5,42 +5,40 @@
 //  Created by Musa Yazuju on 8/29/23.
 //
 
-import CoreData
+import SwiftData
 import SwiftUI
 
 struct MockHelper {
     static let shared = MockHelper()
     let mockCategory = "Mock Category"
     
-    func setupMockData(persistence: Persistence, appState: AppState) {
-        createAndSaveMockCards(persistence: persistence, appState: appState)
-        createAndSaveMockCategory(persistence: persistence, appState: appState)
+    func setupMockData(context: ModelContext, appState: AppState) {
+        createAndSaveMockCards(context: context, appState: appState)
+        createAndSaveMockCategory(context: context, appState: appState)
     }
     
-    private func createAndSaveMockCards(persistence: Persistence, appState: AppState) {
-        let cards = createMockCards(persistence: persistence)
-        persistence.saveContext()
+    private func createAndSaveMockCards(context: ModelContext, appState: AppState) {
+        let cards = createMockCards(context: context)
         appState.cards = cards
         updateCards(appState: appState)
     }
     
-    private func createAndSaveMockCategory(persistence: Persistence, appState: AppState) {
-        let category = CardCategory(context: persistence.viewContext)
+    private func createAndSaveMockCategory(context: ModelContext, appState: AppState) {
+        let category = CardCategory()
         category.name = mockCategory
-        persistence.saveContext()
         appState.categories.append(category)
     }
     
-    private func createMockCards(persistence: Persistence) -> [Card] {
+    private func createMockCards(context: ModelContext) -> [Card] {
         var cards = [Card]()
         
         for i in 0..<100 {
-            let card = Card(context: persistence.viewContext)
+            let card = Card()
             card.text = "mock \(i)"
-            card.setMockData(context: persistence.viewContext)
+            card.setMockData(context: context)
             card.masteryRate = Int16.random(in: 0...4)
             card.category = mockCategory
-            card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date())
+            card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date()) ?? Date()
             cards.append(card)
         }
         
@@ -64,8 +62,8 @@ struct MockHelper {
         appState.upcomingCards = filterCards(for: .upcoming, appState: appState)
     }
     
-    func mockCard(rate: MasteryRate, context: NSManagedObjectContext) -> Card {
-        let card = Card(context: context)
+    func mockCard(rate: MasteryRate, context: ModelContext) -> Card {
+        let card = Card()
         card.masteryRate = rate.rawValue
         return card
     }

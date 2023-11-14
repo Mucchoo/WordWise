@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum MasteryRate: Int16 {
+enum MasteryRate: Int16 {
     case zero, twentyFive, fifty, seventyFive, oneHundred
     
     func stringValue() -> String {

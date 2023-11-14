@@ -47,7 +47,7 @@ struct ContentView: View {
         }
         .ignoresSafeArea(edges: .bottom)
         .onAppear {
-            vm.container.coreDataService.retryFetchingImagesIfNeeded()
+            vm.container.swiftDataService.retryFetchingImagesIfNeeded()
         }
     }
     

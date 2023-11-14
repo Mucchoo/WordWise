@@ -62,7 +62,6 @@ class CardListViewModel: ObservableObject {
             card.masteryRate = masteryRate
         }
         
-        container.coreDataService.saveAndReload()
         multipleSelectionMode = false
         updateCardList()
     }
@@ -87,13 +86,12 @@ class CardListViewModel: ObservableObject {
             nextLearningDate = 14
         }
         
-        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
-        container.coreDataService.saveAndReload()
+        card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date()) ?? Date()
         updateCardList()
     }
     
     func showCardDetail(_ card: Card) {
-        cardCategory = card.category ?? ""
+        cardCategory = card.category 
         navigateToCardDetail = true
     }
     
@@ -123,7 +121,6 @@ class CardListViewModel: ObservableObject {
         selectedCards.forEach { card in
             card.category = pickerAlertValue
         }
-        container.coreDataService.saveAndReload()
         multipleSelectionMode = false
         updateCardList()
     }
@@ -131,7 +128,7 @@ class CardListViewModel: ObservableObject {
     func updateCardList() {
         let filteredCards = container.appState.cards.filter { card in
             let categoryFilter = card.category == categoryName
-            let cardText = card.text ?? ""
+            let cardText = card.text 
             let searchTextFilter = cardText.contains(searchBarText) || searchBarText.isEmpty
             return categoryFilter && searchTextFilter
         }
@@ -140,17 +137,15 @@ class CardListViewModel: ObservableObject {
     
     func deleteCard() {
         guard let card = selectedCard else { return }
-        container.persistence.viewContext.delete(card)
-        container.coreDataService.saveAndReload()
+        container.context.delete(card)
         navigateToCardDetail = false
         updateCardList()
     }
     
     func deleteSelectedCards() {
         selectedCards.forEach { card in
-            container.persistence.viewContext.delete(card)
+            container.context.delete(card)
         }
-        container.coreDataService.saveAndReload()
         multipleSelectionMode = false
     }
 }

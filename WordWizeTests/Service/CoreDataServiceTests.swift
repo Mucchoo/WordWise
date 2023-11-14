@@ -1,34 +1,37 @@
 //
-//  CoreDataServiceTests.swift
+//  SwiftDataServiceTests.swift
 //  WordWizeTests
 //
 //  Created by Musa Yazici on 9/10/23.
 //
 
 import XCTest
-import CoreData
+import SwiftData
 import Combine
 @testable import WordWize
 
-class CoreDataServiceTests: XCTestCase {
+class SwiftDataServiceTests: XCTestCase {
     
-    var persistence: Persistence!
+    var context: ModelContext!
     var networkService: NetworkService!
     var appState: AppState!
-    var sut: CoreDataService!
+    var sut: SwiftDataService!
     var cancellables: Set<AnyCancellable>!
     
+    @MainActor
     override func setUp() {
         super.setUp()
-        persistence = .init(isMock: true)
+        
+        let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self, Phonetic.self, Definition.self, Meaning.self, ImageData.self)
+        context = modelContainer.mainContext
         networkService = .init(session: .mock)
         appState = .init()
-        sut = .init(persistence: persistence, networkService: networkService, appState: appState)
+        sut = .init(context: context, networkService: networkService, appState: appState)
         cancellables = []
     }
     
     override func tearDown() {
-        persistence = nil
+        context = nil
         networkService = nil
         appState = nil
         sut = nil
@@ -37,7 +40,7 @@ class CoreDataServiceTests: XCTestCase {
     }
     
     func testRetryFetchingImages_CallsNetworkService() {
-        let card = Card(context: persistence.viewContext)
+        let card = Card()
         card.retryFetchImages = true
         appState.cards = [card]
         sut.retryFetchingImagesIfNeeded()
@@ -51,17 +54,14 @@ class CoreDataServiceTests: XCTestCase {
     
     func testAddDefaultCategoryIfNeeded_WithCompletion() {
         XCTAssertTrue(appState.categories.isEmpty)
-        sut.addDefaultCategoryIfNeeded {
-            XCTAssertTrue(self.appState.categories.first!.name == "Category 1")
-        }
+        sut.addDefaultCategoryIfNeeded()
+        XCTAssertTrue(self.appState.categories.first!.name == "Category 1")
     }
 
     func testSaveAndReload() {
         XCTAssertTrue(appState.cards.isEmpty)
         
-        let card = Card(context: persistence.viewContext)
-        sut.saveAndReload()
-        
+        let card = Card()
         let expectation = self.expectation(description: "Wait for saveAndReload")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()
@@ -74,16 +74,15 @@ class CoreDataServiceTests: XCTestCase {
     func testDeleteDuplicatedCategory() {
         XCTAssertTrue(appState.categories.isEmpty)
 
-        let category1 = CardCategory(context: persistence.viewContext)
+        let category1 = CardCategory()
         category1.name = "Duplicate"
-        let category2 = CardCategory(context: persistence.viewContext)
+        let category2 = CardCategory()
         category2.name = "Duplicate"
         appState.categories = [category1, category2]
         
         
         XCTAssertEqual(appState.categories.count, 2)
         let expectation = self.expectation(description: "Wait for loadData")
-        sut.loadData()
         
         DispatchQueue.main.async() {
             XCTAssertEqual(self.appState.categories.count, 1)

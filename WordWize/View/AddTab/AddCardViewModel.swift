@@ -98,8 +98,7 @@ class AddCardViewModel: ObservableObject {
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
                         self.addedCardCount = words.count
-                        self.container.persistence.saveContext()
-                        self.container.coreDataService.retryFetchingImagesIfNeeded()
+                        self.container.swiftDataService.retryFetchingImagesIfNeeded()
                         promise(.success(()))
                     } receiveValue: { result in
                         switch result {
@@ -116,15 +115,15 @@ class AddCardViewModel: ObservableObject {
     }
     
     private func fetchCard(word: String, category: String) -> AnyPublisher<Result<Card, Error>, Never> {
-        let card = Card(context: container.persistence.viewContext)
+        let card = Card()
         card.text = word
         card.category = category
         card.nextLearningDate = Date()
         
-        return container.networkService.fetchDefinitionsAndImages(card: card, context: container.persistence.viewContext)
+        return container.networkService.fetchDefinitionsAndImages(card: card, context: container.context)
             .map { .success($0) }
             .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
-                self.container.persistence.viewContext.delete(card)
+                self.container.context.delete(card)
                 return Just(.failure(error)).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
@@ -146,9 +145,8 @@ class AddCardViewModel: ObservableObject {
         guard !textFieldInput.isEmpty,
               !container.appState.categories.contains(where: { $0.name == textFieldInput }) else { return }
         
-        let category = CardCategory(context: container.persistence.viewContext)
+        let category = CardCategory()
         category.name = textFieldInput
-        container.coreDataService.saveAndReload()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
             selectedCategory = textFieldInput

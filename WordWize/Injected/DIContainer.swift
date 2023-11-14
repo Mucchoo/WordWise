@@ -7,37 +7,40 @@
 
 import SwiftUI
 import Combine
-import CoreData
+import SwiftData
 
 // Dependency Injection Container
 struct DIContainer {
     let appState: AppState
     let networkService: NetworkService
-    let coreDataService: CoreDataService
-    let persistence: Persistence
+    let swiftDataService: SwiftDataService
+    let context: ModelContext
     
-    init(appState: AppState, networkService: NetworkService, persistence: Persistence) {
+    init(appState: AppState, networkService: NetworkService, context: ModelContext) {
         self.appState = appState
         self.networkService = networkService
-        self.persistence = persistence
-        self.coreDataService = CoreDataService(
-            persistence: persistence,
+        self.context = context
+        self.swiftDataService = SwiftDataService(
+            context: context,
             networkService: networkService,
             appState: appState)
     }
     
+    @MainActor
     static func mock(withMockCards: Bool = true) -> DIContainer {
         let mockAppState = AppState()
-        let mockPersistence = Persistence(isMock: true)
+        let schema = Schema([Card.self, CardCategory.self, Phonetic.self, Definition.self, Meaning.self, ImageData.self])
+        let modelContainer = try! ModelContainer(for: schema, configurations: .init(isStoredInMemoryOnly: true))
+        let mockcontext = modelContainer.mainContext
         
         if withMockCards {
             mockAppState.isDataLoaded = true
-            MockHelper.shared.setupMockData(persistence: mockPersistence, appState: mockAppState)
+            MockHelper.shared.setupMockData(context: mockcontext, appState: mockAppState)
         }
         
         return .init(
             appState: mockAppState,
             networkService: NetworkService(session: .mock),
-            persistence: mockPersistence)
+            context: mockcontext)
     }
 }

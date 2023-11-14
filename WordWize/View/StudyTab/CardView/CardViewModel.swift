@@ -43,7 +43,7 @@ class CardViewModel: ObservableObject {
     
     var currentCard: LearningCard {
         get {
-            return learningCards[safe: index] ?? .init(card: .init(context: container.persistence.viewContext))
+            return learningCards[safe: index] ?? .init(card: Card())
         }
         set (newCard) {
             learningCards[index] = newCard
@@ -94,7 +94,6 @@ class CardViewModel: ObservableObject {
             let card = currentCard.card
             card.lastHardDate = Date()
             card.masteryRate = 0
-            container.coreDataService.saveAndReload()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.speechText(card.text)
@@ -155,11 +154,9 @@ class CardViewModel: ObservableObject {
                 break
             }
             
-            currentCard.card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date())
+            currentCard.card.nextLearningDate = Calendar.current.date(byAdding: .day, value: nextLearningDate, to: Date()) ?? Date()
             currentCard.card.masteryRate += 1
         }
-        
-        container.coreDataService.saveAndReload()
     }
 
     func requestReviewIfNeeded(shouldRequest: Bool, in scene: WindowSceneProviding?) {
@@ -184,8 +181,8 @@ class CardViewModel: ObservableObject {
     func translateDefinitions(completion: @escaping () -> ()) {
         var definitions = [String]()
         
-        currentCard.card.meaningsArray.forEach { meaning in
-            meaning.definitionsArray.forEach { definition in
+        currentCard.card.meanings.forEach { meaning in
+            meaning.definitions.forEach { definition in
                 definitions.append(definition.definition ?? "")
             }
         }
@@ -198,14 +195,12 @@ class CardViewModel: ObservableObject {
                 print("response: \(response)")
                 var index = 0
                 
-                self.currentCard.card.meaningsArray.forEach { meaning in
-                    meaning.definitionsArray.forEach { definition in
+                self.currentCard.card.meanings.forEach { meaning in
+                    meaning.definitions.forEach { definition in
                         definition.translatedDefinition = response.translations[safe: index]?.text ?? ""
                         index += 1
                     }
                 }
-                
-                self.container.coreDataService.saveAndReload()
             }
             .store(in: &cancellables)
     }

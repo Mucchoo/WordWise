@@ -73,7 +73,7 @@ final class CardViewTests: XCTestCase {
         let section = try sut.inspect().vStack().hStack(2)
         
         XCTAssertEqual(try section.vStack(2).text(0).string(), vm.currentCard.card.text ?? "")
-        XCTAssertEqual(try section.vStack(2).text(1).string(), vm.currentCard.card.phoneticsArray.first?.text ?? "")
+        XCTAssertEqual(try section.vStack(2).text(1).string(), vm.currentCard.card.phonetics.first?.text ?? "")
         XCTAssertEqual(try section.vStack(2).opacity(), vm.isWordVisible ? 1 : 0)
         
         let deepLButton = try section.button(4)
@@ -100,7 +100,7 @@ final class CardViewTests: XCTestCase {
     func testDefinitionSection() throws {
         let section = try sut.inspect().vStack().zStack(3).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(0)
                 
-        let meaningsCount = vm.currentCard.card.meaningsArray.count
+        let meaningsCount = vm.currentCard.card.meanings.count
         
         for idx in 0..<meaningsCount {
             let row = try section.forEach(0).tupleView(idx)
@@ -120,12 +120,12 @@ final class CardViewTests: XCTestCase {
         
         try testGridImage(hStack: firstHStack, imageCount: 2)
         
-        if vm.currentCard.card.imageDatasArray.count > 2 {
+        if vm.currentCard.card.imageDatas.count > 2 {
             let secondHStack = try innerVStack.hStack(1)
             try testGridImage(hStack: secondHStack, imageCount: 2)
         }
         
-        let expectedHeight = vm.currentCard.card.imageDatasArray.count > 2 ? gridSize * 2 + 2 : gridSize
+        let expectedHeight = vm.currentCard.card.imageDatas.count > 2 ? gridSize * 2 + 2 : gridSize
         XCTAssertEqual(try innerVStack.fixedHeight(), expectedHeight)
 
         let pixabayText = try section.text(1)
@@ -138,7 +138,7 @@ final class CardViewTests: XCTestCase {
         for index in 0..<imageCount {
             let group = try hStack.group(index)
             
-            if let imageData = vm.currentCard.card.imageDatasArray[safe: index]?.data, UIImage(data: imageData) != nil {
+            if let imageData = vm.currentCard.card.imageDatas[safe: index]?.data, UIImage(data: imageData) != nil {
                 XCTAssertNoThrow(try group.image(0))
             } else {
                 XCTAssertNoThrow(try group.text(0))
@@ -149,15 +149,15 @@ final class CardViewTests: XCTestCase {
     func testDefinitionDetailView() throws {
         let definitionSection = try sut.inspect().vStack().zStack(3).scrollView(1).scrollViewReader().vStack().zStack(1).vStack(0).vStack(0)
         
-        for index in vm.currentCard.card.meaningsArray.indices {
+        for index in vm.currentCard.card.meanings.indices {
               let detailView = try definitionSection.forEach(0).tupleView(0).vStack(1)
             
             let hStack = try detailView.hStack(0)
             let partOfSpeech = try hStack.text(0)
-            XCTAssertEqual(try partOfSpeech.string(), vm.currentCard.card.meaningsArray[index].partOfSpeech ?? "")
+            XCTAssertEqual(try partOfSpeech.string(), vm.currentCard.card.meanings[index].partOfSpeech ?? "")
             
-            for idx in vm.currentCard.card.meaningsArray[index].definitionsArray.indices {
-                let definition = vm.currentCard.card.meaningsArray[index].definitionsArray[idx]
+            for idx in vm.currentCard.card.meanings[index].definitionsArray.indices {
+                let definition = vm.currentCard.card.meanings[index].definitionsArray[idx]
                 
                 let forEachVStack = try detailView.forEach(1).tupleView(0).vStack(1)
                 let textString = try forEachVStack.text(0).string()

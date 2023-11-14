@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import CoreData
+import SwiftData
 
 struct APIURL {
     static let freeDictionary = "https://api.dictionaryapi.dev/api/v2/entries/en/"
@@ -26,16 +26,12 @@ class NetworkService {
     
     // MARK: - fetchDefinitionsAndImages
     
-    func fetchDefinitionsAndImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Card, Error> {
-        guard let text = card.text else {
-            return Fail(error: MyError.textNotFound).eraseToAnyPublisher()
-        }
-        
-        let fetchCardData = fetchDefinitions(word: text).catch { error -> AnyPublisher<WordDefinition, Error> in
+    func fetchDefinitionsAndImages(card: Card, context: ModelContext) -> AnyPublisher<Card, Error> {
+        let fetchCardData = fetchDefinitions(word: card.text).catch { error -> AnyPublisher<WordDefinition, Error> in
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        let fetchImagesData = fetchImages(word: text).catch { error -> AnyPublisher<[String], Error> in
+        let fetchImagesData = fetchImages(word: card.text).catch { error -> AnyPublisher<[String], Error> in
             card.retryFetchImages = true
             return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
@@ -49,8 +45,8 @@ class NetworkService {
             .eraseToAnyPublisher()
     }
     
-    private func downloadAndSetImages(card: Card, context: NSManagedObjectContext, imageUrls: [String]) {
-        print("downloadAndSetImages card: \(card.text ?? "") imageUrls: \(imageUrls.count)")
+    private func downloadAndSetImages(card: Card, context: ModelContext, imageUrls: [String]) {
+        print("downloadAndSetImages card: \(card.text) imageUrls: \(imageUrls.count)")
         
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
             guard let urlObj = URL(string: url) else {
@@ -78,11 +74,11 @@ class NetworkService {
                 },
                 receiveValue: { imagesData in
                     for (index, data) in imagesData.enumerated() {
-                        let imageData = ImageData(context: context)
+                        let imageData = ImageData()
                         imageData.data = data
-                        imageData.priority = Int64(index)
+                        imageData.priority = index
                         print("set image: \(index) data: \(data)")
-                        card.addToImageDatas(imageData)
+                        card.imageDatas.append(imageData)
                     }
                 }
             )
@@ -170,30 +166,30 @@ class NetworkService {
         return .success(wordDefinition)
     }
     
-    private func setDefinitionData(card: Card, context: NSManagedObjectContext, data: WordDefinition) {
+    private func setDefinitionData(card: Card, context: ModelContext, data: WordDefinition) {
         data.meanings?.forEach { meaning in
-            let newMeaning = Meaning(context: context)
+            let newMeaning = Meaning()
             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
             newMeaning.createdAt = Date()
             
             meaning.definitions?.forEach { definition in
-                let newDefinition = Definition(context: context)
-                newDefinition.definition = definition.definition
+                let newDefinition = Definition()
+                newDefinition.definition = definition.definition ?? ""
                 newDefinition.example = definition.example
                 newDefinition.antonyms = definition.antonyms?.joined(separator: ", ") ?? ""
                 newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
                 newDefinition.createdAt = Date()
                 
-                newMeaning.addToDefinitions(newDefinition)
+                newMeaning.definitions.append(newDefinition)
             }
             
-            card.addToMeanings(newMeaning)
+            card.meanings.append(newMeaning)
         }
         
         data.phonetics?.forEach { phonetic in
-            let newPhonetic = Phonetic(context: context)
-            newPhonetic.text = phonetic.text
-            card.addToPhonetics(newPhonetic)
+            let newPhonetic = Phonetic()
+            newPhonetic.text = phonetic.text ?? ""
+            card.phonetics.append(newPhonetic)
         }
     }
     
@@ -225,10 +221,10 @@ class NetworkService {
     
     // MARK: - RetryFetchingImages
     
-    func retryFetchingImages(card: Card, context: NSManagedObjectContext) -> AnyPublisher<Void, Error> {
-        return fetchImages(word: card.unwrappedText)
+    func retryFetchingImages(card: Card, context: ModelContext) -> AnyPublisher<Void, Error> {
+        return fetchImages(word: card.text)
             .flatMap { imageUrls -> AnyPublisher<Void, Error> in
-                card.imageDatas = nil
+                card.imageDatas = []
                 
                 let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
                     return self.session.dataTaskPublisher(for: URL(string: url)!)
@@ -241,10 +237,10 @@ class NetworkService {
                     .collect()
                     .tryMap { imagesData in
                         for (index, data) in imagesData.enumerated() {
-                            let imageData = ImageData(context: context)
+                            let imageData = ImageData()
                             imageData.data = data
-                            imageData.priority = Int64(index)
-                            card.addToImageDatas(imageData)
+                            imageData.priority = index
+                            card.imageDatas.append(imageData)
                         }
                     }
                     .map { _ in () }

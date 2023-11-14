@@ -7,14 +7,14 @@
 
 import XCTest
 import Combine
-import CoreData
+import SwiftData
 @testable import WordWize
 
 class NetworkServiceTests: XCTestCase {
     var sut: NetworkService!
     var mockSession: URLSession!
     var cancellables: Set<AnyCancellable>!
-    var context: NSManagedObjectContext!
+    var context: ModelContext!
     
     override func setUp() {
         super.setUp()
@@ -119,7 +119,7 @@ class NetworkServiceTests: XCTestCase {
         let card = Card(context: context)
         card.text = "example"
         
-        XCTAssertNil(card.imageDatasArray.first?.data)
+        XCTAssertNil(card.imageDatas.first?.data)
         
         let publisher = sut.retryFetchingImages(card: card, context: context)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
@@ -140,6 +140,6 @@ class NetworkServiceTests: XCTestCase {
         .store(in: &cancellables)
 
         wait(for: [expectation], timeout: 3)
-        XCTAssertNotNil(card.imageDatasArray.first?.data)
+        XCTAssertNotNil(card.imageDatas.first?.data)
     }
 }
