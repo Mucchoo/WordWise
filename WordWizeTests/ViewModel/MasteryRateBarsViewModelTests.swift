@@ -12,14 +12,12 @@ import SwiftData
 class MasteryRateBarsViewModelTests: XCTestCase {
     
     var vm: MasteryRateBarsViewModel!
-    var context: ModelContext!
     let helper = MockHelper.shared
     
     @MainActor override func setUp() {
         super.setUp()
         
         vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), categoryName: "")
-        context = vm.container.context
     }
     
     override func tearDown() {
@@ -35,13 +33,13 @@ class MasteryRateBarsViewModelTests: XCTestCase {
     
     func testMaxCount() {
         let cards = [
-            helper.mockCard(rate: .zero, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .fifty, context: context),
-            helper.mockCard(rate: .seventyFive, context: context),
-            helper.mockCard(rate: .seventyFive, context: context),
-            helper.mockCard(rate: .seventyFive, context: context)
+            helper.mockCard(rate: .zero),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .fifty),
+            helper.mockCard(rate: .seventyFive),
+            helper.mockCard(rate: .seventyFive),
+            helper.mockCard(rate: .seventyFive)
         ]
         
         vm.container.appState.cards = cards
@@ -55,10 +53,10 @@ class MasteryRateBarsViewModelTests: XCTestCase {
     
     func testCountForRate() {
         let cards = [
-            helper.mockCard(rate: .zero, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .fifty, context: context)
+            helper.mockCard(rate: .zero),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .fifty)
         ]
         vm.container.appState.cards = cards
         
@@ -68,13 +66,13 @@ class MasteryRateBarsViewModelTests: XCTestCase {
     
     func testSetWidthAndCountText() {
         let cards = [
-            helper.mockCard(rate: .zero, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .twentyFive, context: context),
-            helper.mockCard(rate: .fifty, context: context),
-            helper.mockCard(rate: .seventyFive, context: context),
-            helper.mockCard(rate: .seventyFive, context: context),
-            helper.mockCard(rate: .seventyFive, context: context)
+            helper.mockCard(rate: .zero),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .twentyFive),
+            helper.mockCard(rate: .fifty),
+            helper.mockCard(rate: .seventyFive),
+            helper.mockCard(rate: .seventyFive),
+            helper.mockCard(rate: .seventyFive)
         ]
         
         vm.container.appState.cards = cards

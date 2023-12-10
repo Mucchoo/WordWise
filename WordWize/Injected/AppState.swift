@@ -14,5 +14,4 @@ class AppState: ObservableObject {
     @Published var todaysCards: [Card] = []
     @Published var upcomingCards: [Card] = []
     @Published var isAddingDefaultCategory = false
-    @Published var isDataLoaded = false
 }

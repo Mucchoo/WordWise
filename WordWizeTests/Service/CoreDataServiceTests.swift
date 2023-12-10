@@ -26,7 +26,7 @@ class SwiftDataServiceTests: XCTestCase {
         context = modelContainer.mainContext
         networkService = .init(session: .mock)
         appState = .init()
-        sut = .init(context: context, networkService: networkService, appState: appState)
+        sut = .init(networkService: networkService, appState: appState)
         cancellables = []
     }
     

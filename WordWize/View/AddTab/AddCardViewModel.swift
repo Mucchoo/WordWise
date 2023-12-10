@@ -16,6 +16,7 @@ class AddCardViewModel: ObservableObject {
         case fetchSucceeded
     }
     
+    @Environment(\.modelContext) private var context
     var cancellables = Set<AnyCancellable>()
     let container: DIContainer
     
@@ -120,10 +121,10 @@ class AddCardViewModel: ObservableObject {
         card.category = category
         card.nextLearningDate = Date()
         
-        return container.networkService.fetchDefinitionsAndImages(card: card, context: container.context)
+        return container.networkService.fetchDefinitionsAndImages(card: card)
             .map { .success($0) }
             .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
-                self.container.context.delete(card)
+                self.context.delete(card)
                 return Just(.failure(error)).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
@@ -131,7 +132,7 @@ class AddCardViewModel: ObservableObject {
                 self.fetchedWordCount += 1
                 switch output {
                 case .success(let card):
-                    print("fetchCard receiveOutput success: \(card.text ?? "")")
+                    print("fetchCard receiveOutput success: \(card.text)")
                 case .failure(let error):
                     print("fetchCard receiveOutput failure: \(error.localizedDescription)")
                     self.fetchFailedWords.append(word)

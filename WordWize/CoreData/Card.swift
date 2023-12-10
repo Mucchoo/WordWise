@@ -35,7 +35,7 @@ import SwiftData
         return MasteryRate(rawValue: masteryRate) ?? .zero
     }
 
-    func setMockData(context: ModelContext) {
+    func setMockData() {
         let newMeaning1 = Meaning()
         newMeaning1.partOfSpeech = "Noun"
         newMeaning1.createdAt = Date()

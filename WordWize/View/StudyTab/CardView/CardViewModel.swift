@@ -183,7 +183,7 @@ class CardViewModel: ObservableObject {
         
         currentCard.card.meanings.forEach { meaning in
             meaning.definitions.forEach { definition in
-                definitions.append(definition.definition ?? "")
+                definitions.append(definition.definition)
             }
         }
         

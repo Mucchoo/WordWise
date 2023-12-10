@@ -15,9 +15,7 @@ struct StudyView: View {
     }
 
     var body: some View {
-        if !vm.container.appState.isDataLoaded {
-            Text("Loading...")
-        } else if vm.container.appState.cards.isEmpty {
+        if vm.container.appState.cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {

@@ -10,13 +10,12 @@ import SwiftUI
 import Combine
 
 class SwiftDataService {
+    @Environment(\.modelContext) private var context
     private var cancellables = Set<AnyCancellable>()
-    let context: ModelContext
     let networkService: NetworkService
     let appState: AppState
     
-    init(context: ModelContext, networkService: NetworkService, appState: AppState) {
-        self.context = context
+    init(networkService: NetworkService, appState: AppState) {
         self.networkService = networkService
         self.appState = appState
     }
@@ -26,7 +25,7 @@ class SwiftDataService {
         
         let fetchPublishers = cardsFailedFetchingImages.publisher
             .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<Void, Never> in
-                return self.networkService.retryFetchingImages(card: card, context: self.context)
+                return self.networkService.retryFetchingImages(card: card)
                     .catch { _ in Empty<Void, Never>() }
                     .eraseToAnyPublisher()
             }

@@ -9,33 +9,34 @@ import SwiftData
 import SwiftUI
 
 struct MockHelper {
+    @Environment(\.modelContext) private var context
     static let shared = MockHelper()
     let mockCategory = "Mock Category"
     
-    func setupMockData(context: ModelContext, appState: AppState) {
-        createAndSaveMockCards(context: context, appState: appState)
-        createAndSaveMockCategory(context: context, appState: appState)
+    func setupMockData(appState: AppState) {
+        createAndSaveMockCards(appState: appState)
+        createAndSaveMockCategory(appState: appState)
     }
     
-    private func createAndSaveMockCards(context: ModelContext, appState: AppState) {
-        let cards = createMockCards(context: context)
+    private func createAndSaveMockCards(appState: AppState) {
+        let cards = createMockCards()
         appState.cards = cards
         updateCards(appState: appState)
     }
     
-    private func createAndSaveMockCategory(context: ModelContext, appState: AppState) {
+    private func createAndSaveMockCategory(appState: AppState) {
         let category = CardCategory()
         category.name = mockCategory
         appState.categories.append(category)
     }
     
-    private func createMockCards(context: ModelContext) -> [Card] {
+    private func createMockCards() -> [Card] {
         var cards = [Card]()
         
         for i in 0..<100 {
             let card = Card()
             card.text = "mock \(i)"
-            card.setMockData(context: context)
+            card.setMockData()
             card.masteryRate = Int16.random(in: 0...4)
             card.category = mockCategory
             card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date()) ?? Date()
@@ -62,7 +63,7 @@ struct MockHelper {
         appState.upcomingCards = filterCards(for: .upcoming, appState: appState)
     }
     
-    func mockCard(rate: MasteryRate, context: ModelContext) -> Card {
+    func mockCard(rate: MasteryRate) -> Card {
         let card = Card()
         card.masteryRate = rate.rawValue
         return card

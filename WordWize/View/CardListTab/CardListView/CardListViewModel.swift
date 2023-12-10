@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 
 class CardListViewModel: ObservableObject {
+    @Environment(\.modelContext) private var context
     private var cancellables = Set<AnyCancellable>()
     let container: DIContainer
 
@@ -137,14 +138,14 @@ class CardListViewModel: ObservableObject {
     
     func deleteCard() {
         guard let card = selectedCard else { return }
-        container.context.delete(card)
+        context.delete(card)
         navigateToCardDetail = false
         updateCardList()
     }
     
     func deleteSelectedCards() {
         selectedCards.forEach { card in
-            container.context.delete(card)
+            context.delete(card)
         }
         multipleSelectionMode = false
     }

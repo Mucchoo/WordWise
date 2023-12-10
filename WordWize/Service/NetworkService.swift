@@ -26,7 +26,7 @@ class NetworkService {
     
     // MARK: - fetchDefinitionsAndImages
     
-    func fetchDefinitionsAndImages(card: Card, context: ModelContext) -> AnyPublisher<Card, Error> {
+    func fetchDefinitionsAndImages(card: Card) -> AnyPublisher<Card, Error> {
         let fetchCardData = fetchDefinitions(word: card.text).catch { error -> AnyPublisher<WordDefinition, Error> in
             return Fail(error: error).eraseToAnyPublisher()
         }
@@ -38,14 +38,14 @@ class NetworkService {
 
         return Publishers.Zip(fetchCardData, fetchImagesData)
             .flatMap({ definition, imageUrls in
-                self.setDefinitionData(card: card, context: context, data: definition)
-                self.downloadAndSetImages(card: card, context: context, imageUrls: imageUrls)
+                self.setDefinitionData(card: card, data: definition)
+                self.downloadAndSetImages(card: card, imageUrls: imageUrls)
                 return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
             })
             .eraseToAnyPublisher()
     }
     
-    private func downloadAndSetImages(card: Card, context: ModelContext, imageUrls: [String]) {
+    private func downloadAndSetImages(card: Card, imageUrls: [String]) {
         print("downloadAndSetImages card: \(card.text) imageUrls: \(imageUrls.count)")
         
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
@@ -166,7 +166,7 @@ class NetworkService {
         return .success(wordDefinition)
     }
     
-    private func setDefinitionData(card: Card, context: ModelContext, data: WordDefinition) {
+    private func setDefinitionData(card: Card, data: WordDefinition) {
         data.meanings?.forEach { meaning in
             let newMeaning = Meaning()
             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
@@ -221,7 +221,7 @@ class NetworkService {
     
     // MARK: - RetryFetchingImages
     
-    func retryFetchingImages(card: Card, context: ModelContext) -> AnyPublisher<Void, Error> {
+    func retryFetchingImages(card: Card) -> AnyPublisher<Void, Error> {
         return fetchImages(word: card.text)
             .flatMap { imageUrls -> AnyPublisher<Void, Error> in
                 card.imageDatas = []

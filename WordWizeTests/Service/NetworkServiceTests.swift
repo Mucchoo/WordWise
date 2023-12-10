@@ -21,7 +21,6 @@ class NetworkServiceTests: XCTestCase {
         mockSession = .mock
         sut = NetworkService(session: .mock)
         cancellables = []
-        context = Persistence(isMock: true).viewContext
     }
     
     override func tearDown() {
@@ -34,10 +33,10 @@ class NetworkServiceTests: XCTestCase {
     }
     
     func testFetchDefinitionsAndImages_FreeAPI_Success() {
-        let card = Card(context: context)
+        let card = Card()
         card.text = "example"
 
-        let publisher = sut.fetchDefinitionsAndImages(card: card, context: context)
+        let publisher = sut.fetchDefinitionsAndImages(card: card)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
@@ -62,11 +61,11 @@ class NetworkServiceTests: XCTestCase {
     }
     
     func testFetchDefinitionsAndImages_MerriamWebster_Success() {
-        let card = Card(context: context)
+        let card = Card()
         card.text = "example"
         
         MockURLProtocol.shouldFailUrls.append(APIURL.freeDictionary)
-        let publisher = sut.fetchDefinitionsAndImages(card: card, context: context)
+        let publisher = sut.fetchDefinitionsAndImages(card: card)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
@@ -116,12 +115,12 @@ class NetworkServiceTests: XCTestCase {
     }
     
     func testRetryFetchingImages_Success() {
-        let card = Card(context: context)
+        let card = Card()
         card.text = "example"
         
         XCTAssertNil(card.imageDatas.first?.data)
         
-        let publisher = sut.retryFetchingImages(card: card, context: context)
+        let publisher = sut.retryFetchingImages(card: card)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
