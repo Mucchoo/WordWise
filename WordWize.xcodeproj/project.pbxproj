@@ -46,7 +46,7 @@
 		2ABC637D2A38194300718C90 /* AddCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637C2A38194300718C90 /* AddCardView.swift */; };
 		2ABC637F2A381B2700718C90 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABC637E2A381B2700718C90 /* StudyView.swift */; };
 		2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD30C802A9EF76900BCEF04 /* MyError.swift */; };
-		2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */; };
+		2ADC3C272A50A20C00AA5903 /* SwiftDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADC3C262A50A20C00AA5903 /* SwiftDataService.swift */; };
 		2ADC3C2D2A50A83400AA5903 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */; };
 		2AE1F8582AA6BAC000EE8AD9 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1F8572AA6BAC000EE8AD9 /* ContentViewModelTests.swift */; };
 		2AE1F85A2AA6BCCE00EE8AD9 /* StudyViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE1F8592AA6BCCE00EE8AD9 /* StudyViewModelTests.swift */; };
@@ -142,7 +142,7 @@
 		2ABC637E2A381B2700718C90 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		2AD30C802A9EF76900BCEF04 /* MyError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyError.swift; sourceTree = "<group>"; };
 		2AD373E52A6D83FB006DD2FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		2ADC3C262A50A20C00AA5903 /* SwiftDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataService.swift; sourceTree = "<group>"; };
 		2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2AE1F8572AA6BAC000EE8AD9 /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
 		2AE1F8592AA6BCCE00EE8AD9 /* StudyViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyViewModelTests.swift; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 		2A2015C42A63F40C00C67716 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				2ADC3C262A50A20C00AA5903 /* CoreDataService.swift */,
+				2ADC3C262A50A20C00AA5903 /* SwiftDataService.swift */,
 				2A2015C52A63F42300C67716 /* NetworkService.swift */,
 			);
 			path = Service;
@@ -306,6 +306,7 @@
 				C62C2ECE2AA4F68C0065DA91 /* Language.swift */,
 				2AD30C802A9EF76900BCEF04 /* MyError.swift */,
 				2AB7C9612A51240100A703FA /* PickerOptions.swift */,
+				2A881D222A8375C2003329E1 /* MasteryRate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -348,18 +349,17 @@
 			path = CardListTab;
 			sourceTree = "<group>";
 		};
-		2A894F8A2A3FB60700163F92 /* CoreData */ = {
+		2A894F8A2A3FB60700163F92 /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
-				2A881D222A8375C2003329E1 /* MasteryRate.swift */,
+				C60BE4202B02D61C00F07CC8 /* Card.swift */,
 				C60BE41C2B02D61C00F07CC8 /* ImageData.swift */,
+				C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */,
 				C60BE41D2B02D61C00F07CC8 /* Meaning.swift */,
 				C60BE41E2B02D61C00F07CC8 /* Definition.swift */,
-				C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */,
-				C60BE4202B02D61C00F07CC8 /* Card.swift */,
 				C60BE4212B02D61C00F07CC8 /* CardCategory.swift */,
 			);
-			path = CoreData;
+			path = SwiftData;
 			sourceTree = "<group>";
 		};
 		2AB6B86D2A9A5D6900645F08 /* StudyView */ = {
@@ -426,7 +426,7 @@
 				2A01FA102A4C84F400C7C1CE /* WordWizeApp.swift */,
 				2ABC63612A38147900718C90 /* Assets.xcassets */,
 				2ADC3C2C2A50A83400AA5903 /* Launch Screen.storyboard */,
-				2A894F8A2A3FB60700163F92 /* CoreData */,
+				2A894F8A2A3FB60700163F92 /* SwiftData */,
 				2A3C1DFF2A3924FC001B6E0E /* Model */,
 				2A5E8C3F2A9C7B8F00039950 /* Injected */,
 				2A3C1DFA2A390EF3001B6E0E /* View */,
@@ -722,7 +722,7 @@
 				2A881D232A8375C2003329E1 /* MasteryRate.swift in Sources */,
 				2AB76B012A63998600C2C260 /* Array+Extension.swift in Sources */,
 				2A737B332A6DA3B1002814E2 /* translationResponse.swift in Sources */,
-				2ADC3C272A50A20C00AA5903 /* CoreDataService.swift in Sources */,
+				2ADC3C272A50A20C00AA5903 /* SwiftDataService.swift in Sources */,
 				2AB7C9622A51240100A703FA /* PickerOptions.swift in Sources */,
 				2A3C1E082A3944E4001B6E0E /* CardView.swift in Sources */,
 				C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */,

@@ -10,8 +10,11 @@ import Foundation
 import SwiftData
 
 @Model final class Phonetic {
+    @Attribute(.unique) var id:String
     var text: String = ""
     var card: Card?
     
-    init() {}
+    init() {
+        self.id = UUID().uuidString
+    }
 }

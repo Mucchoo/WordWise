@@ -10,13 +10,16 @@ import Foundation
 import SwiftData
 
 @Model final class Definition {
+    @Attribute(.unique) var id:String
     var antonyms: String?
     var createdAt: Date?
     var definition: String = ""
     var example: String?
     var synonyms: String?
     var translatedDefinition: String = ""
-    @Relationship(inverse: \Meaning.definitions) var meaning: [Meaning] = []
+    var meaning: Meaning?
     
-    init() {}
+    init() {
+        self.id = UUID().uuidString
+    }
 }

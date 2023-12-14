@@ -11,13 +11,11 @@ import SwiftData
 @main
 struct WordWizeApp: App {
     var body: some Scene {
-        let container = DIContainer(
-            appState: AppState(),
-            networkService: NetworkService(session: .shared))
+        let container = DIContainer(appState: .init(), urlSession: .shared)
         
         WindowGroup {
             ContentView(container: container)
-                .modelContainer(for: [Card.self, CardCategory.self, Phonetic.self, Definition.self, Meaning.self, ImageData.self])
+                .modelContainer(container.modelContainer)
         }
     }
 }

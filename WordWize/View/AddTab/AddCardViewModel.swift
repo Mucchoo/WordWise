@@ -16,7 +16,6 @@ class AddCardViewModel: ObservableObject {
         case fetchSucceeded
     }
     
-    @Environment(\.modelContext) private var context
     var cancellables = Set<AnyCancellable>()
     let container: DIContainer
     
@@ -68,6 +67,7 @@ class AddCardViewModel: ObservableObject {
         self.container = container
     }
     
+    @MainActor
     func generateCards() {
         let cancellable = generateCards()
             .receive(on: DispatchQueue.main)
@@ -82,6 +82,7 @@ class AddCardViewModel: ObservableObject {
         generatingCards = true
     }
     
+    @MainActor
     private func generateCards() -> AnyPublisher<Void, Never> {
         fetchFailedWords = []
         return Deferred {
@@ -115,8 +116,10 @@ class AddCardViewModel: ObservableObject {
         .eraseToAnyPublisher()
     }
     
+    @MainActor
     private func fetchCard(word: String, category: String) -> AnyPublisher<Result<Card, Error>, Never> {
         let card = Card()
+        container.modelContext.insert(card)
         card.text = word
         card.category = category
         card.nextLearningDate = Date()
@@ -124,11 +127,13 @@ class AddCardViewModel: ObservableObject {
         return container.networkService.fetchDefinitionsAndImages(card: card)
             .map { .success($0) }
             .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
-                self.context.delete(card)
+                print("catch error:\(error.localizedDescription)")
+                self.container.modelContext.delete(card)
                 return Just(.failure(error)).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
             .handleEvents(receiveOutput: { output in
+                print("handleEvents output:\(output)")
                 self.fetchedWordCount += 1
                 switch output {
                 case .success(let card):
@@ -147,6 +152,7 @@ class AddCardViewModel: ObservableObject {
               !container.appState.categories.contains(where: { $0.name == textFieldInput }) else { return }
         
         let category = CardCategory()
+        container.modelContext.insert(category)
         category.name = textFieldInput
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in

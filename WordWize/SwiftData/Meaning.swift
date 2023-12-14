@@ -10,10 +10,14 @@ import Foundation
 import SwiftData
 
 @Model final class Meaning {
+    @Attribute(.unique) var id:String
     var createdAt: Date = Date()
     var partOfSpeech: String = ""
-    var definitions: [Definition] = []
     var card: Card?
     
-    init() {}
+    @Relationship(deleteRule: .cascade, inverse: \Definition.meaning) var definitions: [Definition] = []
+    
+    init() {
+        self.id = UUID().uuidString
+    }
 }

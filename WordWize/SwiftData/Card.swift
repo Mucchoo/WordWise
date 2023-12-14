@@ -10,6 +10,7 @@ import UIKit
 import SwiftData
 
 @Model final class Card {
+    @Attribute(.unique) var id:String
     var category: String = ""
     var lastHardDate: Date?
     var masteryRate: Int16 = 0
@@ -21,7 +22,9 @@ import SwiftData
     @Relationship(inverse: \Meaning.card) var meanings: [Meaning] = []
     @Relationship(inverse: \Phonetic.card) var phonetics: [Phonetic] = []
     
-    init() {}
+    init() {
+        self.id = UUID().uuidString
+    }
     
     var isTodayOrBefore: Bool {
         return Calendar.current.isDateInToday(nextLearningDate) || Date() > nextLearningDate

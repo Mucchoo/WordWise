@@ -10,7 +10,10 @@ import Foundation
 import SwiftData
 
 @Model class CardCategory {
+    @Attribute(.unique) var id:String
     var name: String?
     
-    init() {}
+    init() {
+        self.id = UUID().uuidString
+    }
 }

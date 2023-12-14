@@ -10,14 +10,15 @@ import SwiftUI
 import Combine
 
 class SwiftDataService {
-    @Environment(\.modelContext) private var context
     private var cancellables = Set<AnyCancellable>()
     let networkService: NetworkService
     let appState: AppState
+    let context: ModelContext
     
-    init(networkService: NetworkService, appState: AppState) {
+    init(networkService: NetworkService, appState: AppState, context: ModelContext) {
         self.networkService = networkService
         self.appState = appState
+        self.context = context
     }
 
     func retryFetchingImagesIfNeeded() {
@@ -39,6 +40,7 @@ class SwiftDataService {
         guard appState.categories.isEmpty else { return }
         let defaultCategoryName = "Category 1"
         let newCategory = CardCategory()
+        context.insert(newCategory)
         newCategory.name = defaultCategoryName
         appState.categories.append(newCategory)
     }
@@ -75,6 +77,7 @@ class SwiftDataService {
         guard !missingCategoryName.isEmpty else { return }
         
         let missingCategory = CardCategory()
+        context.insert(missingCategory)
         missingCategory.name = missingCategoryName
         appState.categories.append(missingCategory)
     }

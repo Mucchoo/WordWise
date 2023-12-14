@@ -18,10 +18,12 @@ struct APIURL {
 
 class NetworkService {
     let session: URLSession
+    let context: ModelContext
     private var cancellables = Set<AnyCancellable>()
 
-    init(session: URLSession) {
+    init(session: URLSession, context: ModelContext) {
         self.session = session
+        self.context = context
     }
     
     // MARK: - fetchDefinitionsAndImages
@@ -75,6 +77,7 @@ class NetworkService {
                 receiveValue: { imagesData in
                     for (index, data) in imagesData.enumerated() {
                         let imageData = ImageData()
+                        self.context.insert(imageData)
                         imageData.data = data
                         imageData.priority = index
                         print("set image: \(index) data: \(data)")
@@ -188,6 +191,7 @@ class NetworkService {
         
         data.phonetics?.forEach { phonetic in
             let newPhonetic = Phonetic()
+            context.insert(newPhonetic)
             newPhonetic.text = phonetic.text ?? ""
             card.phonetics.append(newPhonetic)
         }
@@ -238,6 +242,7 @@ class NetworkService {
                     .tryMap { imagesData in
                         for (index, data) in imagesData.enumerated() {
                             let imageData = ImageData()
+                            self.context.insert(imageData)
                             imageData.data = data
                             imageData.priority = index
                             card.imageDatas.append(imageData)

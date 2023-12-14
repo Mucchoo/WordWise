@@ -10,9 +10,12 @@ import Foundation
 import SwiftData
 
 @Model final class ImageData {
+    @Attribute(.unique) var id:String
     var data: Data?
     var priority: Int = 0
     var card: Card?
     
-    init() {}
+    init() {
+        self.id = UUID().uuidString
+    }
 }
