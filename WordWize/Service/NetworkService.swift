@@ -174,6 +174,7 @@ class NetworkService {
             let newMeaning = Meaning()
             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
             newMeaning.createdAt = Date()
+            context.insert(newMeaning)
             
             meaning.definitions?.forEach { definition in
                 let newDefinition = Definition()
@@ -183,7 +184,9 @@ class NetworkService {
                 newDefinition.synonyms = definition.synonyms?.joined(separator: ", ") ?? ""
                 newDefinition.createdAt = Date()
                 
-                newMeaning.definitions.append(newDefinition)
+                DispatchQueue.main.async {
+                    newMeaning.definitions.append(newDefinition)
+                }
             }
             
             card.meanings.append(newMeaning)
