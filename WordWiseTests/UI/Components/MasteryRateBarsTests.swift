@@ -15,7 +15,7 @@ class MasteryRateBarsTests: XCTestCase {
     var viewModel: MasteryRateBarsViewModel!
     var sut: MasteryRateBars!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         viewModel = .init(container: .mock(), categoryName: MockHelper.shared.mockCategory)
         sut = MasteryRateBars(vm: viewModel)

@@ -16,7 +16,7 @@ final class CardViewTests: XCTestCase {
     var vm: CardViewModel!
     var sut: CardView!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock())
         sut = .init(vm: vm, showingCardView: .constant(true))
@@ -154,14 +154,14 @@ final class CardViewTests: XCTestCase {
             
             let hStack = try detailView.hStack(0)
             let partOfSpeech = try hStack.text(0)
-            XCTAssertEqual(try partOfSpeech.string(), vm.currentCard.card.meanings[index].partOfSpeech ?? "")
+            XCTAssertEqual(try partOfSpeech.string(), vm.currentCard.card.meanings[index].partOfSpeech)
             
-            for idx in vm.currentCard.card.meanings[index].definitionsArray.indices {
-                let definition = vm.currentCard.card.meanings[index].definitionsArray[idx]
+            for idx in vm.currentCard.card.meanings[index].definitions.indices {
+                let definition = vm.currentCard.card.meanings[index].definitions[idx]
                 
                 let forEachVStack = try detailView.forEach(1).tupleView(0).vStack(1)
                 let textString = try forEachVStack.text(0).string()
-                XCTAssertEqual(textString, "\(idx + 1). \(vm.showTranslations ? definition.translatedDefinition ?? "" : definition.definition ?? "")")
+                XCTAssertEqual(textString, "\(idx + 1). \(vm.showTranslations ? definition.translatedDefinition : definition.definition)")
 
                 var viewIndex = 1
                 if let example = definition.example, !example.isEmpty {

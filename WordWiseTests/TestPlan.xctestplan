@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "90326158-3B24-46C1-996C-12CFAD800FFA",
+      "id" : "4FEEF3C7-8528-4382-A101-2F0B5BB430EB",
       "name" : "Configuration 1",
       "options" : {
 
@@ -13,17 +13,10 @@
   },
   "testTargets" : [
     {
-      "skippedTests" : [
-        "AddCardViewModelTests\/testGenerateCardsFail()",
-        "AddCardViewModelTests\/testTogglePlaceHolderShouldBeTrue()",
-        "AddCardViewModelTests\/testUpdateTextEditorShowPlaceholder()",
-        "CardListViewModelTests\/testShowCardDetailWithNilCategory()",
-        "CardListViewModelTests\/testShowCardDetail_NilCategory()"
-      ],
       "target" : {
-        "containerPath" : "container:WordWize.xcodeproj",
+        "containerPath" : "container:WordWise.xcodeproj",
         "identifier" : "2A2015B82A63D9EA00C67716",
-        "name" : "WordWizeTests"
+        "name" : "WordWiseTests"
       }
     }
   ],

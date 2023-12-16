@@ -12,7 +12,7 @@ class CategoryListViewModelTests: XCTestCase {
     
     var vm: CategoryListViewModel!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock())
     }
@@ -28,11 +28,11 @@ class CategoryListViewModelTests: XCTestCase {
         let initialCategoryName = "InitialCategory"
         let newCategoryName = "NewCategory"
         
-        let category = CardCategory(context: vm.container.context)
+        let category = CardCategory()
         category.name = initialCategoryName
         vm.container.appState.categories = [category]
         
-        let card = Card(context: vm.container.context)
+        let card = Card()
         card.category = initialCategoryName
         vm.container.appState.cards = [card]
         vm.targetCategoryName = initialCategoryName
@@ -50,11 +50,11 @@ class CategoryListViewModelTests: XCTestCase {
         
         let initialCategoryName = "InitialCategory"
         
-        let category = CardCategory(context: vm.container.context)
+        let category = CardCategory()
         category.name = initialCategoryName
         vm.container.appState.categories = [category]
         
-        let card = Card(context: vm.container.context)
+        let card = Card()
         card.category = initialCategoryName
         vm.container.appState.cards = [card]
         vm.targetCategoryName = initialCategoryName

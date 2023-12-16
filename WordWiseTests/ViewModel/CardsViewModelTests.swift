@@ -10,19 +10,19 @@ import XCTest
 
 class CardsViewModelTests: XCTestCase {
     
-    func testInitializeWithTodaysType() {
+    @MainActor func testInitializeWithTodaysType() {
         let vm = CardsViewModel(container: .mock(withMockCards: false), type: .todays)
         XCTAssertEqual(vm.title, "Todays Cards")
         XCTAssertEqual(vm.cards.count, 0)
     }
     
-    func testInitializeWithUpcomingType() {
+    @MainActor func testInitializeWithUpcomingType() {
         let vm = CardsViewModel(container: .mock(withMockCards: false), type: .upcoming)
         XCTAssertEqual(vm.title, "Upcoming Cards")
         XCTAssertEqual(vm.cards.count, 0)
     }
     
-    func testGetRemainingDays() {
+    @MainActor func testGetRemainingDays() {
         let vm = CardsViewModel(container: .mock(), type: .todays)
         
         let today = Date()

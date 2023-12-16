@@ -15,7 +15,7 @@ class CardListViewTests: XCTestCase {
     var vm: CardListViewModel!
     var sut: CardListView!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock(), categoryName: MockHelper.shared.mockCategory)
         sut = CardListView(vm: vm)

@@ -14,7 +14,7 @@ class PickerAlertTests: XCTestCase {
     
     var vm: CardListViewModel!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = CardListViewModel(container: .mock(), categoryName: MockHelper.shared.mockCategory)
     }

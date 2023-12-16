@@ -15,7 +15,7 @@ class AddCardViewTests: XCTestCase {
     var vm: AddCardViewModel!
     var sut: AddCardView!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = AddCardViewModel(container: .mock())
         sut = AddCardView(vm: vm)

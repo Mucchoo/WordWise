@@ -15,7 +15,7 @@ class CategoryListViewTests: XCTestCase {
     var vm: CategoryListViewModel!
     var sut: CategoryListView!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock())
         sut = .init(vm: vm)

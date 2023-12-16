@@ -22,11 +22,11 @@ class SwiftDataServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self, Phonetic.self, Definition.self, Meaning.self, ImageData.self)
+        let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self)
         context = modelContainer.mainContext
-        networkService = .init(session: .mock)
+        networkService = .init(session: .mock, context: context)
         appState = .init()
-        sut = .init(networkService: networkService, appState: appState)
+        sut = .init(networkService: networkService, appState: appState, context: context)
         cancellables = []
     }
     
@@ -61,7 +61,7 @@ class SwiftDataServiceTests: XCTestCase {
     func testSaveAndReload() {
         XCTAssertTrue(appState.cards.isEmpty)
         
-        let card = Card()
+        _ = Card()
         let expectation = self.expectation(description: "Wait for saveAndReload")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             expectation.fulfill()

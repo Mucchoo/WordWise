@@ -11,7 +11,7 @@ import XCTest
 class ContentViewModelTests: XCTestCase {
     var viewModel: ContentViewModel!
 
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         viewModel = ContentViewModel(container: .mock())
     }

@@ -19,7 +19,7 @@ class NetworkServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockSession = .mock
-        sut = NetworkService(session: .mock)
+        sut = NetworkService(session: .mock, context: context)
         cancellables = []
     }
     

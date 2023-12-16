@@ -48,7 +48,7 @@ class CardViewModelTests: XCTestCase {
     var vm: CardViewModel!
     var cancellables: Set<AnyCancellable>!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = CardViewModel(container: .mock())
         cancellables = []

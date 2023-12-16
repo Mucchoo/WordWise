@@ -15,7 +15,7 @@ class CardsViewTests: XCTestCase {
     var vm: CardsViewModel!
     var sut: CardsView!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock(), type: .upcoming)
         sut = CardsView(vm: vm)
@@ -35,7 +35,7 @@ class CardsViewTests: XCTestCase {
         let card = vm.cards.first!
         let view = sut.cardRow(card)
         
-        XCTAssertEqual(try view.inspect().vStack().hStack(0).text(0).string(), card.text!)
+        XCTAssertEqual(try view.inspect().vStack().hStack(0).text(0).string(), card.text)
         XCTAssertEqual(try view.inspect().vStack().hStack(0).text(2).string(), vm.getRemainingDays(card.nextLearningDate))
         XCTAssertEqual(try view.inspect().vStack().hStack(0).text(3).string(), card.rate.stringValue() + "%")
     }

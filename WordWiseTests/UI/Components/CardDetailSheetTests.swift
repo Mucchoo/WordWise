@@ -16,11 +16,10 @@ class CardDetailSheetTests: XCTestCase {
     var didTapDelete = false
     var didTapUpdate = false
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         
-        let container: DIContainer = .mock()
-        let card = Card(context: container.context)
+        let card = Card()
         card.text = "Card Text"
         card.masteryRate = 0
         card.category = MockHelper.shared.mockCategory

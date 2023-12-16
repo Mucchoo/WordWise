@@ -12,7 +12,7 @@ import Combine
 class StudyViewModelTests: XCTestCase {
     var vm: StudyViewModel!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = StudyViewModel(container: .mock())
     }
@@ -29,12 +29,12 @@ class StudyViewModelTests: XCTestCase {
     }
 
     func testUpdateCards() {
-        let card1 = Card(context: vm.container.context)
+        let card1 = Card()
         card1.category = "Test1"
         card1.nextLearningDate = Date()
-        let card2 = Card(context: vm.container.context)
+        let card2 = Card()
         card2.category = "Test2"
-        card2.nextLearningDate = Calendar.current.date(byAdding: .day, value: 10, to: Date())
+        card2.nextLearningDate = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
         
         vm.container.appState.cards = [card1, card2]
         vm.selectedCategory = "Test1"
@@ -51,10 +51,10 @@ class StudyViewModelTests: XCTestCase {
     }
 
     func testRateBarCardCount() {
-        let card1 = Card(context: vm.container.context)
+        let card1 = Card()
         card1.category = "Test"
         card1.masteryRate = 0
-        let card2 = Card(context: vm.container.context)
+        let card2 = Card()
         card2.category = "Test"
         card2.masteryRate = 3
         

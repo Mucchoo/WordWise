@@ -14,7 +14,7 @@ class AddCardViewModelTests: XCTestCase {
     var vm: AddCardViewModel!
     var cancellables: Set<AnyCancellable>!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = .init(container: .mock())
         cancellables = []
@@ -42,7 +42,7 @@ class AddCardViewModelTests: XCTestCase {
         XCTAssertEqual(vm.displayText, vm.placeHolder)
     }
     
-    func testGenerateCards() {
+    @MainActor func testGenerateCards() {
         let expectation = XCTestExpectation(description: "Generate cards")
         
         vm.cardText = "apple\norange"
@@ -59,7 +59,7 @@ class AddCardViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func testFetchSucceeded() {
+    @MainActor func testFetchSucceeded() {
         let expectation = XCTestExpectation(description: "Fetch Succeeded")
         
         vm.$currentAlert.sink { alertType in
@@ -144,7 +144,7 @@ class AddCardViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func testRequestedAndFetchedWordCount() {
+    @MainActor func testRequestedAndFetchedWordCount() {
         let expectation = XCTestExpectation(description: "Fetch Completed")
         
         vm.cardText = "apple\norange"
@@ -163,7 +163,7 @@ class AddCardViewModelTests: XCTestCase {
         XCTAssertEqual(vm.fetchedWordCount, 2)
     }
     
-    func testGenerateCardsFail() {
+    @MainActor func testGenerateCardsFail() {
         let expectation = XCTestExpectation(description: "generating cards")
 
         vm.cardText = "test"

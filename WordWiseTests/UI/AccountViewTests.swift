@@ -15,7 +15,7 @@ class AccountViewTests: XCTestCase {
     var sut: AccountView!
     var vm: AccountViewModel!
     
-    override func setUp() {
+    @MainActor override func setUp() {
         super.setUp()
         vm = AccountViewModel(container: .mock())
         sut = AccountView(vm: vm)
