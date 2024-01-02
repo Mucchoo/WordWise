@@ -44,3 +44,5 @@ playground.xcworkspace
 
 # Confidential files
 WordWize/Helper/Keys.swift
+
+.DS_Store
