@@ -12,11 +12,6 @@ struct StudyView: View {
     @StateObject private var vm: StudyViewModel
     @Query private var cards: [Card]
     @Query private var categories: [CardCategory]
-    @Query(filter: #Predicate<Card> { $0.isTodayOrBefore }) private var todaysCards: [Card]
-    @Query(filter: #Predicate<Card> { $0.isUpcoming }) private var upcomingCards: [Card]
-    private var studyingCards: [Card] {
-        return Array(todaysCards.prefix(vm.maximumCards))
-    }
 
     init(vm: StudyViewModel) {
         _vm = StateObject(wrappedValue: vm)
@@ -39,11 +34,11 @@ struct StudyView: View {
                         masteryRateCounts
                         studyButton
                         
-                        if !todaysCards.isEmpty {
+                        if !vm.todaysCards.isEmpty {
                             todaysCardsButton
                         }
                         
-                        if !upcomingCards.isEmpty {
+                        if !vm.upcomingCards.isEmpty {
                             upcomingCardsButton
                         }
                     }
@@ -111,14 +106,14 @@ struct StudyView: View {
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(studyingCards.count > 0 ?
+                .background(vm.studyingCards.count > 0 ?
                             LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) :
                             LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .accessibilityIdentifier("StudyCardsButton")
         }
-        .disabled(studyingCards.count == 0)
+        .disabled(vm.studyingCards.count == 0)
         .padding()
         .accessibilityIdentifier("studyCardsButton")
         .fullScreenCover(isPresented: $vm.showingCardView) {
@@ -168,13 +163,13 @@ struct StudyView: View {
     
     private var todaysCardsButton: some View {
         return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .todays))) {
-            Text("Todays Cards: \(todaysCards.count) Cards")
+            Text("Todays Cards: \(vm.todaysCards.count) Cards")
         }.padding(.top, 20)
     }
     
     private var upcomingCardsButton: some View {
         return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .upcoming))) {
-            Text("Upcoming Cards: \(upcomingCards.count) Cards")
+            Text("Upcoming Cards: \(vm.upcomingCards.count) Cards")
         }.padding(.top, 20)
     }
 }

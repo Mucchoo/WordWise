@@ -27,9 +27,16 @@ class StudyViewModel: ObservableObject {
     }
     
     var studyingCards: [Card] {
-        let fetchDescriptor = FetchDescriptor<Card>(predicate: #Predicate { $0.isTodayOrBefore })
-        let todaysCards = (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+        let todaysCards = cards.filter { $0.isTodayOrBefore }
         return Array(todaysCards.prefix(maximumCards))
+    }
+    
+    var todaysCards: [Card] {
+        return cards.filter { $0.isTodayOrBefore }
+    }
+    
+    var upcomingCards: [Card] {
+        return cards.filter { $0.isUpcoming }
     }
     
     var studyButtonTitle: String {

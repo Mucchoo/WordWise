@@ -18,15 +18,14 @@ class CardsViewModel: ObservableObject {
 
     init(container: DIContainer, type: ViewType) {
         var descriptor = FetchDescriptor<Card>()
+        let allCards = (try? container.modelContext.fetch(descriptor)) ?? []
         
         switch type {
         case .todays:
-            descriptor.predicate = #Predicate { $0.isTodayOrBefore }
-            cards = (try? container.modelContext.fetch(descriptor)) ?? []
+            cards = allCards.filter { $0.isTodayOrBefore }
             title = "Todays Cards"
         case .upcoming:
-            descriptor.predicate = #Predicate { $0.isUpcoming }
-            cards = (try? container.modelContext.fetch(descriptor)) ?? []
+            cards = allCards.filter { $0.isUpcoming }
             title = "Upcoming Cards"
         }
     }
