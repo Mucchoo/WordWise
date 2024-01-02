@@ -46,3 +46,4 @@ playground.xcworkspace
 WordWize/Helper/Keys.swift
 
 .DS_Store
+*.xcworkspacedata
