@@ -45,7 +45,7 @@ class AddCardViewTests: XCTestCase {
     
     func testCategoryPickerShowsCategories() throws {
         let picker = try sut.inspect().find(ViewType.Picker.self).find(ViewType.ForEach.self)
-        XCTAssertEqual(picker.count, vm.container.appState.categories.count)
+        XCTAssertEqual(picker.count, categories.count)
     }
     
     func testProgressAlertContentDisplaysGeneratingCards() throws {

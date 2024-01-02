@@ -7,9 +7,11 @@
 
 import SwiftUI
 import UIKit
+import SwiftData
 
 struct CardListView: View {
     @StateObject private var vm: CardListViewModel
+    @Query private var cards: [Card]
     
     init(vm: CardListViewModel) {
         _vm = StateObject(wrappedValue: vm)
@@ -31,7 +33,7 @@ struct CardListView: View {
         .background(PickerAlert(vm: vm))
         .navigationBarTitle(vm.categoryName, displayMode: .large)
         .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
-        .onChange(of: vm.container.appState.cards) { _ in
+        .onChange(of: cards) { _ in
             vm.updateCardList()
         }
         .onChange(of: vm.searchBarText) { _ in

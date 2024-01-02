@@ -6,23 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CategoryListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var vm: CategoryListViewModel
+    @Query private var categories: [CardCategory]
     
     init(vm: CategoryListViewModel) {
         _vm = StateObject(wrappedValue: vm)
     }
     
     var body: some View {
-        if vm.container.appState.categories.isEmpty {
+        if categories.isEmpty {
             NoCardView(image: "BoyRight")
         } else {
             NavigationView {
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(vm.container.appState.categories) { category in
+                        ForEach(categories) { category in
                             categoryRow(category)
                         }
                     }

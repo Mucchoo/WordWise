@@ -7,6 +7,7 @@
 
 import Combine
 import SwiftUI
+import SwiftData
 
 class AddCardViewModel: ObservableObject {
     
@@ -18,6 +19,16 @@ class AddCardViewModel: ObservableObject {
     
     var cancellables = Set<AnyCancellable>()
     let container: DIContainer
+    
+    var cards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>()
+        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+    }
+    
+    var categories: [CardCategory] {
+        let fetchDescriptor = FetchDescriptor<CardCategory>()
+        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+    }
     
     @Published var cardText = ""
     @Published var selectedCategory = ""
@@ -105,7 +116,7 @@ class AddCardViewModel: ObservableObject {
                     } receiveValue: { result in
                         switch result {
                         case .success(let card):
-                            self.container.appState.cards.append(card)
+                            self.container.modelContext.insert(card)
                         case .failure(let error):
                             print("fetch definitions failed: \(error.localizedDescription)")
                         }
@@ -149,7 +160,7 @@ class AddCardViewModel: ObservableObject {
     
     func addCategory() {
         guard !textFieldInput.isEmpty,
-              !container.appState.categories.contains(where: { $0.name == textFieldInput }) else { return }
+              !categories.contains(where: { $0.name == textFieldInput }) else { return }
         
         let category = CardCategory()
         container.modelContext.insert(category)
@@ -177,7 +188,7 @@ class AddCardViewModel: ObservableObject {
     }
     
     func setDefaultCategory() {
-        if let defaultCategory = container.appState.categories.first?.name,
+        if let defaultCategory = categories.first?.name,
            selectedCategory.isEmpty {
             selectedCategory = defaultCategory
         }

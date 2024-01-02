@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 class CardsViewModel: ObservableObject {
     enum ViewType {
@@ -16,12 +17,16 @@ class CardsViewModel: ObservableObject {
     var title = ""
 
     init(container: DIContainer, type: ViewType) {
+        var descriptor = FetchDescriptor<Card>()
+        
         switch type {
         case .todays:
-            cards = container.appState.todaysCards
+            descriptor.predicate = #Predicate { $0.isTodayOrBefore }
+            cards = (try? container.modelContext.fetch(descriptor)) ?? []
             title = "Todays Cards"
         case .upcoming:
-            cards = container.appState.upcomingCards
+            descriptor.predicate = #Predicate { $0.isUpcoming }
+            cards = (try? container.modelContext.fetch(descriptor)) ?? []
             title = "Upcoming Cards"
         }
     }

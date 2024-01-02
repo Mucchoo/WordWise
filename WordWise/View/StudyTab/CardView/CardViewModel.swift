@@ -9,6 +9,7 @@ import SwiftUI
 import AVFoundation
 import StoreKit
 import Combine
+import SwiftData
 
 struct LearningCard {
     let card: Card
@@ -20,7 +21,7 @@ class CardViewModel: ObservableObject {
 
     @Published var isDefinitionVisible = false
     @Published var isWordVisible = true
-    @Published var learningCards: [LearningCard]
+    @Published var learningCards: [LearningCard] = []
     @Published var index = 0
     @Published var isFinished = false
     @Published var shouldScrollToTop = false
@@ -31,13 +32,22 @@ class CardViewModel: ObservableObject {
     
     private var audioPlayer: AVAudioPlayer?
     private var cancellables = Set<AnyCancellable>()
+    private var maximumCards: Int = 0
     var synthesizer = AVSpeechSynthesizer()
     var reviewController: ReviewControllerProtocol = SKStoreReviewController()
-    
-    init(container: DIContainer) {
-        self.container = container
-        learningCards = container.appState.studyingCards.map { LearningCard(card: $0) }.shuffled()
         
+    private var studyingCards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>()
+        let todaysCards = (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+        return Array(todaysCards.prefix(maximumCards))
+
+    }
+    
+    init(container: DIContainer, maximumCards: Int) {
+        self.container = container
+        self.maximumCards = maximumCards
+        
+        learningCards = studyingCards.map { LearningCard(card: $0) }.shuffled()
         setCategoryToPlayback()
     }
     

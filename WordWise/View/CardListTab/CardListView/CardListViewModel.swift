@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 class CardListViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
@@ -35,11 +36,14 @@ class CardListViewModel: ObservableObject {
         }
     }
     
+    private var cards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>()
+        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+    }
+    
     init(container: DIContainer, categoryName: String) {
         self.container = container
         self.categoryName = categoryName
-        
-        observeChanges()
     }
     
     func changeMasteryRate() {
@@ -103,20 +107,6 @@ class CardListViewModel: ObservableObject {
         }
     }
     
-    private func observeChanges() {
-        container.appState.$cards
-            .sink { [weak self] _ in
-                self?.updateCardList()
-            }
-            .store(in: &cancellables)
-
-        $searchBarText
-            .sink { [weak self] _ in
-                self?.updateCardList()
-            }
-            .store(in: &cancellables)
-    }
-    
     func changeCategory() {
         selectedCards.forEach { card in
             card.category = pickerAlertValue
@@ -126,7 +116,7 @@ class CardListViewModel: ObservableObject {
     }
     
     func updateCardList() {
-        let filteredCards = container.appState.cards.filter { card in
+        let filteredCards = cards.filter { card in
             let categoryFilter = card.category == categoryName
             let cardText = card.text 
             let searchTextFilter = cardText.contains(searchBarText) || searchBarText.isEmpty

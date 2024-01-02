@@ -40,9 +40,9 @@ class MasteryRateBarsViewModel: ObservableObject {
     
     var cards: [Card] {
         if categoryName.isEmpty {
-            return container.appState.cards
+            return cards
         } else {
-            return container.appState.cards.filter({ $0.category == categoryName })
+            return cards.filter({ $0.category == categoryName })
         }
     }
     

@@ -30,11 +30,11 @@ class CategoryListViewModelTests: XCTestCase {
         
         let category = CardCategory()
         category.name = initialCategoryName
-        vm.container.appState.categories = [category]
+        categories = [category]
         
         let card = Card()
         card.category = initialCategoryName
-        vm.container.appState.cards = [card]
+        cards = [card]
         vm.targetCategoryName = initialCategoryName
         vm.categoryNameTextFieldInput = newCategoryName
         vm.renameCategory()
@@ -52,15 +52,15 @@ class CategoryListViewModelTests: XCTestCase {
         
         let category = CardCategory()
         category.name = initialCategoryName
-        vm.container.appState.categories = [category]
+        categories = [category]
         
         let card = Card()
         card.category = initialCategoryName
-        vm.container.appState.cards = [card]
+        cards = [card]
         vm.targetCategoryName = initialCategoryName
         vm.deleteCategory()
         
-        XCTAssertTrue(vm.container.appState.categories.isEmpty, "Category should be removed")
+        XCTAssertTrue(categories.isEmpty, "Category should be removed")
         expectation.fulfill()
         wait(for: [expectation], timeout: 3.0)
     }

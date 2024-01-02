@@ -50,7 +50,7 @@ class PickerAlertTests: XCTestCase {
         XCTAssertEqual(sut.title, "Change Category")
         XCTAssertEqual(sut.message, "Select new category for the \(vm.selectedCards.count) cards.")
         
-        let expectedOptions = vm.container.appState.categories.map { $0.name ?? "" }
+        let expectedOptions = categories.map { $0.name ?? "" }
         XCTAssertEqual(sut.options, expectedOptions)
     }
     

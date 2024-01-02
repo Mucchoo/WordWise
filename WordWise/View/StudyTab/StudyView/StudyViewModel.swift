@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 enum CardFilterType {
     case studying, today, upcoming
@@ -20,39 +21,29 @@ class StudyViewModel: ObservableObject {
     @Published var maximumCards = 1000
     @Published var showingCardView = false
     
-    var studyButtonTitle: String {
-        container.appState.studyingCards.count > 0 ?
-        "Study \(container.appState.studyingCards.count) Cards" : "Finished Learning for Today!"
+    var cards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>()
+        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
     }
+    
+    var studyingCards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>(predicate: #Predicate { $0.isTodayOrBefore })
+        let todaysCards = (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+        return Array(todaysCards.prefix(maximumCards))
+    }
+    
+    var studyButtonTitle: String {
+        studyingCards.count > 0 ?
+        "Study \(studyingCards.count) Cards" : "Finished Learning for Today!"
+    }
+    
     
     init(container: DIContainer) {
         self.container = container
-        observeCards()
-        observeCategories()
-    }
-    
-    private func observeCards() {
-        container.appState.$cards
-            .sink { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.updateCards()
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    private func observeCategories() {
-        container.appState.$categories
-            .sink { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.selectedCategory = self?.container.appState.categories.first?.name ?? ""
-                }
-            }
-            .store(in: &cancellables)
     }
 
     func filterCards(for type: CardFilterType) -> [Card] {
-        return container.appState.cards.filter { card in
+        return cards.filter { card in
             guard selectedCategory == card.category, card.rate != .oneHundred else {
                 return false
             }
@@ -64,12 +55,6 @@ class StudyViewModel: ObservableObject {
                 return card.isUpcoming
             }
         }
-    }
-
-    func updateCards() {
-        container.appState.studyingCards = Array(filterCards(for: .studying).prefix(maximumCards))
-        container.appState.todaysCards = filterCards(for: .today)
-        container.appState.upcomingCards = filterCards(for: .upcoming)
     }
     
     func getRateBarColors(rate: MasteryRate) -> [Color] {
@@ -88,7 +73,7 @@ class StudyViewModel: ObservableObject {
     }
     
     func rateBarCardCount(rate: MasteryRate) -> Int {
-        let categoryCards = container.appState.cards.filter { $0.category == selectedCategory }
+        let categoryCards = cards.filter { $0.category == selectedCategory }
         let rateCards = categoryCards.filter { $0.rate == rate }
         return rateCards.count
     }

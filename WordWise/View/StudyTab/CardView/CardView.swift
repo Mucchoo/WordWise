@@ -364,8 +364,6 @@ struct CardView: View {
 
 #Preview {
     let container: DIContainer = .mock()
-    container.appState.studyingCards = container.appState.cards
-    
-    return CardView(vm: .init(container: container),
+    return CardView(vm: .init(container: container, maximumCards: 100),
                     showingCardView: .constant(true))
 }

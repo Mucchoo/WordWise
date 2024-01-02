@@ -17,7 +17,6 @@
 		2A4804AF2A714EE6003AC26E /* MerriamWebsterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */; };
 		2A4F00A02A5132510000928E /* BlurBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A4F009F2A5132510000928E /* BlurBackground.swift */; };
 		2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A581C222A89241900A86494 /* MasteryRateBars.swift */; };
-		2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8C402A9C7B9E00039950 /* AppState.swift */; };
 		2A5E8C432A9C7BBD00039950 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5E8C422A9C7BBD00039950 /* DIContainer.swift */; };
 		2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A68022C2A9BB94E00AADB8C /* NoCardViewModel.swift */; };
 		2A6802302A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A68022F2A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift */; };
@@ -111,7 +110,6 @@
 		2A4804AE2A714EE6003AC26E /* MerriamWebsterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MerriamWebsterResponse.swift; sourceTree = "<group>"; };
 		2A4F009F2A5132510000928E /* BlurBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurBackground.swift; sourceTree = "<group>"; };
 		2A581C222A89241900A86494 /* MasteryRateBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBars.swift; sourceTree = "<group>"; };
-		2A5E8C402A9C7B9E00039950 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		2A5E8C422A9C7BBD00039950 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		2A68022C2A9BB94E00AADB8C /* NoCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModel.swift; sourceTree = "<group>"; };
 		2A68022F2A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModel.swift; sourceTree = "<group>"; };
@@ -314,7 +312,6 @@
 		2A5E8C3F2A9C7B8F00039950 /* Injected */ = {
 			isa = PBXGroup;
 			children = (
-				2A5E8C402A9C7B9E00039950 /* AppState.swift */,
 				2A5E8C422A9C7BBD00039950 /* DIContainer.swift */,
 				2AE1F8612AA6CDE000EE8AD9 /* WindowScene.swift */,
 				2AE1F8632AA6CEA100EE8AD9 /* AudioSession.swift */,
@@ -709,7 +706,6 @@
 				C60BE4272B02D61C00F07CC8 /* CardCategory.swift in Sources */,
 				C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */,
 				C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */,
-				2A5E8C412A9C7B9E00039950 /* AppState.swift in Sources */,
 				2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */,
 				C60BE4232B02D61C00F07CC8 /* Meaning.swift in Sources */,
 				2AE1F8642AA6CEA100EE8AD9 /* AudioSession.swift in Sources */,

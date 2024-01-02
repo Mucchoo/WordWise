@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PickerAlert: UIViewControllerRepresentable {
     enum ViewType {
@@ -13,6 +14,8 @@ struct PickerAlert: UIViewControllerRepresentable {
     }
     
     @ObservedObject var vm: CardListViewModel
+    @Query var categories: [CardCategory]
+    
     var title: String?
     var message: String?
     var options: [String] = []
@@ -26,7 +29,7 @@ struct PickerAlert: UIViewControllerRepresentable {
         if type == .category {
             title = "Change Category"
             message = "Select new category for the \(vm.selectedCards.count) cards."
-            options = vm.container.appState.categories.map { $0.name ?? "" }
+            options = categories.map { $0.name ?? "" }
             onConfirm = vm.changeCategory
         } else {
             title = "Change Mastery Rate"
@@ -50,7 +53,7 @@ struct PickerAlert: UIViewControllerRepresentable {
             
             var newOptions: [String] = []
             if type == .category {
-                newOptions = vm.container.appState.categories.map { $0.name ?? "" }
+                newOptions = categories.map { $0.name ?? "" }
             } else {
                 newOptions = MasteryRate.allValues.map { $0.stringValue() + "%" }
             }

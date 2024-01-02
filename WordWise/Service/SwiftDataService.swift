@@ -12,17 +12,25 @@ import Combine
 class SwiftDataService {
     private var cancellables = Set<AnyCancellable>()
     let networkService: NetworkService
-    let appState: AppState
     let context: ModelContext
     
-    init(networkService: NetworkService, appState: AppState, context: ModelContext) {
+    var cards: [Card] {
+        let fetchDescriptor = FetchDescriptor<Card>()
+        return (try? context.fetch(fetchDescriptor)) ?? []
+    }
+    
+    var categories: [CardCategory] {
+        let fetchDescriptor = FetchDescriptor<CardCategory>()
+        return (try? context.fetch(fetchDescriptor)) ?? []
+    }
+    
+    init(networkService: NetworkService, context: ModelContext) {
         self.networkService = networkService
-        self.appState = appState
         self.context = context
     }
 
     func retryFetchingImagesIfNeeded() {
-        let cardsFailedFetchingImages = appState.cards.filter { $0.retryFetchImages }
+        let cardsFailedFetchingImages = cards.filter { $0.retryFetchImages }
         
         let fetchPublishers = cardsFailedFetchingImages.publisher
             .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<Void, Never> in
@@ -37,16 +45,15 @@ class SwiftDataService {
     }
     
     func addDefaultCategoryIfNeeded() {
-        guard appState.categories.isEmpty else { return }
+        guard categories.isEmpty else { return }
         let defaultCategoryName = "Category 1"
         let newCategory = CardCategory()
         context.insert(newCategory)
         newCategory.name = defaultCategoryName
-        appState.categories.append(newCategory)
     }
     
     private func deleteDuplicatedCategory() {
-        let groupedCategories = Dictionary(grouping: appState.categories) { category in
+        let groupedCategories = Dictionary(grouping: categories) { category in
             return category.name ?? ""
         }
         
@@ -60,7 +67,6 @@ class SwiftDataService {
             
             for category in categoriesToDelete {
                 context.delete(category)
-                appState.categories.removeAll { $0 == category }
             }
         }
     }
@@ -68,8 +74,8 @@ class SwiftDataService {
     private func createMissingCategoryIfNeeded() {
         var missingCategoryName = ""
         
-        appState.cards.forEach { card in
-            if !appState.categories.contains(where: { $0.name == card.category }) {
+        cards.forEach { card in
+            if !categories.contains(where: { $0.name == card.category }) {
                 missingCategoryName = card.category
             }
         }
@@ -79,6 +85,5 @@ class SwiftDataService {
         let missingCategory = CardCategory()
         context.insert(missingCategory)
         missingCategory.name = missingCategoryName
-        appState.categories.append(missingCategory)
     }
 }

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CardDetailSheet: View {
+    @Query private var categories: [CardCategory]
     @Binding var selectedCard: Card?
     @Binding var categoryName: String
     @Binding var selectedRate: Int16
@@ -32,7 +34,7 @@ struct CardDetailSheet: View {
                     Text("Category")
                     Spacer()
                     Picker("Category", selection: $categoryName) {
-                        ForEach(container.appState.categories) { category in
+                        ForEach(categories) { category in
                             let name = category.name ?? ""
                             Text(name).tag(name)
                         }

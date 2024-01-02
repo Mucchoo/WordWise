@@ -6,16 +6,24 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct StudyView: View {
     @StateObject private var vm: StudyViewModel
-    
+    @Query private var cards: [Card]
+    @Query private var categories: [CardCategory]
+    @Query(filter: #Predicate<Card> { $0.isTodayOrBefore }) private var todaysCards: [Card]
+    @Query(filter: #Predicate<Card> { $0.isUpcoming }) private var upcomingCards: [Card]
+    private var studyingCards: [Card] {
+        return Array(todaysCards.prefix(vm.maximumCards))
+    }
+
     init(vm: StudyViewModel) {
         _vm = StateObject(wrappedValue: vm)
     }
 
     var body: some View {
-        if vm.container.appState.cards.isEmpty {
+        if cards.isEmpty {
             NoCardView(image: "BoyLeft")
         } else {
             NavigationView {
@@ -31,11 +39,11 @@ struct StudyView: View {
                         masteryRateCounts
                         studyButton
                         
-                        if !vm.container.appState.todaysCards.isEmpty {
+                        if !todaysCards.isEmpty {
                             todaysCardsButton
                         }
                         
-                        if !vm.container.appState.upcomingCards.isEmpty {
+                        if !upcomingCards.isEmpty {
                             upcomingCardsButton
                         }
                     }
@@ -73,7 +81,7 @@ struct StudyView: View {
             Text("Category")
             Spacer()
             Picker("Options", selection: $vm.selectedCategory) {
-                ForEach(vm.container.appState.categories) { category in
+                ForEach(categories) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }
@@ -97,25 +105,24 @@ struct StudyView: View {
     
     private var studyButton: some View {
         Button {
-            vm.updateCards()
             vm.showingCardView = true
         } label: {
             Text(vm.studyButtonTitle)
                 .fontWeight(.bold)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(vm.container.appState.studyingCards.count > 0 ?
+                .background(studyingCards.count > 0 ?
                             LinearGradient(colors: [.navy, .ocean], startPoint: .leading, endPoint: .trailing) :
                             LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom))
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .accessibilityIdentifier("StudyCardsButton")
         }
-        .disabled(vm.container.appState.studyingCards.count == 0)
+        .disabled(studyingCards.count == 0)
         .padding()
         .accessibilityIdentifier("studyCardsButton")
         .fullScreenCover(isPresented: $vm.showingCardView) {
-            CardView(vm: .init(container: vm.container),
+            CardView(vm: .init(container: vm.container, maximumCards: vm.maximumCards),
                      showingCardView: $vm.showingCardView)
                 .accessibilityIdentifier("CardView")
         }
@@ -161,13 +168,13 @@ struct StudyView: View {
     
     private var todaysCardsButton: some View {
         return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .todays))) {
-            Text("Todays Cards: \(vm.container.appState.todaysCards.count) Cards")
+            Text("Todays Cards: \(todaysCards.count) Cards")
         }.padding(.top, 20)
     }
     
     private var upcomingCardsButton: some View {
         return NavigationLink(destination: CardsView(vm: .init(container: vm.container, type: .upcoming))) {
-            Text("Upcoming Cards: \(vm.container.appState.upcomingCards.count) Cards")
+            Text("Upcoming Cards: \(upcomingCards.count) Cards")
         }.padding(.top, 20)
     }
 }

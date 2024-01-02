@@ -42,12 +42,12 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .seventyFive)
         ]
         
-        vm.container.appState.cards = cards
+        cards = cards
         XCTAssertEqual(vm.maxCount, 3, "MaxCount should be 3")
     }
     
     func testMaxCountWithNoCards() {
-        vm.container.appState.cards = []
+        cards = []
         XCTAssertEqual(vm.maxCount, 1)
     }
     
@@ -58,7 +58,7 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .twentyFive),
             helper.mockCard(rate: .fifty)
         ]
-        vm.container.appState.cards = cards
+        cards = cards
         
         XCTAssertEqual(self.vm.getCount(.twentyFive), "2", "Count for rate twentyFive should be 2")
     }
@@ -75,7 +75,7 @@ class MasteryRateBarsViewModelTests: XCTestCase {
             helper.mockCard(rate: .seventyFive)
         ]
         
-        vm.container.appState.cards = cards
+        cards = cards
         vm.setWidthAndCountText(geometryWidth: 100)
         
         XCTAssertEqual(vm.barWidths[.zero], 90 + (100 - 90) * 1 / 3, "Bar width for .zero should be updated correctly")

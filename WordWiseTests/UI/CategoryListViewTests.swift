@@ -28,7 +28,7 @@ class CategoryListViewTests: XCTestCase {
     }
 
     func testEmptyState() throws {
-        vm.container.appState.categories = []
+        categories = []
         XCTAssertNoThrow(try sut.inspect().find(NoCardView.self))
     }
     

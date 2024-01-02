@@ -51,7 +51,7 @@ class CardListViewTests: XCTestCase {
         vm.multipleSelectionMode = true
         XCTAssertNoThrow(try sut.inspect().find(text: "Select Cards"))
 
-        vm.selectedCards = vm.container.appState.cards
+        vm.selectedCards = cards
         let labelCount = try sut.inspect().findAll(ViewType.Label.self).count
         XCTAssertEqual(labelCount, 3)
     }

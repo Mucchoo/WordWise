@@ -12,6 +12,7 @@ import SwiftUI
 struct AddCardView: View {
     @StateObject private var vm: AddCardViewModel
     @FocusState private var isFocused: Bool
+    @Query private var categories: [CardCategory]
     
     init(vm: AddCardViewModel) {
         _vm = StateObject(wrappedValue: vm)
@@ -57,7 +58,7 @@ struct AddCardView: View {
     private var categoryPicker: some View {
         HStack(spacing: 0) {
             Picker("", selection: $vm.selectedCategory) {
-                ForEach(vm.container.appState.categories, id: \.self) { category in
+                ForEach(categories, id: \.self) { category in
                     let name = category.name ?? ""
                     Text(name).tag(name)
                 }

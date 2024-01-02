@@ -108,7 +108,7 @@ class CardViewModelTests: XCTestCase {
             }
             .store(in: &cancellables)
         
-        vm.learningCards = [LearningCard(card: vm.container.appState.studyingCards[0])]
+        vm.learningCards = [LearningCard(card: studyingCards[0])]
         vm.easyButtonPressed()
         
         wait(for: [isFinishedExpectation], timeout: 2)

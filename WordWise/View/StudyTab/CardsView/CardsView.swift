@@ -32,7 +32,7 @@ struct CardsView: View {
     func cardRow(_ card: Card) -> some View {
         return VStack {
             HStack {
-                Text(card.text ?? "")
+                Text(card.text)
                     .foregroundColor(.primary)
                 Spacer()
 
@@ -64,7 +64,5 @@ struct CardsView: View {
 
 #Preview {
     let container: DIContainer = .mock()
-    container.appState.upcomingCards = container.appState.cards
-    
     return CardsView(vm: .init(container: container, type: .upcoming))
 }

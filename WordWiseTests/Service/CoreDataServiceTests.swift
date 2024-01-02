@@ -42,24 +42,24 @@ class SwiftDataServiceTests: XCTestCase {
     func testRetryFetchingImages_CallsNetworkService() {
         let card = Card()
         card.retryFetchImages = true
-        appState.cards = [card]
+        cards = [card]
         sut.retryFetchingImagesIfNeeded()
     }
     
     func testAddDefaultCategoryIfNeeded() {
-        XCTAssertTrue(appState.categories.isEmpty)
+        XCTAssertTrue(categories.isEmpty)
         sut.addDefaultCategoryIfNeeded()
-        XCTAssertEqual(appState.categories.count, 1)
+        XCTAssertEqual(categories.count, 1)
     }
     
     func testAddDefaultCategoryIfNeeded_WithCompletion() {
-        XCTAssertTrue(appState.categories.isEmpty)
+        XCTAssertTrue(categories.isEmpty)
         sut.addDefaultCategoryIfNeeded()
-        XCTAssertTrue(self.appState.categories.first!.name == "Category 1")
+        XCTAssertTrue(self.categories.first!.name == "Category 1")
     }
 
     func testSaveAndReload() {
-        XCTAssertTrue(appState.cards.isEmpty)
+        XCTAssertTrue(cards.isEmpty)
         
         _ = Card()
         let expectation = self.expectation(description: "Wait for saveAndReload")
@@ -68,24 +68,24 @@ class SwiftDataServiceTests: XCTestCase {
         }
         waitForExpectations(timeout: 3, handler: nil)
         
-        XCTAssertFalse(appState.cards.isEmpty)
+        XCTAssertFalse(cards.isEmpty)
     }
 
     func testDeleteDuplicatedCategory() {
-        XCTAssertTrue(appState.categories.isEmpty)
+        XCTAssertTrue(categories.isEmpty)
 
         let category1 = CardCategory()
         category1.name = "Duplicate"
         let category2 = CardCategory()
         category2.name = "Duplicate"
-        appState.categories = [category1, category2]
+        categories = [category1, category2]
         
         
-        XCTAssertEqual(appState.categories.count, 2)
+        XCTAssertEqual(categories.count, 2)
         let expectation = self.expectation(description: "Wait for loadData")
         
         DispatchQueue.main.async() {
-            XCTAssertEqual(self.appState.categories.count, 1)
+            XCTAssertEqual(self.categories.count, 1)
             expectation.fulfill()
         }
         
