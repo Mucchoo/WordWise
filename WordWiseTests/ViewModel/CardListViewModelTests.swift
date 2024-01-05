@@ -92,8 +92,8 @@ class CardListViewModelTests: XCTestCase {
         vm.selectedCards.append(contentsOf: [card1, card2])
         vm.deleteSelectedCards()
         
-        XCTAssertFalse(cards.contains(card1))
-        XCTAssertFalse(cards.contains(card2))
+        XCTAssertFalse(vm.cards.contains(card1))
+        XCTAssertFalse(vm.cards.contains(card2))
     }
 
     func testMultipleSelectionModeToggle() {
@@ -107,11 +107,11 @@ class CardListViewModelTests: XCTestCase {
     }
 
     func testUpdateCardWithNoSelectedCard() {
-        let initialCards = cards.map { $0.masteryRate }
+        let initialCards = vm.cards.map { $0.masteryRate }
 
         vm.updateCard()
 
-        for (index, card) in cards.enumerated() {
+        for (index, card) in vm.cards.enumerated() {
             XCTAssertEqual(card.masteryRate, initialCards[index])
         }
     }
@@ -128,22 +128,21 @@ class CardListViewModelTests: XCTestCase {
     }
 
     func testDeleteCardWithNoSelectedCard() {
-        let initialCardCount = cards.count
+        let initialCardCount = vm.cards.count
         vm.deleteCard()
-        XCTAssertEqual(initialCardCount, cards.count)
+        XCTAssertEqual(initialCardCount, vm.cards.count)
     }
     
     func testDeleteCard() {
         let expectation = XCTestExpectation(description: "Delete card")
         
         let card = Card()
-        cards.append(card)
         vm.selectedCard = card
         vm.deleteCard()
         
         DispatchQueue.main.async {
             self.vm.updateCardList()
-            XCTAssertFalse(self.cards.contains(where: { $0 == card }))
+            XCTAssertFalse(self.vm.cards.contains(where: { $0 == card }))
             expectation.fulfill()
         }
         
@@ -158,7 +157,6 @@ class CardListViewModelTests: XCTestCase {
         let card3 = Card()
         card3.category = MockHelper.shared.mockCategory
         
-        cards.append(contentsOf: [card1, card2, card3])
         vm.categoryName = MockHelper.shared.mockCategory
         vm.updateCardList()
         
@@ -177,7 +175,6 @@ class CardListViewModelTests: XCTestCase {
         card2.text = "Banana"
         card3.text = "Cherry"
         
-        cards.append(contentsOf: [card1, card2, card3])
         vm.categoryName = MockHelper.shared.mockCategory
         vm.searchBarText = "App"
         vm.updateCardList()

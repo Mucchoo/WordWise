@@ -50,7 +50,7 @@ class CardViewModelTests: XCTestCase {
     
     @MainActor override func setUp() {
         super.setUp()
-        vm = CardViewModel(container: .mock())
+        vm = CardViewModel(container: .mock(), maximumCards: 100)
         cancellables = []
     }
     
@@ -108,7 +108,7 @@ class CardViewModelTests: XCTestCase {
             }
             .store(in: &cancellables)
         
-        vm.learningCards = [LearningCard(card: studyingCards[0])]
+        vm.learningCards = [LearningCard(card: vm.studyingCards[0])]
         vm.easyButtonPressed()
         
         wait(for: [isFinishedExpectation], timeout: 2)

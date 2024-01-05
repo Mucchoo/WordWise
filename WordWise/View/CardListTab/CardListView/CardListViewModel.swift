@@ -36,7 +36,7 @@ class CardListViewModel: ObservableObject {
         }
     }
     
-    private var cards: [Card] {
+    var cards: [Card] {
         let fetchDescriptor = FetchDescriptor<Card>()
         return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
     }

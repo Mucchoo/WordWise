@@ -36,7 +36,7 @@ class CardViewModel: ObservableObject {
     var synthesizer = AVSpeechSynthesizer()
     var reviewController: ReviewControllerProtocol = SKStoreReviewController()
         
-    private var studyingCards: [Card] {
+    var studyingCards: [Card] {
         let fetchDescriptor = FetchDescriptor<Card>()
         let todaysCards = (try? container.modelContext.fetch(fetchDescriptor)) ?? []
         return Array(todaysCards.prefix(maximumCards))

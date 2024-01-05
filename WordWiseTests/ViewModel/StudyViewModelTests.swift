@@ -36,13 +36,11 @@ class StudyViewModelTests: XCTestCase {
         card2.category = "Test2"
         card2.nextLearningDate = Calendar.current.date(byAdding: .day, value: 10, to: Date()) ?? Date()
         
-        cards = [card1, card2]
         vm.selectedCategory = "Test1"
-        vm.updateCards()
         
-        XCTAssertEqual(studyingCards.count, 1)
-        XCTAssertEqual(todaysCards.count, 1)
-        XCTAssertEqual(upcomingCards.count, 0)
+        XCTAssertEqual(vm.studyingCards.count, 1)
+        XCTAssertEqual(vm.todaysCards.count, 1)
+        XCTAssertEqual(vm.upcomingCards.count, 0)
     }
 
     func testGetRateBarColors() {
@@ -58,7 +56,6 @@ class StudyViewModelTests: XCTestCase {
         card2.category = "Test"
         card2.masteryRate = 3
         
-        cards = [card1, card2]
         vm.selectedCategory = "Test"
         let count = vm.rateBarCardCount(rate: .zero)
         

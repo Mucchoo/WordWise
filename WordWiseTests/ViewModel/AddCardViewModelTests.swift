@@ -126,7 +126,7 @@ class AddCardViewModelTests: XCTestCase {
     func testAddDuplicateCategory() {
         vm.textFieldInput = MockHelper.shared.mockCategory
         vm.addCategory()
-        let count = categories.filter { $0.name == MockHelper.shared.mockCategory }.count
+        let count = vm.categories.filter { $0.name == MockHelper.shared.mockCategory }.count
         XCTAssertEqual(count, 1)
     }
     
@@ -137,7 +137,7 @@ class AddCardViewModelTests: XCTestCase {
         vm.addCategory()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            XCTAssertTrue(self.categories.contains { $0.name == "Fruits" })
+            XCTAssertTrue(self.vm.categories.contains { $0.name == "Fruits" })
             expectation.fulfill()
         }
         
