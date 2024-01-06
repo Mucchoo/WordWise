@@ -11,11 +11,11 @@ import SwiftUI
 struct MockHelper {
     @Environment(\.modelContext) private var context
     static let shared = MockHelper()
-    let mockCategory = "Mock Category"
+    static let mockCategory = "Mock Category"
     
     func setupMockData() {
         createMockCards()
-        UserDefaults.standard.setValue([mockCategory], forKey: "categories")
+        UserDefaults.standard.setValue([MockHelper.mockCategory], forKey: "categories")
     }
     
     private func createMockCards() {
@@ -24,7 +24,7 @@ struct MockHelper {
             card.text = "mock \(i)"
             card.setCardData(.mock)
             card.masteryRate = Int16.random(in: 0...4)
-            card.category = mockCategory
+            card.category = MockHelper.mockCategory
             card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date()) ?? Date()
         }
     }

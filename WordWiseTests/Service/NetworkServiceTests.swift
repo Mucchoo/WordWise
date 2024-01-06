@@ -14,12 +14,11 @@ class NetworkServiceTests: XCTestCase {
     var sut: NetworkService!
     var mockSession: URLSession!
     var cancellables: Set<AnyCancellable>!
-    var context: ModelContext!
     
     override func setUp() {
         super.setUp()
         mockSession = .mock
-        sut = NetworkService(session: .mock, context: context)
+        sut = NetworkService(session: .mock)
         cancellables = []
     }
     
@@ -27,7 +26,6 @@ class NetworkServiceTests: XCTestCase {
         sut = nil
         mockSession = nil
         cancellables = nil
-        context = nil
         MockURLProtocol.shouldFailUrls = []
         super.tearDown()
     }
@@ -36,7 +34,7 @@ class NetworkServiceTests: XCTestCase {
         let card = Card()
         card.text = "example"
 
-        let publisher = sut.fetchDefinitionsAndImages(card: card)
+        let publisher = sut.fetchDefinitionsAndImages(text: card.text)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
@@ -65,7 +63,7 @@ class NetworkServiceTests: XCTestCase {
         card.text = "example"
         
         MockURLProtocol.shouldFailUrls.append(APIURL.freeDictionary)
-        let publisher = sut.fetchDefinitionsAndImages(card: card)
+        let publisher = sut.fetchDefinitionsAndImages(text: card.text)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
@@ -118,9 +116,9 @@ class NetworkServiceTests: XCTestCase {
         let card = Card()
         card.text = "example"
         
-        XCTAssertNil(card.imageDatas.first?.data)
+        XCTAssertNil(card.imageDatas.first)
         
-        let publisher = sut.retryFetchingImages(card: card)
+        let publisher = sut.retryFetchingImages(text: card.text)
         let expectation = XCTestExpectation(description: "Network call succeeds.")
 
         publisher.sink(
@@ -139,6 +137,6 @@ class NetworkServiceTests: XCTestCase {
         .store(in: &cancellables)
 
         wait(for: [expectation], timeout: 3)
-        XCTAssertNotNil(card.imageDatas.first?.data)
+        XCTAssertNotNil(card.imageDatas.first)
     }
 }

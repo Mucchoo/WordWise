@@ -46,7 +46,7 @@
 //        XCTAssertNoThrow(try menu.button(1))
 //
 //        let displayedName = try categoryRow.zStack().navigationLink(0).labelView().vStack(0).hStack(0).text(0).string()
-//        XCTAssertEqual(displayedName, MockHelper.shared.mockCategory)
+//        XCTAssertEqual(displayedName, MockHelper.mockCategory)
 //    }
 //}
 //

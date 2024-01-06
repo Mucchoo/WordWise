@@ -70,5 +70,5 @@ struct MasteryRateBars: View {
 }
 
 #Preview {
-    MasteryRateBars(vm: .init(container: .mock(), category: MockHelper.shared.mockCategory))
+    MasteryRateBars(vm: .init(container: .mock(), category: MockHelper.mockCategory))
 }

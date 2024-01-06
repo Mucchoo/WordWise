@@ -152,13 +152,13 @@ class CardListViewModelTests: XCTestCase {
 
     func testUpdateCardList() {
         let card1 = Card()
-        card1.category = MockHelper.shared.mockCategory
+        card1.category = MockHelper.mockCategory
         let card2 = Card()
-        card2.category = MockHelper.shared.mockCategory
+        card2.category = MockHelper.mockCategory
         let card3 = Card()
-        card3.category = MockHelper.shared.mockCategory
+        card3.category = MockHelper.mockCategory
         
-        vm.category = MockHelper.shared.mockCategory
+        vm.category = MockHelper.mockCategory
         vm.updateCardList()
         
         XCTAssertEqual(vm.cardList.count, 103)
@@ -166,17 +166,17 @@ class CardListViewModelTests: XCTestCase {
 
     func testSearchBarFiltering() {
         let card1 = Card()
-        card1.category = MockHelper.shared.mockCategory
+        card1.category = MockHelper.mockCategory
         let card2 = Card()
-        card2.category = MockHelper.shared.mockCategory
+        card2.category = MockHelper.mockCategory
         let card3 = Card()
-        card3.category = MockHelper.shared.mockCategory
+        card3.category = MockHelper.mockCategory
         
         card1.text = "Apple"
         card2.text = "Banana"
         card3.text = "Cherry"
         
-        vm.category = MockHelper.shared.mockCategory
+        vm.category = MockHelper.mockCategory
         vm.searchBarText = "App"
         vm.updateCardList()
         

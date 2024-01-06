@@ -121,13 +121,13 @@ class AddCardViewModelTests: XCTestCase {
     
     func testSetDefaultCategory() {
         vm.setDefaultCategory()
-        XCTAssertEqual(vm.selectedCategory, MockHelper.shared.mockCategory)
+        XCTAssertEqual(vm.selectedCategory, MockHelper.mockCategory)
     }
     
     func testAddDuplicateCategory() {
-        vm.textFieldInput = MockHelper.shared.mockCategory
+        vm.textFieldInput = MockHelper.mockCategory
         vm.addCategory()
-        let count = vm.categories.filter { $0.name == MockHelper.shared.mockCategory }.count
+        let count = vm.categories.filter { $0 == MockHelper.mockCategory }.count
         XCTAssertEqual(count, 1)
     }
     
@@ -138,7 +138,7 @@ class AddCardViewModelTests: XCTestCase {
         vm.addCategory()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            XCTAssertTrue(self.vm.categories.contains { $0.name == "Fruits" })
+            XCTAssertTrue(self.vm.categories.contains { $0 == "Fruits" })
             expectation.fulfill()
         }
         

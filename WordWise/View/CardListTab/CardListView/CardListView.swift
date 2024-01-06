@@ -172,5 +172,5 @@ struct CardListView: View {
 }
 
 #Preview {
-    CardListView(vm: .init(container: .mock(), category: MockHelper.shared.mockCategory))
+    CardListView(vm: .init(container: .mock(), category: MockHelper.mockCategory))
 }

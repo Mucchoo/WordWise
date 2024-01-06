@@ -29,28 +29,25 @@ class CategoryListViewModelTests: XCTestCase {
         let initialCategory = "InitialCategory"
         let newCategory = "NewCategory"
         
-        let category = CardCategory()
-        category.name = initialCategory
-        
+        vm.categories.append(initialCategory)
+                
         let card = Card()
         card.category = initialCategory
         vm.targetCategory = initialCategory
         vm.categoryTextFieldInput = newCategory
         vm.renameCategory()
         
-        XCTAssertEqual(category.name, newCategory, "Category should be renamed")
+        XCTAssertEqual(vm.categories.first!, newCategory, "Category should be renamed")
         XCTAssertEqual(card.category, newCategory, "Card category should be updated")
         expectation.fulfill()
-        wait(for: [expectation], timeout: 3.0)
+        wait(for: [expectation], timeout: 1.0)
     }
     
     func testDeleteCategory() {
         let expectation = XCTestExpectation(description: "Delete category")
         
         let initialCategory = "InitialCategory"
-        
-        let category = CardCategory()
-        category.name = initialCategory
+        vm.categories.append(initialCategory)
         
         let card = Card()
         card.category = initialCategory
@@ -59,6 +56,6 @@ class CategoryListViewModelTests: XCTestCase {
         
         XCTAssertTrue(vm.categories.isEmpty, "Category should be removed")
         expectation.fulfill()
-        wait(for: [expectation], timeout: 3.0)
+        wait(for: [expectation], timeout: 1.0)
     }
 }

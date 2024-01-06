@@ -21,7 +21,7 @@ class SwiftDataServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self)
+        let modelContainer = try! ModelContainer(for: Card.self)
         context = modelContainer.mainContext
         networkService = MockNetworkService()
         sut = .init(networkService: networkService, context: context)
@@ -51,7 +51,7 @@ class SwiftDataServiceTests: XCTestCase {
     func testAddDefaultCategoryIfNeeded_WithCompletion() {
         XCTAssertTrue(sut.categories.isEmpty)
         sut.addDefaultCategoryIfNeeded()
-        XCTAssertTrue(self.sut.categories.first!.name == "Category 1")
+        XCTAssertTrue(self.sut.categories.first! == "Category 1")
     }
 
     func testSaveAndReload() {
@@ -65,24 +65,5 @@ class SwiftDataServiceTests: XCTestCase {
         waitForExpectations(timeout: 3, handler: nil)
         
         XCTAssertFalse(sut.cards.isEmpty)
-    }
-
-    func testDeleteDuplicatedCategory() {
-        XCTAssertTrue(sut.categories.isEmpty)
-
-        let category1 = CardCategory()
-        category1.name = "Duplicate"
-        let category2 = CardCategory()
-        category2.name = "Duplicate"
-        
-        XCTAssertEqual(sut.categories.count, 2)
-        let expectation = self.expectation(description: "Wait for loadData")
-        
-        DispatchQueue.main.async() {
-            XCTAssertEqual(self.sut.categories.count, 1)
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 3)
     }
 }

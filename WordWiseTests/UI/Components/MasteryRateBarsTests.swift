@@ -17,7 +17,7 @@
 //    
 //    @MainActor override func setUp() {
 //        super.setUp()
-//        viewModel = .init(container: .mock(), category: MockHelper.shared.mockCategory)
+//        viewModel = .init(container: .mock(), category: MockHelper.mockCategory)
 //        sut = MasteryRateBars(vm: viewModel)
 //    }
 //    

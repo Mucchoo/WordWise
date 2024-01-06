@@ -22,11 +22,11 @@
 //        let card = Card()
 //        card.text = "Card Text"
 //        card.masteryRate = 0
-//        card.category = MockHelper.shared.mockCategory
+//        card.category = MockHelper.mockCategory
 //        
 //        sut = .init(
 //            selectedCard: .constant(card),
-//            category: .constant(MockHelper.shared.mockCategory),
+//            category: .constant(MockHelper.mockCategory),
 //            selectedRate: .constant(0),
 //            container: .mock(),
 //            updateCard: { self.didTapUpdate = true },
@@ -68,7 +68,7 @@
 //        let picker = try sut.inspect().vStack().vStack(0).hStack(2).picker(2)
 //        let categories = try picker.forEach(0).text(0).string()
 //        
-//        XCTAssertEqual(categories, MockHelper.shared.mockCategory)
+//        XCTAssertEqual(categories, MockHelper.mockCategory)
 //    }
 //    
 //    func testMasteryRatePickerSelection() throws {
