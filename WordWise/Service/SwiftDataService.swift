@@ -19,9 +19,8 @@ class SwiftDataService {
         return (try? context.fetch(fetchDescriptor)) ?? []
     }
     
-    var categories: [CardCategory] {
-        let fetchDescriptor = FetchDescriptor<CardCategory>()
-        return (try? context.fetch(fetchDescriptor)) ?? []
+    var categories: [String] {
+        return UserDefaults.standard.stringArray(forKey: "categories") ?? []
     }
     
     init(networkService: NetworkServiceProtocol, context: ModelContext) {
@@ -49,9 +48,10 @@ class SwiftDataService {
     
     func addDefaultCategoryIfNeeded() {
         guard categories.isEmpty else { return }
-        let defaultCategoryName = "Category 1"
-        let newCategory = CardCategory()
-        context.insert(newCategory)
-        newCategory.name = defaultCategoryName
+        let defaultCategory = "Category 1"
+        
+        var categories = UserDefaults.standard.stringArray(forKey: "categories") ?? []
+        categories.append(defaultCategory)
+        UserDefaults.standard.set(categories, forKey: "categories")
     }
 }

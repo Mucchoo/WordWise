@@ -17,7 +17,7 @@
 //    
 //    @MainActor override func setUp() {
 //        super.setUp()
-//        vm = .init(container: .mock(), categoryName: MockHelper.shared.mockCategory)
+//        vm = .init(container: .mock(), category: MockHelper.shared.mockCategory)
 //        sut = CardListView(vm: vm)
 //    }
 //    

@@ -26,7 +26,7 @@
 //        
 //        sut = .init(
 //            selectedCard: .constant(card),
-//            categoryName: .constant(MockHelper.shared.mockCategory),
+//            category: .constant(MockHelper.shared.mockCategory),
 //            selectedRate: .constant(0),
 //            container: .mock(),
 //            updateCard: { self.didTapUpdate = true },

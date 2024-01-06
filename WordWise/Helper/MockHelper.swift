@@ -15,19 +15,14 @@ struct MockHelper {
     
     func setupMockData() {
         createMockCards()
-        createAndSaveMockCategory()
-    }
-    
-    private func createAndSaveMockCategory() {
-        let category = CardCategory()
-        category.name = mockCategory
+        UserDefaults.standard.setValue([mockCategory], forKey: "categories")
     }
     
     private func createMockCards() {
         for i in 0..<100 {
             let card = Card()
             card.text = "mock \(i)"
-            card.setCardData(CardData.mock)
+            card.setCardData(.mock)
             card.masteryRate = Int16.random(in: 0...4)
             card.category = mockCategory
             card.nextLearningDate = Calendar.current.date(byAdding: .day, value: Int.random(in: 0...14), to: Date()) ?? Date()
@@ -36,6 +31,7 @@ struct MockHelper {
     
     func mockCard(rate: MasteryRate) -> Card {
         let card = Card()
+        card.setCardData(.mock)
         card.masteryRate = rate.rawValue
         return card
     }

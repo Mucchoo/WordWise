@@ -25,9 +25,13 @@ class AddCardViewModel: ObservableObject {
         return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
     }
     
-    var categories: [CardCategory] {
-        let fetchDescriptor = FetchDescriptor<CardCategory>()
-        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+    var categories: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "categories") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "categories")
+        }
     }
     
     @Published var cardText = ""
@@ -157,11 +161,9 @@ class AddCardViewModel: ObservableObject {
     
     func addCategory() {
         guard !textFieldInput.isEmpty,
-              !categories.contains(where: { $0.name == textFieldInput }) else { return }
+              !categories.contains(where: { $0 == textFieldInput }) else { return }
         
-        let category = CardCategory()
-        container.modelContext.insert(category)
-        category.name = textFieldInput
+        categories.append(textFieldInput)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
             selectedCategory = textFieldInput
@@ -185,9 +187,7 @@ class AddCardViewModel: ObservableObject {
     }
     
     func setDefaultCategory() {
-        if let defaultCategory = categories.first?.name,
-           selectedCategory.isEmpty {
-            selectedCategory = defaultCategory
-        }
+        guard let defaultCategory = categories.first, selectedCategory.isEmpty else { return }
+        selectedCategory = defaultCategory
     }
 }

@@ -17,7 +17,7 @@ struct DIContainer {
     
     @MainActor
     init(networkService: NetworkServiceProtocol) {
-        let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self)
+        let modelContainer = try! ModelContainer(for: Card.self)
         let modelContext = modelContainer.mainContext
         
         self.networkService = networkService

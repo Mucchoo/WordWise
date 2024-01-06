@@ -18,7 +18,7 @@ struct AccountView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading) {
-                    MasteryRateBars(vm: .init(container: vm.container, categoryName: ""))
+                    MasteryRateBars(vm: .init(container: vm.container, category: ""))
                         .blurBackground()
                     
                     VStack {

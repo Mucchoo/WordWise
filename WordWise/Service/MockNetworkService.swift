@@ -10,7 +10,7 @@ import Combine
 
 class MockNetworkService: NetworkServiceProtocol {
     func fetchDefinitionsAndImages(text: String) -> AnyPublisher<CardData, Error> {
-        Just(CardData.mock)
+        Just(.mock)
             .setFailureType(to: Error.self)
             .eraseToAnyPublisher()
     }

@@ -9,13 +9,16 @@ import SwiftUI
 import SwiftData
 
 struct CardDetailSheet: View {
-    @Query private var categories: [CardCategory]
     @Binding var selectedCard: Card?
-    @Binding var categoryName: String
+    @Binding var category: String
     @Binding var selectedRate: Int16
     let container: DIContainer
     let updateCard: () -> Void
     let deleteCard: () -> Void
+    
+    var categories: [String] {
+        return UserDefaults.standard.stringArray(forKey: "categories") ?? []
+    }
     
     var body: some View {
         VStack {
@@ -33,10 +36,9 @@ struct CardDetailSheet: View {
                 HStack {
                     Text("Category")
                     Spacer()
-                    Picker("Category", selection: $categoryName) {
-                        ForEach(categories) { category in
-                            let name = category.name ?? ""
-                            Text(name).tag(name)
+                    Picker("Category", selection: $category) {
+                        ForEach(categories, id: \.self) { category in
+                            Text(category).tag(category)
                         }
                     }
                     .pickerStyle(MenuPickerStyle())

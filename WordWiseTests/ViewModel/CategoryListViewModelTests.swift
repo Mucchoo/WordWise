@@ -26,20 +26,20 @@ class CategoryListViewModelTests: XCTestCase {
     func testRenameCategory() {
         let expectation = XCTestExpectation(description: "Rename category")
         
-        let initialCategoryName = "InitialCategory"
-        let newCategoryName = "NewCategory"
+        let initialCategory = "InitialCategory"
+        let newCategory = "NewCategory"
         
         let category = CardCategory()
-        category.name = initialCategoryName
+        category.name = initialCategory
         
         let card = Card()
-        card.category = initialCategoryName
-        vm.targetCategoryName = initialCategoryName
-        vm.categoryNameTextFieldInput = newCategoryName
+        card.category = initialCategory
+        vm.targetCategory = initialCategory
+        vm.categoryTextFieldInput = newCategory
         vm.renameCategory()
         
-        XCTAssertEqual(category.name, newCategoryName, "Category should be renamed")
-        XCTAssertEqual(card.category, newCategoryName, "Card category should be updated")
+        XCTAssertEqual(category.name, newCategory, "Category should be renamed")
+        XCTAssertEqual(card.category, newCategory, "Card category should be updated")
         expectation.fulfill()
         wait(for: [expectation], timeout: 3.0)
     }
@@ -47,14 +47,14 @@ class CategoryListViewModelTests: XCTestCase {
     func testDeleteCategory() {
         let expectation = XCTestExpectation(description: "Delete category")
         
-        let initialCategoryName = "InitialCategory"
+        let initialCategory = "InitialCategory"
         
         let category = CardCategory()
-        category.name = initialCategoryName
+        category.name = initialCategory
         
         let card = Card()
-        card.category = initialCategoryName
-        vm.targetCategoryName = initialCategoryName
+        card.category = initialCategory
+        vm.targetCategory = initialCategory
         vm.deleteCategory()
         
         XCTAssertTrue(vm.categories.isEmpty, "Category should be removed")

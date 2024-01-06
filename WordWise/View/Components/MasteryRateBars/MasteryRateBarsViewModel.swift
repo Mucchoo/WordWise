@@ -10,7 +10,7 @@ import Combine
 
 class MasteryRateBarsViewModel: ObservableObject {
     let container: DIContainer
-    var categoryName: String
+    var category: String
     @Published var isLoaded = false
     
     @Published var countTexts: [MasteryRate : String] = [
@@ -39,16 +39,16 @@ class MasteryRateBarsViewModel: ObservableObject {
     }
     
     var cards: [Card] {
-        if categoryName.isEmpty {
+        if category.isEmpty {
             return cards
         } else {
-            return cards.filter({ $0.category == categoryName })
+            return cards.filter({ $0.category == category })
         }
     }
     
-    init(container: DIContainer, categoryName: String) {
+    init(container: DIContainer, category: String) {
         self.container = container
-        self.categoryName = categoryName
+        self.category = category
     }
     
     func getCount(_ rate: MasteryRate) -> String {

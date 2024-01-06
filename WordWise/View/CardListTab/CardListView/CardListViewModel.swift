@@ -22,7 +22,7 @@ class CardListViewModel: ObservableObject {
     @Published var showingDeleteCardsAlert = false
     @Published var cardCategory = ""
     @Published var navigateToCardDetail = false
-    @Published var categoryName: String
+    @Published var category: String
     
     @Published var selectedCard: Card?
     @Published var selectedRate: Int16 = 0
@@ -41,9 +41,13 @@ class CardListViewModel: ObservableObject {
         return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
     }
     
-    init(container: DIContainer, categoryName: String) {
+    var categories: [String] {
+        return UserDefaults.standard.stringArray(forKey: "categories") ?? []
+    }
+    
+    init(container: DIContainer, category: String) {
         self.container = container
-        self.categoryName = categoryName
+        self.category = category
     }
     
     func changeMasteryRate() {
@@ -117,7 +121,7 @@ class CardListViewModel: ObservableObject {
     
     func updateCardList() {
         let filteredCards = cards.filter { card in
-            let categoryFilter = card.category == categoryName
+            let categoryFilter = card.category == category
             let cardText = card.text 
             let searchTextFilter = cardText.contains(searchBarText) || searchBarText.isEmpty
             return categoryFilter && searchTextFilter

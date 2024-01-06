@@ -17,7 +17,7 @@ class MasteryRateBarsViewModelTests: XCTestCase {
     @MainActor override func setUp() {
         super.setUp()
         
-        vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), categoryName: "")
+        vm = MasteryRateBarsViewModel(container: .mock(withMockCards: false), category: "")
     }
     
     override func tearDown() {

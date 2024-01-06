@@ -14,17 +14,21 @@ class CategoryListViewModel: ObservableObject {
 
     @Published var showingRenameAlert = false
     @Published var showingDeleteAlert = false
-    @Published var categoryNameTextFieldInput = ""
-    @Published var targetCategoryName = ""
+    @Published var categoryTextFieldInput = ""
+    @Published var targetCategory = ""
     
     var cards: [Card] {
         let fetchDescriptor = FetchDescriptor<Card>()
         return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
     }
     
-    var categories: [CardCategory] {
-        let fetchDescriptor = FetchDescriptor<CardCategory>()
-        return (try? container.modelContext.fetch(fetchDescriptor)) ?? []
+    var categories: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "categories") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "categories")
+        }
     }
     
     init(container: DIContainer) {
@@ -32,15 +36,17 @@ class CategoryListViewModel: ObservableObject {
     }
     
     func renameCategory() {
-        cards.filter({ $0.category == targetCategoryName }).forEach { card in
-            card.category = categoryNameTextFieldInput
+        cards.filter({ $0.category == targetCategory }).forEach { card in
+            card.category = categoryTextFieldInput
         }
         
-        categories.first(where: { $0.name == targetCategoryName })?.name = categoryNameTextFieldInput
+        if let index = categories.firstIndex(of: targetCategory) {
+            categories[index] = categoryTextFieldInput
+        }
     }
     
     func deleteCategory() {
-        guard let category = categories.first(where: { $0.name == targetCategoryName }) else { return }
-        container.modelContext.delete(category)
+        guard let category = categories.first(where: { $0 == targetCategory }) else { return }
+        categories.removeAll(where: { $0 == category })
     }
 }

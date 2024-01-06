@@ -59,7 +59,6 @@
 		C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41E2B02D61C00F07CC8 /* Definition.swift */; };
 		C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */; };
 		C60BE4262B02D61C00F07CC8 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE4202B02D61C00F07CC8 /* Card.swift */; };
-		C60BE4272B02D61C00F07CC8 /* CardCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE4212B02D61C00F07CC8 /* CardCategory.swift */; };
 		C62C2ECF2AA4F68C0065DA91 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62C2ECE2AA4F68C0065DA91 /* Language.swift */; };
 		C66750C62AAD191300C19343 /* CardViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66750C52AAD191300C19343 /* CardViewTests.swift */; };
 		C66F29952AAFE8EE00A73967 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */; };
@@ -154,7 +153,6 @@
 		C60BE41E2B02D61C00F07CC8 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phonetic.swift; sourceTree = "<group>"; };
 		C60BE4202B02D61C00F07CC8 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		C60BE4212B02D61C00F07CC8 /* CardCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCategory.swift; sourceTree = "<group>"; };
 		C62C2ECE2AA4F68C0065DA91 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		C66750C52AAD191300C19343 /* CardViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewTests.swift; sourceTree = "<group>"; };
 		C66F29942AAFE8EE00A73967 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -357,7 +355,6 @@
 				C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */,
 				C60BE41D2B02D61C00F07CC8 /* Meaning.swift */,
 				C60BE41E2B02D61C00F07CC8 /* Definition.swift */,
-				C60BE4212B02D61C00F07CC8 /* CardCategory.swift */,
 			);
 			path = SwiftData;
 			sourceTree = "<group>";
@@ -706,7 +703,6 @@
 				2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */,
 				2A442B8F2A7010420083A476 /* Keys.swift in Sources */,
 				2AD30C812A9EF76900BCEF04 /* MyError.swift in Sources */,
-				C60BE4272B02D61C00F07CC8 /* CardCategory.swift in Sources */,
 				C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */,
 				C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */,
 				2A68022D2A9BB94E00AADB8C /* NoCardViewModel.swift in Sources */,

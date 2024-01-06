@@ -31,7 +31,7 @@ struct CardListView: View {
         }
         .gradientBackground()
         .background(PickerAlert(vm: vm))
-        .navigationBarTitle(vm.categoryName, displayMode: .large)
+        .navigationBarTitle(vm.category, displayMode: .large)
         .navigationBarItems(leading: navigationLeadingItems, trailing: selectModeButton)
         .onChange(of: cards) { _ in
             vm.updateCardList()
@@ -42,7 +42,7 @@ struct CardListView: View {
         .sheet(isPresented: $vm.navigateToCardDetail) {
             CardDetailSheet(
                 selectedCard: $vm.selectedCard,
-                categoryName: $vm.categoryName,
+                category: $vm.category,
                 selectedRate: $vm.selectedRate,
                 container: vm.container,
                 updateCard: vm.updateCard,
@@ -172,5 +172,5 @@ struct CardListView: View {
 }
 
 #Preview {
-    CardListView(vm: .init(container: .mock(), categoryName: MockHelper.shared.mockCategory))
+    CardListView(vm: .init(container: .mock(), category: MockHelper.shared.mockCategory))
 }

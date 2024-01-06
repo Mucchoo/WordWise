@@ -11,20 +11,19 @@ import SwiftData
 struct CategoryListView: View {
     @Environment(\.colorScheme) private var colorScheme
     @StateObject private var vm: CategoryListViewModel
-    @Query private var categories: [CardCategory]
     
     init(vm: CategoryListViewModel) {
         _vm = StateObject(wrappedValue: vm)
     }
     
     var body: some View {
-        if categories.isEmpty {
+        if vm.categories.isEmpty {
             NoCardView(image: "BoyRight")
         } else {
             NavigationView {
                 ScrollView {
                     VStack(spacing: 0) {
-                        ForEach(categories) { category in
+                        ForEach(vm.categories, id: \.self) { category in
                             categoryRow(category)
                         }
                     }
@@ -32,16 +31,16 @@ struct CategoryListView: View {
                 .gradientBackground()
                 .navigationBarTitle("Categories", displayMode: .large)
                 .alert("Rename Category", isPresented: $vm.showingRenameAlert) {
-                    TextField("category name", text: $vm.categoryNameTextFieldInput)
+                    TextField("category name", text: $vm.categoryTextFieldInput)
                     Button("Rename", role: .none) {
                         vm.renameCategory()
                     }
-                    .disabled(vm.categoryNameTextFieldInput.isEmpty)
+                    .disabled(vm.categoryTextFieldInput.isEmpty)
                     Button("Cancel", role: .cancel) {}
                 } message: {
                     Text("Please enter the new category name.")
                 }
-                .alert("Do you want to delete \(vm.targetCategoryName) and it's cards?", isPresented: $vm.showingDeleteAlert) {
+                .alert("Do you want to delete \(vm.targetCategory) and it's cards?", isPresented: $vm.showingDeleteAlert) {
                     Button("Delete", role: .destructive) {
                         vm.deleteCategory()
                     }
@@ -54,12 +53,12 @@ struct CategoryListView: View {
         }
     }
     
-    private func categoryRow(_ category: CardCategory) -> some View {
+    private func categoryRow(_ category: String) -> some View {
         ZStack() {
-            NavigationLink(destination: CardListView(vm: .init(container: vm.container, categoryName: category.name ?? ""))) {
+            NavigationLink(destination: CardListView(vm: .init(container: vm.container, category: category))) {
                 VStack {
                     HStack(alignment: .top) {
-                        Text(category.name ?? "")
+                        Text(category)
                             .fontWeight(.bold)
                             .lineLimit(2)
                             .foregroundColor(.primary)
@@ -72,7 +71,7 @@ struct CategoryListView: View {
                             .frame(width: 35, height: 35)
                     }
                     
-                    MasteryRateBars(vm: .init(container: vm.container, categoryName: category.name ?? ""))
+                    MasteryRateBars(vm: .init(container: vm.container, category: category))
                 }
                 .padding(10)
                 .blurBackground()
@@ -87,15 +86,15 @@ struct CategoryListView: View {
                     
                     Menu {
                         Button(action: {
-                            vm.targetCategoryName = category.name ?? ""
-                            vm.categoryNameTextFieldInput = category.name ?? ""
+                            vm.targetCategory = category
+                            vm.categoryTextFieldInput = category
                             vm.showingRenameAlert = true
                         }) {
                             Label("Rename", systemImage: "pencil")
                         }
 
                         Button(action: {
-                            vm.targetCategoryName = category.name ?? ""
+                            vm.targetCategory = category
                             vm.showingDeleteAlert = true
                         }) {
                             Label("Delete", systemImage: "trash")

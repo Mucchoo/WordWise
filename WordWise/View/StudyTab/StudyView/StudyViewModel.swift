@@ -44,6 +44,15 @@ class StudyViewModel: ObservableObject {
         "Study \(studyingCards.count) Cards" : "Finished Learning for Today!"
     }
     
+    var categories: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "categories") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "categories")
+        }
+    }
+    
     
     init(container: DIContainer) {
         self.container = container

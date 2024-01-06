@@ -14,7 +14,6 @@ struct PickerAlert: UIViewControllerRepresentable {
     }
     
     @ObservedObject var vm: CardListViewModel
-    @Query var categories: [CardCategory]
     
     var title: String?
     var message: String?
@@ -29,7 +28,7 @@ struct PickerAlert: UIViewControllerRepresentable {
         if type == .category {
             title = "Change Category"
             message = "Select new category for the \(vm.selectedCards.count) cards."
-            options = categories.map { $0.name ?? "" }
+            options = vm.categories
             onConfirm = vm.changeCategory
         } else {
             title = "Change Mastery Rate"
@@ -53,7 +52,7 @@ struct PickerAlert: UIViewControllerRepresentable {
             
             var newOptions: [String] = []
             if type == .category {
-                newOptions = categories.map { $0.name ?? "" }
+                newOptions = vm.categories
             } else {
                 newOptions = MasteryRate.allValues.map { $0.stringValue() + "%" }
             }

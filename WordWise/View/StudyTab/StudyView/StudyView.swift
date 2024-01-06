@@ -11,7 +11,6 @@ import SwiftData
 struct StudyView: View {
     @StateObject private var vm: StudyViewModel
     @Query private var cards: [Card]
-    @Query private var categories: [CardCategory]
 
     init(vm: StudyViewModel) {
         _vm = StateObject(wrappedValue: vm)
@@ -76,9 +75,8 @@ struct StudyView: View {
             Text("Category")
             Spacer()
             Picker("Options", selection: $vm.selectedCategory) {
-                ForEach(categories) { category in
-                    let name = category.name ?? ""
-                    Text(name).tag(name)
+                ForEach(vm.categories, id: \.self) { category in
+                    Text(category).tag(category)
                 }
             }
         }

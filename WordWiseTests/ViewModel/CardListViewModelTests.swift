@@ -16,7 +16,7 @@ class CardListViewModelTests: XCTestCase {
 
     @MainActor override func setUp() {
         super.setUp()
-        vm = CardListViewModel(container: .mock(), categoryName: "Fruits")
+        vm = CardListViewModel(container: .mock(), category: "Fruits")
         cancellables = []
     }
     
@@ -29,7 +29,7 @@ class CardListViewModelTests: XCTestCase {
     
     func testInit() {
         XCTAssertEqual(vm.cardList.count, 0)
-        XCTAssertEqual(vm.categoryName, "Fruits")
+        XCTAssertEqual(vm.category, "Fruits")
     }
     
     func testChangeCategory() {
@@ -158,7 +158,7 @@ class CardListViewModelTests: XCTestCase {
         let card3 = Card()
         card3.category = MockHelper.shared.mockCategory
         
-        vm.categoryName = MockHelper.shared.mockCategory
+        vm.category = MockHelper.shared.mockCategory
         vm.updateCardList()
         
         XCTAssertEqual(vm.cardList.count, 103)
@@ -176,7 +176,7 @@ class CardListViewModelTests: XCTestCase {
         card2.text = "Banana"
         card3.text = "Cherry"
         
-        vm.categoryName = MockHelper.shared.mockCategory
+        vm.category = MockHelper.shared.mockCategory
         vm.searchBarText = "App"
         vm.updateCardList()
         

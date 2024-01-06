@@ -16,7 +16,7 @@
 //    
 //    @MainActor override func setUp() {
 //        super.setUp()
-//        vm = CardListViewModel(container: .mock(), categoryName: MockHelper.shared.mockCategory)
+//        vm = CardListViewModel(container: .mock(), category: MockHelper.shared.mockCategory)
 //    }
 //    
 //    override func tearDown() {
@@ -50,7 +50,7 @@
 //        XCTAssertEqual(sut.title, "Change Category")
 //        XCTAssertEqual(sut.message, "Select new category for the \(vm.selectedCards.count) cards.")
 //        
-//        let expectedOptions = categories.map { $0.name ?? "" }
+//        let expectedOptions = categories
 //        XCTAssertEqual(sut.options, expectedOptions)
 //    }
 //    
