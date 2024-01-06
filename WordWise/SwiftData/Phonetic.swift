@@ -17,4 +17,10 @@ import SwiftData
     init() {
         self.id = UUID().uuidString
     }
+    
+    static var mock: Phonetic {
+        let phonetic = Phonetic()
+        phonetic.text = "/mɒk/"
+        return phonetic
+    }
 }

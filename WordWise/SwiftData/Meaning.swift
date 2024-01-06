@@ -20,4 +20,13 @@ import SwiftData
     init() {
         self.id = UUID().uuidString
     }
+    
+    static var mock: Meaning {
+        let meaning = Meaning()
+        meaning.partOfSpeech = "Noun"
+        meaning.createdAt = Date()
+        meaning.definitions.append(Definition.mock)
+        meaning.definitions.append(Definition.mock)
+        return meaning
+    }
 }

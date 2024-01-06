@@ -13,7 +13,7 @@ import Combine
 class SwiftDataServiceTests: XCTestCase {
     
     var context: ModelContext!
-    var networkService: NetworkService!
+    var networkService: NetworkServiceProtocol!
     var sut: SwiftDataService!
     var cancellables: Set<AnyCancellable>!
     
@@ -23,7 +23,7 @@ class SwiftDataServiceTests: XCTestCase {
         
         let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self)
         context = modelContainer.mainContext
-        networkService = .init(session: .mock, context: context)
+        networkService = MockNetworkService()
         sut = .init(networkService: networkService, context: context)
         cancellables = []
     }

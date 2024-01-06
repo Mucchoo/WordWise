@@ -11,7 +11,7 @@ import Combine
 
 class SwiftDataService {
     private var cancellables = Set<AnyCancellable>()
-    let networkService: NetworkService
+    let networkService: NetworkServiceProtocol
     let context: ModelContext
     
     var cards: [Card] {
@@ -24,18 +24,21 @@ class SwiftDataService {
         return (try? context.fetch(fetchDescriptor)) ?? []
     }
     
-    init(networkService: NetworkService, context: ModelContext) {
+    init(networkService: NetworkServiceProtocol, context: ModelContext) {
         self.networkService = networkService
         self.context = context
     }
 
     func retryFetchingImagesIfNeeded() {
-        let cardsFailedFetchingImages = cards.filter { $0.retryFetchImages }
+        let cardsToRetry = cards.filter { $0.retryFetchImages }
         
-        let fetchPublishers = cardsFailedFetchingImages.publisher
-            .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<Void, Never> in
-                return self.networkService.retryFetchingImages(card: card)
-                    .catch { _ in Empty<Void, Never>() }
+        let fetchPublishers = cardsToRetry.publisher
+            .flatMap(maxPublishers: .max(10)) { card -> AnyPublisher<[Data], Never> in
+                return self.networkService.retryFetchingImages(text: card.text)
+                    .handleEvents(receiveOutput: { datas in
+                        card.imageDatas = datas
+                    })
+                    .catch { _ in Empty<[Data], Never>() }
                     .eraseToAnyPublisher()
             }
         
@@ -50,40 +53,5 @@ class SwiftDataService {
         let newCategory = CardCategory()
         context.insert(newCategory)
         newCategory.name = defaultCategoryName
-    }
-    
-    private func deleteDuplicatedCategory() {
-        let groupedCategories = Dictionary(grouping: categories) { category in
-            return category.name ?? ""
-        }
-        
-        let duplicateGroups = groupedCategories.filter { $1.count > 1 }
-        guard !duplicateGroups.isEmpty else { return }
-        
-        for (name, duplicateCategories) in duplicateGroups {
-            print("Found \(duplicateCategories.count) duplicates for category named: \(name)")
-            
-            let categoriesToDelete = duplicateCategories.dropFirst()
-            
-            for category in categoriesToDelete {
-                context.delete(category)
-            }
-        }
-    }
-    
-    private func createMissingCategoryIfNeeded() {
-        var missingCategoryName = ""
-        
-        cards.forEach { card in
-            if !categories.contains(where: { $0.name == card.category }) {
-                missingCategoryName = card.category
-            }
-        }
-        
-        guard !missingCategoryName.isEmpty else { return }
-        
-        let missingCategory = CardCategory()
-        context.insert(missingCategory)
-        missingCategory.name = missingCategoryName
     }
 }

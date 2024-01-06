@@ -17,8 +17,8 @@ import SwiftData
     var nextLearningDate: Date = Date()
     var retryFetchImages: Bool = false
     var text: String = ""
+    var imageDatas: [Data] = []
     
-    @Relationship(inverse: \ImageData.card) var imageDatas: [ImageData] = []
     @Relationship(inverse: \Meaning.card) var meanings: [Meaning] = []
     @Relationship(inverse: \Phonetic.card) var phonetics: [Phonetic] = []
     
@@ -37,32 +37,16 @@ import SwiftData
     var rate: MasteryRate {
         return MasteryRate(rawValue: masteryRate) ?? .zero
     }
-
-    func setMockData() {
-        let newMeaning1 = Meaning()
-        newMeaning1.partOfSpeech = "Noun"
-        newMeaning1.createdAt = Date()
-        
-        let newMeaning2 = Meaning()
-        newMeaning2.partOfSpeech = "Noun"
-        newMeaning2.createdAt = Date()
-        
-        let newDefinition = Definition()
-        newDefinition.definition = "A mock definition"
-        newDefinition.example = "An example using the mock definition."
-        newDefinition.antonyms = "opposite"
-        newDefinition.synonyms = "similar"
-        newDefinition.createdAt = Date()
-
-        let newPhonetic = Phonetic()
-        newPhonetic.text = "/mɒk/"
-                
-        let invalidImageData = ImageData()
-        invalidImageData.data = Data()
-        invalidImageData.priority = 0
-        
-        let validImageData = ImageData()
-        validImageData.data = UIImage(systemName: "circle")?.pngData()
-        validImageData.priority = 1
+    
+    func setCardData(_ cardData: CardData) {
+        category = cardData.category
+        lastHardDate = cardData.lastHardDate
+        masteryRate = cardData.masteryRate
+        nextLearningDate = cardData.nextLearningDate
+        retryFetchImages = cardData.retryFetchImages
+        text = cardData.text
+        imageDatas = cardData.imageDatas
+        meanings = cardData.meanings
+        phonetics = cardData.phonetics
     }
 }

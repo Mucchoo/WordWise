@@ -238,7 +238,7 @@ struct CardView: View {
     
     private func gridImage(card: Card, index: Int, size: CGFloat) -> some View {
         Group {
-            if let imageData = card.imageDatas[safe: index]?.data,
+            if let imageData = card.imageDatas[safe: index],
                let uiImage = UIImage(data: imageData) {
                 Image(uiImage: uiImage)
                     .resizable()

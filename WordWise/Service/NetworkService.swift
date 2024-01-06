@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import SwiftData
 
 struct APIURL {
     static let freeDictionary = "https://api.dictionaryapi.dev/api/v2/entries/en/"
@@ -16,40 +15,44 @@ struct APIURL {
     static let deepL = "https://api-free.deepl.com/v2/translate"
 }
 
-class NetworkService {
-    let session: URLSession
-    let context: ModelContext
+protocol NetworkServiceProtocol {
+    func fetchDefinitionsAndImages(text: String) -> AnyPublisher<CardData, Error>
+    func fetchTranslations(_ texts: [String]) -> AnyPublisher<[String], Error>
+    func retryFetchingImages(text: String) -> AnyPublisher<[Data], Error>
+}
+
+class NetworkService: NetworkServiceProtocol {
+    private let session: URLSession
     private var cancellables = Set<AnyCancellable>()
 
-    init(session: URLSession, context: ModelContext) {
+    init(session: URLSession) {
         self.session = session
-        self.context = context
     }
     
     // MARK: - fetchDefinitionsAndImages
     
-    func fetchDefinitionsAndImages(card: Card) -> AnyPublisher<Card, Error> {
-        let fetchCardData = fetchDefinitions(word: card.text).catch { error -> AnyPublisher<WordDefinition, Error> in
+    func fetchDefinitionsAndImages(text: String) -> AnyPublisher<CardData, Error> {
+        let cardData = CardData()
+        
+        let fetchCardData = fetchDefinitions(word: text).catch { error -> AnyPublisher<WordDefinition, Error> in
             return Fail(error: error).eraseToAnyPublisher()
         }
         
-        let fetchImagesData = fetchImages(word: card.text).catch { error -> AnyPublisher<[String], Error> in
-            card.retryFetchImages = true
+        let fetchImagesData = fetchImages(word: text).catch { error -> AnyPublisher<[String], Error> in
+            cardData.retryFetchImages = true
             return Just([]).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         return Publishers.Zip(fetchCardData, fetchImagesData)
             .flatMap({ definition, imageUrls in
-                self.setDefinitionData(card: card, data: definition)
-                self.downloadAndSetImages(card: card, imageUrls: imageUrls)
-                return Just(card).setFailureType(to: Error.self).eraseToAnyPublisher()
+                self.setDefinitionData(to: cardData, data: definition)
+                self.downloadAndSetImages(to: cardData, imageUrls: imageUrls)
+                return Just(cardData).setFailureType(to: Error.self).eraseToAnyPublisher()
             })
             .eraseToAnyPublisher()
     }
     
-    private func downloadAndSetImages(card: Card, imageUrls: [String]) {
-        print("downloadAndSetImages card: \(card.text) imageUrls: \(imageUrls.count)")
-        
+    private func downloadAndSetImages(to cardData: CardData, imageUrls: [String]) {
         let downloadImages: [AnyPublisher<Data, Error>] = imageUrls.compactMap { url in
             guard let urlObj = URL(string: url) else {
                 print("downloadAndSetImages url is invalid: \(url)")
@@ -75,13 +78,8 @@ class NetworkService {
                     }
                 },
                 receiveValue: { imagesData in
-                    for (index, data) in imagesData.enumerated() {
-                        let imageData = ImageData()
-                        self.context.insert(imageData)
-                        imageData.data = data
-                        imageData.priority = index
-                        print("set image: \(index) data: \(data)")
-                        card.imageDatas.append(imageData)
+                    imagesData.forEach { data in
+                        cardData.imageDatas.append(data)
                     }
                 }
             )
@@ -169,12 +167,11 @@ class NetworkService {
         return .success(wordDefinition)
     }
     
-    private func setDefinitionData(card: Card, data: WordDefinition) {
+    private func setDefinitionData(to cardData: CardData, data: WordDefinition) {
         data.meanings?.forEach { meaning in
             let newMeaning = Meaning()
             newMeaning.partOfSpeech = meaning.partOfSpeech ?? "Unknown"
             newMeaning.createdAt = Date()
-            context.insert(newMeaning)
             
             meaning.definitions?.forEach { definition in
                 let newDefinition = Definition()
@@ -189,20 +186,19 @@ class NetworkService {
                 }
             }
             
-            card.meanings.append(newMeaning)
+            cardData.meanings.append(newMeaning)
         }
         
         data.phonetics?.forEach { phonetic in
             let newPhonetic = Phonetic()
-            context.insert(newPhonetic)
             newPhonetic.text = phonetic.text ?? ""
-            card.phonetics.append(newPhonetic)
+            cardData.phonetics.append(newPhonetic)
         }
     }
     
     // MARK: - fetchTranslations
     
-    func fetchTranslations(_ texts: [String]) -> AnyPublisher<TranslationResponse, Error> {
+    func fetchTranslations(_ texts: [String]) -> AnyPublisher<[String], Error> {
         let url = URL(string: APIURL.deepL)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -223,16 +219,17 @@ class NetworkService {
         return session.dataTaskPublisher(for: request)
             .tryMap { data, _ in data }
             .decode(type: TranslationResponse.self, decoder: JSONDecoder())
+            .map { response in
+                response.translations.map { $0.text }
+            }
             .eraseToAnyPublisher()
     }
     
     // MARK: - RetryFetchingImages
     
-    func retryFetchingImages(card: Card) -> AnyPublisher<Void, Error> {
-        return fetchImages(word: card.text)
-            .flatMap { imageUrls -> AnyPublisher<Void, Error> in
-                card.imageDatas = []
-                
+    func retryFetchingImages(text: String) -> AnyPublisher<[Data], Error> {
+        return fetchImages(word: text)
+            .flatMap { imageUrls -> AnyPublisher<[Data], Error> in
                 let downloadImages = imageUrls.enumerated().map { index, url -> AnyPublisher<Data, Error> in
                     return self.session.dataTaskPublisher(for: URL(string: url)!)
                         .map(\.data)
@@ -242,16 +239,6 @@ class NetworkService {
                 
                 return Publishers.MergeMany(downloadImages)
                     .collect()
-                    .tryMap { imagesData in
-                        for (index, data) in imagesData.enumerated() {
-                            let imageData = ImageData()
-                            self.context.insert(imageData)
-                            imageData.data = data
-                            imageData.priority = index
-                            card.imageDatas.append(imageData)
-                        }
-                    }
-                    .map { _ in () }
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()

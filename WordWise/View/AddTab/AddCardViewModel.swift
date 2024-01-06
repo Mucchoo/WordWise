@@ -34,7 +34,7 @@ class AddCardViewModel: ObservableObject {
     @Published var selectedCategory = ""
     @Published var generatingCards = false
     @Published var showPlaceholder = true
-    @Published var fetchFailedWords: [String] = []
+    @Published var fetchFailedTexts: [String] = []
     @Published var requestedWordCount = 1
     @Published var fetchedWordCount = 0
     @Published var addedCardCount = 0
@@ -68,7 +68,7 @@ class AddCardViewModel: ObservableObject {
         case .addCategory:
             return "Please enter the new category name."
         case .fetchFailed:
-            return "Failed to find these wards on the dictionary.\n\n\(fetchFailedWords.joined(separator: "\n"))"
+            return "Failed to find these wards on the dictionary.\n\n\(fetchFailedTexts.joined(separator: "\n"))"
         default:
             return "Added \(addedCardCount) cards successfully."
         }
@@ -84,7 +84,7 @@ class AddCardViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.generatingCards = false
-                self?.currentAlert = self?.fetchFailedWords.isEmpty == true ? .fetchSucceeded : .fetchFailed
+                self?.currentAlert = self?.fetchFailedTexts.isEmpty == true ? .fetchSucceeded : .fetchFailed
             }
         
         cancellable.store(in: &cancellables)
@@ -95,28 +95,31 @@ class AddCardViewModel: ObservableObject {
     
     @MainActor
     private func generateCards() -> AnyPublisher<Void, Never> {
-        fetchFailedWords = []
+        fetchFailedTexts = []
         return Deferred {
             Future<Void, Never> { promise in
-                let words = self.cardText.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
-                self.requestedWordCount = words.count
+                let texts = self.cardText.split(separator: "\n").map { String($0).trimmingCharacters(in: .whitespaces) }
+                self.requestedWordCount = texts.count
                 self.fetchedWordCount = 0
 
-                let fetchPublishers = words.publisher
-                    .flatMap(maxPublishers: .max(5)) { word -> AnyPublisher<Result<Card, Error>, Never> in
-                        return self.fetchCard(word: word, category: self.selectedCategory)
+                let fetchPublishers = texts.publisher
+                    .flatMap(maxPublishers: .max(5)) { text -> AnyPublisher<Result<CardData, Error>, Never> in
+                        return self.fetchTextDefinition(text: text)
                     }
 
                 fetchPublishers
                     .receive(on: DispatchQueue.main)
                     .sink { completion in
-                        self.addedCardCount = words.count
+                        self.addedCardCount = texts.count
                         self.container.swiftDataService.retryFetchingImagesIfNeeded()
                         promise(.success(()))
                     } receiveValue: { result in
                         switch result {
-                        case .success(let card):
-                            self.container.modelContext.insert(card)
+                        case .success(let cardData):
+                            let card = Card()
+                            card.setCardData(cardData)
+                            card.category = self.selectedCategory
+                            card.nextLearningDate = Date()
                         case .failure(let error):
                             print("fetch definitions failed: \(error.localizedDescription)")
                         }
@@ -128,18 +131,12 @@ class AddCardViewModel: ObservableObject {
     }
     
     @MainActor
-    private func fetchCard(word: String, category: String) -> AnyPublisher<Result<Card, Error>, Never> {
-        let card = Card()
-        container.modelContext.insert(card)
-        card.text = word
-        card.category = category
-        card.nextLearningDate = Date()
+    private func fetchTextDefinition(text: String) -> AnyPublisher<Result<CardData, Error>, Never> {
         
-        return container.networkService.fetchDefinitionsAndImages(card: card)
+        return container.networkService.fetchDefinitionsAndImages(text: text)
             .map { .success($0) }
-            .catch { error -> AnyPublisher<Result<Card, Error>, Never> in
+            .catch { error -> AnyPublisher<Result<CardData, Error>, Never> in
                 print("catch error:\(error.localizedDescription)")
-                self.container.modelContext.delete(card)
                 return Just(.failure(error)).eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
@@ -151,7 +148,7 @@ class AddCardViewModel: ObservableObject {
                     print("fetchCard receiveOutput success: \(card.text)")
                 case .failure(let error):
                     print("fetchCard receiveOutput failure: \(error.localizedDescription)")
-                    self.fetchFailedWords.append(word)
+                    self.fetchFailedTexts.append(text)
                 }
                 print("fetchCard fetchedWordCount: \(self.fetchedWordCount)")
             })

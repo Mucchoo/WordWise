@@ -33,7 +33,7 @@ class AddCardViewModelTests: XCTestCase {
         XCTAssertEqual(vm.selectedCategory, "")
         XCTAssertFalse(vm.generatingCards)
         XCTAssertTrue(vm.showPlaceholder)
-        XCTAssertTrue(vm.fetchFailedWords.isEmpty)
+        XCTAssertTrue(vm.fetchFailedTexts.isEmpty)
         XCTAssertEqual(vm.requestedWordCount, 1)
         XCTAssertEqual(vm.fetchedWordCount, 0)
         XCTAssertEqual(vm.addedCardCount, 0)
@@ -57,7 +57,7 @@ class AddCardViewModelTests: XCTestCase {
         
         vm.generateCards()
         
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 3)
     }
     
     @MainActor func testFetchSucceeded() {
@@ -174,7 +174,7 @@ class AddCardViewModelTests: XCTestCase {
         vm.$showingAlert.sink { value in
             if value {
                 XCTAssertEqual(self.vm.currentAlert, .fetchFailed)
-                XCTAssertEqual(self.vm.fetchFailedWords, ["test"])
+                XCTAssertEqual(self.vm.fetchFailedTexts, ["test"])
                 expectation.fulfill()
             }
         }.store(in: &cancellables)

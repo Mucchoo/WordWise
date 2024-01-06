@@ -22,4 +22,14 @@ import SwiftData
     init() {
         self.id = UUID().uuidString
     }
+    
+    static var mock: Definition {
+        let definition = Definition()
+        definition.definition = "A mock definition"
+        definition.example = "An example using the mock definition."
+        definition.antonyms = "opposite"
+        definition.synonyms = "similar"
+        definition.createdAt = Date()
+        return definition
+    }
 }

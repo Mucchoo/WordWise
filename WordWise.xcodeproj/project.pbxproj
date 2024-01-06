@@ -55,7 +55,6 @@
 		2AE687142A42CA6D009BDD0C /* CardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AE687132A42CA6D009BDD0C /* CardResponse.swift */; };
 		2AFF922C2A9B263F0097ECE4 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */; };
 		C60942EC2AAB782A000C43F9 /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = C60942EB2AAB782A000C43F9 /* ViewInspector */; };
-		C60BE4222B02D61C00F07CC8 /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41C2B02D61C00F07CC8 /* ImageData.swift */; };
 		C60BE4232B02D61C00F07CC8 /* Meaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41D2B02D61C00F07CC8 /* Meaning.swift */; };
 		C60BE4242B02D61C00F07CC8 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41E2B02D61C00F07CC8 /* Definition.swift */; };
 		C60BE4252B02D61C00F07CC8 /* Phonetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */; };
@@ -78,6 +77,8 @@
 		C6DE56E62AA8F27C00C30AFF /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */; };
 		C6DE56E82AA8F6CD00C30AFF /* NoCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */; };
 		C6DE56EA2AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */; };
+		C6E485F42B48DC5700DA69EF /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E485F22B48D9F300DA69EF /* MockNetworkService.swift */; };
+		C6E485F62B48DD1F00DA69EF /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E485F52B48DD1F00DA69EF /* CardData.swift */; };
 		C6FA61562AAE0C9C00DE1B5C /* CoreDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */; };
 		C6FA61582AAE189700DE1B5C /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61572AAE189700DE1B5C /* NetworkServiceTests.swift */; };
 		C6FA61622AAE421E00DE1B5C /* PickerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FA61612AAE421E00DE1B5C /* PickerAlert.swift */; };
@@ -149,7 +150,6 @@
 		2AE1F8632AA6CEA100EE8AD9 /* AudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		2AE687132A42CA6D009BDD0C /* CardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardResponse.swift; sourceTree = "<group>"; };
 		2AFF922B2A9B263F0097ECE4 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
-		C60BE41C2B02D61C00F07CC8 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		C60BE41D2B02D61C00F07CC8 /* Meaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meaning.swift; sourceTree = "<group>"; };
 		C60BE41E2B02D61C00F07CC8 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 		C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phonetic.swift; sourceTree = "<group>"; };
@@ -172,6 +172,8 @@
 		C6DE56E52AA8F27C00C30AFF /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E72AA8F6CD00C30AFF /* NoCardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCardViewModelTests.swift; sourceTree = "<group>"; };
 		C6DE56E92AA8FE5100C30AFF /* MasteryRateBarsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasteryRateBarsViewModelTests.swift; sourceTree = "<group>"; };
+		C6E485F22B48D9F300DA69EF /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
+		C6E485F52B48DD1F00DA69EF /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
 		C6F4214B2B2D6121008A76F5 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestPlan.xctestplan; sourceTree = "<group>"; };
 		C6FA61552AAE0C9C00DE1B5C /* CoreDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataServiceTests.swift; sourceTree = "<group>"; };
 		C6FA61572AAE189700DE1B5C /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				2ADC3C262A50A20C00AA5903 /* SwiftDataService.swift */,
 				2A2015C52A63F42300C67716 /* NetworkService.swift */,
+				C6E485F22B48D9F300DA69EF /* MockNetworkService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				2AD30C802A9EF76900BCEF04 /* MyError.swift */,
 				2AB7C9612A51240100A703FA /* PickerOptions.swift */,
 				2A881D222A8375C2003329E1 /* MasteryRate.swift */,
+				C6E485F52B48DD1F00DA69EF /* CardData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,7 +354,6 @@
 			isa = PBXGroup;
 			children = (
 				C60BE4202B02D61C00F07CC8 /* Card.swift */,
-				C60BE41C2B02D61C00F07CC8 /* ImageData.swift */,
 				C60BE41F2B02D61C00F07CC8 /* Phonetic.swift */,
 				C60BE41D2B02D61C00F07CC8 /* Meaning.swift */,
 				C60BE41E2B02D61C00F07CC8 /* Definition.swift */,
@@ -690,10 +693,10 @@
 				2A86C5F92A9E27EA002F0AA3 /* MockHelper.swift in Sources */,
 				2ABC636D2A38167800718C90 /* AccountView.swift in Sources */,
 				C6FA61642AAE423800DE1B5C /* CardDetailSheet.swift in Sources */,
-				C60BE4222B02D61C00F07CC8 /* ImageData.swift in Sources */,
 				2AB6B86F2A9A5D8000645F08 /* StudyViewModel.swift in Sources */,
 				2A01FA112A4C84F400C7C1CE /* WordWiseApp.swift in Sources */,
 				2A6802302A9BBB8A00AADB8C /* MasteryRateBarsViewModel.swift in Sources */,
+				C6E485F42B48DC5700DA69EF /* MockNetworkService.swift in Sources */,
 				2AB6B8722A9A738C00645F08 /* CardViewModel.swift in Sources */,
 				2ABC63602A38147900718C90 /* ContentView.swift in Sources */,
 				2AB7C9682A512BD600A703FA /* GradientBackground.swift in Sources */,
@@ -726,6 +729,7 @@
 				2A8250EE2A922B4000ADD88E /* CardsView.swift in Sources */,
 				2AB76AFA2A6386E300C2C260 /* ImageResponse.swift in Sources */,
 				2A581C232A89241900A86494 /* MasteryRateBars.swift in Sources */,
+				C6E485F62B48DD1F00DA69EF /* CardData.swift in Sources */,
 				2A73CE382A9B4046003D9A23 /* AccountViewModel.swift in Sources */,
 				2A5E8C432A9C7BBD00039950 /* DIContainer.swift in Sources */,
 			);

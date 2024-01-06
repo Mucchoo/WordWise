@@ -207,7 +207,7 @@ class CardViewModel: ObservableObject {
                 
                 self.currentCard.card.meanings.forEach { meaning in
                     meaning.definitions.forEach { definition in
-                        definition.translatedDefinition = response.translations[safe: index]?.text ?? ""
+                        definition.translatedDefinition = response[safe: index] ?? ""
                         index += 1
                     }
                 }

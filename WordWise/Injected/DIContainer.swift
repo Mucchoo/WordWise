@@ -10,17 +10,17 @@ import Combine
 import SwiftData
 
 struct DIContainer {
-    let networkService: NetworkService
+    let networkService: NetworkServiceProtocol
     let swiftDataService: SwiftDataService
     let modelContainer: ModelContainer
     let modelContext: ModelContext
     
     @MainActor
-    init(urlSession: URLSession) {
+    init(networkService: NetworkServiceProtocol) {
         let modelContainer = try! ModelContainer(for: Card.self, CardCategory.self)
         let modelContext = modelContainer.mainContext
         
-        self.networkService = .init(session: urlSession, context: modelContext)
+        self.networkService = networkService
         self.modelContainer = modelContainer
         self.modelContext = modelContext
         
@@ -35,6 +35,6 @@ struct DIContainer {
             MockHelper.shared.setupMockData()
         }
         
-        return .init(urlSession: .mock)
+        return .init(networkService: MockNetworkService())
     }
 }

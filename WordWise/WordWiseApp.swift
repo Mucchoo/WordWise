@@ -11,7 +11,8 @@ import SwiftData
 @main
 struct WordWiseApp: App {
     var body: some Scene {
-        let container = DIContainer(urlSession: .shared)
+        let networkService = NetworkService(session: .shared)
+        let container = DIContainer(networkService: networkService)
         
         WindowGroup {
             ContentView(container: container)
