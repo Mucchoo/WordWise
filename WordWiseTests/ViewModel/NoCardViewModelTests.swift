@@ -10,27 +10,27 @@ import XCTest
 
 class NoCardViewModelTests: XCTestCase {
 
-    var viewModel: NoCardViewModel!
+    var vm: NoCardViewModel!
     
     override func setUp() {
         super.setUp()
-        viewModel = NoCardViewModel()
+        vm = NoCardViewModel()
     }
 
     override func tearDown() {
-        viewModel = nil
+        vm = nil
         super.tearDown()
     }
 
     func testAnimationStateInitiallyFalse() {
-        XCTAssertFalse(viewModel.animate, "Initial state of animate should be false")
+        XCTAssertFalse(vm.animate, "Initial state of animate should be false")
     }
     
     func testAnimationStateToggles() {
         let expectation = XCTestExpectation(description: "Wait for timer")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
-            XCTAssertTrue(self.viewModel.animate, "Animate should be true after 20 seconds")
+            XCTAssertTrue(self.vm.animate, "Animate should be true after 20 seconds")
             expectation.fulfill()
         }
 
@@ -38,7 +38,7 @@ class NoCardViewModelTests: XCTestCase {
     }
     
     func testTimerCancelOnDeinit() {
-        viewModel = nil
+        vm = nil
         let expectation = XCTestExpectation(description: "Wait for timer after deinit")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 20) {

@@ -18,6 +18,7 @@ class CategoryListViewModelTests: XCTestCase {
     }
 
     override func tearDown() {
+        vm.container.modelContainer.deleteAllData()
         vm = nil
         super.tearDown()
     }

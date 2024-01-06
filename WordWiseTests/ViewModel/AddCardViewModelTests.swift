@@ -21,6 +21,7 @@ class AddCardViewModelTests: XCTestCase {
     }
     
     override func tearDown() {
+        vm.container.modelContainer.deleteAllData()
         vm = nil
         cancellables = nil
         MockURLProtocol.shouldFailUrls = []

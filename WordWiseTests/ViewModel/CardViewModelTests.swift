@@ -55,6 +55,7 @@ class CardViewModelTests: XCTestCase {
     }
     
     override func tearDown() {
+        vm.container.modelContainer.deleteAllData()
         vm = nil
         cancellables = nil
         super.tearDown()
